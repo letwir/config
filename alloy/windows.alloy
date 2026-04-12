@@ -1,0 +1,133 @@
+// Windows用 Alloy設定
+// イベントログの内容を抽出してlokiへ送る
+logging {
+	level  = "info"	 	// error, warn, info, debug
+	format = "logfmt"	// logfmt, json
+}
+//========================================
+// Lokiへの出力設定 ( push方式 )
+loki.write "db" {
+	endpoint {
+		url = "http://docker.tigris-tailor.ts.net:3100/loki/api/v1/push"
+	}
+}
+//========================================
+//// 加工の流れ
+// [各source]
+// -> [loki.process.windows.receiver]
+// -> [loki.write.db.receiver]
+//========================================
+// 各チャンネルごとに分けて取得
+loki.source.windowsevent "application"  {
+	//locale = 1033	// 英語表記で取得する場合はlocaleを10進数で指定する
+	eventlog_name = "Application"
+	labels = {
+		service = "windows.application",
+		channel = "Application",
+		os = "Windows",
+	}
+	forward_to = [loki.process.windows.receiver]
+}
+loki.source.windowsevent "security"  {
+	eventlog_name = "Security"
+	labels = {
+		service = "windows.security",
+		channel  = "Security",
+		os = "Windows",
+	}
+	forward_to = [loki.process.windows.receiver]
+}
+loki.source.windowsevent "setup"  {
+	eventlog_name = "Setup"
+	labels = {
+		service = "windows.setup",
+		channel  = "Setup",
+		os = "Windows",
+	}
+	forward_to = [loki.process.windows.receiver]
+}
+loki.source.windowsevent "system"  {
+	eventlog_name = "System"
+	labels = {
+		service = "windows.system",
+		channel  = "System",
+		os = "Windows",
+	}
+	forward_to = [loki.process.windows.receiver]
+}
+//---------------------------------------
+loki.process "windows" {
+	stage.json{
+		expressions = {
+			event_data = "",
+			event_id = "",
+			eventRecordID = "",
+			unit = "execution.processName",
+			execution = "",
+			level = "",
+			levelText = "",
+			message = "",
+			source = "",
+			timeCreated = "",
+			Overwritten = "",
+		}
+	}
+	// timestamp共通化
+	stage.timestamp{
+		source = "timeCreated"
+		format = "2026-04-07T23:27:31.0174426Z"
+	}
+	// Windowsのログレベルをsyslogに準拠させる
+	stage.template {
+		source = "level"
+		template = `{{- if eq .level "0" -}}7
+			{{- else if eq .level "1" -}}2
+			{{- else if eq .level "2" -}}3
+			{{- else if eq .level "3" -}}4
+			{{- else if eq .level "4" -}}6
+			{{- else if eq .level "5" -}}7
+			{{- else -}}{{- end -}}`
+	}
+	// Win,Linux共通コード: syslog -> loki テンプレコピペ
+	stage.template {
+		source = "level"
+		template = `{{- if eq .level "0" -}}emerg
+			{{- else if eq .level "1" -}}crit
+			{{- else if eq .level "2" -}}fatal
+			{{- else if eq .level "3" -}}error
+			{{- else if eq .level "4" -}}warn
+			{{- else if eq .level "5" -}}notice
+			{{- else if eq .level "6" -}}info
+			{{- else if eq .level "7" -}}debug
+			{{- else }}trace{{ end -}}`
+	}
+	// ログの順序を整える
+	// ⚠️jsonを生成するため、'{{-'無しでインデント,改行を使用するとjsonにタブスペースが入る。
+	stage.template {
+		source = "new_line"
+		template = `{
+	{{- if .computer }}"computer":	{{- toJson .computer -}}{{else}}{{end}}
+	{{- if .source }},"source":	{{- toJson .source -}}{{else}}{{end}}
+	{{- if .unit }},"unit":	{{- toJson .unit -}}{{else}}{{end}}
+	{{- if .message }},"message":	{{- toJson .message -}}{{else}}{{end}}
+	{{- if .execution }},"execution":	{{- .execution -}}	{{else}}{{end}}
+	{{- if .event_data }},"event_data":	{{- toJson .event_data }}{{else}}{{end}}
+	{{- if .Value }},"other":	{{- toJson .Value }}{{else}}{{end -}}	
+		}`
+	}
+	// ログの順序を反映
+	stage.output {
+		source = "new_line"
+	}
+	// loki検索用タグ
+	stage.labels {
+		values = {
+			level = "",
+			source = "",
+			unit = "",
+			computer = "",
+			// sourceにて宣言したラベルはここでは不要
+		}
+	}
+	forward_to = [loki.write.db.receiver]
+}

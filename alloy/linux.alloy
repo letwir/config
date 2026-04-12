@@ -1,0 +1,329 @@
+// Linux用 Alloy設定
+// docker.sock, journalctlを抽出してlokiへ送る
+//========================================
+// LOGレベル設定
+logging {
+        level  = "info"         // error, warn, info, debug
+        format = "logfmt"       // logfmt, json
+}
+//========================================
+// Lokiへの出力設定 ( push方式 )
+loki.write "db" {
+        endpoint {
+                url = "http://🚧🔩lokiのURL🚧:3100/loki/api/v1/push"
+        }
+}
+//========================================
+//// dockerログの加工流れ
+// [discovery.docker.linux]
+// -> [loki.source.docker.docker]
+// -> [loki.process.docker.receiver]
+// -> [loki.relabel.docker.receiver]
+// -> [loki.write.db.receiver]
+//========================================
+discovery.docker "linux" {
+                host = "unix:///var/run/docker.sock"
+}
+loki.source.docker "docker" {
+                host    = "unix:///var/run/docker.sock"
+                labels = {
+                                component = "linux.docker",
+                                computer  = "container",
+                                os = "Docker",
+                }
+                targets = discovery.docker.linux.targets
+                forward_to = [loki.process.docker.receiver]
+}
+//----------------------------------------
+loki.process "docker" {
+                stage.docker {}
+                //log, stream("stderr","stdout"), timeのみ取得可能
+                stage.json {
+                                expressions = {
+                                        message = "log",
+                                        channel = "stream",
+                                        time     = "time",
+                                }
+                }
+                // Windows系と合わせた記法に変更
+                stage.replace {
+                                source       = "channel"
+                                expression = "stdout"
+                                replace     = "StdOutput"
+                }
+                stage.replace {
+                                source         = "channel"
+                                expression   = "strerr"
+                                replace       = "StdError"
+                }
+                stage.timestamp {
+                                source = "time"
+                                format = "rfc3339nano"
+                }
+                stage.labels {
+                                values = {
+                                        channel = "channel",
+                                        level    = "",
+                                        // sourceにて宣言したラベルはここでは不要
+                                }
+                }
+                // クレジットカード値などの自動変換。
+                stage.luhn {
+                                        replacement = "****censored****"
+                }
+                forward_to = [loki.relabel.docker.receiver]
+}
+//----------------------------------------
+loki.relabel "docker" {
+        // ラベル名の加工はこちらから
+        forward_to = [loki.write.db.receiver]
+}
+
+//========================================
+//// journalログの加工流れ
+// [source.journal "journal"]
+// -> [loki.process.journal.receiver]
+// -> [loki.relabel.journal.receiver]
+// -> [loki.write.db.receiver]
+//========================================
+// matches に使用できる主な変数
+//"_PID=*", // 例: 全てのプロセスIDからログを収集
+//"_UID=*", // 例: 全てのユーザーIDからログを収集
+//"_COMM=*", // 例: 全てのコマンドからログを収集
+//"SYSLOG_IDENTIFIER=*", // 例: 全てのsyslog識別子からログを収集
+// PRIORITY: 重要なログのみ収集 (0emerg, 1alert, 2crit, 3err, 4warning, 5notice, 6info)
+// _TRANSPORT: トランスポートからログを収集 (syslog, journal, audit, kernel, driver, stdout)
+//========================================
+// ソースを各チャンネルごとに分けて取得
+loki.source.journal "journal_info" {
+                format_as_json = true
+                matches = "_TRANSPORT=journal"
+                labels  = {
+                        component = "linux.journal",
+                        channel    = "Journal",
+                        os = "Linux",
+                }
+                forward_to = [loki.process.journal.receiver]
+}
+loki.source.journal "syslog" {
+                format_as_json = true
+                matches = "_TRANSPORT=syslog"
+                labels  = {
+                        component = "linux.syslog",
+                        channel    = "Syslog",
+                        os = "Linux",
+                }
+                forward_to = [loki.process.journal.receiver]
+}
+loki.source.journal "audit" {
+                format_as_json = true
+                matches = "_TRANSPORT=audit"
+                labels  = {
+                        component = "linux.audit",
+                        channel    = "Audit",
+                        os = "Linux",
+                }
+                forward_to = [loki.process.journal.receiver]
+}
+loki.source.journal "kernel" {
+                format_as_json = true
+                matches = "_TRANSPORT=kernel"
+                labels  = {
+                        component = "linux.kernel",
+                        channel    = "Kernel",
+                        os = "Linux",
+                }
+                forward_to = [loki.process.journal.receiver]
+}
+loki.source.journal "driver" {
+                format_as_json = true
+                matches = "_TRANSPORT=driver"
+                labels  = {
+                        component = "linux.driver",
+                        channel    = "Driver",
+                        os = "Linux",
+                }
+                forward_to = [loki.process.journal.receiver]
+}
+//----------------------------------------
+loki.process "journal" {
+        // 1. JournaldのJSONをパース
+        // 変数はWindowsに合わせる
+        // "level","computer","source","execution"{"processId","processName"},"message","event_data",
+        // 最優先
+        stage.json {
+                expressions = {
+                        message       = "MESSAGE",
+                        level         = "PRIORITY",
+                        computer     = "_HOSTNAME",
+                        unit          = "_COMM",
+                        timeCreated = "_SOURCE_REALTIME_TIMESTAMP",
+                        // execution用
+                        pid         = "_PID",
+                        tid         = "TID",
+                        comm       = "_COMM",
+                        exe        = "_EXE",
+                        uid        = "_UID",
+                        gid        = "_GID",
+                        cmdline  = "_CMDLINE",
+                        cap        = "_CAP_EFFECTIVE",
+                }
+        }
+        // AUDIT用
+        stage.json {
+                expressions = {
+                        audit_session   = "_AUDIT_SESSION",
+                        audit_login_id  = "_AUDIT_LOGINUID",
+                }
+        }
+        // Systemd用
+        stage.json {
+                expressions = {
+                        systemd_cgroup        = "_SYSTEMD_CGROUP",
+                        systemd_slice         = "_SYSTEMD_SLICE",
+                        systemd_unit          = "_SYSTEMD_UNIT",
+                        systemd_user_unit     = "_SYSTEMD_USER_UNIT",
+                        systemd_user_slice    = "_SYSTEMD_USER_SLICE",
+                        systemd_session       = "_SYSTEMD_SESSION",
+                        systemd_uid           = "_SYSTEMD_OWNER_UID",
+                        systemd_invocation_id = "_SYSTEMD_INVOCATION_ID",
+                }
+        }
+        // SELinux用
+        stage.json {
+                expressions = {
+                        selinux = "_SELINUX_CONTEXT",
+                }
+        }
+        // Kernel用
+        stage.json {
+                expressions = {
+                        device     = "_KERNEL_DEVICE",
+                        subsystem = "_KERNEL_SUBSYSTEM",
+                }
+        }
+        // Driver用
+        stage.json {
+                expressions = {
+                        udev_name = "_UDEV_SYSNAME",
+                        udev_node = "_UDEV_DEVNODE",
+                        udev_link = "_UDEV_DEVLINK",
+                }
+        }
+        // その他あれば入るよ。無かったらそのブロック全部消えるよ。
+        stage.json {
+                expressions = {
+                        transport = "_TRANSPORT",
+                        stream     = "_STREAM_ID",
+                        linebreak = "_LINE_BREAK",
+                }
+        }
+        stage.json {
+                expressions = {
+                        namespace = "_NAMESPACE",
+                        runtime    = "_RUNTIME_SCOPE",
+                }
+        }
+        // timestamp共通化
+        stage.timestamp {
+                source = "timeCreated"
+                format = "unixmicro"
+        }
+        // 共通コード: syslog -> loki テンプレコピペ
+        stage.template {
+                source = "level"
+                template = `{{- if eq .level "0" -}}emerg
+                        {{- else if eq .level "1" -}}crit
+                        {{- else if eq .level "2" -}}fatal
+                        {{- else if eq .level "3" -}}error
+                        {{- else if eq .level "4" -}}warn
+                        {{- else if eq .level "5" -}}notice
+                        {{- else if eq .level "6" -}}info
+                        {{- else if eq .level "7" -}}debug
+                        {{- else }}trace{{ end -}}`
+        }
+        stage.template {
+                source    = "source"
+                template = `{{- if .unit }}{{ .unit -}}
+                        {{- else if .device }}kernel
+                        {{- else if .udev_node }}device
+                        {{- else if .audit_login_id }}audit
+                        {{- else }}{{ end -}}`
+        }
+        stage.template {
+                source   = "unit"
+                template =`{{- if .udev_name }}{{ .udev_name -}}
+                        {{- else if .processName }}{{ .processName -}}
+                        {{- else if .exe }}{{ .exe -}}
+                        {{- else if .cmdline }}{{ .cmdline -}}
+                        {{- else if .comm }}{{ .comm -}}
+                        {{- else }}{{ end -}}`
+        }
+        // ログの順序を整える
+        // hostname,processName, binary, execution, message, event_data(etc)
+        // ⚠️jsonを生成するため、'{{-'無しでインデント,改行を使用するとjsonにタブスペースが入る。
+        stage.template {
+    source    = "new_line"
+    template = `{
+                        {{- if .computer }}"computer":  {{- toJson .computer }}{{ else }}{{ end -}}
+                        {{- if .source }},"source":     {{- toJson .source -}}{{ else }}{{ end -}}
+                        {{- if .unit }},"unit": {{- toJson .unit -}}{{ else }}{{ end -}}
+                        {{- if .message }},"message":   {{- toJson .message -}}{{ else }}{{ end -}}
+                        ,"execution":{
+                        {{- if .pid }}"processId":      {{- toJson .pid }}{{ else }}{{ end -}}
+                        {{- if .uid }},"processUserId": {{- toJson .uid }}{{ else }}{{ end -}}
+                        {{- if .gid }},"proocessGroupId":       {{- toJson .gid }}{{ else }}{{ end -}}
+                        {{- if .tid }},"threadId":      {{- toJson .tid }}{{ else }}{{ end -}}
+                        {{- if .exe }},"processBin":    {{- toJson .exe }}{{ else }}{{ end -}}
+                        {{- if .cmdline }},"cmdlineName":       {{- toJson .cmdline }}{{ else }}{{ end -}}
+                        {{- if .comm }},"processName":  {{- toJson .comm }}{{ else }}{{ end -}}
+                        }
+                        {{- if .audit_login_id }},"audit":{
+                        {{- if .audit_login_id }}"loginId":     {{- toJson .audit_login_id }}{{ else }}{{end -}}
+                        {{- if .audit_session }},"session":     {{- toJson .audit_session }}{{ else }}{{end -}}
+                        }{{ else }}{{end -}}
+                        {{- if .systemd_unit }},"systemd":{
+                        {{- if .systemd_unit }}"unit":  {{- toJson .systemd_unit }}{{ else }}{{end -}}
+                        {{- if .systemd_uid }},"uid":   {{- toJson .systemd_uid }}{{ else }}{{end -}}
+                        {{- if .systemd_user_unit }},"userUnit":        {{- toJson .systemd_user_unit }}{{ else }}{{end -}}
+                        {{- if .systemd_slice }},"slice":       {{- toJson .systemd_slice }}{{ else }}{{end -}}
+                        {{- if .systemd_user_slice }},"userSlice":      {{- toJson .systemd_user_slice }}{{ else }}{{end -}}
+                        {{- if .systemd_session }},"session":   {{- toJson .systemd_session -}}{{ else }}{{end -}}
+                        {{- if .systemd_invocation_id }},"invocationId":        {{- toJson .systemd_invocation_id }}{{ else }}{{end -}}
+                        {{- if .systemd_cgroup }},"cgroup":     {{- toJson .systemd_cgroup }}{{ else }}{{end -}}
+                        }{{ else }}{{end -}}
+                        {{- if .selinux }},"SELinux":   {{- toJson .selinux -}}{{ else }}{{end -}}
+                        {{- if .device }},"kernel":{
+                        {{- if .device }}"device":      {{- toJson .device }}{{ else }}{{end -}}
+                        {{- if .subsystem }},"subSystem":       {{- toJson .subsystem }}{{ else }}{{end -}}
+                        }{{ else }}{{end -}}
+                        {{- if .udev_node }},"udev":{
+                        {{- if .udev_name }}"name":     {{- toJson .udev_name }}{{ else }}{{end -}}
+                        {{- if .udev_node }},"node":    {{- toJson .udev_node }}{{ else }}{{end -}}
+                        {{- if .udev_link }},"link":    {{- toJson .udev_link }}{{ else }}{{end -}}
+                        }{{ else }}{{end -}}
+                        {{- if .Value }},"event_data":  {{- toJson .Value -}}{{ else }}{{ end -}}
+                        }`
+        }
+        // ログの順序を反映
+        stage.output {
+                source = "new_line"
+        }
+        // loki検索用タグ
+        stage.labels {
+                values = {
+                        level = "",
+                        source = "",
+                        unit = "",
+                        computer = "",
+                        // sourceにて宣言したラベルはここでは不要
+                }
+        }
+        forward_to = [loki.relabel.journal.receiver]
+}
+//----------------------------------------
+// 1. journalのラベル名整形
+loki.relabel "journal" {
+        // 追加の加工はこちらで
+        forward_to = [loki.write.db.receiver]
+}
