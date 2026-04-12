@@ -101,6 +101,7 @@
       }
     ]
   },
+  "description": "https://github.com/reefland/grafana-dashboards\nMIT License に基づき ©reefland 様よりSMART監視パネルを拝借しています。\nDisk Temperature, Disk Lifetimeパネル以外はWTFPL Licenseに基づきます\n            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE                  Version 2, December 2004\n \n Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>\n \n Everyone is permitted to copy and distribute verbatim or modified\n copies of this license document, and changing it is allowed as long\n as the name is changed.\n \n DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE\n TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION\n 0. You just DO WHAT THE FUCK YOU WANT TO.\n",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
