@@ -1,0 +1,5939 @@
+{
+  "__inputs": [
+      {
+        "name": "DB_VICTORIAMETRICS",
+        "label": "VictoriaMetrics",
+        "description": "Select the VictoriaMetrics datasource",
+        "type": "datasource",
+        "pluginId": "victoriametrics-metrics-datasource"
+      },
+      {
+        "name": "DB_PROMETHEUS",
+        "label": "Prometheus",
+        "description": "Select the Prometheus datasource",
+        "type": "datasource",
+        "pluginId": "prometheus"
+      }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "bargauge",
+      "name": "Bar gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "12.4.2"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "victoriametrics-metrics-datasource",
+      "name": "VictoriaMetrics",
+      "version": "0.23.3"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "$$hashKey": "object:2875",
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "【日本語版】2024-05-20 更新。TenSunS による ECS 収集を基にしたダッシュボードです。自動同期方式で収集された ECS 情報フィールドに対応し、重要指標の表示を最適化しました。Grafana 10 の新しいスタイルで再構築し、ヘルススコアの概念を追加するとともに、総合的なリソース消費情報のグラフを多数追加しました。CPU、メモリ、ディスク、IO、ネットワークなどの監視指標を含みます。https://github.com/starsliao/TenSunS",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [
+    {
+      "$$hashKey": "object:2300",
+      "icon": "bolt",
+      "tags": [],
+      "targetBlank": true,
+      "title": "Update",
+      "tooltip": "さらに多くのダッシュボード",
+      "type": "link",
+      "url": "https://grafana.com/orgs/starsliao/dashboards"
+    },
+    {
+      "$$hashKey": "object:2301",
+      "icon": "question",
+      "tags": [],
+      "targetBlank": true,
+      "title": "GitHub",
+      "tooltip": "GITHUB：TenSunS",
+      "type": "link",
+      "url": "https://github.com/starsliao/TenSunS"
+    },
+    {
+      "$$hashKey": "object:2302",
+      "asDropdown": true,
+      "icon": "external link",
+      "tags": [],
+      "targetBlank": true,
+      "title": "",
+      "type": "dashboards"
+    }
+  ],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 187,
+      "panels": [],
+      "title": "🏡リソース概要：選択中ホスト：$show_name、インスタンス：$instance",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "description": "パーティション使用率、ディスク読み取り、ディスク書き込み、ダウンロード帯域幅、アップロード帯域幅。複数のNICやパーティションがある場合、最も使用率が高いものの値を取得します。\n\n接続数：CurrEstab - 現在の状態が ESTABLISHED または CLOSE-WAIT の TCP 接続数。\n\nヘルス値は新しい指標で、CPU、メモリ、IOから算出されます。90点未満の場合はシステムリソースの使用状況に注意が必要です。これはテスト中の指標で、パラメータは実際の状況に応じて最適化が必要です。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "decimals": 1,
+          "mappings": [],
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "メモリ"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "decimals"
+              },
+              {
+                "id": "custom.width",
+                "value": 66
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "decimals",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "起動日数"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
+              },
+              {
+                "id": "custom.width",
+                "value": 68
+              },
+              {
+                "id": "decimals"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ディスク読み取り*"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "binBps"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "rgba(50, 172, 45, 0.97)",
+                      "value": 0
+                    },
+                    {
+                      "color": "rgba(237, 129, 40, 0.89)",
+                      "value": 10485760
+                    },
+                    {
+                      "color": "rgba(245, 54, 54, 0.9)",
+                      "value": 20485760
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 93
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ディスク書き込み*"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "binBps"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "rgba(50, 172, 45, 0.97)",
+                      "value": 0
+                    },
+                    {
+                      "color": "rgba(237, 129, 40, 0.89)",
+                      "value": 10485760
+                    },
+                    {
+                      "color": "rgba(245, 54, 54, 0.9)",
+                      "value": 20485760
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 95
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ダウンロード帯域幅*"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "binbps"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "rgba(50, 172, 45, 0.97)",
+                      "value": 0
+                    },
+                    {
+                      "color": "rgba(237, 129, 40, 0.89)",
+                      "value": 30485760
+                    },
+                    {
+                      "color": "rgba(245, 54, 54, 0.9)",
+                      "value": 104857600
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 91
+              },
+              {
+                "id": "decimals"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "アップロード帯域幅*"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "binbps"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "rgba(50, 172, 45, 0.97)",
+                      "value": 0
+                    },
+                    {
+                      "color": "rgba(237, 129, 40, 0.89)",
+                      "value": 30485760
+                    },
+                    {
+                      "color": "rgba(245, 54, 54, 0.9)",
+                      "value": 104857600
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 85
+              },
+              {
+                "id": "decimals"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "負荷"
+            },
+            "properties": [
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.width",
+                "value": 67
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "接続数"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "rgba(50, 172, 45, 0.97)",
+                      "value": 0
+                    },
+                    {
+                      "color": "rgba(237, 129, 40, 0.89)",
+                      "value": 1000
+                    },
+                    {
+                      "color": "rgba(245, 54, 54, 0.9)",
+                      "value": 1500
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 59
+              },
+              {
+                "id": "decimals"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "TCP_tw"
+            },
+            "properties": [
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "rgba(50, 172, 45, 0.97)",
+                      "value": 0
+                    },
+                    {
+                      "color": "rgba(237, 129, 40, 0.89)",
+                      "value": 5000
+                    },
+                    {
+                      "color": "rgba(245, 54, 54, 0.9)",
+                      "value": 20000
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 69
+              },
+              {
+                "id": "decimals"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ヘルス値"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 46
+              },
+              {
+                "id": "decimals",
+                "value": 0
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IP"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 186
+              },
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "pattern": "/(?:192.168.)?(\\d+.\\d+|[^.-:]+).*/",
+                      "result": {
+                        "index": 0,
+                        "text": "$1"
+                      }
+                    },
+                    "type": "regex"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ヘルス値"
+            },
+            "properties": [
+              {
+                "id": "custom.filterable",
+                "value": true
+              },
+              {
+                "id": "custom.width",
+                "value": 145
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ヘルス値"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 57
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": 0
+                    },
+                    {
+                      "color": "orange",
+                      "value": 80
+                    },
+                    {
+                      "color": "green",
+                      "value": 90
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "thresholds"
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "color-background"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*使用率.*/"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "gauge"
+                }
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "continuous-GrYlRd"
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 110
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "有効期限"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 97
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "インスタンスID"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 115
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 198,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "有効期限"
+          }
+        ]
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "node_uname_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"} - 0",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "ホスト名",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum(time() - node_boot_time_seconds{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"})by(instance)/86400",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "稼働時間",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "node_memory_MemTotal_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"} - 0",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "総メモリ",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "count(node_cpu_seconds_total{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",mode='system',name=~\".*$sname.*\"}) by (instance)",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "総コア数",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "node_load5{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"}",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "5分間負荷",
+          "refId": "L"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "(1 - avg(irate(node_cpu_seconds_total{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",mode=\"idle\",name=~\".*$sname.*\"}[$interval])) by (instance)) * 100",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "CPU使用率",
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "(1 - (node_memory_MemAvailable_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"} / (node_memory_MemTotal_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"})))* 100",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "メモリ使用率",
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "max((node_filesystem_size_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",fstype=~\"ext.?|xfs\"}-node_filesystem_free_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",fstype=~\"ext.?|xfs\"}) *100/(node_filesystem_avail_bytes {vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",fstype=~\"ext.?|xfs\"}+(node_filesystem_size_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",fstype=~\"ext.?|xfs\"}-node_filesystem_free_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",fstype=~\"ext.?|xfs\"})))by(instance)",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "パーティション使用率",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "max(irate(node_disk_read_bytes_total{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"}[$interval])) by (instance)",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "最大読み取り",
+          "refId": "H"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "max(irate(node_disk_written_bytes_total{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"}[$interval])) by (instance)",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "最大書き込み",
+          "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "node_netstat_Tcp_CurrEstab{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"} - 0",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "接続数",
+          "refId": "M"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "node_sockstat_TCP_tw{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"} - 0",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "TIME_WAIT",
+          "refId": "N"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "max(irate(node_network_receive_bytes_total{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"}[$interval])*8) by (instance)",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "ダウンロード帯域幅",
+          "refId": "J"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "max(irate(node_network_transmit_bytes_total{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"}[$interval])*8) by (instance)",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "アップロード帯域幅",
+          "refId": "K"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "((1-(1 - avg(irate(node_cpu_seconds_total{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",mode=\"idle\"}[$interval])) by (instance))^1.3)^(1/3)*0.5 + \r\n(1-(1 - avg(node_memory_MemAvailable_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"} / node_memory_MemTotal_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"})by (instance))^6)^(1/3)*0.3 + \r\n(1 - max(irate(node_disk_io_time_seconds_total{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"}[$interval]))by (instance)^1.1)^(1/2)*0.2)*100",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "健康スコア",
+          "refId": "O"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "max(irate(node_disk_io_time_seconds_total{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"}[$interval])) by (instance) *100",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "IOutil使用率",
+          "refId": "P"
+        }
+      ],
+      "title": "サーバーリソース一覧【グループ：$group、ホスト数：$total】",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {
+            "reducers": []
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "pattern": "/^Value #[^A]|^instance$|^name$|^iid$|^exp$/"
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "exp": false
+            },
+            "indexByName": {
+              "Value #B": 6,
+              "Value #C": 7,
+              "Value #D": 3,
+              "Value #E": 12,
+              "Value #F": 9,
+              "Value #G": 10,
+              "Value #H": 13,
+              "Value #I": 14,
+              "Value #J": 17,
+              "Value #K": 18,
+              "Value #L": 8,
+              "Value #M": 15,
+              "Value #N": 16,
+              "Value #O": 5,
+              "Value #P": 11,
+              "exp": 4,
+              "iid": 2,
+              "instance": 1,
+              "name": 0
+            },
+            "renameByName": {
+              "Value #B": "メモリ",
+              "Value #C": "CPU",
+              "Value #D": "起動(日)",
+              "Value #E": "パーティション使用率*",
+              "Value #F": "CPU使用率",
+              "Value #G": "メモリ使用率",
+              "Value #H": "ディスク読み取り*",
+              "Value #I": "ディスク書き込み*",
+              "Value #J": "ダウンロード帯域幅*",
+              "Value #K": "アップロード帯域幅*",
+              "Value #L": "負荷",
+              "Value #M": "接続数",
+              "Value #N": "TCP_tw",
+              "Value #O": "ヘルス値",
+              "Value #P": "IOutil使用率*",
+              "exp": "有効期限",
+              "iid": "インスタンスID",
+              "instance": "IP",
+              "name": "名称",
+              "nodename": "ホスト名"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "description": "- P99：データセットを昇順に並べ替え、99パーセンタイルに位置する大きなデータ。（すなわち、昇順に並べ替えた後に99％の位置にあるデータ）\n- このテーブルにはPrometheusに記録ルールを追加する必要があります（ダッシュボードのダウンロードページを参照）\n- 収集開始から1時間後にデータが表示されます\n- 時間範囲[7d:1h]は、過去7日間の1時間ごとのデータポイントを表示することを意味します。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "color-text"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*%/"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "decimals",
+                "value": 1
+              },
+              {
+                "id": "custom.width",
+                "value": 72
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "continuous-GrYlRd"
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "IP"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 224
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "pattern": "/(.+):.+/",
+                      "result": {
+                        "index": 0,
+                        "text": "$1"
+                      }
+                    },
+                    "type": "regex"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "P99メモリ使用率"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 79
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "P99CPU使用率"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 101
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "名前"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 128
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 0,
+        "y": 11
+      },
+      "id": 200,
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "P99メモリ%"
+          }
+        ]
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "node_uname_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"} - 0",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "ホスト名",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "quantile_over_time(0.99, cpu:usage:rate1m{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"}[7d:1h])",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "CPU使用率P99",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "quantile_over_time(0.99, mem:usage:rate1m{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"}[7d:1h])",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "メモリ使用率P99",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": " ((quantile_over_time(0.95, cpu:usage:rate1m{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\"}[7d:1h]) < 10) \r\n and ignoring(cservice,exp,iaccount,igroup,iid,iname,job,region)\r\n (quantile_over_time(0.95, mem:usage:rate1m{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\"}[7d:1h]) < 10)) ",
+          "format": "table",
+          "hide": true,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "メモリ使用率P99",
+          "refId": "D"
+        }
+      ],
+      "title": "過去7日間のP99リソース使用率",
+      "transformations": [
+        {
+          "id": "seriesToColumns",
+          "options": {
+            "byField": "instance"
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "pattern": "/^Value #[^A]|^instance$|^name 1$/"
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {
+              "Value #B": 2,
+              "Value #C": 3,
+              "instance": 1,
+              "name 1": 0
+            },
+            "renameByName": {
+              "Value #B": "P99CPU%",
+              "Value #C": "P99メモリ%",
+              "instance": "IP",
+              "name": "名称",
+              "name 1": "名称",
+              "nodename": "ホスト名"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "series",
+            "axisLabel": "総5分間負荷",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "平均%"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "総平均使用率"
+              },
+              {
+                "id": "custom.pointSize",
+                "value": 3
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 1
+              },
+              {
+                "id": "custom.showPoints",
+                "value": "always"
+              },
+              {
+                "id": "custom.axisSoftMin"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "コア数"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#C4162A",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.pointSize",
+                "value": 3
+              },
+              {
+                "id": "custom.drawStyle",
+                "value": "points"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "5分間負荷"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 6,
+        "y": 11
+      },
+      "id": 191,
+      "maxDataPoints": 100,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(node_load5{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\".*$sname.*\",name=~\"$name\"})",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "5分間負荷",
+          "range": true,
+          "refId": "A",
+          "step": 240
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "count(node_cpu_seconds_total{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",mode='system'})",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "コア数",
+          "refId": "B",
+          "step": 240
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "avg(1 - avg(irate(node_cpu_seconds_total{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",mode=\"idle\"}[$interval])) by (instance)) * 100",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "平均%",
+          "range": true,
+          "refId": "F",
+          "step": 240
+        }
+      ],
+      "title": "全体の総負荷と平均CPU使用率",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "series",
+            "axisLabel": "総使用メモリ",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "総メモリ"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#C4162A",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.drawStyle",
+                "value": "points"
+              },
+              {
+                "id": "custom.pointSize",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "総平均%"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "decimals",
+                "value": 1
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "総平均使用率"
+              },
+              {
+                "id": "custom.showPoints",
+                "value": "always"
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 1
+              },
+              {
+                "id": "custom.pointSize",
+                "value": 3
+              },
+              {
+                "id": "custom.axisSoftMin"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "総使用量"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 12,
+        "y": 11
+      },
+      "id": 195,
+      "maxDataPoints": 100,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "sum(node_memory_MemTotal_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"} - node_memory_MemAvailable_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"})",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "総使用量",
+          "range": true,
+          "refId": "B",
+          "step": 4
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": true,
+          "expr": "sum(node_memory_MemTotal_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"})",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "総メモリ",
+          "refId": "A",
+          "step": 4
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "(sum(node_memory_MemTotal_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"} - node_memory_MemAvailable_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"}) / sum(node_memory_MemTotal_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"}))*100",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "総平均%",
+          "range": true,
+          "refId": "H"
+        }
+      ],
+      "title": "全体メモリと平均メモリ使用率",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "series",
+            "axisLabel": "総ディスク使用量",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "平均%"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "総平均使用率"
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 1
+              },
+              {
+                "id": "custom.showPoints",
+                "value": "always"
+              },
+              {
+                "id": "custom.pointSize",
+                "value": 3
+              },
+              {
+                "id": "custom.axisSoftMin"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "総ディスク容量"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#C4162A",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.drawStyle",
+                "value": "points"
+              },
+              {
+                "id": "custom.pointSize",
+                "value": 3
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "総使用量"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 18,
+        "y": 11
+      },
+      "id": 197,
+      "maxDataPoints": 100,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": true,
+          "expr": "sum(avg(node_filesystem_size_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",fstype=~\"xfs|ext.*\"})by(device,instance)) - sum(avg(node_filesystem_free_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",fstype=~\"xfs|ext.*\"})by(device,instance))",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "総使用量",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": true,
+          "expr": "sum(avg(node_filesystem_size_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",fstype=~\"xfs|ext.*\"})by(device,instance))",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "総ディスク容量",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "(sum(avg(node_filesystem_size_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",fstype=~\"xfs|ext.*\"})by(device,instance)) - sum(avg(node_filesystem_free_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",fstype=~\"xfs|ext.*\"})by(device,instance))) *100/(sum(avg(node_filesystem_avail_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",fstype=~\"xfs|ext.*\"})by(device,instance))+(sum(avg(node_filesystem_size_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",fstype=~\"xfs|ext.*\"})by(device,instance)) - sum(avg(node_filesystem_free_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\",fstype=~\"xfs|ext.*\"})by(device,instance))))",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "平均%",
+          "refId": "A"
+        }
+      ],
+      "title": "全体ディスクと平均ディスク使用率",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 189,
+      "panels": [],
+      "title": "🧮リソース詳細：【$show_name】【$instance】【$iid】",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "description": "このダッシュボードのディスク総容量、使用量、空き容量、使用率は、dfコマンドのSize、Used、Avail、Use%列の値と一致します。また、Use%の値は小数点第1位で四捨五入されるため、より正確です。\n\n注：dfコマンドのUse%の計算式は：(size - free) * 100 / (avail + (size - free)) です。割り切れる場合はその値、割り切れない場合はその値+1となり、単位は%です。\ndfコマンドのソースコードを参照：",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "footer": {
+              "reducers": []
+            },
+            "inspect": false
+          },
+          "displayName": "",
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "パーティション"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 81
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "空き容量"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "decimals"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": 0
+                    },
+                    {
+                      "color": "orange",
+                      "value": 10000000000
+                    },
+                    {
+                      "color": "green",
+                      "value": 20000000000
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 72
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "使用率"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "decimals",
+                "value": 0
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "mode": "gradient",
+                  "type": "gauge"
+                }
+              },
+              {
+                "id": "custom.width",
+                "value": 115
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 100
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "continuous-GrYlRd"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "総容量"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "custom.width",
+                "value": 75
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "タイプ"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 51
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "デバイス名"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 19
+      },
+      "id": 181,
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "https://github.com/coreutils/coreutils/blob/master/src/df.c",
+          "url": "https://github.com/coreutils/coreutils/blob/master/src/df.c"
+        }
+      ],
+      "options": {
+        "cellHeight": "sm",
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "使用率"
+          }
+        ]
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "node_filesystem_size_bytes{instance=~\"$instance\",fstype=~\"ext.*|xfs|nfs\",mountpoint !~\".*pod.*\"}-0",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "総容量",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "node_filesystem_avail_bytes {instance=~\"$instance\",fstype=~\"ext.*|xfs|nfs\",mountpoint !~\".*pod.*\"}-0",
+          "format": "table",
+          "instant": true,
+          "interval": "10s",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(node_filesystem_size_bytes{instance=~\"$instance\",fstype=~\"ext.*|xfs|nfs\",mountpoint !~\".*pod.*\"}-node_filesystem_free_bytes{instance=~\"$instance\",fstype=~\"ext.*|xfs|nfs\",mountpoint !~\".*pod.*\"}) *100/(node_filesystem_avail_bytes {instance=~\"$instance\",fstype=~\"ext.*|xfs|nfs\",mountpoint !~\".*pod.*\"}+(node_filesystem_size_bytes{instance=~\"$instance\",fstype=~\"ext.*|xfs|nfs\",mountpoint !~\".*pod.*\"}-node_filesystem_free_bytes{instance=~\"$instance\",fstype=~\"ext.*|xfs|nfs\",mountpoint !~\".*pod.*\"}))",
+          "format": "table",
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "B"
+        }
+      ],
+      "title": "【$show_name】：パーティション利用可能容量(EXT.*/XFS/NFS)",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {
+            "reducers": []
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "device",
+                "fstype",
+                "mountpoint",
+                "Value #C",
+                "Value #A",
+                "Value #B"
+              ]
+            }
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Value #A": "空き容量",
+              "Value #B": "使用率",
+              "Value #C": "総容量",
+              "device": "デバイス名",
+              "fstype": "タイプ",
+              "mountpoint": "パーティション"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "text": "N/A"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "max": 100,
+          "min": 0.1,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "#EAB839",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 8,
+        "y": 19
+      },
+      "id": 177,
+      "options": {
+        "displayMode": "lcd",
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "maxVizHeight": 300,
+        "minVizHeight": 45,
+        "minVizWidth": 0,
+        "namePlacement": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "100 - (avg(irate(node_cpu_seconds_total{instance=~\"$instance\",mode=\"idle\"}[$interval])) * 100)",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "総CPU使用率",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg(irate(node_cpu_seconds_total{instance=~\"$instance\",mode=\"iowait\"}[$interval])) * 100",
+          "hide": true,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "IOwait使用率",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "(1 - (node_memory_MemAvailable_bytes{instance=~\"$instance\"} / (node_memory_MemTotal_bytes{instance=~\"$instance\"})))* 100",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "メモリ使用率",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(node_filesystem_size_bytes{instance=~\"$instance\",fstype=~\"ext.*|xfs\",mountpoint=\"$maxmount\"}-node_filesystem_free_bytes{instance=~\"$instance\",fstype=~\"ext.*|xfs\",mountpoint=\"$maxmount\"})*100 /(node_filesystem_avail_bytes {instance=~\"$instance\",fstype=~\"ext.*|xfs\",mountpoint=\"$maxmount\"}+(node_filesystem_size_bytes{instance=~\"$instance\",fstype=~\"ext.*|xfs\",mountpoint=\"$maxmount\"}-node_filesystem_free_bytes{instance=~\"$instance\",fstype=~\"ext.*|xfs\",mountpoint=\"$maxmount\"}))",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "最大パーティション使用率({{mountpoint}})",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(1 - ((node_memory_SwapFree_bytes{instance=~\"$instance\"} + 1)/ (node_memory_SwapTotal_bytes{instance=~\"$instance\"} + 1))) * 100",
+          "format": "time_series",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "スワップ使用率",
+          "refId": "F"
+        }
+      ],
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "稼働時間"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": 0
+                    },
+                    {
+                      "color": "orange",
+                      "value": 3600
+                    },
+                    {
+                      "color": "green",
+                      "value": 7200
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "unit",
+                "value": "s"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "総メモリ"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "decimals",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "CPU iowait"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "percentage",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "orange",
+                      "value": 40
+                    },
+                    {
+                      "color": "red",
+                      "value": 60
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "総ファイルディスクリプタ"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": 0
+                    },
+                    {
+                      "color": "orange",
+                      "value": 50000
+                    },
+                    {
+                      "color": "green",
+                      "value": 200000
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "最大オープンファイル数"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "none"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": 0
+                    },
+                    {
+                      "color": "orange",
+                      "value": 10000
+                    },
+                    {
+                      "color": "green",
+                      "value": 50000
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 12,
+        "y": 19
+      },
+      "id": 206,
+      "interval": "15s",
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "text": {
+          "valueSize": 15
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "avg(time() - node_boot_time_seconds{instance=~\"$instance\"})",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "稼働時間",
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "",
+          "refId": "C",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "count(node_cpu_seconds_total{instance=~\"$instance\", mode='system'})",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "CPU コア数",
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "",
+          "refId": "A",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "sum(node_memory_MemTotal_bytes{instance=~\"$instance\"})",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "総メモリ",
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "",
+          "refId": "B",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "avg(irate(node_cpu_seconds_total{instance=~\"$instance\",mode=\"iowait\"}[$interval])) * 100",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "CPU iowait",
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "",
+          "refId": "D",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": false,
+          "expr": "node_filefd_maximum{instance=~\"$instance\"}",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "総ファイルディスクリプタ",
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "",
+          "refId": "E",
+          "timeField": "@timestamp"
+        },
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "process_max_fds{job=\"node_exporter\",instance=~\"$instance\"}",
+          "format": "time_series",
+          "instant": true,
+          "interval": "",
+          "legendFormat": "最大オープンファイル数",
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "",
+          "refId": "F",
+          "timeField": "@timestamp"
+        }
+      ],
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 60,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cn-shenzhen.i-wz9cq1dcb6zwc39ehw59_cni0_in"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "light-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cn-shenzhen.i-wz9cq1dcb6zwc39ehw59_cni0_inダウンロード"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cn-shenzhen.i-wz9cq1dcb6zwc39ehw59_cni0_outアップロード"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cn-shenzhen.i-wz9cq1dcb6zwc39ehw59_eth0_inダウンロード"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cn-shenzhen.i-wz9cq1dcb6zwc39ehw59_eth0_out"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "cn-shenzhen.i-wz9cq1dcb6zwc39ehw59_eth0_outアップロード"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 19
+      },
+      "id": 183,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": true,
+          "expr": "increase(node_network_receive_bytes_total{instance=~\"$instance\",device=~\"$device\"}[1m])",
+          "interval": "1m",
+          "intervalFactor": 2,
+          "legendFormat": "{{device}}_inダウンロード",
+          "metric": "",
+          "refId": "A",
+          "step": 600,
+          "target": ""
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "increase(node_network_transmit_bytes_total{instance=~\"$instance\",device=~\"$device\"}[1m])",
+          "format": "time_series",
+          "interval": "1m",
+          "intervalFactor": 2,
+          "legendFormat": "{{device}}_outアップロード",
+          "range": true,
+          "refId": "B",
+          "step": 600
+        }
+      ],
+      "title": "$device の毎分トラフィック",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "series",
+            "axisLabel": "総使用率",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 0,
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*総使用率/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-red",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ディスクIO使用率"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "ディスクIO使用率"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#0ad4ff",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ユーザ使用率"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "システム使用率"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 25
+      },
+      "id": 207,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "(1 - avg(irate(node_cpu_seconds_total{instance=~\"$instance\",mode=\"idle\"}[$interval])) by (instance))*100",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "総使用率",
+          "refId": "F",
+          "step": 240
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "expr": "avg(irate(node_cpu_seconds_total{instance=~\"$instance\",mode=\"system\"}[$interval])) by (instance) *100",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "システム使用率",
+          "refId": "A",
+          "step": 20
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "avg(irate(node_cpu_seconds_total{instance=~\"$instance\",mode=\"user\"}[$interval])) by (instance) *100",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "ユーザ使用率",
+          "refId": "B",
+          "step": 240
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "expr": "avg(irate(node_cpu_seconds_total{instance=~\"$instance\",mode=\"iowait\"}[$interval])) by (instance) *100",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "ディスクIO使用率",
+          "refId": "D",
+          "step": 240
+        }
+      ],
+      "title": "CPU 使用率",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "series",
+            "axisLabel": "空きメモリ",
+            "axisPlacement": "left",
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "利用可能"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#9ac48a",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "総メモリ"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#C4162A",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 1
+              },
+              {
+                "id": "custom.pointSize",
+                "value": 3
+              },
+              {
+                "id": "custom.showPoints",
+                "value": "always"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "使用率"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#00d1ff",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 1
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "メモリ使用率"
+              },
+              {
+                "id": "custom.pointSize",
+                "value": 3
+              },
+              {
+                "id": "custom.showPoints",
+                "value": "always"
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "custom.axisSoftMin"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "使用済み"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 25
+      },
+      "id": 156,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "node_memory_MemAvailable_bytes{instance=~\"$instance\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "利用可能",
+          "refId": "F",
+          "step": 4
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": true,
+          "expr": "node_memory_MemTotal_bytes{instance=~\"$instance\"}",
+          "format": "time_series",
+          "instant": false,
+          "interval": "2m",
+          "intervalFactor": 1,
+          "legendFormat": "総メモリ",
+          "refId": "A",
+          "step": 4
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "node_memory_MemTotal_bytes{instance=~\"$instance\"} - node_memory_MemAvailable_bytes{instance=~\"$instance\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "使用済み",
+          "refId": "B",
+          "step": 4
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "(1 - (node_memory_MemAvailable_bytes{instance=~\"$instance\"} / (node_memory_MemTotal_bytes{instance=~\"$instance\"})))* 100",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "使用率",
+          "range": true,
+          "refId": "H"
+        }
+      ],
+      "title": "メモリ情報",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "series",
+            "axisLabel": "容量使用率",
+            "axisPlacement": "auto",
+            "axisSoftMax": 100,
+            "axisSoftMin": 0,
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/Inodes.*/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#00d1ff",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 0
+              },
+              {
+                "id": "custom.showPoints",
+                "value": "always"
+              },
+              {
+                "id": "custom.pointSize",
+                "value": 3
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "Inodes使用率"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 25
+      },
+      "id": 174,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "(node_filesystem_size_bytes{instance=~\"$instance\",fstype=~\"ext.*|xfs|nfs\",mountpoint !~\".*pod.*\"}-node_filesystem_free_bytes{instance=~\"$instance\",fstype=~\"ext.*|xfs|nfs\",mountpoint !~\".*pod.*\"}) *100/(node_filesystem_avail_bytes {instance=~\"$instance\",fstype=~\"ext.*|xfs|nfs\",mountpoint !~\".*pod.*\"}+(node_filesystem_size_bytes{instance=~\"$instance\",fstype=~\"ext.*|xfs|nfs\",mountpoint !~\".*pod.*\"}-node_filesystem_free_bytes{instance=~\"$instance\",fstype=~\"ext.*|xfs|nfs\",mountpoint !~\".*pod.*\"}))",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "容量%：{{mountpoint}}",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "(1 - node_filesystem_files_free{instance=~\"$instance\",fstype=~\"ext.?|xfs|nfs\",mountpoint !~\".*pod.*\"} / node_filesystem_files{instance=~\"$instance\",fstype=~\"ext.?|xfs|nfs\",mountpoint !~\".*pod.*\"}) * 100",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "Inodes%：{{mountpoint}}",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "ディスク使用率",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "series",
+            "axisLabel": "1分間負荷",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "15分間負荷"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "1分間負荷"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "5分間負荷"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*総コア数/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#C4162A",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 1
+              },
+              {
+                "id": "custom.pointSize",
+                "value": 4
+              },
+              {
+                "id": "custom.showPoints",
+                "value": "always"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 33
+      },
+      "id": 13,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": true,
+          "expr": "node_load1{instance=~\"$instance\"}",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "1分間負荷",
+          "metric": "",
+          "refId": "A",
+          "step": 20,
+          "target": ""
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": true,
+          "expr": " sum(count(node_cpu_seconds_total{instance=~\"$instance\", mode='system'}) by (cpu,instance)) by(instance)",
+          "format": "time_series",
+          "instant": false,
+          "interval": "2m",
+          "intervalFactor": 1,
+          "legendFormat": "CPU総コア数",
+          "refId": "D",
+          "step": 20
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "node_load5{instance=~\"$instance\"}",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "5分間負荷",
+          "refId": "B",
+          "step": 20
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "expr": "node_load15{instance=~\"$instance\"}",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "15分間負荷",
+          "refId": "C",
+          "step": 20
+        }
+      ],
+      "title": "システム平均ロード",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "I/O待ちでブロックされているプロセス"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "実行中のプロセス"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsZero",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsNull",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 33
+      },
+      "id": 202,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "exemplar": true,
+          "expr": "node_procs_running{instance=~\"$instance\"}",
+          "format": "time_series",
+          "interval": "1m",
+          "intervalFactor": 1,
+          "legendFormat": "実行中のプロセス",
+          "metric": "",
+          "prometheusLink": "/api/datasources/proxy/1/graph#%5B%7B%22expr%22%3A%22node_procs_running%7Binstance%3D%5C%22%24host%5C%22%7D%22%2C%22range_input%22%3A%2243200s%22%2C%22end_input%22%3A%222015-9-18%2013%3A46%22%2C%22step_input%22%3A%22%22%2C%22stacked%22%3Atrue%2C%22tab%22%3A0%7D%5D",
+          "refId": "A",
+          "step": 5,
+          "target": ""
+        },
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "datasourceErrors": {},
+          "editorMode": "code",
+          "errors": {},
+          "exemplar": true,
+          "expr": "node_procs_blocked{instance=~\"$instance\"}",
+          "format": "time_series",
+          "interval": "1m",
+          "intervalFactor": 1,
+          "legendFormat": "I/O待ちでブロックされているプロセス",
+          "metric": "",
+          "prometheusLink": "/api/datasources/proxy/1/graph#%5B%7B%22expr%22%3A%22node_procs_blocked%7Binstance%3D%5C%22%24host%5C%22%7D%22%2C%22range_input%22%3A%2243200s%22%2C%22end_input%22%3A%222015-9-18%2013%3A46%22%2C%22step_input%22%3A%22%22%2C%22stacked%22%3Atrue%2C%22tab%22%3A0%7D%5D",
+          "range": true,
+          "refId": "B",
+          "step": 5,
+          "target": ""
+        }
+      ],
+      "title": "プロセス稼働状況",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "series",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "総使用FD"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "総使用FD割合"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "秒間コンテキストスイッチ"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*割合/"
+            },
+            "properties": [
+              {
+                "id": "custom.lineWidth",
+                "value": 0
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.showPoints",
+                "value": "always"
+              },
+              {
+                "id": "custom.pointSize",
+                "value": 3
+              },
+              {
+                "id": "custom.axisSoftMax",
+                "value": 100
+              },
+              {
+                "id": "custom.axisSoftMin",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "进程使用FD割合"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 33
+      },
+      "id": 16,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "irate(node_context_switches_total{instance=~\"$instance\"}[$interval])",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "秒間コンテキストスイッチ",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "node_filefd_allocated{instance=~\"$instance\"}",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "総使用FD",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "(node_filefd_allocated{instance=~\"$instance\"}/node_filefd_maximum{instance=~\"$instance\"}) *100",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "総使用FD割合",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "(process_open_fds{instance=~\"$instance\"}/process_max_fds{instance=~\"$instance\"}) *100",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "进程使用FD割合",
+          "refId": "D"
+        }
+      ],
+      "title": "ファイルディスクリプタ(FD) / 秒間コンテキストスイッチ",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "description": "Read time seconds: 各ディスクパーティションの読み取り操作に費やされた秒数\n\nWrite time seconds: 各ディスクパーティションの書き込み操作に費やされた秒数\n\nIO time seconds: 各ディスクパーティションの入出力操作に費やされた秒数\n\nIO time weighted seconds: 各ディスクパーティションの入出力操作に費やされた加重秒数",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "読み取り（-）/書き込み（+）",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "vda"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#6ED0E0",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/,*_読み取り$/"
+            },
+            "properties": [
+              {
+                "id": "custom.transform",
+                "value": "negative-Y"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsZero",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsNull",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 41
+      },
+      "id": 160,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "irate(node_disk_read_time_seconds_total{instance=~\"$instance\"}[$interval]) / irate(node_disk_reads_completed_total{instance=~\"$instance\"}[$interval])",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{device}}_読み取り",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "irate(node_disk_write_time_seconds_total{instance=~\"$instance\"}[$interval]) / irate(node_disk_writes_completed_total{instance=~\"$instance\"}[$interval])",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{device}}_書き込み",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "irate(node_disk_io_time_seconds_total{instance=~\"$instance\"}[$interval])",
+          "format": "time_series",
+          "hide": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{device}}",
+          "refId": "A",
+          "step": 10
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "expr": "irate(node_disk_io_time_weighted_seconds_total{instance=~\"$instance\"}[$interval])",
+          "format": "time_series",
+          "hide": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{device}}_加重",
+          "range": true,
+          "refId": "D"
+        }
+      ],
+      "title": "IOごとの読み書き所要時間（参考：100ms未満）",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "description": "Reads completed: 各ディスクパーティションの1秒あたりの読み取り完了回数\n\nWrites completed: 各ディスクパーティションの1秒あたりの書き込み完了回数\n\nIO now: 各ディスクパーティションで現在処理中の入出力リクエスト数",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "読み取り（-）/書き込み（+）I/O ops/sec",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "vda_write"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#6ED0E0",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*_読み取り$/"
+            },
+            "properties": [
+              {
+                "id": "custom.transform",
+                "value": "negative-Y"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsZero",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsNull",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 6,
+        "y": 41
+      },
+      "id": 161,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "irate(node_disk_reads_completed_total{instance=~\"$instance\"}[$interval])",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{device}}_読み取り",
+          "refId": "A",
+          "step": 10
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "irate(node_disk_writes_completed_total{instance=~\"$instance\"}[$interval])",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{device}}_書き込み",
+          "refId": "B",
+          "step": 10
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "expr": "node_disk_io_now{instance=~\"$instance\"}",
+          "format": "time_series",
+          "hide": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{device}}",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "ディスク読み書き速度（IOPS）",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "description": "Read bytes: 各ディスクパーティションの1秒あたりの読み取りバイト数\nWritten bytes: 各ディスクパーティションの1秒あたりの書き込みバイト数",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "読み取り（-）/書き込み（+）",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "Bps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "vda_write"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#6ED0E0",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*_読み取り$/"
+            },
+            "properties": [
+              {
+                "id": "custom.transform",
+                "value": "negative-Y"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsZero",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsNull",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 41
+      },
+      "id": 168,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "irate(node_disk_read_bytes_total{instance=~\"$instance\"}[$interval])",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{device}}_読み取り",
+          "refId": "A",
+          "step": 10
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "expr": "irate(node_disk_written_bytes_total{instance=~\"$instance\"}[$interval])",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{device}}_書き込み",
+          "range": true,
+          "refId": "B",
+          "step": 10
+        }
+      ],
+      "title": "秒間ディスク読み書き容量",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "description": "1秒間の実時間のうち、I/Oに費やされた時間。（wall-clock time）\n\nnode_disk_io_time_seconds_total：\nディスクが入出力操作に費やした秒数。この値は累積値です。（Milliseconds Spent Doing I/Os）\n\nirate(node_disk_io_time_seconds_total[1m])：\n秒間のレートを計算します：(最新の値 - 直前の値) / タイムスタンプの差。すなわち、1秒間のうちにディスクがI/O操作に費やした時間の割合です。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Idle - Waiting for something to happen"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#052B51",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "guest"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#9AC48A",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "idle"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#052B51",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "iowait"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#EAB839",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "irq"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#BF1B00",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "nice"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#C15C17",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "sdb_秒間I/O操作%"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#d683ce",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "softirq"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#E24D42",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "steal"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#FCE2DE",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "system"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#508642",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "user"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#5195CE",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "ディスクがI/O操作に費やした時間の割合"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ba43a9",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsZero",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsNull",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 41
+      },
+      "id": 175,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "irate(node_disk_io_time_seconds_total{instance=~\"$instance\"}[$interval])",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{device}}_秒間I/O操作%",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "1秒あたりのI/O操作時間の割合（I/O Util）",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "description": "Sockets_used - 使用されているすべてのプロトコルソケットの総量\n\nCurrEstab - 現在の状態が ESTABLISHED または CLOSE-WAIT の TCP 接続数\n\nTCP_alloc - 割り当て済み（確立済み、sk_buff取得済み）のTCPソケット数\n\nTCP_tw - クローズ待ちのTCP接続数\n\nUDP_inuse - 使用中のUDPソケット数\n\nRetransSegs - TCP再送パケット数\n\nOutSegs - TCP送信パケット数\n\nInSegs - TCP受信パケット数",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "series",
+            "axisLabel": "CurrEstab",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "TCP_alloc"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*Sockets_used/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#E02F44",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 1
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "已使用的所有协议套接字総容量"
+              },
+              {
+                "id": "custom.showPoints",
+                "value": "always"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 16,
+        "x": 0,
+        "y": 49
+      },
+      "id": 158,
+      "options": {
+        "legend": {
+          "calcs": [
+            "last",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "sortBy": "Max",
+          "sortDesc": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "node_netstat_Tcp_CurrEstab{instance=~\"$instance\"}",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "CurrEstab",
+          "refId": "A",
+          "step": 20
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "node_sockstat_TCP_tw{instance=~\"$instance\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "TCP_tw",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": true,
+          "expr": "node_sockstat_sockets_used{instance=~\"$instance\"}",
+          "interval": "2m",
+          "intervalFactor": 1,
+          "legendFormat": "Sockets_used",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "node_sockstat_UDP_inuse{instance=~\"$instance\"}",
+          "interval": "",
+          "legendFormat": "UDP_inuse",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "node_sockstat_TCP_alloc{instance=~\"$instance\"}",
+          "interval": "",
+          "legendFormat": "TCP_alloc",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "irate(node_netstat_Tcp_PassiveOpens{instance=~\"$instance\"}[$interval])",
+          "hide": true,
+          "interval": "",
+          "legendFormat": "{{instance}}_Tcp_PassiveOpens",
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "irate(node_netstat_Tcp_ActiveOpens{instance=~\"$instance\"}[$interval])",
+          "hide": true,
+          "interval": "",
+          "legendFormat": "{{instance}}_Tcp_ActiveOpens",
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "irate(node_netstat_Tcp_InSegs{instance=~\"$instance\"}[$interval])",
+          "interval": "",
+          "legendFormat": "Tcp_InSegs",
+          "refId": "H"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "irate(node_netstat_Tcp_OutSegs{instance=~\"$instance\"}[$interval])",
+          "interval": "",
+          "legendFormat": "Tcp_OutSegs",
+          "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "expr": "irate(node_netstat_Tcp_RetransSegs{instance=~\"$instance\"}[$interval])",
+          "interval": "",
+          "legendFormat": "Tcp_RetransSegs",
+          "refId": "J"
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "expr": "irate(node_netstat_TcpExt_ListenDrops{instance=~\"$instance\"}[$interval])",
+          "format": "time_series",
+          "hide": true,
+          "interval": "",
+          "legendFormat": "",
+          "range": true,
+          "refId": "K"
+        }
+      ],
+      "title": "ネットワークソケット接続情報",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "victoriametrics-metrics-datasource",
+        "uid": "${db_victoriametrics}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "アップロード（-）/ダウンロード（+）",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*_outアップロード$/"
+            },
+            "properties": [
+              {
+                "id": "custom.transform",
+                "value": "negative-Y"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsZero",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byValue",
+              "options": {
+                "op": "gte",
+                "reducer": "allIsNull",
+                "value": 0
+              }
+            },
+            "properties": [
+              {
+                "id": "custom.hideFrom",
+                "value": {
+                  "legend": true,
+                  "tooltip": true,
+                  "viz": false
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*_inダウンロード$/"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 49
+      },
+      "id": 157,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "12.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "exemplar": true,
+          "expr": "irate(node_network_receive_bytes_total{instance=~\"$instance\",device=~\"$device\"}[$interval])*8",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{device}}_inダウンロード",
+          "refId": "A",
+          "step": 4
+        },
+        {
+          "datasource": {
+            "type": "victoriamatrics",
+            "uid": "${db_victoriametrics}"
+          },
+          "editorMode": "code",
+          "expr": "irate(node_network_transmit_bytes_total{instance=~\"$instance\",device=~\"$device\"}[$interval])*8",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{device}}_outアップロード",
+          "range": true,
+          "refId": "B",
+          "step": 4
+        }
+      ],
+      "title": "$device の毎秒ネットワーク帯域使用",
+      "type": "timeseries"
+    }
+  ],
+  "preload": false,
+  "refresh": "1m",
+  "schemaVersion": 42,
+  "tags": [
+    "Prometheus",
+    "node_exporter",
+    "StarsL.cn",
+    "TenSunS"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "text": "",
+          "value": "${DS_VICTORIAMETRICS-METRICS-DATASOURCE}",
+          "selected": true
+        },
+        "name": "db_victoriametrics",
+        "options": [],
+        "query": "victoriametrics-metrics-datasource",
+        "refresh": 1,
+        "regex": "",
+        "type": "datasource"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DB_PROMETHEUS}"
+        },
+        "definition": "label_values(node_uname_info, vendor)",
+        "includeAll": false,
+        "label": "クラウドベンダー",
+        "name": "vendor",
+        "options": [],
+        "query": {
+          "query": "label_values(node_uname_info, vendor)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "regexApplyTo": "value",
+        "sort": 5,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DB_PROMETHEUS}"
+        },
+        "definition": "label_values(node_uname_info{vendor=~\"$vendor\"}, account)",
+        "includeAll": false,
+        "label": "アカウント",
+        "name": "account",
+        "options": [],
+        "query": {
+          "query": "label_values(node_uname_info{vendor=~\"$vendor\"}, account)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "regexApplyTo": "value",
+        "sort": 5,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DB_PROMETHEUS}"
+        },
+        "definition": "label_values(node_uname_info{vendor=~\"$vendor\",account=~\"$account\"},group)",
+        "includeAll": true,
+        "label": "グループ",
+        "name": "group",
+        "options": [],
+        "query": {
+          "query": "label_values(node_uname_info{vendor=~\"$vendor\",account=~\"$account\"},group)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "regexApplyTo": "value",
+        "sort": 5,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DB_PROMETHEUS}"
+        },
+        "definition": "label_values(node_uname_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\"},name)",
+        "includeAll": true,
+        "label": "名前",
+        "name": "name",
+        "options": [],
+        "query": {
+          "query": "label_values(node_uname_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\"},name)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "regexApplyTo": "value",
+        "sort": 5,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DB_PROMETHEUS}"
+        },
+        "definition": "label_values(node_uname_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\"},instance)",
+        "includeAll": false,
+        "label": "IP",
+        "name": "instance",
+        "options": [],
+        "query": {
+          "query": "label_values(node_uname_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\"},instance)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "regexApplyTo": "value",
+        "sort": 5,
+        "type": "query"
+      },
+      {
+        "auto": false,
+        "auto_count": 100,
+        "auto_min": "1m",
+        "current": {
+          "text": "3m",
+          "value": "3m"
+        },
+        "hide": 2,
+        "label": "間隔",
+        "name": "interval",
+        "options": [
+          {
+            "selected": true,
+            "text": "3m",
+            "value": "3m"
+          }
+        ],
+        "query": "3m",
+        "refresh": 2,
+        "type": "interval"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DB_PROMETHEUS}"
+        },
+        "definition": "query_result(count(node_uname_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"}))",
+        "hide": 2,
+        "includeAll": false,
+        "label": "合計",
+        "name": "total",
+        "options": [],
+        "query": {
+          "query": "query_result(count(node_uname_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",name=~\".*$sname.*\"}))",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "/{} (.*) .*/",
+        "regexApplyTo": "value",
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DB_PROMETHEUS}"
+        },
+        "definition": "label_values(node_network_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",instance=~\"$instance\",device!~'tap.*|veth.*|br.*|docker.*|virbr.*|lo.*|cni.*'},device)",
+        "includeAll": true,
+        "label": "デバイス",
+        "multi": true,
+        "name": "device",
+        "options": [],
+        "query": {
+          "query": "label_values(node_network_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",instance=~\"$instance\",device!~'tap.*|veth.*|br.*|docker.*|virbr.*|lo.*|cni.*'},device)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "regexApplyTo": "value",
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DB_PROMETHEUS}"
+        },
+        "definition": "query_result(topk(1,sort_desc (max(node_filesystem_size_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",instance=~\"$instance\",fstype=~\"ext.?|xfs\",mountpoint!~\".*pods.*\"}) by (mountpoint))))",
+        "hide": 2,
+        "includeAll": false,
+        "label": "最大マウント",
+        "name": "maxmount",
+        "options": [],
+        "query": {
+          "query": "query_result(topk(1,sort_desc (max(node_filesystem_size_bytes{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",instance=~\"$instance\",fstype=~\"ext.?|xfs\",mountpoint!~\".*pods.*\"}) by (mountpoint))))",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "/.*\\\"(.*)\\\".*/",
+        "regexApplyTo": "value",
+        "sort": 5,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DB_PROMETHEUS}"
+        },
+        "definition": "label_values(node_uname_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",instance=~\"$instance\"}, name)",
+        "hide": 2,
+        "includeAll": false,
+        "label": "表示名",
+        "name": "show_name",
+        "options": [],
+        "query": {
+          "query": "label_values(node_uname_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",instance=~\"$instance\"}, name)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "regexApplyTo": "value",
+        "sort": 5,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DB_PROMETHEUS}"
+        },
+        "definition": "label_values(node_uname_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\"},iid)",
+        "hide": 2,
+        "includeAll": false,
+        "label": "ID",
+        "name": "iid",
+        "options": [],
+        "query": {
+          "query": "label_values(node_uname_info{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\"},iid)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "regexApplyTo": "value",
+        "sort": 5,
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "",
+          "value": ""
+        },
+        "description": "概要テーブルの名称フィールドはフィルタリングに対応しています。正規表現（例：.*aa.*bb.*）も使用可能です。",
+        "label": "名前",
+        "name": "sname",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-12h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "30s",
+      "1m",
+      "3m",
+      "5m",
+      "15m",
+      "30m"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Node Exporter ダッシュボード 2024-05-20 TenSunS 自動同期版",
+  "uid": "StarsL-TenSunS-node",
+  "version": 14,
+  "weekStart": ""
+}

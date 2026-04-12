@@ -1,21 +1,21 @@
 {
   "__inputs": [
       {
-        "name": "VAR_DB_VICTORIAMETRICS",
+        "name": "DB_VICTORIAMETRICS",
         "label": "VictoriaMetrics",
         "description": "Select the VictoriaMetrics datasource",
         "type": "datasource",
         "pluginId": "victoriametrics-metrics-datasource"
       },
       {
-        "name": "VAR_DB_PROMETHEUS",
+        "name": "DB_PROMETHEUS",
         "label": "Prometheus",
         "description": "Select the Prometheus datasource",
         "type": "datasource",
         "pluginId": "prometheus"
       },
       {
-        "name": "VAR_DB_LOKI",
+        "name": "DB_LOKI",
         "label": "Loki",
         "description": "Select the Loki datasource",
         "type": "datasource",
