@@ -5932,8 +5932,8 @@
     ]
   },
   "timezone": "browser",
-  "title": "Node Exporter ダッシュボード 2024-05-20 TenSunS 自動同期版",
-  "uid": "StarsL-TenSunS-node",
+  "title": "Node Exporter TenSunS RaspNAS和訳版",
+  "uid": "StarsL-TenSunS-node-mod",
   "version": 14,
   "weekStart": ""
 }
