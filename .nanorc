@@ -1,0 +1,17 @@
+# 行番号を表示する
+#set linenumbers
+
+# カーソル位置の行と列を常に表示する
+set constantshow
+
+# 自動でインデントする
+set autoindent
+
+# Tabキーの幅をスペース4文字分に設定
+set tabsize 4
+
+# 長い行を自動で折り返して表示する
+set softwrap
+
+# マウス操作を有効にする
+#set mouse

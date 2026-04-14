@@ -1,0 +1,36 @@
+[build]
+jobs = 8                      # number of parallel jobs, defaults to # of CPUs
+rustflags = [
+	"-C", "target-cpu=native",   # ネイティブCPU向けの最適化を有効化
+	"-C llvm-args=-ffast-math" # 浮動小数点演算の高速化 (精度が犠牲になる可能性があります)
+	"-C llvm-args=-mllvm -prefetch-distance=64" # データのプリフェッチ距離を64に設定 (CPUのキャッシュ効率を向上させる可能性があります)
+	#"-Cprofile-generate=/tmp/pgo-data"	# PGO (Profile-Guided Optimization)
+	# "-Cprofile-use=/tmp/pgo-data"	# PGO (Profile-Guided Optimization)
+    ]
+[target.x86_64-unknown-linux-gnu]
+rustflags = [
+    "-C", "target-cpu=native",
+    "-C", "link-arg=-Wl,-O1",      # リンカ最適化
+    "-C", "link-arg=-Wl,--as-needed",
+    "-C", "llvm-args=-align-all-functions=32"
+    # Ryzen
+	"-C llvm-args=-force-vector-width=32",  # ベクトル幅を32に強制 (Ryzenのベクトル命令を有効化)
+    ]
+
+[target.aarch64-unknown-linux-gnu]
+rustflags = [
+    "-C", "target-cpu=native",     # または neoverse-n1 等
+    "-C", "target-feature=+lse",    # アトミック演算の強化
+    # ARM Cortex-A72
+	"-C llvm-args=-force-vector-width=128", # ベクトル幅を128に強制 (Cortex-A72のベクトル命令を有効化
+	"-C target-feature=+lse" # ARMv8.1のLarge System Extensions (LSE) を有効化 (Cortex-A72での性能向上に寄与する可能性があります)
+    ]
+[profile.release]
+lto = "thin"          # リンク時最適化を全モジュールで有効化 (コンパイル時間は増える)
+codegen-units = 1    # コード生成単位を1にして最適化の余地を増やす
+panic = "abort"      # パニック時にスタックトレースを生成しない (バイナリサイズ縮小、高速化)
+strip = "symbols"    # デバッグシンボルを削除 (バイナリサイズ縮小)
+opt-level = 3         #最大レベルの最適化を行います。
+
+[cache]
+auto-clean-frequency = "1 day"   # How often to perform automatic cache cleaning
