@@ -8,7 +8,7 @@ logging {
 // Lokiへの出力設定 ( push方式 )
 loki.write "db" {
 	endpoint {
-		url = "http://docker.tigris-tailor.ts.net:3100/loki/api/v1/push"
+		url = "http://LOKI_URL:3100/loki/api/v1/push"
 	}
 }
 //========================================
@@ -112,7 +112,7 @@ loki.process "windows" {
 	{{- if .message }},"message":	{{- toJson .message -}}{{else}}{{end}}
 	{{- if .execution }},"execution":	{{- .execution -}}	{{else}}{{end}}
 	{{- if .event_data }},"event_data":	{{- toJson .event_data }}{{else}}{{end}}
-	{{- if .Value }},"other":	{{- toJson .Value }}{{else}}{{end -}}	
+	{{- if .Value }},"other":	{{- toJson .Value }}{{else}}{{end -}}
 		}`
 	}
 	// ログの順序を反映
