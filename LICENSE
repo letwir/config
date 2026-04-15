@@ -18,14 +18,16 @@
 
 This repository includes components derived from other authors:
 
-- SMART monitoring panels are based on work by reefland,
+- SMART monitoring panels are derived from work by reefland,
   licensed under the MIT License.
 
   Copyright (c) reefland
 
   These apply to:
-  * [Dashboard-Sougou.json](https://raw.githubusercontent.com/letwir/config/refs/heads/main/Grafana/Dashboard-Sougou.json)
+  * https://raw.githubusercontent.com/letwir/config/refs/heads/main/Grafana/Dashboard-Sougou.json
     - Disk Temperature panel
     - Disk Lifetime panel
+
+  See the original project or include the MIT License text where applicable.
 
 All other parts of this repository are licensed under the WTFPL.
