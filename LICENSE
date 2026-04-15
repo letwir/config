@@ -24,7 +24,7 @@ This repository includes components derived from other authors:
   Copyright (c) reefland
 
   These apply to:
-  * https://raw.githubusercontent.com/letwir/config/refs/heads/main/Grafana/Dashboard-Sougou.json
+  [Dashboard-Sougou.json](https://raw.githubusercontent.com/letwir/config/refs/heads/main/Grafana/Dashboard-Sougou.json)
     - Disk Temperature panel
     - Disk Lifetime panel
 
