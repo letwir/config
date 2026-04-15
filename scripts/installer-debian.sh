@@ -191,12 +191,15 @@ pipx translate-shell sudo dkms
 cd
 python3 -m venv .venv
 curl https://sh.rustup.rs/ | bash -s -- --default-toolchain nightly -y --profile minimal
-curl https://raw.githubusercontent.com/letwir/config/refs/heads/main/.cargo/config | tee ~/.cargo/config
+curl https://raw.githubusercontent.com/letwir/config/refs/heads/main/rustup/cargo-linux.toml | tee ~/.cargo/config
 source $HOME/.cargo/env
 curl https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash -s -- -y
 curl -sS https://starship.rs/install.sh | sh
-cargo binstall git-delta bat sd vivid
+cargo binstall git-delta bat sd vivid cargo-cache
 cargo install fd-find lsd frs ripgrep du-dust hexyl choose lms starship --all-features
+cargo cache -a
+
+
 curl https://github.com/letwir.keys | tee .ssh/authorized_keys
 
 

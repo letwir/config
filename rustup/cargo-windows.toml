@@ -1,0 +1,27 @@
+[build]
+jobs = 16                      # number of parallel jobs, defaults to # of CPUs
+target = "x86_64-pc-windows-msvc"
+# https://zenn.dev/nesken7777/articles/312c22aa8e54f5
+rustflags = [
+    "-C", "target-cpu=native",
+    "-Clink-arg=/LTCG:INCREMENTAL",     # MSVCリンカレベルでの最適化
+    "-Clink-arg=/DEBUG:NONE",
+    "-Clink-arg=/EMITPOGOPHASEINFO",
+    "-Clink-arg=/OPT:ICF", # (Identical COMDAT Folding)全く同じコードを持つ関数を一つにまとめます。
+    "-C", "llvm-args=-fp-contract=fast", # FMA (積和演算) の結合をより積極的に行う
+    "-Clink-arg=/OPT:REF",  # 未使用関数の削除
+    # nightly
+    "-Z", "mir-opt-level=4",           # MIR最適化を最大(通常は2)に引き上げ
+    "-Z", "cross-crate-inline-threshold=200", # クレートを跨いだインライン化をより積極的に行う
+    "-C", "llvm-args=-enable-dfa-jump-thread", # LLVMの決定性有限オートマトンベースのジャンプスレッドを有効化
+]
+
+[profile.release]
+lto = "thin"          # リンク時最適化を全モジュールで有効化 (コンパイル時間は増える)
+codegen-units = 1    # コード生成単位を1にして最適化の余地を増やす
+panic = "abort"      # パニック時にスタックトレースを生成しない (バイナリサイズ縮小、高速化)
+strip = "symbols"    # デバッグシンボルを削除 (バイナリサイズ縮小)
+opt-level = 3         #最大レベルの最適化を行います。
+
+[cache]
+auto-clean-frequency = "1 day"   # How often to perform automatic cache cleaning
