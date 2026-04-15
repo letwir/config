@@ -85,9 +85,9 @@ export PATH="$PATH:/root/.local/bin"
 # for Rust
 . $HOME/.cargo/env
 alias du="dust"
-alias ls="lsd"
-alias ll="lsd -lah"
+command -v lsd >/dev/null && alias ls="lsd"
+command -v lsd >/dev/null && alias ll="lsd -lah"
+command -v vivid >/dev/null && export LS_COLORS="$(vivid generate tokyonight-moon)"
+command -v starship >/dev/null && eval "$(starship init bash)"
 alias cs="choose"
-export LS_COLORS="$(vivid generate tokyonight-moon)"
 export PAGER=delta
-eval "$(starship init bash)"
