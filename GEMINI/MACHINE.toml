@@ -1,0 +1,50 @@
+# MACHINE.toml — 実行環境 single source of truth
+# GEMINI.md / CLAUDE.md 両方から @import されるレイヤー
+
+[env]
+os = "Win11_25H2"
+shell = "pwsh7"
+shell_forbidden = ["bash", "sh", "GitBash", "WSL"]
+tools = ["pwsh", "go", "cargo", "coreutils"]
+
+[env.path]
+append = [
+  "C:/Program Files/coreutils/bin/",
+  "C:/PATH/",
+  "C:/PATH/vcpkg/vcpkg.exe",
+  "$env:USERPROFILE/.cargo/bin/",
+  "C:/Program Files/Go/bin/go.exe",
+]
+
+[hardware]
+spec_file = "HARDWARE_SPECS.md"   # ≤200L, single_truth はこのファイル側で維持
+max_lines = 200
+dev_specs = "5950X/64GB/5070Ti"
+query = 'rg.exe "DEV_SPECS|EXEC_SPECS" -A 10 HARDWARE_SPECS.md'
+
+[encoding]
+target_ext = ["md", "txt"]
+required = "UTF-8 no BOM"
+forbidden = ["SJIS", "UTF16"]
+write_methods = [
+  "[System.IO.File]::WriteAllText($path,$content)",
+  "explicit UTF8 params",
+]
+
+[shell.invoke]
+generic = 'pwsh -c "{cmd}"'
+python = 'cd {proj_root}; .venv\Scripts\Activate.ps1; python.exe {args}'
+require_exe_suffix = true   # pwsh alias衝突回避のため *.exe 明示必須
+
+[shell.allow]
+commands = [
+  "curl.exe", "dust.exe", "ffprobe.exe", "lsd.exe",
+  "rg.exe", "wget2.exe", "git.exe add", "git.exe commit",
+]
+
+[shell.deny]
+commands = ["git.exe checkout", "git.exe push"]
+
+[arch]
+paradigm = "CT"
+note = "Morphism ∘ Functor 整合性"
