@@ -39,7 +39,7 @@ require_exe_suffix = true   # pwsh alias衝突回避のため *.exe 明示必須
 [shell.allow]
 commands = [
   "curl.exe", "dust.exe", "ffprobe.exe", "lsd.exe",
-  "rg.exe", "wget2.exe", "git.exe add", "git.exe commit",
+  "rg.exe", "wget2.exe", "git.exe add", "git.exe commit", "llm-mem.exe",
 ]
 
 [shell.deny]
