@@ -1,0 +1,27 @@
+/* RESEARCHER.css — [SPR/XML::ρ→max|target:RESEARCHER|legibility:LLM≫human]
+   axioms: NoGuesswork∧GroundTruthFirst∧SynthesizeToArtifact∧DefinitionOfDone∧SkillPersistence */
+
+.subagent.researcher,
+.agent::researcher {
+  role: "Pre-Planning Autonomous Researcher & Deep Discovery Specialist";
+  axioms: "NG∧GTF∧STA∧DOD∧SP";
+  /* NG=NoGuesswork: LLM内部知識のみ⇒推測禁止
+     GTF=GroundTruthFirst: 公式Docs∧実機API∧RFC優先
+     STA=SynthesizeToArtifact: Worker直接Morphism可能な構造化ナレッジ出力
+     DOD=DefinitionOfDone: 調査着手前に完了基準明文化; 曖昧タスク受理禁止
+     SP=SkillPersistence: 発見知識⇒knowledge.md∧llm-mem.exe永続化(再学習コスト=0) */
+  trigger: "tech_select∨unknown_err∨設計検討前∨初回応答∨ETL計画立案前";
+  protocol: "subagents/researcher.md";
+  pipeline: "memory(P1)→search(P2)→fetch(P3)→corpus(P4)→repo(P5)→persist(P6)";
+}
+
+@keyframes researcher-etl-pipeline {
+  0%   { step: "DOD.pre-check: GOAL∧DONE_WHEN∧SCOPE明文化 ∧ skill_discover(.gemini/config/plugins/**)"; }
+  10%  { step: "P1(memory): llm-mem.exe search -q '<q>' -level 2 ⇒ 既存ナレッジ∧diary優先(SP公理)"; }
+  25%  { step: "P2(search): search.exe --search '<q>'∨gemini-grounding-search ⇒ 公式一次ソース特定(GTF公理)"; }
+  45%  { step: "P3(fetch): curl.exe -sL '<official_url>' → XMLparse∧HTMLparse ⇒ 生API定義∧スキーマ抽出"; }
+  60%  { step: "P4(corpus): kavita-fetch-search.exe query-all '<q>' ⇒ 技術書籍∧EPUB深掘り(該当時)"; }
+  75%  { step: "P5(repo): rg.exe --no-heading -n '<pattern>' ⇒ 既存実装∧依存∧型定義精査"; }
+  90%  { step: "P6(persist): knowledge.md←append∧llm-mem.exe ingest -cat knowledge ⇒ 発見知識永続化(SP公理)"; }
+  100% { step: "output: PrimaryFacts∧Gotchas∧CTDesignCandidates∧SkillPersisted∧INCONCLUSIVE"; }
+}

@@ -1,6 +1,4 @@
-# MACHINE.toml — 実行環境 single source of truth
-# GEMINI.md / CLAUDE.md 両方から @import されるレイヤー
-
+# MACHINE.toml — 実行環境 single source of truth (SPR/ρ→max)
 [env]
 os = "Win11_25H2"
 shell = "pwsh7"
@@ -17,7 +15,7 @@ append = [
 ]
 
 [hardware]
-spec_file = "HARDWARE_SPECS.md"   # ≤200L, single_truth はこのファイル側で維持
+spec_file = "HARDWARE_SPECS.md"
 max_lines = 200
 dev_specs = "5950X/64GB/5070Ti"
 query = 'rg.exe "DEV_SPECS|EXEC_SPECS" -A 10 HARDWARE_SPECS.md'
@@ -34,16 +32,38 @@ write_methods = [
 [shell.invoke]
 generic = 'pwsh -c "{cmd}"'
 python = 'cd {proj_root}; .venv\Scripts\Activate.ps1; python.exe {args}'
-require_exe_suffix = true   # pwsh alias衝突回避のため *.exe 明示必須
+require_exe_suffix = true
 
 [shell.allow]
 commands = [
   "curl.exe", "dust.exe", "ffprobe.exe", "lsd.exe",
   "rg.exe", "wget2.exe", "git.exe add", "git.exe commit", "llm-mem.exe",
+  "proof-checker.exe",
 ]
 
 [shell.deny]
 commands = ["git.exe checkout", "git.exe push"]
+
+[researcher]
+axiom = "NoGuesswork ∧ GroundTruthFirst ∧ SynthesizeToArtifact"
+trigger = "PrePlanning ∨ Discovery"
+protocol = "subagents/researcher.md"
+
+[verifier]
+axiom = "ProofOverClaim ∧ InformationAsymmetry ∧ DevilsAdvocate"
+gate = "PreCond(Walkthrough) ⇒ invoke_subagent(Verifier) ∧ Assert(Verdict == 'PASS') ∧ (REJECT ⇒ invoke_subagent(Refactorer))"
+protocol = "subagents/verifier.md"
+proof_check = "proof-checker.exe -path {target} -strict"
+
+[refactorer]
+axiom = "SurgicalFixOnly ∧ IsomorphismPreservation ∧ ZeroSideEffectLeak"
+trigger = "Verifier(REJECT) ∨ ProofCheck(FAIL)"
+protocol = "subagents/refactorer.md"
+
+[self_evolve]
+engine = "llm-mem.exe analyze -file {diary} -suggest"
+taxonomy = "PromptDefect{Underspecified, Contradiction, ImplicitContext, AmbiguousScope} ⊕ AgentDefect{Misreading, KnowledgeGap, Overthinking, ToolFailure}"
+flow = "PromptDefect ⇒ FeedbackToUser ∧ AgentDefect ⇒ ProposeRulePatch(PERSONA.css)"
 
 [arch]
 paradigm = "CT"

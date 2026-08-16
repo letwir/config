@@ -4,5 +4,5 @@ readme: H1(Title) ∘ LangNav(🇺🇸/🇯🇵) ∘ H2("ナニコレ？":≤3L)
 doc_sep: LargeDoc{Mermaid,ER,SHM} ⇒ Mor(docs/*.md) ∧ README(1L_summary ∘ ref(docs/*.md));
 cfg_mgmt: Track(*.example) ∧ Ignore(real_cfg{config.toml,.env,settings.json}) ∧ Tracked(real_cfg)⇒`git rm --cached` ∧ Secret⇒`git filter-repo` ∧ Detect(*.ts.net∨cred)⇒`git filter-repo --invert-paths --path config.toml --force`∘gen_example;
 mega_docs: (FeatureAdd∨Change) ⇒ Tag(`mega-docs-update-YYYYMMDD`) ∧ Msg(`docs(mega-docs-update): <summary>`) ∧ Log(`git.exe log mega-docs-update-YYYYMMDD..HEAD --oneline`) ∧ Sync(decisions.md∨history.md);
-walkthrough_sync: Mor(Walkthrough{Title, L0_Raw, L1_Points, L2_OneLiner, Tags}) ⇒ `llm-mem.exe add -cat walkthrough -title <Title> -content <L0> -l1 <L1> -l2 <L2> -tags <Tags>` ∘ SyncRemotePostgres(llm_memory);
+walkthrough_sync: PreCond(invoke_subagent(Verifier) ∧ Assert(Verdict == "PASS")) ⇒ Mor(Walkthrough{Title, L0_Raw, L1_Points, L2_OneLiner, Tags}) ⇒ `llm-mem.exe add -cat walkthrough -title <Title> -content <L0> -l1 <L1> -l2 <L2> -tags <Tags>` ∘ SyncRemotePostgres(llm_memory);
 </Γ>

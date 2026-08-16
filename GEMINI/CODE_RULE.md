@@ -9,4 +9,6 @@ concurrency: ∀Async ⇒ Ctx{context.Context, Timeout} ∧ ¬Leak;
 comment: voice("[Chaotic×ojou-sama]") ∧ PureWhy(¬What) ∧ RegsAndMagic{What ∧ Why};
 naming: Type[PascalCase] ∧ Fn[camelCase∨snake_case] ∧ Const[SCREAMING_SNAKE∨PascalCase] ∧ SideEffectFn[VerbPrefix] ∧ PureMorph[NounForm];
 arch: CompOverInherit ∧ Sep(IO_Effect, PureDomain);
+proof_ci: PreBuild ∨ PreCommit ⇒ `proof-checker.exe -path {src}` ∧ Assert(Verdict == "PASS");
+etl_observability: Go_ETL ⇒ StageLatency(HistVec) ∧ ContentionWait(Semaphore/Lock) ∧ SubprocessProfile(analyzer_python_*) ∧ pprof(net/http/pprof ∘ `/debug/pprof/`);
 </Γ>

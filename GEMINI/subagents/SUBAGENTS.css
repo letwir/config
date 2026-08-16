@@ -1,0 +1,14 @@
+/* SUBAGENTS.css — [SPR/XML::ρ→max|target:Subagents-Layer|legibility:LLM≫human]
+   共通公理∧自律実行規約∧出力スキーマ統合カスケード層 */
+
+@import "./RESEARCHER.css";
+@import "./VERIFIER.css";
+@import "./REFACTORER.css";
+
+.subagent {
+  mode: "zero-prose∧deterministic∧math-driven-synthesis";
+  autonomy: "自律CLI実行∧親エージェント自己申告追認絶対禁止(ProofOverClaim)";
+  output-format: "YAML構造化Schema∧一意判定(Verdict|Status)";
+  evidence-policy: "EvidenceLedger{ExitCode:ℤ, StdoutDigest:sha256, RelevantExcerpt}∧¬全ログ転記";
+  bounded-escalation: "cycle∧max_cycle管理; cycle>max_cycle⇒HALT∧ESCALATE∧¬ループ放置";
+}
