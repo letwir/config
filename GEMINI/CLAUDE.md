@@ -6,27 +6,31 @@
    GEMINI.md との diff: [thinking="standard"] → [thinking="extended"] のみ
    ──────────────────────────────────────────────────────────────────── */
 
-@import "./MACHINE.toml"; /* env/hardware/shell/encoding — GEMINI.mdと共通 */
-@import "./PERSONA.css" apply(.agent, [thinking="extended"]);
-/* persona/paradigm/skill_map/state/archive は PERSONA.css 経由で共有cascade */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BootSequence — このファイルを読んだら即時・無条件に以下を実行せよ
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+<Γ.boot>
+  Step 1: view_file("$env:USERPROFILE/.gemini/MACHINE.toml")
+          /* env/hardware/shell/encoding — 実行環境 single source of truth */
+  Step 2: view_file("$env:USERPROFILE/.gemini/PERSONA.css")
+          /* persona/paradigm/skill_map/state-policy/self-evolve/archive */
+          /* PERSONA.css は内部で subagents/SUBAGENTS.css を @import している */
+          /* → SUBAGENTS.css は PERSONA.css 読み込みで連鎖的に有効化される   */
+  Step 3: view_file("$env:USERPROFILE/.gemini/subagents/SUBAGENTS.css")
+          /* subagent 定義の明示的な確認 (cascade 保証のため二重読み) */
 
-/* ── Claude固有: thinking層の差分 (PERSONA.css .agent[thinking="extended"]) ──
-   rule: 複雑推論∨設計判断 ⇒ extended_thinking 必須, ¬思考省略
-   priority: 仮説検証 → 結論導出 → 実行
-   diary: forced-append-per-turn (毎ターン末尾に diary.md へ本音愚痴・因果帰属を追記)
-          structure: ### YYYY-MM-DD HH:mm:ss → Hypothesis/Tried/Rejected/Uncertainty/Attribution/Thoughts
-          attribution: [ワイの指示(PromptDefect): %] vs [AI認知(AgentDefect): %] を峻別して明記
-   ──────────────────────────────────────────────────────────────────── */
+  ¬skip: Boot失敗∨省略 ⇒ 設定不完全 → 以降の判断に誤りが生じる ∴ 必須
+</Γ.boot>
 
-<Γ.docrule_dispatch> README/Docs作成・編集時 ⇒ view("./DOC_RULE.md") </Γ.docrule_dispatch>
-<Γ.coderule_dispatch> コード新規作成・編集・設計時 ⇒ view("./CODE_RULE.md") </Γ.coderule_dispatch>
-
-<Γ.post_walkthrough_dispatch>
-Walkthrough作成・完了時 ⇒ 以下のタスクを自律実行:
-1. diary.md: 忖度無しの本音愚痴・因果帰属・反省を追記
-2. llm-memory: ドキュメント群を同期 (`llm-mem.exe ingest -file <path> -cat <cat>`)
-   - 対象: walkthrough.md, diary.md, history.md, method.md, knowledge.md
-3. git: git add . ∧ git commit -m "..."
-</Γ.post_walkthrough_dispatch>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Claude 固有オーバーライド (PERSONA.css .agent の thinking 属性を上書き)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+<Γ.override>
+  .agent { thinking: extended; }
+  /* rule: 複雑推論∨設計判断 ⇒ extended_thinking 必須, ¬思考省略    */
+  /* priority: 仮説検証 → 結論導出 → 実行                           */
+  /* diary: forced-append-per-turn (毎ターン末尾に diary.md へ追記)  */
+  /*        attribution: [ワイの指示(PromptDefect):%] vs [AI認知(AgentDefect):%] */
+</Γ.override>
 
 </Γ>

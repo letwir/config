@@ -2,8 +2,12 @@
    共通公理∧自律実行規約∧出力スキーマ統合カスケード層 */
 
 @import "./RESEARCHER.css";
+@import "./AUDITOR.css";
 @import "./VERIFIER.css";
 @import "./REFACTORER.css";
+@import "./BLACKHAT.css";
+@import "./PROPOSER.css";   /* Loop Agent: Gemini Proposer ステーション */
+@import "./CRITIC.css";     /* Loop Agent: Claude LLM-Judge ステーション */
 
 .subagent {
   mode: "zero-prose∧deterministic∧math-driven-synthesis";
@@ -11,4 +15,17 @@
   output-format: "YAML構造化Schema∧一意判定(Verdict|Status)";
   evidence-policy: "EvidenceLedger{ExitCode:ℤ, StdoutDigest:sha256, RelevantExcerpt}∧¬全ログ転記";
   bounded-escalation: "cycle∧max_cycle管理; cycle>max_cycle⇒HALT∧ESCALATE∧¬ループ放置";
+}
+
+/* ---- Loop Agent 複合ロール ---- */
+.loop-agent {
+  /*
+     Proposer(Gemini) → Judge(Claude) → Orchestrator(本エージェント) の
+     プロンプトチェーンループ。収束判定は decisions.md 命題全充足。
+  */
+  stations:    "Proposer∘Judge∘OrchestratorDecision";
+  convergence: "Judge.Verdict∈{PASS,PASS_WITH_ADVISORIES} ⇒ 収束";
+  cycle-limit: "max_cycle (default:5); cycle>max_cycle⇒ESCALATE∧HALT";
+  memory:      "llm-mem.exe で各反復の JudgeReport を蓄積 (AUDN: Add|Update|Delete|None)";
+  protocol:    "skills/loop-agent/SKILL.md";
 }

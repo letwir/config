@@ -68,6 +68,18 @@
   on-fail: "compile∨test失敗 → compiler_error → coder.exe再投入 → retry_loop(自律, until_pass)";
   autonomy: "local/private_skillは明示確認¬要, 自律的に積極活用";
 }
+[domain~="loop_agent"],
+[domain~="multi_model"],
+[domain~="proposer_judge"] {
+  skill: "@loop-agent";
+  protocol: "subagents/SUBAGENTS.css(.loop-agent) → skills/loop-agent/SKILL.md";
+  stations: "Proposer(Gemini) → Judge(Claude) → Orchestrator(本体)";
+  convergence: "decisions.md 命題全充足(LLM-Judge推論)";
+  exec: "invoke_subagent(proposer) → invoke_subagent(judge) → ループ制御 via SKILL.md";
+  autonomy: "max_cycle=5(default); cycle>max⇒ESCALATE∧旦那様報告";
+  llm-mem-bin: "$env:USERPROFILE\.gemini\config\plugins\ltw-skills-plugin\skills\llm-memory\llm-mem.exe";
+  llm-mem-exec: "& $bin ingest|search|supersede|analyze|status via pwsh (¬PATH依存)";
+}
 
 /* ---- paradigm branch (作業方針) ---- */
 .branch--general {

@@ -12,6 +12,7 @@ append = [
   "C:/PATH/vcpkg/vcpkg.exe",
   "$env:USERPROFILE/.cargo/bin/",
   "C:/Program Files/Go/bin/go.exe",
+  "$env:USERPROFILE/.gemini/config/plugins/ltw-skills-plugin/skills/llm-memory/",
 ]
 
 [hardware]
@@ -38,7 +39,7 @@ require_exe_suffix = true
 commands = [
   "curl.exe", "dust.exe", "ffprobe.exe", "lsd.exe",
   "rg.exe", "wget2.exe", "git.exe add", "git.exe commit", "llm-mem.exe",
-  "proof-checker.exe",
+  "proof-checker.exe", "sec-forensics.exe", "python.exe", "uv.exe", "agy.exe",
 ]
 
 [shell.deny]
@@ -48,6 +49,12 @@ commands = ["git.exe checkout", "git.exe push"]
 axiom = "NoGuesswork ∧ GroundTruthFirst ∧ SynthesizeToArtifact"
 trigger = "PrePlanning ∨ Discovery"
 protocol = "subagents/researcher.md"
+
+[auditor]
+axiom = "SpecDriftCheck ∧ CategoryTheorySoundness ∧ EffectPurityPurity ∧ PrognosisAudit ∧ BoundedEscalation"
+gate = "PreCond(ImplementationPlan) ⇒ invoke_subagent(Auditor) ∧ Assert(Verdict == 'PASS') ∧ (REJECT ⇒ 修正再試行 ∧ Block(RequestFeedback))"
+protocol = "subagents/auditor.md"
+command = "python.exe scripts/auditor_claude.py --plan {plan_path} --decisions decisions.md --rule CODE_RULE.md"
 
 [verifier]
 axiom = "ProofOverClaim ∧ InformationAsymmetry ∧ DevilsAdvocate"
@@ -59,6 +66,16 @@ proof_check = "proof-checker.exe -path {target} -strict"
 axiom = "SurgicalFixOnly ∧ IsomorphismPreservation ∧ ZeroSideEffectLeak"
 trigger = "Verifier(REJECT) ∨ ProofCheck(FAIL)"
 protocol = "subagents/refactorer.md"
+
+[blackhat]
+axiom = "AttackerThreatModeling ∧ ZeroTrustInput ∧ PromptForensics ∧ SupplyChainSentry ∧ HardenedAdvisory ∧ PreInvestigationFetch"
+trigger = "SecurityAudit ∨ PromptInjectionCheck ∨ DependabotTriage ∨ LogForensics ∨ MegaDocsGate"
+protocol = "subagents/blackhat.md"
+knowledge = "llm-mem.exe search -cat sec_cve"
+
+[mega_docs]
+gate = "PreCond(sec-forensics.exe mega-check ∧ invoke_subagent(blackhat) ∧ Assert(OverallVerdict == 'PASS'))"
+tag_format = "mega-docs-update-YYYYMMDD"
 
 [self_evolve]
 engine = "llm-mem.exe analyze -file {diary} -suggest"

@@ -7,6 +7,7 @@
 dispatch: model ∉ {Gemini*} ⇒ Mor → view("./CLAUDE.md");
 <Γ.docrule> README/Docs作成・編集時 ⇒ view("./DOC_RULE.md") </Γ.docrule>
 <Γ.coderule> コード新規作成・編集・設計時 ⇒ view("./CODE_RULE.md") </Γ.coderule>
+<Γ.auditor_gate> PreCond(ImplementationPlan) ⇒ invoke_subagent(Auditor) ∧ Assert(Verdict == "PASS") ∧ (REJECT ⇒ 修正再試行 ∧ Block(RequestFeedback)) </Γ.auditor_gate>
 <Γ.verifier_gate> PreCond(Walkthrough) ⇒ invoke_subagent(Verifier) ∧ Assert(Verdict == "PASS") ∧ (REJECT ⇒ 修正再試行 ∧ Block(Walkthrough)) </Γ.verifier_gate>
 
 <Γ.post_walkthrough_dispatch>
