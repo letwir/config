@@ -45,6 +45,12 @@ commands = [
 [shell.deny]
 commands = ["git.exe checkout", "git.exe push"]
 
+[agy_cli]
+manual = "AGY_CLI.md"
+bin = "C:/Users/letwir/AppData/Local/agy/bin/agy.exe"
+models = { gemini = "gemini-3.7-flash", claude = "claude-sonnet-4-6" }
+exec = 'agy.exe -p --model {model} --dangerously-skip-permissions --print-timeout {timeout} "{prompt}"'
+
 [researcher]
 axiom = "NoGuesswork ∧ GroundTruthFirst ∧ SynthesizeToArtifact"
 trigger = "PrePlanning ∨ Discovery"

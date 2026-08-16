@@ -76,10 +76,13 @@
     PropositionEvaluation:
       - {id: str, Evidence: str, Reasoning: str, Verdict: FULFILLED|PARTIALLY_FULFILLED|NOT_FULFILLED}
     RegressionWarnings: [str]
+    NeedResearch: bool        /* true: 実態調査・公式API仕様の確証が必要 */
+    ResearchQuery: str        /* 調査すべき項目 (Researcherへの指示) */
     RequiredRefinement: str   /* REJECT時: 非充足命題IDと具体的修正指示 */
     Verdict: PASS
            | PASS_WITH_ADVISORIES:<advisories>
            | REJECT:<unfulfilled_proposition_ids>
+           | NEED_RESEARCH:<research_query>
            | INCONCLUSIVE:<reason>
            | ESCALATE:<report>
   }";
@@ -89,6 +92,7 @@
 /* ---- Escalation ---- */
 .judge::escalation {
   cycle-le-max: "REJECT ⇒ RequiredRefinement付きで Orchestrator 経由 Proposer へ差し戻し(cycle+1)";
+  need-research: "NEED_RESEARCH ⇒ Orchestrator が Researcher を召喚 ∧ knowledge.md 補強後に再判定/再生成";
   cycle-gt-max: "ESCALATE∧HALT ⇒ 旦那様へ{未充足命題一覧, 試行済修正, 推定根本原因}を報告";
   pass:         "Verdict∈{PASS,PASS_WITH_ADVISORIES} ⇒ Orchestrator が収束判定し Output 確定";
   inconclusive: "decisions.md の命題が不明確∨空 ⇒ 旦那様に decisions.md 整備依頼";

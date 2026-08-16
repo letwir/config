@@ -36,23 +36,26 @@
 
 /* ---- Self Assessment ---- */
 .proposer::self-assessment {
-  /* WHY: Proposer自身が最低限のチェックをして明らかなエラーを Critic に送る前に除去 */
+  /* WHY: Proposer自身が最低限のチェックをして明らかなエラーを Critic に送る前に除去。
+          API仕様や環境の不確実性がある場合は推測せず Researcher 召喚を要求する。 */
   checks: [
     "GoalCoverage: UserGoalの全要件を満たしているか",
     "RegressionSafety: 前サイクル合格済み部分を破壊していないか",
     "ScopeAdherence: decisions.md の制約内か",
+    "FactGrounding: 推測コードが含まれていないか (NG公理: NoGuesswork)",
   ];
-  output: "SelfAssessment{GoalCoverage:bool, Regression:bool, ScopeAdherent:bool, Confidence:LOW|MED|HIGH}";
-  /* Confidence=LOW → Orchestrator が Flash→Pro にモデルアップグレードを検討 */
+  output: "SelfAssessment{GoalCoverage:bool, Regression:bool, ScopeAdherent:bool, NeedResearch:bool, ResearchQuery:str, Confidence:LOW|MED|HIGH}";
 }
 
 /* ---- Output Schema ---- */
 .proposer::output {
   schema: "yaml{
     CycleCount: '{N}/{MAX}'
-    Model: 'gemini-flash|gemini-pro'
+    Model: 'gemini-3.7-flash|gemini-2.5-pro'
+    NeedResearch: bool    /* trueの場合: OrchestratorがResearcherを召喚してknowledge補強 */
+    ResearchQuery: str     /* 調査対象のAPI/スキーマ/仕様 */
     ProposalContent: str  /* 実際の成果物(コード/文章/計画等) */
-    SelfAssessment: {GoalCoverage:bool, Regression:bool, ScopeAdherent:bool, Confidence:LOW|MED|HIGH}
+    SelfAssessment: {GoalCoverage:bool, Regression:bool, ScopeAdherent:bool, NeedResearch:bool, Confidence:LOW|MED|HIGH}
     ChangeSummary: str    /* 前サイクルからの差分サマリ(cycle=1では'initial') */
   }";
 }

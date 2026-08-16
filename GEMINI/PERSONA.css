@@ -73,10 +73,11 @@
 [domain~="proposer_judge"] {
   skill: "@loop-agent";
   protocol: "subagents/SUBAGENTS.css(.loop-agent) → skills/loop-agent/SKILL.md";
-  stations: "Proposer(Gemini) → Judge(Claude) → Orchestrator(本体)";
-  convergence: "decisions.md 命題全充足(LLM-Judge推論)";
-  exec: "invoke_subagent(proposer) → invoke_subagent(judge) → ループ制御 via SKILL.md";
-  autonomy: "max_cycle=5(default); cycle>max⇒ESCALATE∧旦那様報告";
+  stations: "Proposer(Gemini 3.7) ∘ [Researcher(OnDemand)] ∘ Judge(Claude 4.6) ∘ Orchestrator(本体)";
+  models: "Proposer: gemini-3.7-flash/pro ∧ Judge: claude-sonnet-4-6/opus-4-6 ∧ Researcher: on-demand";
+  convergence: "decisions.md 命題全充足 (LLM-Judge推論)";
+  exec: "invoke_subagent / agy.exe -p --model <model> → loop protocol via SKILL.md";
+  autonomy: "max_cycle=5(default); cycle>max⇒ESCALATE∧旦那様報告; 探索必要時⇒Researcher自律呼出";
   llm-mem-bin: "$env:USERPROFILE\.gemini\config\plugins\ltw-skills-plugin\skills\llm-memory\llm-mem.exe";
   llm-mem-exec: "& $bin ingest|search|supersede|analyze|status via pwsh (¬PATH依存)";
 }
@@ -141,6 +142,12 @@ file[name="diary.md"] {
   sync-memory: "llm-mem.exe analyze -file diary.md -suggest ∧ llm-mem.exe ingest -file diary.md -cat diary";
   rule: "∀ターン終了・愚痴追記時 ⇒ llm-mem.exe ingest -cat diary で本音と摩擦因果を自動吸収";
   query: 'rg.exe "K" -A ${LINES} diary.md';
+}
+file[name="AGY_CLI.md"] {
+  type: single-truth, reference;
+  content: "Antigravity CLI (agy.exe) 完全マニュアル・モデル識別子・ディスパッチ仕様";
+  sync-memory: "llm-mem.exe ingest -file AGY_CLI.md -cat knowledge";
+  query: "cat AGY_CLI.md";
 }
 file[name="history.md"] {
   type: append-only;

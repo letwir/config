@@ -20,12 +20,16 @@
 /* ---- Loop Agent 複合ロール ---- */
 .loop-agent {
   /*
-     Proposer(Gemini) → Judge(Claude) → Orchestrator(本エージェント) の
-     プロンプトチェーンループ。収束判定は decisions.md 命題全充足。
+     Proposer(Gemini 3.7) ⇄ Judge(Claude 4.6) ⇄ Orchestrator(本体) のプロンプトチェーン。
+     途中で探索・API調査・未確証データが発生した場合は、いつでも Researcher をオンデマンド召喚。
+     Antigravity 2.0 / agy.exe CLI のマルチモデルディスパッチ対応。
   */
-  stations:    "Proposer∘Judge∘OrchestratorDecision";
-  convergence: "Judge.Verdict∈{PASS,PASS_WITH_ADVISORIES} ⇒ 収束";
+  stations:    "Proposer(Gemini) ∘ [Researcher(OnDemand)] ∘ Judge(Claude) ∘ Orchestrator";
+  proposer:    "Gemini 3.7 Flash / Pro (via invoke_subagent or agy.exe -p --model gemini-3.7-flash)";
+  judge:       "Claude Sonnet 4.6 / Opus 4.6 (via agy.exe -p --model claude-sonnet-4-6)";
+  researcher:  "On-Demand Discovery (invoke_subagent(researcher) / subagents/researcher.md)";
+  convergence: "Judge.Verdict∈{PASS,PASS_WITH_ADVISORIES} ⇒ decisions.md 命題全充足";
   cycle-limit: "max_cycle (default:5); cycle>max_cycle⇒ESCALATE∧HALT";
-  memory:      "llm-mem.exe で各反復の JudgeReport を蓄積 (AUDN: Add|Update|Delete|None)";
+  memory:      "llm-mem.exe で各反復の JudgeReport / Finding を蓄積 (AUDN: Add|Update|Delete|None)";
   protocol:    "skills/loop-agent/SKILL.md";
 }
