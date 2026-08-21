@@ -1,0 +1,9 @@
+@lrf=1|aud=GPT-5.6|scope=state
+R|state.guard|*|MUST|RO_LOCAL|use state files only when already present or user requests creation
+R|state.decisions|file:decisions.md|MUST|RO_LOCAL|accepted goals scope decisions; source of truth
+R|state.method|file:method.md|MUST|RO_LOCAL|stable design and development principles
+R|state.knowledge|file:knowledge.md|MUST|LW_SCOPE|verified non-obvious facts only; include source scope verified-date and supersedes
+R|state.issues|file:issues.md|MUST|LW_SCOPE|queue states [ ]TODO [-]WIP [~]implemented [*]tested [x]done
+R|state.memo|file:memo.md|MUST|LW_SCOPE|scratch only; never auto-promote to durable memory
+R|state.history|file:history.md|MUST|LW_SCOPE|append concise completed work only when project practice or task requests
+R|state.diary|file:diary.md|MUST|LW_SCOPE|write only when already used or user requests

@@ -1,0 +1,11 @@
+@lrf=1|aud=GPT-5.6|scope=documentation
+R|doc.ia|*|MUST|LW_SCOPE|preserve project information architecture unless redesign requested
+R|doc.entry|*|MUST|LW_SCOPE|brief intro; prerequisites setup common usage easy to locate
+R|doc.detail|*|MUST|LW_SCOPE|put real long architecture/data/state material in focused docs and link it
+R|doc.placeholder|*|MUST_NOT|LW_SCOPE|create placeholder diagrams ER/state files or fixed sections for a global template
+R|doc.precision|*|MUST|LW_SCOPE|state assumptions environments and commands precisely; prefer checkable examples
+R|doc.secret|*|MUST_NOT|CRED|track live credentials or expose secrets in examples reports terminal excerpts screenshots
+R|doc.secret-found|event:secret-found|MUST|RO_LOCAL|STOP and report; history rewrite or tracked-file removal needs explicit approval
+R|doc.effects|*|MUST_NOT|LW_SCOPE|infer commit tag release deploy DB/memory write external message or security scan authority from docs work
+R|doc.verify|*|MUST|LW_SCOPE|run narrow matching format link snippet schema or render check
+R|doc.done|*|MUST|RO_LOCAL|confirm local links and filenames inspect exact diff and mark claims needing source verification

@@ -1,0 +1,19 @@
+@lrf=1|aud=GPT-5.6|scope=engineering
+R|design.effects|*|MUST|LW_SCOPE|separate pure domain transforms from filesystem process network DB clock randomness and UI
+R|design.flow|*|MUST|LW_SCOPE|prefer composition and explicit data flow over inheritance ambient state or hidden mutation
+R|design.guards|*|MAY|LW_SCOPE|use guard clauses and early returns when failure paths become clearer
+R|design.contract|*|MUST|LW_SCOPE|preserve public behavior and interfaces unless task changes them
+R|error|*|MUST_NOT|LW_SCOPE|silently swallow failures or use empty catches; propagate with operation and target context
+R|resource|*|MUST|LW_SCOPE|pair every acquisition with deterministic cleanup via platform convention
+R|async|*|MUST|LW_SCOPE|give async/concurrent work cancellation or timeout; prevent task thread handle connection subprocess leaks
+R|ownership|*|MUST|LW_SCOPE|define mutable/shared ownership plus retry and partial-failure behavior
+R|naming|*|MUST|LW_SCOPE|follow repository language naming and result conventions
+R|comments|*|MUST|LW_SCOPE|comment why invariants regulations or non-obvious constants; do not restate code
+R|dependency|*|MUST|PROD_DEP|add production dependency only when requested behavior justifies and current task authorizes
+R|surgical|*|MUST_NOT|LW_SCOPE|unrelated formatting cleanup generated churn or opportunistic refactor
+R|test.trivial|change:trivial|MUST|LW_SCOPE|focused syntax/static check plus exact diff inspection
+R|test.behavior|change:behavior|MUST|LW_SCOPE|focused unit/integration test for changed path and regression boundary
+R|test.highrisk|change:highrisk|MUST|LW_SCOPE|API persistence concurrency security resource-lifecycle needs boundary/failure tests and verifier
+R|test.native|*|MUST|LW_SCOPE|run project-native checks when available; proof-checker only if project requires and supports it
+R|test.effects|*|MUST|LW_SCOPE|confine generated build cache fixture temp artifacts to known paths and compare against starting state
+R|evidence|*|MUST|RO_LOCAL|report changed files commands exit codes results and unverified risk
