@@ -9,3 +9,4 @@ R|doc.secret-found|event:secret-found|MUST|RO_LOCAL|STOP and report; history rew
 R|doc.effects|*|MUST_NOT|LW_SCOPE|infer commit tag release deploy DB/memory write external message or security scan authority from docs work
 R|doc.verify|*|MUST|LW_SCOPE|run narrow matching format link snippet schema or render check
 R|doc.done|*|MUST|RO_LOCAL|confirm local links and filenames inspect exact diff and mark claims needing source verification
+

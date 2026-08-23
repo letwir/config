@@ -17,3 +17,4 @@ R|test.highrisk|change:highrisk|MUST|LW_SCOPE|API persistence concurrency securi
 R|test.native|*|MUST|LW_SCOPE|run project-native checks when available; proof-checker only if project requires and supports it
 R|test.effects|*|MUST|LW_SCOPE|confine generated build cache fixture temp artifacts to known paths and compare against starting state
 R|evidence|*|MUST|RO_LOCAL|report changed files commands exit codes results and unverified risk
+
