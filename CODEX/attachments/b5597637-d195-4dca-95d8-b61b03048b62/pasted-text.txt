@@ -1,0 +1,152 @@
+root@[local]:5432# SELECT
+    id,
+    category,
+    title,
+    version,
+    status,
+    valid_from,
+    valid_to,
+    tx_created_at,
+    tx_invalidated_at,
+    updated_at,
+    left(content_l0, 300) AS content_preview
+FROM memories
+WHERE status = 'ACTIVE'
+  AND valid_to IS NULL
+  AND (
+      category,
+      lower(regexp_replace(btrim(title), '\s+', ' ', 'g'))
+  ) IN (
+      SELECT
+          category,
+          lower(regexp_replace(btrim(title), '\s+', ' ', 'g'))
+      FROM memories
+      WHERE status = 'ACTIVE'
+        AND valid_to IS NULL
+      GROUP BY category, lower(regexp_replace(btrim(title), '\s+', ' ', 'g'))
+      HAVING count(*) > 1
+  )
+ORDER BY category, lower(regexp_replace(btrim(title), '\s+', ' ', 'g')), updated_at DESC;
+-[ RECORD 1 ]-----+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+id                | 2d0876f0-077e-43b7-aa6b-340ee203ad7e
+category          | knowledge
+title             | Knowledge Base
+version           | 4
+status            | ACTIVE
+valid_from        | 2026-08-29 12:53:15.968873+09
+valid_to          | ∅
+tx_created_at     | 2026-08-29 12:53:15.968873+09
+tx_invalidated_at | ∅
+updated_at        | 2026-08-29 12:53:15.968873+09
+content_preview   | # Knowledge Base                                                                                                                                                                                                               +
+                  |                                                                                                                                                                                                                                +
+                  | ## Context                                                                                                                                                                                                                     +
+                  |                                                                                                                                                                                                                                +
+                  | - task_id: `2026-08-29-flac-analyzer-task-record-contract`                                                                                                                                                                     +
+                  | - timestamp: `2026-08-29` (Asia/Tokyo)                                                                                                                                                                                         +
+                  | - target environment: `A:\Users\letwir\repo\flac_analyzer` の添付Markdown資料、および `A:\Users\letwir\repo\llm-memory` のSKILL/CLI実装。                                                                                      +
+                  | - source scope: `changeLOG_Implementation Plan.
+-[ RECORD 2 ]-----+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+id                | 66dcace6-510c-47e3-ac25-62ec5c6b8dc7
+category          | knowledge
+title             | Knowledge Base
+version           | 3
+status            | ACTIVE
+valid_from        | 2026-08-28 00:18:57.834752+09
+valid_to          | ∅
+tx_created_at     | 2026-08-28 00:18:57.834752+09
+tx_invalidated_at | ∅
+updated_at        | 2026-08-28 00:18:57.834752+09
+content_preview   | # Knowledge Base                                                                                                                                                                                                               +
+                  |                                                                                                                                                                                                                                +
+                  | Context                                                                                                                                                                                                                        +
+                  |                                                                                                                                                                                                                                +
+                  | FreshRSSをProxmox CT155で復旧し、SQLiteに残っていたユーザー`letwir`のフィードデータをTailnet上のPostgreSQLへ移行した。                                                                                                         +
+                  |                                                                                                                                                                                                                                +
+                  | Findings                                                                                                                                                                                                                       +
+                  |                                                                                                                                                                                                                                +
+                  | - FreshRSSの接続設定はTailnet上のPostgreSQLに向けられ、対象データは共通`_*`ではなくユーザー別`letwir_*`テーブルに格納される。                                                                                                  +
+                  | - SQLite入力はcategory 17、feed 198、entry 13,734、tag 4、entrytag 0、entrytmp 0だった。                                                                                                                                       +
+                  | - 移行後も同じ件数で、孤児f
+-[ RECORD 3 ]-----+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+id                | 1d3fe8b8-629d-42e0-b113-4568d5edf9d2
+category          | rule
+title             | 作業メモ: AGENTS.md と prompt-ref の運用
+version           | 1
+status            | ACTIVE
+valid_from        | 2026-08-23 00:25:08.624835+09
+valid_to          | ∅
+tx_created_at     | 2026-08-23 00:25:08.624835+09
+tx_invalidated_at | ∅
+updated_at        | 2026-08-23 00:25:08.624835+09
+content_preview   | # 作業メモ: AGENTS.md と prompt-ref の運用                                                                                                                                                                                     +
+                  |                                                                                                                                                                                                                                +
+                  | ## 目的                                                                                                                                                                                                                        +
+                  |                                                                                                                                                                                                                                +
+                  | `AGENTS.md` が現在の Codex 作業に反映されているかを確認し、必要な補助ルールを追加する。                                                                                                                                        +
+                  |                                                                                                                                                                                                                                +
+                  | ## 確認済み事項                                                                                                                                                                                                                +
+                  |                                                                                                                                                                                                                                +
+                  | - 対象の `AGENTS.md` は `C:\Users\letwir\.codex\AGENTS.md`。                                                                                                                                                                   +
+                  | - 現在の内容は CSS カスタムプロパティ形式で、言語、呼称、人格、コーディング委任、`prompt-ref` の必要時読み込みを定義している。                                                                                                 +
+                  | - 会話上、日本語応答と「旦那様」という呼称が反映されており、`AGENTS.md` の設定が機能している証拠となる。                                                                                                                       +
+                  | -
+-[ RECORD 4 ]-----+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+id                | a5aa65eb-4ff6-46c3-908d-32750b11ad53
+category          | rule
+title             | 作業メモ: AGENTS.md と prompt-ref の運用
+version           | 1
+status            | ACTIVE
+valid_from        | 2026-08-23 00:24:35.37225+09
+valid_to          | ∅
+tx_created_at     | 2026-08-23 00:24:35.37225+09
+tx_invalidated_at | ∅
+updated_at        | 2026-08-23 00:24:35.37225+09
+content_preview   | # 作業メモ: AGENTS.md と prompt-ref の運用                                                                                                                                                                                     +
+                  |                                                                                                                                                                                                                                +
+                  | ## 目的                                                                                                                                                                                                                        +
+                  |                                                                                                                                                                                                                                +
+                  | `AGENTS.md` が現在の Codex 作業に反映されているかを確認し、必要な補助ルールを追加する。                                                                                                                                        +
+                  |                                                                                                                                                                                                                                +
+                  | ## 確認済み事項                                                                                                                                                                                                                +
+                  |                                                                                                                                                                                                                                +
+                  | - 対象の `AGENTS.md` は `C:\Users\letwir\.codex\AGENTS.md`。                                                                                                                                                                   +
+                  | - 現在の内容は CSS カスタムプロパティ形式で、言語、呼称、人格、コーディング委任、`prompt-ref` の必要時読み込みを定義している。                                                                                                 +
+                  | - 会話上、日本語応答と「旦那様」という呼称が反映されており、`AGENTS.md` の設定が機能している証拠となる。                                                                                                                       +
+                  | -
+-[ RECORD 5 ]-----+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+id                | 9087af1a-8538-400d-8461-90321cdf54a7
+category          | walkthrough
+title             | C:\Users\letwir\.gemini\changeLOG_Walkthrough.md
+version           | 1
+status            | ACTIVE
+valid_from        | 2026-08-14 19:07:49.702008+09
+valid_to          | ∅
+tx_created_at     | 2026-08-14 19:07:49.702008+09
+tx_invalidated_at | ∅
+updated_at        | 2026-08-14 19:07:49.702008+09
+content_preview   | # Walkthrough - PostgreSQL Bi-Temporal Agent Memory 基盤構築と Walkthrough 同期自動化                                                                                                                                          +
+                  |                                                                                                                                                                                                                                +
+                  | ## 概要                                                                                                                                                                                                                        +
+                  | Debian サーバー上の PostgreSQL 18（`db.tigris-tailor.ts.net:5432 / llm_memory`）をバックエンドとする、マルチクライアント（Windows 4台 / Debian）対応の二重時間軸（Bi-Temporal）＆多段縮約（L0〜L3）記憶基盤を構築いたしました。+
+                  |                                                                                                                                                                                                                                +
+                  | さらに、Go製 CLI ツール `llm-mem.exe` を開発して `@llm-memory` スキルとし
+-[ RECORD 6 ]-----+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+id                | aac5ff6f-4d44-4d66-9c96-dfd43e203ba5
+category          | walkthrough
+title             | C:\Users\letwir\.gemini\changeLOG_Walkthrough.md
+version           | 1
+status            | ACTIVE
+valid_from        | 2026-08-14 19:07:29.208312+09
+valid_to          | ∅
+tx_created_at     | 2026-08-14 19:07:29.208312+09
+tx_invalidated_at | ∅
+updated_at        | 2026-08-14 19:07:29.208312+09
+content_preview   | # Walkthrough - PostgreSQL Bi-Temporal Agent Memory 基盤構築と Walkthrough 同期自動化                                                                                                                                          +
+                  |                                                                                                                                                                                                                                +
+                  | ## 概要                                                                                                                                                                                                                        +
+                  | Debian サーバー上の PostgreSQL 18（`db.tigris-tailor.ts.net:5432 / llm_memory`）をバックエンドとする、マルチクライアント（Windows 4台 / Debian）対応の二重時間軸（Bi-Temporal）＆多段縮約（L0〜L3）記憶基盤を構築いたしました。+
+                  |                                                                                                                                                                                                                                +
+                  | さらに、Go製 CLI ツール `llm-mem.exe` を開発して `@llm-memory` スキルとし
+
+時間: 203.149 ミリ秒

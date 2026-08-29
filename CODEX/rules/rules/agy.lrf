@@ -1,0 +1,13 @@
+@lrf=1|aud=GPT-5.6|scope=agy
+R|agy.intent|tag:agy|MUST|RO_LOCAL|use=bounded coding delegation only; preserve user scope; main agent owns final review and verification
+R|agy.discover|tag:agy|MUST|RO_LOCAL|before model selection run agy.exe models; use only currently returned model identifiers; never invent or rely on stale model names; if unavailable report uncertainty and ask when choice matters
+R|agy.coding-tip-2026-08-23|tag:agy|MUST|RO_LOCAL|user tip as of 2026-08-23: for coding Gemini 3.1 Pro is preferred for difficult or code-intensive work; Gemini 3.7 Flash may lose on coding and is preferred for easy, short, low-risk, or speed-priority tasks; verify exact current identifiers with agy.exe models before use
+R|agy.selection|tag:agy|MUST|RO_LOCAL|prefer model by task fit: plan for design or uncertainty; implementation for bounded edits; verification for tests and diff review; minimize model and token cost consistent with correctness
+R|agy.mode|tag:agy|MUST|RO_LOCAL|planning uses --mode plan; implementation uses --mode accept-edits only for requested workspace scope; inspection uses read-only prompts and no edit mode
+R|agy.sandbox|tag:agy|MUST|RO_LOCAL|use --sandbox when compatible with the task; add only the exact workspace directory needed with --add-dir; do not use dangerously-skip-permissions
+R|agy.auth|tag:agy|MUST|CRED|if authentication is required, use unsandboxed agy.exe only with explicit current-task user approval; pause for the user to complete browser sign-in or grant access; agent never receives, displays, or transmits credentials
+R|agy.prompt|tag:agy|MUST|LW_SCOPE|include exact target files, acceptance checks, constraints, and request no unrelated changes; keep delegation bounded and reversible
+R|agy.credentials|tag:agy|MUST_NOT|CRED|do not print, paste, request, or transmit credentials, tokens, secrets, or private environment values
+R|agy.external|tag:agy|MUST_NOT|EXT_WRITE|do not send messages, publish results, deploy, or modify third-party systems
+R|agy.vcs|tag:agy|MUST_NOT|VCS_WRITE|do not stage, commit, push, rewrite history, or alter branches
+R|agy.done|tag:agy|MUST|LW_SCOPE|main agent inspects real diff, runs proportionate deterministic checks, reports changed files, checks, and residual risk

@@ -1,0 +1,159 @@
+root@docker:/mnt/NAS/D/database/victoriametrics# docker stack deploy Database -c docker-compose.yaml
+Ignoring unsupported options: restart
+
+Ignoring deprecated options:
+
+container_name: Setting the container name is not supported.
+
+Since --detach=false was not specified, tasks will be created in the background.
+In a future release, --detach=false will become the default.
+Updating service Database_alertmanager (id: 2783i9us99a12i56km3qm2nh2)
+Updating service Database_loki (id: tabgetmy2dqbox9hh70w197ks)
+Updating service Database_remo-exporter (id: kl8w9vpz6sswnlo9lb5jf0gsv)
+Updating service Database_docker-exporter-cadvisor (id: 6lka4fl8uw1tvqoacs2kamblg)
+Updating service Database_victoriametrics (id: xtmkl2x8ux5g0ywia3fujfnow)
+Updating service Database_vmagent (id: qamlkmh73yvjq7jdjvluw6vcz)
+Updating service Database_vmalert (id: 62rxbabm7616qigki4ylggl7l)
+root@docker:/mnt/NAS/D/database/victoriametrics# nano /mnt/D/database/victoriametrics/docker-compose.yaml
+root@docker:/mnt/NAS/D/database/victoriametrics# cat /mnt/D/database/victoriametrics/docker-compose.yaml
+# 192.168.175.140のdocker-compose.yml
+version: '3.8'
+services:
+  # VictoriaMetrics instance, a single process responsible for
+  # storing metrics and serve read requests.
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:latest
+    container_name: victoriametrics
+    ports:
+      - 8428:8428
+      - 8089:8089
+      - 8089:8089/udp
+      - 2003:2003
+      - 2003:2003/udp
+      - 4242:4242
+    volumes:
+#      - /var/lib/victoriametrics:/victoria-metrics-data
+      - /mnt/NAS/D/database/victoriametrics/data/victoriametrics:/victoria-metrics-data
+    command:
+      - "--graphiteListenAddr=:2003"
+      - "--opentsdbListenAddr=:4242"
+      - "--httpListenAddr=:8428"
+      - "--influxListenAddr=:8089"
+      - "--vmalert.proxyURL=http://docker.tigris-tailor.ts.net:8880"
+      - "--storageDataPath=/victoria-metrics-data"
+#      - "--datasource.url=http://docker.tigris-tailor.ts.net:8428/"
+      - "--retentionPeriod=365d"
+      - "--loggerLevel=INFO"
+    restart: unless-stopped
+  # Collector Prometheus
+  vmagent:
+    image: victoriametrics/vmagent:latest
+    container_name: vmagent
+    ports:
+      - "8429:8429"  # vmagentのメトリクス用
+    depends_on:
+      - "victoriametrics"
+    volumes:
+      - /mnt/NAS/D/database/victoriametrics/vmagent.yml:/etc/vmagent/vmagent.yml
+#      - /mnt/NAS/D/database/victoriametrics/data/vmagent:/vmagentdata
+    command:
+      - "-promscrape.config=/etc/vmagent/vmagent.yml"
+      - "-remoteWrite.url=http://docker.tigris-tailor.ts.net:8428/api/v1/write"
+#      - "-httpListenAddr=:8429"
+#      - "-promscrape.suppressScrapeErrors=true"
+#      - "-loggerLevel=INFO"
+    restart: unless-stopped
+#    logging:
+#      driver: loki
+#      options:
+#        loki-url: "http://docker.tigris-tailor.ts.net:3100/loki/api/v1/push"
+#        loki-batch-size: "400"  # Log collector
+  # vmalert executes alerting and recording rules
+  vmalert:
+    image: victoriametrics/vmalert:latest
+    depends_on:
+      - "victoriametrics"
+      - "alertmanager"
+    ports:
+      - 8880:8880
+    volumes:
+      - /mnt/NAS/D/database/victoriametrics/rules/alerts-single-node.yml:/etc/alerts/alerts-single-node.yml
+      - /mnt/NAS/D/database/victoriametrics/rules/alerts-health.yml:/etc/alerts/alerts-health.yml
+      - /mnt/NAS/D/database/victoriametrics/rules/alerts-vmagent.yml:/etc/alerts/alerts-vmagent.yml
+      - /mnt/NAS/D/database/victoriametrics/rules/alerts-vmalert.yml:/etc/alerts/alerts-vmalert.yml
+    command:
+      - "--datasource.url=http://docker.tigris-tailor.ts.net:8428/"
+      - "--remoteRead.url=http://docker.tigris-tailor.ts.net:8428/"
+      - "--remoteWrite.url=http://docker.tigris-tailor.ts.net:8429/"
+      - "--notifier.url=http://docker.tigris-tailor.ts.net:9093/"
+      - "--rule=/etc/alerts/*.yml"
+      # display source of alerts in grafana
+      - "--external.url=http://docker.tigris-tailor.ts.net:3000" #grafana outside container
+      - '--external.alert.source=explore?orgId=1&left={"datasource":"VictoriaMetrics","queries":[{"expr":{{.Expr|jsonEscape|queryEscape}},"refId":"A"}],"range":{"from":"{{ .ActiveAt.UnixMilli }}","to":"now"}}'
+    restart: always
+  # alertmanager receives alerting notifications from vmalert
+  # and distributes them according to --config.file.
+  alertmanager:
+    image: prom/alertmanager:latest
+    volumes:
+      - /mnt/NAS/D/database/victoriametrics/alertmanager.yml:/config/alertmanager.yml
+    command:
+      - "--config.file=/config/alertmanager.yml"
+    ports:
+      - 9093:9093
+    restart: always
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+      - "4000:12345"
+    command:
+      - "--config.file=/mnt/config/loki-config.yaml"
+    volumes:
+      - /mnt/D/database/victoriametrics/loki-config.yaml:/mnt/config/loki-config.yaml
+    environment:
+      - USER_ID=1000
+      - GROUP_ID=1000
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://docker.tigris-tailor.ts.net:3100/loki/api/v1/push"
+        loki-batch-size: "400"
+  #  Metrics collector.
+  #  It scrapes targets defined in --promscrape.config
+  #  And forward them to --remoteWrite.url
+# Exporter1
+  # NatureRemo metrics collector
+  remo-exporter:
+    container_name: remo-exporter
+    image: docker.io/kenfdev/remo-exporter:branch-86627f1070d33e64107dd4354880f0097ad1af40
+    ports:
+      - "3200:9352"
+    environment:
+      OAUTH_TOKEN_FILE: '/run/secrets/api-keys'
+    volumes:
+       - "./.env_remo-api:/run/secrets/api-keys"
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://docker.tigris-tailor.ts.net:3100/loki/api/v1/push"
+        loki-batch-size: "400"
+# Exporter2
+  # Container metrics collector
+  docker-exporter-cadvisor:
+    container_name: cadvisor
+    image: gcr.io/cadvisor/cadvisor:latest-ghcr
+    ports:
+      - '9104:8080'
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    restart: unless-stopped
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://docker.tigris-tailor.ts.net:3100/loki/api/v1/push"
+        loki-batch-size: "400"

@@ -1,0 +1,7 @@
+@lrf=1|aud=GPT-5.6|scope=skill
+R|discover|task:skill-match|MUST|RO_LOCAL|root=$env:USERPROFILE\.codex\skills; tree=lsd.exe; size=dust.exe; text=rg.exe; inspect available paths before selection
+R|stage0|task:skill-match|MUST|RO_LOCAL|read only SKILL.md description and headings; candidate=task/domain/intent match; unrelated=omit
+R|stage1|task:skill-match|MUST|RO_LOCAL|extract task-keyword sections with rg.exe -n -C; include referenced local files only when selected section requires them
+R|stage2|task:skill-match|MUST|RO_LOCAL|read full SKILL.md only when high-risk/contract-unclear/skill-demands/full workflow needed; safety/effect/credential rules never omit
+R|route|task:skill-match|MUST|RO_LOCAL|stage0→stage1→stage2; stop at sufficient evidence; one selected skill only unless task has independent domains
+R|map|task:skill-match|MUST|RO_LOCAL|hudousan-api=不動産地価防災; kokkou-api=国交地理公共; kavita-fetch-search=EPUB蔵書; foobar-sql-exporter=foobar音楽; proof-checker=ASTCI健全性; llm-memory=memory永続化; llama2coder=local-codegen/quota; loop-agent=proposer-judge; sec-forensics=security-forensics

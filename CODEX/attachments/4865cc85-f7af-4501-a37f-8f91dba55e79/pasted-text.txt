@@ -1,0 +1,352 @@
+root@docker:/mnt/NAS/D/database/victoriametrics# test -f /mnt/NAS/D/database/victoriametrics/vmagent.yml
+root@docker:/mnt/NAS/D/database/victoriametrics# docker service ps Database_vmagent --no-trunc
+docker service logs --tail 100 Database_vmagent
+ID                          NAME                     IMAGE                                                                                                    NODE      DESIRED STATE   CURRENT STATE           ERROR                         PORTS
+h8ubhqrajthck91bhdfh4sc0x   Database_vmagent.1       victoriametrics/vmagent:latest@sha256:3eff5874d59292714878dcb6aee14f048bf19b7312b727860ba5e7d29e2e0c07   docker    Ready           Ready 2 seconds ago
+o65dap9v5ruc8uloq91t4bbap    \_ Database_vmagent.1   victoriametrics/vmagent:latest@sha256:3eff5874d59292714878dcb6aee14f048bf19b7312b727860ba5e7d29e2e0c07   docker    Shutdown        Failed 2 seconds ago    "task: non-zero exit (255)"
+w7h8svcxpry6nxy7o6zc7015p    \_ Database_vmagent.1   victoriametrics/vmagent:latest@sha256:3eff5874d59292714878dcb6aee14f048bf19b7312b727860ba5e7d29e2e0c07   docker    Shutdown        Failed 8 seconds ago    "task: non-zero exit (255)"
+m0ydatltoixeh2o1lne1zog4m    \_ Database_vmagent.1   victoriametrics/vmagent:latest@sha256:3eff5874d59292714878dcb6aee14f048bf19b7312b727860ba5e7d29e2e0c07   docker    Shutdown        Failed 14 seconds ago   "task: non-zero exit (255)"
+jjhcg0bqoik34sz0wly8gxst8    \_ Database_vmagent.1   victoriametrics/vmagent:latest@sha256:3eff5874d59292714878dcb6aee14f048bf19b7312b727860ba5e7d29e2e0c07   docker    Shutdown        Failed 20 seconds ago   "task: non-zero exit (255)"
+Database_vmagent.1.m0ydatltoixe@docker    | 2026-08-23T09:16:51.617Z    info    VictoriaMetrics/lib/logger/flag.go:12  build version: vmagent-20260814-123741-tags-v1.150.0-0-g413f95d65f
+Database_vmagent.1.w7h8svcxpry6@docker    | 2026-08-23T09:16:57.695Z    info    VictoriaMetrics/lib/logger/flag.go:12  build version: vmagent-20260814-123741-tags-v1.150.0-0-g413f95d65f
+Database_vmagent.1.jjhcg0bqoik3@docker    | 2026-08-23T09:16:45.550Z    info    VictoriaMetrics/lib/logger/flag.go:12  build version: vmagent-20260814-123741-tags-v1.150.0-0-g413f95d65f
+Database_vmagent.1.o65dap9v5ruc@docker    | 2026-08-23T09:17:03.747Z    info    VictoriaMetrics/lib/logger/flag.go:12  build version: vmagent-20260814-123741-tags-v1.150.0-0-g413f95d65f
+Database_vmagent.1.m0ydatltoixe@docker    | 2026-08-23T09:16:51.617Z    info    VictoriaMetrics/lib/logger/flag.go:13  command-line flags
+Database_vmagent.1.m0ydatltoixe@docker    | 2026-08-23T09:16:51.617Z    info    VictoriaMetrics/lib/logger/flag.go:20    -promscrape.config="/etc/vmagent/vmagent.yml"
+Database_vmagent.1.o65dap9v5ruc@docker    | 2026-08-23T09:17:03.747Z    info    VictoriaMetrics/lib/logger/flag.go:13  command-line flags
+Database_vmagent.1.o65dap9v5ruc@docker    | 2026-08-23T09:17:03.747Z    info    VictoriaMetrics/lib/logger/flag.go:20    -promscrape.config="/etc/vmagent/vmagent.yml"
+Database_vmagent.1.o65dap9v5ruc@docker    | 2026-08-23T09:17:03.747Z    info    VictoriaMetrics/lib/logger/flag.go:20    -remoteWrite.url="secret"
+Database_vmagent.1.o65dap9v5ruc@docker    | 2026-08-23T09:17:03.747Z    info    VictoriaMetrics/app/vmagent/main.go:149starting vmagent at "[:8429]"...
+Database_vmagent.1.jjhcg0bqoik3@docker    | 2026-08-23T09:16:45.550Z    info    VictoriaMetrics/lib/logger/flag.go:13  command-line flags
+Database_vmagent.1.jjhcg0bqoik3@docker    | 2026-08-23T09:16:45.550Z    info    VictoriaMetrics/lib/logger/flag.go:20    -promscrape.config="/etc/vmagent/vmagent.yml"
+Database_vmagent.1.jjhcg0bqoik3@docker    | 2026-08-23T09:16:45.550Z    info    VictoriaMetrics/lib/logger/flag.go:20    -remoteWrite.url="secret"
+Database_vmagent.1.jjhcg0bqoik3@docker    | 2026-08-23T09:16:45.550Z    info    VictoriaMetrics/app/vmagent/main.go:149starting vmagent at "[:8429]"...
+Database_vmagent.1.o65dap9v5ruc@docker    | 2026-08-23T09:17:03.747Z    info    VictoriaMetrics/lib/memory/memory.go:45limiting caches to 4998640435 bytes, leaving 3332426957 bytes to the OS according to -memory.allowedPercent=60, system memory limit 8331067392 bytes
+Database_vmagent.1.jjhcg0bqoik3@docker    | 2026-08-23T09:16:45.551Z    info    VictoriaMetrics/lib/memory/memory.go:45limiting caches to 4998640435 bytes, leaving 3332426957 bytes to the OS according to -memory.allowedPercent=60, system memory limit 8331067392 bytes
+Database_vmagent.1.o65dap9v5ruc@docker    | 2026-08-23T09:17:03.769Z    info    VictoriaMetrics/lib/persistentqueue/fastqueue.go:122    opened fast queue at "vmagent-remotewrite-data/persistent-queue/1_D48E99CF8587100B" with maxInmemoryBlocks=2400, it contains 0 pending bytes, persistence is enabled
+Database_vmagent.1.o65dap9v5ruc@docker    | 2026-08-23T09:17:03.770Z    info    VictoriaMetrics/app/vmagent/remotewrite/client.go:228   initialized client for -remoteWrite.url="1:secret-url"
+Database_vmagent.1.jjhcg0bqoik3@docker    | 2026-08-23T09:16:45.570Z    info    VictoriaMetrics/lib/persistentqueue/fastqueue.go:122    opened fast queue at "vmagent-remotewrite-data/persistent-queue/1_D48E99CF8587100B" with maxInmemoryBlocks=2400, it contains 0 pending bytes, persistence is enabled
+Database_vmagent.1.jjhcg0bqoik3@docker    | 2026-08-23T09:16:45.570Z    info    VictoriaMetrics/app/vmagent/remotewrite/client.go:228   initialized client for -remoteWrite.url="1:secret-url"
+Database_vmagent.1.o65dap9v5ruc@docker    | 2026-08-23T09:17:03.770Z    info    VictoriaMetrics/app/vmagent/main.go:176started vmagent in 0.023 seconds
+Database_vmagent.1.jjhcg0bqoik3@docker    | 2026-08-23T09:16:45.571Z    info    VictoriaMetrics/app/vmagent/main.go:176started vmagent in 0.020 seconds
+Database_vmagent.1.m0ydatltoixe@docker    | 2026-08-23T09:16:51.617Z    info    VictoriaMetrics/lib/logger/flag.go:20    -remoteWrite.url="secret"
+Database_vmagent.1.o65dap9v5ruc@docker    | 2026-08-23T09:17:03.770Z    info    VictoriaMetrics/lib/promscrape/scraper.go:117   reading scrape configs from "/etc/vmagent/vmagent.yml"
+Database_vmagent.1.o65dap9v5ruc@docker    | 2026-08-23T09:17:03.770Z    info    VictoriaMetrics/lib/httpserver/httpserver.go:152        started server at http://0.0.0.0:8429/
+Database_vmagent.1.m0ydatltoixe@docker    | 2026-08-23T09:16:51.617Z    info    VictoriaMetrics/app/vmagent/main.go:149starting vmagent at "[:8429]"...
+Database_vmagent.1.jjhcg0bqoik3@docker    | 2026-08-23T09:16:45.571Z    info    VictoriaMetrics/lib/promscrape/scraper.go:117   reading scrape configs from "/etc/vmagent/vmagent.yml"
+Database_vmagent.1.o65dap9v5ruc@docker    | 2026-08-23T09:17:03.770Z    info    VictoriaMetrics/lib/httpserver/httpserver.go:154        pprof handlers are exposed at http://0.0.0.0:8429/debug/pprof/
+Database_vmagent.1.m0ydatltoixe@docker    | 2026-08-23T09:16:51.617Z    info    VictoriaMetrics/lib/memory/memory.go:45limiting caches to 4998640435 bytes, leaving 3332426957 bytes to the OS according to -memory.allowedPercent=60, system memory limit 8331067392 bytes
+Database_vmagent.1.w7h8svcxpry6@docker    | 2026-08-23T09:16:57.695Z    info    VictoriaMetrics/lib/logger/flag.go:13  command-line flags
+Database_vmagent.1.jjhcg0bqoik3@docker    | 2026-08-23T09:16:45.571Z    info    VictoriaMetrics/lib/httpserver/httpserver.go:152        started server at http://0.0.0.0:8429/
+Database_vmagent.1.w7h8svcxpry6@docker    | 2026-08-23T09:16:57.695Z    info    VictoriaMetrics/lib/logger/flag.go:20    -promscrape.config="/etc/vmagent/vmagent.yml"
+Database_vmagent.1.m0ydatltoixe@docker    | 2026-08-23T09:16:51.638Z    info    VictoriaMetrics/lib/persistentqueue/fastqueue.go:122    opened fast queue at "vmagent-remotewrite-data/persistent-queue/1_D48E99CF8587100B" with maxInmemoryBlocks=2400, it contains 0 pending bytes, persistence is enabled
+Database_vmagent.1.w7h8svcxpry6@docker    | 2026-08-23T09:16:57.695Z    info    VictoriaMetrics/lib/logger/flag.go:20    -remoteWrite.url="secret"
+Database_vmagent.1.w7h8svcxpry6@docker    | 2026-08-23T09:16:57.695Z    info    VictoriaMetrics/app/vmagent/main.go:149starting vmagent at "[:8429]"...
+Database_vmagent.1.m0ydatltoixe@docker    | 2026-08-23T09:16:51.638Z    info    VictoriaMetrics/app/vmagent/remotewrite/client.go:228   initialized client for -remoteWrite.url="1:secret-url"
+Database_vmagent.1.o65dap9v5ruc@docker    | 2026-08-23T09:17:03.773Z    fatal   VictoriaMetrics/lib/promscrape/scraper.go:120   cannot read "/etc/vmagent/vmagent.yml": cannot parse Prometheus config from "/etc/vmagent/vmagent.yml": cannot unmarshal data: yaml: invalid leading UTF-8 octet; pass -promscrape.config.strictParse=false command-line flag for ignoring unknown fields in yaml config
+Database_vmagent.1.m0ydatltoixe@docker    | 2026-08-23T09:16:51.638Z    info    VictoriaMetrics/app/vmagent/main.go:176started vmagent in 0.021 seconds
+Database_vmagent.1.w7h8svcxpry6@docker    | 2026-08-23T09:16:57.695Z    info    VictoriaMetrics/lib/memory/memory.go:45limiting caches to 4998640435 bytes, leaving 3332426957 bytes to the OS according to -memory.allowedPercent=60, system memory limit 8331067392 bytes
+Database_vmagent.1.m0ydatltoixe@docker    | 2026-08-23T09:16:51.638Z    info    VictoriaMetrics/lib/promscrape/scraper.go:117   reading scrape configs from "/etc/vmagent/vmagent.yml"
+Database_vmagent.1.jjhcg0bqoik3@docker    | 2026-08-23T09:16:45.571Z    info    VictoriaMetrics/lib/httpserver/httpserver.go:154        pprof handlers are exposed at http://0.0.0.0:8429/debug/pprof/
+Database_vmagent.1.w7h8svcxpry6@docker    | 2026-08-23T09:16:57.718Z    info    VictoriaMetrics/lib/persistentqueue/fastqueue.go:122    opened fast queue at "vmagent-remotewrite-data/persistent-queue/1_D48E99CF8587100B" with maxInmemoryBlocks=2400, it contains 0 pending bytes, persistence is enabled
+Database_vmagent.1.m0ydatltoixe@docker    | 2026-08-23T09:16:51.638Z    info    VictoriaMetrics/lib/httpserver/httpserver.go:152        started server at http://0.0.0.0:8429/
+Database_vmagent.1.w7h8svcxpry6@docker    | 2026-08-23T09:16:57.718Z    info    VictoriaMetrics/app/vmagent/remotewrite/client.go:228   initialized client for -remoteWrite.url="1:secret-url"
+Database_vmagent.1.m0ydatltoixe@docker    | 2026-08-23T09:16:51.638Z    info    VictoriaMetrics/lib/httpserver/httpserver.go:154        pprof handlers are exposed at http://0.0.0.0:8429/debug/pprof/
+Database_vmagent.1.jjhcg0bqoik3@docker    | 2026-08-23T09:16:45.574Z    fatal   VictoriaMetrics/lib/promscrape/scraper.go:120   cannot read "/etc/vmagent/vmagent.yml": cannot parse Prometheus config from "/etc/vmagent/vmagent.yml": cannot unmarshal data: yaml: invalid leading UTF-8 octet; pass -promscrape.config.strictParse=false command-line flag for ignoring unknown fields in yaml config
+Database_vmagent.1.w7h8svcxpry6@docker    | 2026-08-23T09:16:57.718Z    info    VictoriaMetrics/app/vmagent/main.go:176started vmagent in 0.023 seconds
+Database_vmagent.1.w7h8svcxpry6@docker    | 2026-08-23T09:16:57.718Z    info    VictoriaMetrics/lib/promscrape/scraper.go:117   reading scrape configs from "/etc/vmagent/vmagent.yml"
+Database_vmagent.1.w7h8svcxpry6@docker    | 2026-08-23T09:16:57.718Z    info    VictoriaMetrics/lib/httpserver/httpserver.go:152        started server at http://0.0.0.0:8429/
+Database_vmagent.1.m0ydatltoixe@docker    | 2026-08-23T09:16:51.642Z    fatal   VictoriaMetrics/lib/promscrape/scraper.go:120   cannot read "/etc/vmagent/vmagent.yml": cannot parse Prometheus config from "/etc/vmagent/vmagent.yml": cannot unmarshal data: yaml: invalid leading UTF-8 octet; pass -promscrape.config.strictParse=false command-line flag for ignoring unknown fields in yaml config
+Database_vmagent.1.w7h8svcxpry6@docker    | 2026-08-23T09:16:57.718Z    info    VictoriaMetrics/lib/httpserver/httpserver.go:154        pprof handlers are exposed at http://0.0.0.0:8429/debug/pprof/
+Database_vmagent.1.w7h8svcxpry6@docker    | 2026-08-23T09:16:57.721Z    fatal   VictoriaMetrics/lib/promscrape/scraper.go:120   cannot read "/etc/vmagent/vmagent.yml": cannot parse Prometheus config from "/etc/vmagent/vmagent.yml": cannot unmarshal data: yaml: invalid leading UTF-8 octet; pass -promscrape.config.strictParse=false command-line flag for ignoring unknown fields in yaml config
+root@docker:/mnt/NAS/D/database/victoriametrics# cat vmagent.yml
+# vmagent.yml - 既存Prometheus設定からの移行版
+global:
+  scrape_interval: 30s
+
+scrape_configs:
+  # Node Exporter - 既存の全ノード
+  - job_name: 'node'
+    static_configs:
+      - targets:
+        - 192.168.175.4:9100   # ONTi
+        # PVE
+        - mangostin.tigris-tailor.ts.net:9100   # pve1 - mangostin
+        - mammal.tigris-tailor.ts.net:9100   # pve2 - mammal
+        - magius.tigris-tailor.ts.net:9100   # pve3 - magius
+        - mors.tigris-tailor.ts.net:9100   # pve4 - mors
+        - morgen.tigris-tailor.ts.net:9100   # pve4 - morgen
+        # onPVE
+        - docker.tigris-tailor.ts.net:9100  # docker
+        - dtv.tigris-tailor.ts.net:9100   # DTV - qemu
+        # NAS
+        - velista.tigris-tailor.ts.net:9100   # Synology1 - Velista
+        - versys.tigris-tailor.ts.net:9100   # Synology2 - Versys
+        - vitrify.tigris-tailor.ts.net:9100   # Synology3 - Vitrify
+        # SBCs
+        - moode.tigris-tailor.ts.net:9100  # raspi3B
+        - rasp4.tigris-tailor.ts.net:9100  # raspi4B
+        - rock4d-8g.tigris-tailor.ts.net:9100
+        - rock4d-12g.tigris-tailor.ts.net:9100
+        - rock03.tigris-tailor.ts.net:9100
+        - cubiea7z.tigris-tailor.ts.net:9100
+#        - 192.168.175.112:9100  # raspiZW
+#        - 192.168.175.113:9100  # raspiZW
+#        - 192.168.175.114:9100  # raspiZW2
+#        - 192.168.175.115:9100  # pomera - 実機ここまで
+#        - 192.168.175.80:9100   # Encoder
+
+  # android Exporter
+  - job_name: 'android-exporter'
+    scrape_interval: 10s
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - 192.168.175.68:9100/metrics�
+
+  # Remo Exporter
+  - job_name: 'remo-exporter'
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - docker.tigris-tailor.ts.net:3200
+
+  # ESP32 Exporter
+  - job_name: 'esp32-exporter'
+    scrape_interval: 10s
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - 192.168.175.118
+
+  # Navidrome
+  - job_name: 'navidrome'
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - navidrome.tigris-tailor.ts.net:4533
+
+  # flacETL
+  - job_name: 'flacETL'
+    scrape_interval: 10s
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - letwir-main.tigris-tailor.ts.net:2112
+
+  # Unbound
+  - job_name: 'unbound'
+    static_configs:
+      - targets:
+        - pi-hole.tigris-tailor.ts.net:9167
+
+  # LM Sensors - 各ノード別
+  - job_name: 'lmsensors-pve1'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - mangostin.tigris-tailor.ts.net:9165
+
+  - job_name: 'lmsensors-pve2'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - mammal.tigris-tailor.ts.net:9165
+
+  - job_name: 'lmsensors-pve3'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - magius.tigris-tailor.ts.net:9165
+
+  - job_name: 'lmsensors-pve4'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - mors.tigris-tailor.ts.net:9165
+
+  - job_name: 'lmsensors-pve5'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - morgen.tigris-tailor.ts.net:9165
+
+  - job_name: 'lmsensors-v1'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - velista.tigris-tailor.ts.net:9165
+
+  - job_name: 'lmsensors-versys'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - versys.tigris-tailor.ts.net:9165
+
+  - job_name: 'lmsensors-vitrify'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - vitrify.tigris-tailor.ts.net:9165
+
+  - job_name: 'lmsensors-ONTi'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - 192.168.175.4:9165
+
+  - job_name: 'lmsensors-rock1'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - rock4d-12g.tigris-tailor.ts.net:9165
+
+  - job_name: 'lmsensors-rock2'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - rock4d-8g.tigris-tailor.ts.net:9165
+
+  - job_name: 'lmsensors-rock3'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - rock03.tigris-tailor.ts.net:9165
+
+  - job_name: 'lmsensors-rasp3'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - moode.tigris-tailor.ts.net:9165
+
+  - job_name: 'lmsensors-rasp4'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - rasp4.tigris-tailor.ts.net:9165
+
+  # vcgen Expoter
+  - job_name: 'vcgen-raspi'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - moode.tigris-tailor.ts.net:9166
+        - rasp4.tigris-tailor.ts.net:9166
+
+  # SMART Control Exporter
+  - job_name: 'smartctl_exporter'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - mangostin.tigris-tailor.ts.net:9633
+        - mammal.tigris-tailor.ts.net:9633
+        - magius.tigris-tailor.ts.net:9633
+        - mors.tigris-tailor.ts.net:9633
+        - morgen.tigris-tailor.ts.net:9633
+        - velista.tigris-tailor.ts.net:9633
+        - versys.tigris-tailor.ts.net:9633
+        - vitrify.tigris-tailor.ts.net:9633
+
+  # Proxmox VE Exporter
+#  - job_name: 'pve'
+#    static_configs:
+#      - targets:
+#        - 192.168.175.42:9221  # Proxmox VE node with PVE exporter.
+#        - 192.168.175.43:9221  # Proxmox VE node with PVE exporter.
+#        - 192.168.175.44:9221  # Proxmox VE node with PVE exporter.
+#        - 192.168.175.45:9221  # Proxmox VE node with PVE exporter.
+#    metrics_path: /pve
+#    params:
+#      module: [default]
+#      cluster: ['1']
+#      node: ['1']
+
+  - job_name: 'windows_exporter'
+    scrape_interval: 1m
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - letwir-main.tigris-tailor.ts.net:9182
+        - letwir-sub1.tigris-tailor.ts.net:9182
+        - letwir-sub2.tigris-tailor.ts.net:9182
+        - letwir-note.tigris-tailor.ts.net:9182
+
+  - job_name: 'windows-hardware'
+    scrape_interval: 15s
+    static_configs:
+      - targets:
+        - letwir-main.tigris-tailor.ts.net:9888
+        - letwir-note.tigris-tailor.ts.net:9888
+
+  - job_name: "nvidia_gpu"
+    scrape_interval: 15s
+    static_configs:
+      - targets: ["letwir-main.tigris-tailor.ts.net:9835"]
+
+  # Mysql監視
+  - job_name: 'mariaDB'
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - db.tigris-tailor.ts.net:9306  # docker Main
+
+  # Docker/Podman監視 - caDvisor
+  - job_name: 'docker'
+    static_configs:
+      - targets:
+        - docker.tigris-tailor.ts.net:9104  # docker Main
+
+  # llama.cpp
+  - job_name: 'llama_cpp'
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - letwir-main.tigris-tailor.ts.net:11434  # docker Main
+        - gpu.tigris-tailor.ts.net:11434  # docker Main
+
+  # LOG監視 - Loki
+  - job_name: 'loki'
+    metrics_path: /metrics
+    static_configs:
+      - targets:
+        - docker.tigris-tailor.ts.net:3100  # docker Main
+
+#  # myspeed
+#  - job_name: 'myspeed'
+#    metrics_path: /metrics
+#    static_configs:
+#    - targets:
+#      - 192.168.175.128:5216
+
+  # speedtest_exporter
+  - job_name: 'speedtest_exporter'
+    metrics_path: /metrics
+    scrape_interval: 120m
+    scrape_timeout:  240s
+    static_configs:
+    - targets:
+      - mammal.tigris-tailor.ts.net:9101
+
+  # アメダス気象庁データ
+  - job_name: 'amedas'
+    scrape_interval: 60m
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['https://amedas.miiton.dev']
+root@docker:/mnt/NAS/D/database/victoriametrics# nano vmagent.yml

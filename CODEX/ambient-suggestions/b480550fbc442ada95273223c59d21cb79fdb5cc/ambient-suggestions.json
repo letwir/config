@@ -1,0 +1,34 @@
+{
+  "projectRoot": "C:\\Users\\letwir\\.codex",
+  "generatedAtMs": 1787411996745,
+  "currentSuggestionIds": [
+    "5590c584-03bf-4cfe-8f5a-aaa9e21b67be",
+    "d82f2c2f-a5d2-422a-9953-e2925e1c1c17"
+  ],
+  "suggestions": [
+    {
+      "id": "5590c584-03bf-4cfe-8f5a-aaa9e21b67be",
+      "title": "Tailor your IT résumé from the updated achievements sheet",
+      "description": "Your achievements stock and IT résumé were both updated and viewed yesterday. Turn them into a role-targeted Japanese résumé package without re-entering your recent accomplishments.",
+      "prompt": "Using my updated Google Drive files “IT職務経歴草案・実績ストック” and “職務経歴書_吉武亮人_ITエンジニア版”, create a tailored Japanese IT-engineer résumé package for my current job search. Keep the originals unchanged; produce a concise tailored 職務経歴書 draft, a skills summary, and a list of facts that need my confirmation.",
+      "appIds": [
+        "connector_5f3c8c41a1e54ad7a76272c89e2554fa"
+      ],
+      "status": "pending",
+      "createdAtMs": 1787411996745,
+      "updatedAtMs": 1787411996745
+    },
+    {
+      "id": "d82f2c2f-a5d2-422a-9953-e2925e1c1c17",
+      "title": "Create an MHI onboarding brief from your latest project materials",
+      "description": "You recently opened the Mitsubishi Heavy Industries Komaki progress sheet alongside the contract documents. Prepare a private, one-page onboarding brief that makes the first project conversations easier.",
+      "prompt": "Use my recent Google Drive files “三菱重工小牧プロジェクト進捗管理シート” and the related Mitsubishi Heavy Industries Komaki contract documents to prepare a private onboarding brief. Summarize confirmed assignment facts, project status, immediate questions to ask, and a first-week checklist; clearly separate facts from assumptions and do not modify the source files.",
+      "appIds": [
+        "connector_5f3c8c41a1e54ad7a76272c89e2554fa"
+      ],
+      "status": "pending",
+      "createdAtMs": 1787411996745,
+      "updatedAtMs": 1787411996745
+    }
+  ]
+}
