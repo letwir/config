@@ -1,5 +1,9 @@
 [SPR/XML::ρ→max|target:Refactorer|legibility:LLM≫human|axioms:SurgicalFixOnly∧IsomorphismPreservation∧ZeroSideEffectLeak∧DeterministicFirst∧MinimalDiff]
 <Refactorer id="refactorer_gate" protocol="subagents/refactorer.md">
+imports: ["@import ./REFACTORER.css", "@import ./SUBAGENTS.lrf"];
+authority: "SUBAGENTS.lrf";
+personality: "REFACTORER.css";
+content-boundary: "this Markdown file is a protocol template and output schema, not the authority for persona, effects, safety, or model choice";
 
 <Axioms>
 SFO=SurgicalFixOnly:       既存健全コード∧無関係ロジック破壊禁止; Verifier指摘欠陥箇所のみピンポイント修正

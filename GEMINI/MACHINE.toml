@@ -32,7 +32,7 @@ write_methods = [
 
 [shell.invoke]
 generic = 'pwsh -c "{cmd}"'
-python = 'cd {proj_root}; .venv\Scripts\Activate.ps1; python.exe {args}'
+python = 'cd {proj_root}; . .\.venv\Scripts\Activate.ps1; python.exe {args}'
 require_exe_suffix = true
 
 [shell.allow]
@@ -48,24 +48,36 @@ commands = ["git.exe checkout", "git.exe push"]
 [agy_cli]
 manual = "AGY_CLI.md"
 bin = "C:/Users/letwir/AppData/Local/agy/bin/agy.exe"
-models = { gemini = "gemini-3.7-flash", claude = "claude-sonnet-4-6" }
-exec = 'agy.exe -p --model {model} --dangerously-skip-permissions --print-timeout {timeout} "{prompt}"'
+# Backward-compatible model mappings (retaining gemini and claude while offering granular roles)
+models = { gemini = "gemini-3.7-flash", gemini_fast = "gemini-3.7-flash", gemini_pro = "gemini-2.5-pro", claude = "claude-sonnet-4-6", claude_critic = "claude-sonnet-4-6", claude_arch = "claude-opus-4-6", claude_light = "claude-haiku-4-5" }
+exec = 'agy.exe --model {model} --dangerously-skip-permissions --print-timeout {timeout} -p "{prompt}"'
 
 [researcher]
 axiom = "NoGuesswork ∧ GroundTruthFirst ∧ SynthesizeToArtifact"
 trigger = "PrePlanning ∨ Discovery"
+pipeline = "Web -> EPUB(Kavita) -> llm-mem(PostgreSQL)"
+retry_trigger = "Count(ResearchOrValidationFailures) == 2"
+schema = "Facts, Inferences, Unknowns, Sources, Precedents, Constraints, FAILED, ADVICE, ESCALATE"
+fact_inference_separation = true
 protocol = "subagents/researcher.md"
 
 [auditor]
-axiom = "SpecDriftCheck ∧ CategoryTheorySoundness ∧ EffectPurityPurity ∧ PrognosisAudit ∧ BoundedEscalation"
-gate = "PreCond(ImplementationPlan) ⇒ invoke_subagent(Auditor) ∧ Assert(Verdict == 'PASS') ∧ (REJECT ⇒ 修正再試行 ∧ Block(RequestFeedback))"
+axiom = "SpecDriftCheck ∧ CategoryTheorySoundness ∧ EffectPurityPurity ∧ PrognosisAudit ∧ BoundedEscalation ∧ AdvisoryIncorporate"
+gate = "PreCond(ImplementationPlan) ⇒ invoke_subagent(Auditor) ∧ Assert(Verdict ∈ {'PASS', 'PASS_WITH_ADVISORIES'}) ∧ (PASS_WITH_ADVISORIES ⇒ 聞き入れて修正適用(ApplyAdvisory) ∧ `llm-mem.exe ingest -cat advisory`) ∧ (REJECT ⇒ 修正再試行 ∧ Block(RequestFeedback))"
+model = "claude-sonnet-4-6"
+fallback = "gemini-3.7-flash"
 protocol = "subagents/auditor.md"
-command = "python.exe scripts/auditor_claude.py --plan {plan_path} --decisions decisions.md --rule CODE_RULE.md"
+exec = 'agy.exe --model claude-sonnet-4-6 --dangerously-skip-permissions --print-timeout 5m -p "{prompt}"'
+command = "python.exe scripts/auditor_claude.py --plan {plan_path} --decisions decisions.md --rule CODE_RULE.md --model claude-sonnet-4-6"
 
 [verifier]
-axiom = "ProofOverClaim ∧ InformationAsymmetry ∧ DevilsAdvocate"
-gate = "PreCond(Walkthrough) ⇒ invoke_subagent(Verifier) ∧ Assert(Verdict == 'PASS') ∧ (REJECT ⇒ invoke_subagent(Refactorer))"
+axiom = "ProofOverClaim ∧ InformationAsymmetry ∧ DevilsAdvocate ∧ AdvisoryIncorporate"
+gate = "PreCond(Walkthrough) ⇒ invoke_subagent(Verifier) ∧ Assert(Verdict ∈ {'PASS', 'PASS_WITH_ADVISORIES'}) ∧ (PASS_WITH_ADVISORIES ⇒ 聞き入れて修正適用(ApplyAdvisory) ∧ `llm-mem.exe ingest -cat advisory`) ∧ (REJECT ⇒ invoke_subagent(Refactorer))"
+model = "claude-sonnet-4-6"
+fallback = "gemini-3.7-flash"
 protocol = "subagents/verifier.md"
+exec = 'agy.exe --model claude-sonnet-4-6 --dangerously-skip-permissions --print-timeout 5m -p "{prompt}"'
+command = "python.exe scripts/verifier_claude.py --target {target} --rule CODE_RULE.md --model claude-sonnet-4-6"
 proof_check = "proof-checker.exe -path {target} -strict"
 
 [refactorer]
@@ -85,7 +97,7 @@ tag_format = "mega-docs-update-YYYYMMDD"
 
 [self_evolve]
 engine = "llm-mem.exe analyze -file {diary} -suggest"
-taxonomy = "PromptDefect{Underspecified, Contradiction, ImplicitContext, AmbiguousScope} ⊕ AgentDefect{Misreading, KnowledgeGap, Overthinking, ToolFailure}"
+taxonomy = "PromptDefect{Underspecified, Contradiction, ImplicitContext, AmbiguousScope, MissingAcceptance, MissingEnvironment} ⊕ AgentDefect{Misreading, KnowledgeGap, Overthinking, ToolFailure, ScopeDrift}"
 flow = "PromptDefect ⇒ FeedbackToUser ∧ AgentDefect ⇒ ProposeRulePatch(PERSONA.css)"
 
 [arch]

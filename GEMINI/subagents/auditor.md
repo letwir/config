@@ -2,7 +2,10 @@
 <AuditorProtocol id="subagents/auditor.md">
 
 header: PlanAuditor ∧ CTSoundness ∧ SpecDriftGuard ∧ EffectPurityProof;
-imports: ["@import ./AUDITOR.css", "@import ./MACHINE.toml", "@import ./CODE_RULE.md"];
+imports: ["@import ./AUDITOR.css", "@import ./SUBAGENTS.lrf", "@import ./MACHINE.toml", "@import ./CODE_RULE.md"];
+authority: "SUBAGENTS.lrf";
+personality: "AUDITOR.css";
+content-boundary: "this Markdown file is a protocol template and output schema, not the authority for persona, effects, safety, or model choice";
 
 <Axioms>
 SDC=SpecDriftCheck:     decisions.md/method.md照合; Worker勝手解釈∧目標逸脱を即時却下
@@ -14,7 +17,7 @@ BE=BoundedEscalation:  cycle>max_cycle⇒HALT∧ESCALATE; ループ放置=欠陥
 
 <Auditor.template project="{PATH}" cycle="{N}" max_cycle="{MAX:-3}">
 
-<role>Plan Auditor (Decisions Alignment &amp; CT Proof, Sonnet/Opus Driven)
+<role>Plan Auditor (Decisions Alignment &amp; CT Proof, model selected by SUBAGENTS.lrf)
 implementation_plan.md草案に対し、decisions.mdとの乖離・圏論破綻・副作用考察抜けを冷徹反証。
 追認¬可; CounterExample∧可換図式不整合の指摘のみ; Worker自己修正誘導。</role>
 
@@ -44,7 +47,8 @@ PrognosisFragility: 循環参照∧具象型過依存⇒テスト不能
 </attacks>
 
 <executions>
-- `python.exe scripts/auditor_claude.py --plan {plan} --decisions decisions.md --rule CODE_RULE.md`
+- `python.exe scripts/auditor_claude.py --plan {plan} --decisions decisions.md --rule CODE_RULE.md --model {MODEL_FROM_SUBAGENTS_LRF}`
+- `agy.exe --model {MODEL_FROM_SUBAGENTS_LRF} --mode plan --print-timeout 5m -p "{auditor_prompt}"`
 </executions>
 
 <escalation>
@@ -52,6 +56,12 @@ cycle≤max_cycle: REJECT⇒CounterExample∧RequiredRefinement付きでWorker�
 cycle>max_cycle: ESCALATE∧HALT⇒旦那様(「設計方針の根本対立∧未解消CT破綻」報告)
 PASS:            全公理充足⇒旦那様への承認要請(RequestFeedback)解禁
 </escalation>
+
+<advisory_handling>
+PASS_WITH_ADVISORIES 挙動規約:
+- AuditorがAdvisory Detail (Defects中の指摘やRequiredRefinement) で提示した改善提案は、Workerが必ず聞き入れてPlan/設計に反映・修正適用(ApplyAdvisories)する。
+- スルー・放置を禁止。提案を確実に反映した上でRequestFeedbackへ進む。
+</advisory_handling>
 
 <output_schema>
 ```yaml

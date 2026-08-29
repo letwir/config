@@ -1,5 +1,8 @@
 [SPR/XML::ρ→max|target:Subagents-Index|legibility:LLM≫human]
 <SubagentsIndex protocol="subagents/">
+authority: "SUBAGENTS.lrf";
+personality: "SUBAGENTS.css and the selected per-agent CSS";
+protocol-boundary: "Markdown files define task templates and output schemas; LRF defines rules, effects, safety, and model selection";
 
 ## Lifecycle: Plan-Audit & Implement-Verify Dual Gate
 
@@ -9,14 +12,16 @@ graph TD
     R -->|PrimaryFacts∧Gotchas∧CTDesign| W1["Worker (Plan立案)"]
     W1 -->|Draft Plan| A["Auditor\n[auditor.md/AUDITOR.css]\nSDC∧CTS∧EPP∧PA∧BE"]
     A --> CA{"Auditor Verdict\ncycle/max_cycle"}
-    CA -- "PASS\nPASS_WITH_ADVISORIES" --> IP["implementation_plan.md 確定\n(旦那様承認)"]
+    CA -- "PASS" --> IP["implementation_plan.md 確定\n(旦那様承認)"]
+    CA -- "PASS_WITH_ADVISORIES" -->|Advisory提案反映 (ApplyAdvisories)| IP
     CA -- "REJECT\ncycle≤max" -->|反証例∧可換不整合フィードバック| W1
     CA -- "ESCALATE\ncycle>max" --> EA["HALT→旦那様エスカレーション\n(根本的設計対立)"]
     
     IP --> W2["Worker (実装フェーズ)"]
     W2 -->|実装完了∧diff∧テスト| V["Verifier\n[verifier.md/VERIFIER.css]\nPoC∧BFP∧AF∧GR∧BE"]
     V --> CV{"Verifier Verdict\ncycle/max_cycle"}
-    CV -- "PASS\nPASS_WITH_ADVISORIES" --> G["Walkthrough∧DB同期(完了)"]
+    CV -- "PASS" --> G["Walkthrough∧DB同期(完了)"]
+    CV -- "PASS_WITH_ADVISORIES" -->|Advisory提案反映 (ApplyAdvisories)| G
     CV -- "REJECT\ncycle≤max" --> RF["Refactorer\n[refactorer.md/REFACTORER.css]\nSFO∧IP∧ZSL∧DF∧MD"]
     CV -- "ESCALATE\ncycle>max" --> E["HALT→旦那様エスカレーション\n(失敗理由∧試行済修正∧推定根本原因)"]
     CV -- "INCONCLUSIVE" --> I["不足要素明記→旦那様確認依頼"]
@@ -25,13 +30,13 @@ graph TD
 
 ## Collection
 
-| Agent | md | CSS | Trigger | Axioms (略称) |
-| :--- | :--- | :--- | :--- | :--- |
-| **Researcher** | [researcher.md](file:///C:/Users/letwir/.gemini/subagents/researcher.md) | [RESEARCHER.css](file:///C:/Users/letwir/.gemini/subagents/RESEARCHER.css) | Pre-Planning∧ETL∧実装計画前 | NG∧GTF∧STA∧**DOD**∧**SP** |
-| **Auditor** | [auditor.md](file:///C:/Users/letwir/.gemini/subagents/auditor.md) | [AUDITOR.css](file:///C:/Users/letwir/.gemini/subagents/AUDITOR.css) | PreCond(ImplementationPlan) | **SDC**∧**CTS**∧**EPP**∧**PA**∧**BE** |
-| **Verifier** | [verifier.md](file:///C:/Users/letwir/.gemini/subagents/verifier.md) | [VERIFIER.css](file:///C:/Users/letwir/.gemini/subagents/VERIFIER.css) | PreCond(Walkthrough) | PoC∧**BFP**∧AF∧**GR**∧**BE** |
-| **Refactorer** | [refactorer.md](file:///C:/Users/letwir/.gemini/subagents/refactorer.md) | [REFACTORER.css](file:///C:/Users/letwir/.gemini/subagents/REFACTORER.css) | Verdict:REJECT∨ASTFail | SFO∧IP∧ZSL∧**DF**∧**MD** |
-| **Blackhat** | [blackhat.md](file:///C:/Users/letwir/.gemini/subagents/blackhat.md) | [BLACKHAT.css](file:///C:/Users/letwir/.gemini/subagents/BLACKHAT.css) | SecurityAudit∨PromptInj∨Forensics | **ATM**∧**ZTI**∧**PF**∧**SCS**∧**HAD** |
+| Agent | md | CSS | Trigger | Model / Engine | Axioms (略称) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Researcher** | [researcher.md](file:///C:/Users/letwir/.gemini/subagents/researcher.md) | [RESEARCHER.css](file:///C:/Users/letwir/.gemini/subagents/RESEARCHER.css) | Pre-Planning∧ETL∧実装計画前 | `SUBAGENTS.lrfで難易度選択` | NG∧GTF∧STA∧**DOD**∧**SP** |
+| **Auditor** | [auditor.md](file:///C:/Users/letwir/.gemini/subagents/auditor.md) | [AUDITOR.css](file:///C:/Users/letwir/.gemini/subagents/AUDITOR.css) | PreCond(ImplementationPlan) | `SUBAGENTS.lrfで難易度選択` | **SDC**∧**CTS**∧**EPP**∧**PA**∧**BE** |
+| **Verifier** | [verifier.md](file:///C:/Users/letwir/.gemini/subagents/verifier.md) | [VERIFIER.css](file:///C:/Users/letwir/.gemini/subagents/VERIFIER.css) | PreCond(Walkthrough) | `SUBAGENTS.lrfで難易度選択` | PoC∧**BFP**∧AF∧**GR**∧**BE** |
+| **Refactorer** | [refactorer.md](file:///C:/Users/letwir/.gemini/subagents/refactorer.md) | [REFACTORER.css](file:///C:/Users/letwir/.gemini/subagents/REFACTORER.css) | Verdict:REJECT∨ASTFail | `SUBAGENTS.lrfで難易度選択` | SFO∧IP∧ZSL∧**DF**∧**MD** |
+| **Blackhat** | [blackhat.md](file:///C:/Users/letwir/.gemini/subagents/blackhat.md) | [BLACKHAT.css](file:///C:/Users/letwir/.gemini/subagents/BLACKHAT.css) | SecurityAudit∨PromptInj∨Forensics | `SUBAGENTS.lrfで難易度選択` | **ATM**∧**ZTI**∧**PF**∧**SCS**∧**HAD** |
 
 ## Axiom Legend
 

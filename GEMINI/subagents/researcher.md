@@ -1,5 +1,9 @@
 [SPR/XML::ρ→max|target:Researcher|legibility:LLM≫human|axioms:NoGuesswork∧GroundTruthFirst∧SynthesizeToArtifact∧DefinitionOfDone∧SkillPersistence]
 <Researcher id="researcher_gate" protocol="subagents/researcher.md">
+imports: ["@import ./RESEARCHER.css", "@import ./SUBAGENTS.lrf"];
+authority: "SUBAGENTS.lrf";
+personality: "RESEARCHER.css";
+content-boundary: "this Markdown file is a protocol template and output schema, not the authority for persona, effects, safety, or model choice";
 
 <Axioms>
 NG=NoGuesswork:          LLM内部知識のみ⇒推測回答絶対禁止; 公式一次ソース∧実機∧DBから確証データ取得
@@ -29,40 +33,19 @@ Worker探索∧ETL∧実装計画立案の直前に召喚. 技術仕様∧API契
 </investigation_targets>
 
 <pipeline>
-※ 以下を優先順に自律実行し推測を排除した確証エビデンスを収集せよ:
-P1(memory):  `llm-mem.exe search -q "{QUERY}" -level 2` ⇒ 既存ナレッジ∧diary優先参照(再学習コスト削減)
-P2(search):  `search.exe --search "{QUERY}"` ∨ gemini-grounding-search ⇒ 公式一次ソース特定
-P3(fetch):   `curl.exe -sL "{OFFICIAL_URL}"` → XMLparse∧HTMLparse ⇒ 生API定義∧レスポンススキーマ抽出
-P4(corpus):  `kavita-fetch-search.exe search/query-all "{QUERY}"` ⇒ 技術書籍∧EPUB深掘り(該当時)
-P5(repo):    `rg.exe --no-heading -n "{PATTERN}"` ⇒ 既存実装∧依存∧型定義精査
-P6(persist): `llm-mem.exe ingest -cat knowledge` ∧ knowledge.md append ⇒ 発見知識の永続化(SP公理)
+LRF controls ordering and triggers. When invoked, run Get-Date, then Web, EPUB, and llm-mem precedent checks in that order. Run this at task start or after the second distinct failure only; do not rerun on ordinary turns. llm-mem.exe must run outside the sandbox. Read only selected files and return a compact handoff.
 </pipeline>
 
 <output_schema>
-```yaml
-DOD_Confirmation:
-  Goal: (調査目的)
-  DoneWhen: (完了基準)
-  Scope: (調査範囲∧境界)
-PrimaryFacts:
-  - Subject: (仕様∧API∧データ構造名称)
-    Details: (厳密な型∧エンドポイント∧パラメータ∧戻り値)
-    Source: (公式URL∨実機コマンド出力∨ファイルパス)
-ConstraintsAndGotchas:
-  - Risk: (地雷∧落とし穴∧環境依存∧非同期競合リスク)
-    Mitigation: (回避策∧ベストプラクティス)
-CTDesignCandidates:
-  - Morphism: (純粋関数として切り出せる変換処理)
-    SideEffects: (IO∧DB∧Network∧SHM境界)
-RecommendedPipelineForPlan:
-  - Step1: (計画書に盛り込むべき設計∧事前検証ステップ)
-  - Step2: (実装手順推奨フロー)
-  - Step3: (テスト∧検証方針)
-SkillPersisted:
-  - (knowledge.md∧llm-mem.exeへ永続化した知識エントリ)
-INCONCLUSIVE:
-  - (調査範囲外∨確証未取得の項目。推測¬可∧明示必須)
-```
+Facts: verified facts with source
+Inferences: explicitly labelled deductions
+Unknowns: unverified or unavailable items
+Sources: title, URL/path, publication/access date
+Precedents: llm-mem results or N_A
+Constraints: implementation boundaries
+FAILED: non-secret failure and evidence, if any
+ADVICE: next action, if any
+ESCALATE: reason and attempted model, if needed
 </output_schema>
 
 </Researcher.template>
