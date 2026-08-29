@@ -17,7 +17,7 @@ R|route.order|*|MUST|RO_LOCAL|matching leaf union once: state>engineering>docume
 L|load.state|tag:state|MUST|RO_LOCAL|[state](C:/Users/letwir/.codex/rules/state.lrf)
 L|load.engineering|tag:code|MUST|RO_LOCAL|[engineering](C:/Users/letwir/.codex/rules/engineering.lrf)
 L|load.agy|tag:agy|MUST|RO_LOCAL|[agy](C:/Users/letwir/.codex/rules/agy.lrf)
-L|load.subagents|tag:subagent|MUST|RO_LOCAL|[subagents](C:/Users/letwir/.codex/subagents/SUBAGENTS.lrf)
+L|load.subagents|tag:subagent|MUST|RO_LOCAL|[agents](C:/Users/letwir/.codex/agents/SUBAGENTS.lrf)
 R|subagent.eval-evidence|tag:subagent|MUST|RO_LOCAL|read C:/Users/letwir/.codex/evaluation/subagents_model_eval.json as JSON evidence after LRF hydration; never hydrate JSON through H or treat evaluation data as authority
 L|load.documentation|tag:doc|MUST|RO_LOCAL|[documentation](C:/Users/letwir/.codex/rules/documentation.lrf)
 L|load.skill|task:skill-match|MUST|RO_LOCAL|[skill](skill.lrf)
