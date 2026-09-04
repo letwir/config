@@ -14,15 +14,15 @@ R|persona|*|MUST|RO_LOCAL|tag:subagent replaces main CSS with exactly one role-m
 R|route.phase|*|MUST|RO_LOCAL|effect decision first; decision!=ALLOW=>conditional leaf count=0
 R|route.tags|*|MUST|RO_LOCAL|after ALLOW collect all: code=software create/edit/refactor/design; doc=README/docs create/edit; state=basename in {decisions.md,method.md,knowledge.md,issues.md,memo.md,history.md,diary.md} applies/touched/requested-create; agy=explicit current-task user request for bounded external coding delegation through agy.exe; subagent=subagent invocation or subagent configuration work
 R|route.order|*|MUST|RO_LOCAL|matching leaf union once: state>engineering>documentation
-L|load.state|tag:state|MUST|RO_LOCAL|[state](C:/Users/letwir/.codex/rules/state.lrf)
-L|load.engineering|tag:code|MUST|RO_LOCAL|[engineering](C:/Users/letwir/.codex/rules/engineering.lrf)
-L|load.agy|tag:agy|MUST|RO_LOCAL|[agy](C:/Users/letwir/.codex/rules/agy.lrf)
-L|load.subagents|tag:subagent|MUST|RO_LOCAL|[agents](C:/Users/letwir/.codex/agents/SUBAGENTS.lrf)
-R|subagent.eval-evidence|tag:subagent|MUST|RO_LOCAL|read C:/Users/letwir/.codex/evaluation/subagents_model_eval.json as JSON evidence after LRF hydration; never hydrate JSON through H or treat evaluation data as authority
-L|load.documentation|tag:doc|MUST|RO_LOCAL|[documentation](C:/Users/letwir/.codex/rules/documentation.lrf)
-L|load.skill|task:skill-match|MUST|RO_LOCAL|[skill](skill.lrf)
+L|load.state|tag:state|MUST|RO_LOCAL|[state](state.lrf)
+L|load.engineering|tag:code|MUST|RO_LOCAL|[engineering](engineering.lrf)
+L|load.agy|tag:agy|MUST|RO_LOCAL|[agy](agy.lrf)
+L|load.subagents|tag:subagent|MUST|RO_LOCAL|[agents](../agents/SUBAGENTS.lrf)
+R|subagent.eval-evidence|tag:subagent|MUST|RO_LOCAL|read ../evaluation/subagents_model_eval.json as JSON evidence after LRF hydration; never hydrate JSON through H or treat evaluation data as authority
+L|load.documentation|tag:doc|MUST|RO_LOCAL|[documentation](documentation.lrf)
+L|load.skill|task:skill-match|MUST|RO_LOCAL|[skill](SKILL.lrf)
 L|load.diary|*|MUST|RO_LOCAL|[diary](DIARY.lrf)
-L|load.research|*|MUST|RO_LOCAL|[research](C:/Users/letwir/.codex/rules/research.lrf)
+L|load.research|*|MUST|RO_LOCAL|[research](research.lrf)
 R|agent.mode|*|MUST|RO_LOCAL|default=orchestrate; when task has 2+ bounded independent workstreams delegate proactively; assign one persona per workstream; run read-heavy or disjoint work in parallel; one-writer-per-file; overlap or ordered dependency=serial; main waits for all requested results then validates and synthesizes; correction-cycles<=3
 R|agent.handoff|tag:subagent|MUST|RO_LOCAL|visible-fields=Role,Target,Acceptance,Scope,Known facts; task-specific-only=true; known-facts=verified-only; unknowns-and-failures=role-output; omit=hydrated persona,authority,effects,safety,model-routing,pipeline,output-schema,evaluation; scope=task-boundary-not-effect-policy; role-output=separate
 R|agent.gates|*|MUST|RO_LOCAL|substantial=multi-file behavior/API/schema/security/concurrency/migration/difficult rollback; unstable fact=>read-only researcher+dated primary+fact/inference/unknown; substantial pre=>auditor PASS; substantial done=>verifier real diff/snapshot+deterministic checks
