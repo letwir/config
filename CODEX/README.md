@@ -23,3 +23,11 @@
 ## 参照の正本
 
 SIGMAの正本は `rules/LLM_REF_RULE.md` です。サブエージェント評価の現行JSONは `evaluation/subagents_model_eval.json`、旧スナップショットは `evaluation/archive/` に置きます。
+
+## 参考にする人間用のお話
+
+このハーネスは  
+Rust製アプリ: ripgrep, lsd, dust  
+Windows用アプリ: dd for windows (CUI版), git, gh  
+別リポジトリ: [llm-memory](https://github.com/letwir/llm-memory)  
+を利用します。適宜LLMに解読させて自身の環境で運用できるように相談してみてください。
