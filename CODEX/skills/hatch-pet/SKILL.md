@@ -5,6 +5,27 @@ description: Create, repair, validate, visually QA, and package Codex-compatible
 
 # Hatch Pet
 
+[SPR/XML::ρ→max|protocol:ground⇒generate⇒assemble⇒verify⇒package|cues:🔎⊕⊢⊕→⊕⛔⊕✅]
+Obj(Concept ∨ BrandCue ∨ ReferenceArt ∨ ExistingAtlas) → Mor(Ground ∘ GenerateRows ∘ Assemble8x11 ∘ VisualQA) → Obj(PetV2Package ∘ QAEvidence)
+
+<Γ.morphisms>
+ground: Mor(UserIntent ∘ References?) ⇒ CanonicalIdentity ∘ PetRequest;
+generate: Mor(CanonicalIdentity ∘ StateSpec) ⇒ `$imagegen` ⊸ GroundedRowFamily;
+assemble: Mor(ApprovedRows{0..10}) ⇒ DeterministicAssembly ⊸ Atlas8x11;
+verify: Mor(Atlas8x11 ∘ DirectionEvidence) ⇒ DeterministicQA ∘ BlindReview ⊸ Verdict;
+package: Mor(PASS ∘ Atlas8x11) ⇒ Manifest(spriteVersionNumber=2) ∘ FinalArtifacts;
+</Γ.morphisms>
+
+@lrf=1|aud=GPT-5.6|scope=hatch-pet-contract
+R|trigger|task:hatch-pet|MUST|RO_LOCAL|input=pet-concept,brand-cue,reference-art,existing-atlas-or-repair; output=Codex-pet-v2
+R|precondition|task:hatch-pet|MUST|RO_LOCAL|required=workspace-dependency-runtime+resolved-run-directory; visual-generation=$imagegen-only
+R|generation|task:hatch-pet|MUST|LW_SCOPE|write=bounded-run-artifacts+selected-final-package; row-grounding=canonical-reference-required-except-base
+R|discovery|task:hatch-pet&case:brand-discovery|MUST|RO_PUBLIC|read=bounded-public-brand-sources; logos,slogans,UI-copy=forbidden
+R|storage|task:hatch-pet|MUST|LW_SCOPE|cleanup=selected-run-temporaries-after-preserved-final+QA; unrelated-generated-images=false
+R|credentials|task:hatch-pet|MUST_NOT|CRED|prompt,artifact,report=credentials,tokens,private-environment-values
+R|failure|task:hatch-pet|MUST|RO_LOCAL|on=missing-runtime,generation-failure,invalid-row,QA-fail,package-fail; failed-stage=repair-or-report; package=false
+R|success|task:hatch-pet|MUST|RO_LOCAL|required=8x11+rows-0..10+16-look-directions+spriteVersionNumber-2+validation-pass+QA-artifacts
+
 ## Overview
 
 Create a Codex-compatible v2 animated pet from a concept, brand cue, company/prospect name, one or more reference images, or any combination of those inputs. Every newly hatched pet is an 8x11 atlas with the 9 standard animation rows plus 16 clockwise look directions and is packaged with `spriteVersionNumber: 2`. The intermediate 8x9 atlas exists only to assemble and review rows 0-8; never package it as a new pet.

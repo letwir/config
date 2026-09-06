@@ -159,7 +159,8 @@ class CDPClient {
       const timer = setTimeout(() => {
         if (!settled) {
           settled = true;
-          resolve({ timedOut: true });
+          this.off('Page.loadEventFired', onLoad);
+          reject(new Error(`Page load timeout after ${timeoutMs}ms: ${url}`));
         }
       }, timeoutMs);
 
@@ -187,11 +188,24 @@ class CDPClient {
     });
   }
 
-  async send(method, params = {}) {
+  async send(method, params = {}, timeoutMs = 10000) {
     const id = this.id++;
     return new Promise((resolve, reject) => {
-      this.callbacks.set(id, { resolve, reject });
-      this.ws.send(JSON.stringify({ id, method, params }));
+      const timer = setTimeout(() => {
+        this.callbacks.delete(id);
+        reject(new Error(`CDP request timeout after ${timeoutMs}ms: ${method}`));
+      }, timeoutMs);
+      this.callbacks.set(id, {
+        resolve: value => { clearTimeout(timer); resolve(value); },
+        reject: error => { clearTimeout(timer); reject(error); }
+      });
+      try {
+        this.ws.send(JSON.stringify({ id, method, params }));
+      } catch (error) {
+        clearTimeout(timer);
+        this.callbacks.delete(id);
+        reject(new Error(`CDP request failed: ${method}: ${error.message}`));
+      }
     });
   }
 
@@ -255,23 +269,28 @@ export class ChromeCDPSearcher {
       'about:blank'
     ], { stdio: 'ignore' });
 
-    const { port } = await waitForDevToolsActivePort(this.tempDir);
-    this.port = port;
+    try {
+      const { port } = await waitForDevToolsActivePort(this.tempDir);
+      this.port = port;
 
-    const res = await fetch(`http://127.0.0.1:${port}/json/list`);
-    const pages = await res.json();
-    const targetPage = pages.find(p => p.type === 'page') || pages[0];
+      const res = await fetch(`http://127.0.0.1:${port}/json/list`);
+      if (!res.ok) throw new Error(`CDP target listing failed: HTTP ${res.status}`);
+      const pages = await res.json();
+      const targetPage = pages.find(p => p.type === 'page') || pages[0];
 
-    if (!targetPage || !targetPage.webSocketDebuggerUrl) {
-      throw new Error("No valid CDP page target found in Chrome instance.");
+      if (!targetPage || !targetPage.webSocketDebuggerUrl) {
+        throw new Error("No valid CDP page target found in Chrome instance.");
+      }
+
+      this.pageClient = new CDPClient(targetPage.webSocketDebuggerUrl);
+      await this.pageClient.connect();
+      await this.pageClient.send('Page.enable');
+      await this.pageClient.send('Runtime.enable');
+      await this.pageClient.send('DOM.enable');
+    } catch (error) {
+      this.cleanupSync();
+      throw new Error(`Chrome/CDP startup failed: ${error.message}`);
     }
-
-    this.pageClient = new CDPClient(targetPage.webSocketDebuggerUrl);
-    await this.pageClient.connect();
-
-    await this.pageClient.send('Page.enable');
-    await this.pageClient.send('Runtime.enable');
-    await this.pageClient.send('DOM.enable');
   }
 
   // --- Local or Direct URL Search ---
@@ -419,7 +438,10 @@ export class ChromeCDPSearcher {
   // --- ADV-2: Multi-Engine Web Search ETL with Semantic Fallback ---
   async searchWeb(keywords, options = {}) {
     const encoded = encodeURIComponent(keywords);
-    const engine = options.engine || 'bing';
+    const engine = (options.engine || 'bing').toLowerCase();
+    if (!['bing', 'google', 'duckduckgo'].includes(engine)) {
+      throw new Error(`Unsupported web engine: ${engine}. Use bing, google, or duckduckgo.`);
+    }
     let searchUrl = `https://www.bing.com/search?q=${encoded}`;
     if (engine === 'google') {
       searchUrl = `https://www.google.com/search?q=${encoded}&hl=ja`;

@@ -1,0 +1,57 @@
+@seq 1
+@entry PRECEDENT
+∀ agent: depth(agent) ≤ 2
+∀ gate: retry(gate, ADV ∨ DENY) ≤ 3
+
+⊥ retry_exhausted(gate)
+→ 🧾 Trouble(gate, latest_advisory_or_denial)
+→ 🧑 Human
+→ End(Conversation) ⊣ ⊤
+
+🔎 PRECEDENT
+Obj(Task{task_id,target,acceptance}) → Mor(llm-mem.search[level=2,json]) → Precedents
+⊢ executable($env:LLM_MEMORY_BIN) ∧ outside_sandbox
+HIT   ⇒ Evidence(memory=Precedents) → EXPLORE
+EMPTY ⇒ Evidence(memory=N_A(no_precedent)) → EXPLORE
+ERROR ∨ missing_executable ⇒ Evidence(memory=FAILED(non_secret_cause)) → EXPLORE
+
+🔭 EXPLORE @codex.selected
+Evidence(memory) → Evidence(task)
+🧠 PLAN @terra.high
+Evidence → Plan
+🧐 PRE_VERIFY
+Γ ⊢ Plan : Verdict
+PASS ⇒ CODE
+ADV  ⇒ PLAN ↺
+DENY ⇒ PLAN ↺
+⚒ CODE @codex.worker
+Plan → Change
+⊢ explicit_current_task_request(agy) ∧ live_model_resolved ⇒ CODE @agy
+¬explicit_current_task_request(agy) ⇒ CODE @codex.worker
+🧬 worker* : depth ≤ 2
+execution := worker₁ ∥ ... ∥ workerₙ
+🧐 POST_VERIFY
+Γ ⊢ Change : Verdict
+PASS ⇒ FINISH
+ADV  ⇒ CODE ↺
+DENY ⇒ CODE ↺
+🏁 FINISH
+Obj(Change ∘ Diff ∘ Checks ∘ Unknowns) → ArtifactSet
+ArtifactSet → 🧾 TaskReport ∘ EvaluationJSON
+⊢ valid(TaskReport) ∧ valid(EvaluationJSON)
+→ 🔎 git.review
+
+⊢ approval(VCS_WRITE,current_task) ⇒ 📦 git.commit → VCSReceipt
+¬approval(VCS_WRITE,current_task) ⇒ VCSReceipt=N_A(pending_approval)
+ERROR(git.commit) ⇒ VCSReceipt=FAILED(non_secret_cause)
+
+⊢ approval(LIVE_WRITE,current_task) ∧ executable($env:LLM_MEMORY_BIN)
+⇒ outside_sandbox(llm-mem.ingest(TaskReport) ∘ llm-mem.eval(EvaluationJSON))
+→ MemoryReceipt=✅ shared
+¬approval(LIVE_WRITE,current_task) ⇒ MemoryReceipt=N_A(pending_approval)
+missing_executable ∨ ERROR(llm-mem) ⇒ MemoryReceipt=FAILED(non_secret_cause)
+
+🧾 RESULT.share(TaskReport ∘ VCSReceipt ∘ MemoryReceipt) → 🧑 Human
+⊢ MemoryReceipt=✅ shared ⇒ memory_report_complete
+MemoryReceipt∈{N_A,FAILED} ⇒ ¬memory_report_complete
+→ End(Conversation) ⊣ ⊤

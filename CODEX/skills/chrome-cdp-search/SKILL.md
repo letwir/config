@@ -1,9 +1,28 @@
 ---
 name: chrome-cdp-search
-description: Search local directories (~/.gemini, ~/.opencode, ~/.codex, etc.) or execute live Web search ETL and page scraping by launching headless Google Chrome and evaluating queries inside Chrome's V8 engine and DOM renderer via Chrome DevTools Protocol (CDP). Returns structured JSON with line numbers, JSON key-paths, DOM selector matches, and Web search result rankings. Zero npm dependencies (Node >= 22 required).
+description: Search local directories (~/.gemini, ~/.opencode, ~/.codex, etc.) or execute live Web search ETL and page scraping by launching headless Google Chrome and evaluating queries inside Chrome's V8 engine and DOM renderer via Chrome DevTools Protocol (CDP). Returns structured JSON with line numbers, JSON key-paths, DOM selector matches, and Web search result rankings. Zero npm dependencies (Node 22 or newer required).
 ---
 
 # Chrome CDP Searcher & Web ETL Engine
+
+[SPR/XML::ρ→max|protocol:resolve⇒launch⇒query⇒collect⇒cleanup|cues:🔎⊕⊢⊕→⊕⛔⊕✅]
+Obj(LocalTarget ∨ PublicQuery ∨ PublicURL) → Mor(ChromeCDP ∘ DOM/V8Query) → Obj(StructuredJSON ∘ SourceEvidence)
+
+<Γ.morphisms>
+local_search: Mor(Path ∘ Query ∘ Limits) ⇒ `node scripts/chrome_cdp_search.mjs --target <path> --query <query> --json-only` ⊸ LineMatches ∨ JSONPathMatches;
+web_search: Mor(Query ∘ Engine) ⇒ `node scripts/chrome_cdp_search.mjs --web-query <query> --web-engine <engine> --json-only` ⊸ RankedPublicResults;
+page_extract: Mor(PublicURL ∘ Selector) ⇒ `node scripts/chrome_cdp_search.mjs --target <url> --selector <selector> --json-only` ⊸ DOMMatches;
+</Γ.morphisms>
+
+@lrf=1|aud=GPT-5.6|scope=chrome-cdp-search-contract
+R|trigger|task:chrome-cdp-search|MUST|RO_LOCAL|input=local-target-or-public-query-or-public-url; unrelated-browser-automation=false
+R|precondition|task:chrome-cdp-search|MUST|RO_LOCAL|required=Node>=22+Chrome-CDP; target-and-limits=resolved-before-launch
+R|local|task:chrome-cdp-search&case:local|MUST|RO_LOCAL|read=selected-paths-only; bounds=extensions+max-files+query
+R|public|task:chrome-cdp-search&case:web|MUST|RO_PUBLIC|read=public-search-or-public-page; source-url+query+engine=reported
+R|cleanup|task:chrome-cdp-search|MUST|LW_SCOPE|ephemeral-profile-and-Chrome-process=deterministic-cleanup; persistent-target-content=unchanged
+R|secrets|task:chrome-cdp-search|MUST_NOT|CRED|read-or-return=credentials,tokens,private-environment-values,credential-bearing-pages
+R|failure|task:chrome-cdp-search|MUST|RO_LOCAL|on=launch,CDP,timeout,parse,cleanup-failure; return=FAILED+operation+target; silent-fallback=false
+R|success|task:chrome-cdp-search|MUST|RO_LOCAL|required=valid-JSON+mode+query-or-selector+bounded-results; empty-results=success-empty-not-fabricated
 
 A zero-dependency search and web discovery skill powered by **Google Chrome DevTools Protocol (CDP)** and headless Chrome. Evaluates queries, structural JSON paths, live web search engines, and DOM selectors inside a real browser instance, returning structured JSON results to the CUI/CLI.
 

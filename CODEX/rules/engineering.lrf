@@ -17,4 +17,16 @@ R|test.highrisk|change:highrisk|MUST|LW_SCOPE|API persistence concurrency securi
 R|test.native|*|MUST|LW_SCOPE|run project-native checks when available; proof-checker only if project requires and supports it
 R|test.effects|*|MUST|LW_SCOPE|confine generated build cache fixture temp artifacts to known paths and compare against starting state
 R|evidence|*|MUST|RO_LOCAL|report changed files commands exit codes results and unverified risk
-
+R|workflow.code-etl|task:change|MUST|RO_LOCAL|code workflow=etl/main.seq; ordered phases; do not skip a failed gate
+R|workflow.precedent|task:change|MUST|RO_LOCAL|entry=PRECEDENT; query=task-id+target+acceptance; command=$env:LLM_MEMORY_BIN-search-level-2-json; execution=outside-sandbox; reuse-current-task-result=true; empty=N_A; error=FAILED+continue
+R|workflow.external-code|task:change&phase:CODE|MUST|RO_LOCAL|default=selected-Codex-Worker-with-current-routing; agy=explicit-current-task-user-request+live-model-resolution-only; implicit-provider-substitution=false
+R|workflow.artifacts|task:change&phase:FINISH|MUST|LW_SCOPE|required-before-eval=TaskReport+EvaluationJSON; EvaluationJSON=task_id,comparison_key,nonempty-object-axes,attribution,ratios-when-applicable
+R|workflow.memory-report|task:change&phase:FINISH|MUST|LIVE_WRITE|pre=valid-artifacts+current-task-approval; command=$env:LLM_MEMORY_BIN-ingest-and-eval; execution=outside-sandbox; fallback-binary=forbidden
+R|workflow.memory-result|task:change&phase:FINISH|MUST|RO_LOCAL|authorized-success=Receipt+shared-result; unauthorized=N_A(pending-current-task-approval); execution-error=FAILED; memory-report-completion-claim=success-only; Human-receives=Result+Receipt-or-status
+R|workflow.vcs-gate|task:change&phase:FINISH|MUST|VCS_WRITE|commit=current-task-approval-only; unauthorized=N_A; execution-error=FAILED; Human-receives=status
+R|workflow.explorer|task:change|MUST|RO_LOCAL|explorer=read-only repository issue dependency and boundary inventory; output Facts Inferences Unknowns Constraints before plan
+R|workflow.plan|task:change|MUST|RO_LOCAL|plan@Terra=bounded implementation plan with acceptance checks and exclusive file ownership; model identifier must be resolved from current agy.exe models when agy is used
+R|workflow.preverify|task:change|MUST|RO_LOCAL|verify@heavy=independent pre-coding audit of plan scope contracts failure paths and test design; REJECT returns to plan
+R|workflow.coding|task:change|MUST|LW_SCOPE|coding@agy=write only the approved PoC or bounded implementation files; use agy.exe accept-edits; no VCS or external effects delegated
+R|workflow.postverify|task:change|MUST|RO_LOCAL|verify@light=main agent checks real diff format compile focused behavior regression and non-change scope; failure permits at most three correction cycles
+R|workflow.finish|task:change|MUST|RO_LOCAL|Finish=record RESULT review with changed files checks residual risk and unresolved Unknowns; llm-mem ingestion only when authorized; git commit only with explicit current-task VCS_WRITE approval

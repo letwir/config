@@ -1,29 +1,90 @@
 {
   "schema_version": 1,
   "artifact": "subagents_model_eval",
-  "updated_at": "2026-08-24T23:10:00+09:00",
+  "updated_at": "2026-08-29T22:40:00+09:00",
   "evaluation_policy": {
     "event": "main_wait_all_then_batch_append_per_subagent",
     "record_when_no_subagent": false,
     "minimum_evidence_before_reroute": 3,
     "strong_failure_can_trigger_immediate_review": true,
-    "required_fields": ["task_id", "difficulty", "role", "requested_provider", "effective_provider", "requested_model", "effective_model", "requested_reasoning", "effective_reasoning", "acceptance_result", "outcome", "quality", "reason"],
-    "never_record": ["credentials", "tokens", "private_environment_values", "raw_sensitive_logs"]
+    "required_fields": [
+      "task_id",
+      "difficulty",
+      "role",
+      "requested_provider",
+      "effective_provider",
+      "requested_model",
+      "effective_model",
+      "requested_reasoning",
+      "effective_reasoning",
+      "acceptance_result",
+      "outcome",
+      "quality",
+      "reason"
+    ],
+    "never_record": [
+      "credentials",
+      "tokens",
+      "private_environment_values",
+      "raw_sensitive_logs"
+    ]
   },
   "baseline": {
     "source": "user_tip_and_current_subagents_lrf",
     "as_of": "2026-08-23",
     "codex": {
-      "Sol": {"use_for": ["concept_proof", "design_gap_check", "light_independent_review"], "prior": "preferred"},
-      "Terra": {"use_for": ["difficult_mathematical_models", "formal_reasoning", "high_complexity_theory"], "prior": "preferred"},
-      "Luna": {"use_for": ["coding", "task_progression", "orchestration", "general_implementation"], "prior": "preferred"}
+      "Sol": {
+        "use_for": [
+          "concept_proof",
+          "design_gap_check",
+          "light_independent_review"
+        ],
+        "prior": "preferred"
+      },
+      "Terra": {
+        "use_for": [
+          "difficult_mathematical_models",
+          "formal_reasoning",
+          "high_complexity_theory"
+        ],
+        "prior": "preferred"
+      },
+      "Luna": {
+        "use_for": [
+          "coding",
+          "task_progression",
+          "orchestration",
+          "general_implementation"
+        ],
+        "prior": "preferred"
+      }
     },
     "agy": {
       "activation": "explicit_current_task_user_request_only",
-      "Gemini_Pro": {"use_for": ["explicit_external_implementation"], "prior": "below_Luna_for_coding"},
-      "Gemini_Flash": {"use_for": ["explicit_bulk_low_difficulty_coding"], "prior": "not_for_difficult_coding"},
-      "Claude_Sonnet": {"use_for": ["explicit_bounded_code_review_advice"], "prior": "external_only_main_verifies"},
-      "Claude_Opus_Thinking": {"use_for": ["explicit_high_risk_code_review_advice"], "prior": "external_only_main_verifies"}
+      "Gemini_Pro": {
+        "use_for": [
+          "explicit_external_implementation"
+        ],
+        "prior": "below_Luna_for_coding"
+      },
+      "Gemini_Flash": {
+        "use_for": [
+          "explicit_bulk_low_difficulty_coding"
+        ],
+        "prior": "not_for_difficult_coding"
+      },
+      "Claude_Sonnet": {
+        "use_for": [
+          "explicit_bounded_code_review_advice"
+        ],
+        "prior": "external_only_main_verifies"
+      },
+      "Claude_Opus_Thinking": {
+        "use_for": [
+          "explicit_high_risk_code_review_advice"
+        ],
+        "prior": "external_only_main_verifies"
+      }
     }
   },
   "routing": {
@@ -52,8 +113,18 @@
   },
   "orchestration": {
     "default": "delegate_two_or_more_independent_bounded_workstreams",
-    "parallelize": ["read_heavy_exploration", "tests", "triage", "summaries", "disjoint_implementation"],
-    "serialize": ["ordered_dependencies", "overlapping_file_writes", "shared_mutable_state"],
+    "parallelize": [
+      "read_heavy_exploration",
+      "tests",
+      "triage",
+      "summaries",
+      "disjoint_implementation"
+    ],
+    "serialize": [
+      "ordered_dependencies",
+      "overlapping_file_writes",
+      "shared_mutable_state"
+    ],
     "main_agent": "wait_for_all_requested_results_then_validate_and_synthesize",
     "configured_max_concurrent_subagents": 4,
     "effective_fanout": "min(configured cap, runtime available slots excluding main)"
@@ -682,6 +753,63 @@
       "routing_change": "none",
       "date": "2026-08-24",
       "confidence": 0.96
+    },
+    {
+      "task_id": "2026-08-29-opencode-harness-research",
+      "difficulty": "medium",
+      "role": "researcher",
+      "requested_provider": "codex",
+      "effective_provider": "codex",
+      "requested_model": "gpt-5.6-terra",
+      "effective_model": "gpt-5.6-terra",
+      "requested_reasoning": "medium",
+      "effective_reasoning": "medium",
+      "acceptance_result": "official_stable_schema_local_1_18_25_and_conversion_map_confirmed",
+      "outcome": "success_with_constraints",
+      "quality": "high",
+      "reason": "Confirmed stable singular config schema, global versus custom directory behavior, agent and skill formats, permissions, and runtime-version uncertainty from primary sources and local SDK evidence.",
+      "runtime": "not_available",
+      "routing_change": "none",
+      "date": "2026-08-29",
+      "confidence": 0.96
+    },
+    {
+      "task_id": "2026-08-29-opencode-harness-plan-audit",
+      "difficulty": "hard",
+      "role": "auditor",
+      "requested_provider": "codex",
+      "effective_provider": "codex",
+      "requested_model": "gpt-5.6-terra",
+      "effective_model": "gpt-5.6-terra",
+      "requested_reasoning": "high",
+      "effective_reasoning": "high",
+      "acceptance_result": "plan_passed_after_secret_path_preservation_default_agent_and_version_gate_repairs",
+      "outcome": "success_after_retry",
+      "quality": "high",
+      "reason": "Rejected missing secret read guards, incomplete existing-file preservation, absent runtime boundary, and missing default orchestrator before passing the revised deployment plan.",
+      "runtime": "not_available",
+      "routing_change": "none",
+      "date": "2026-08-29",
+      "confidence": 0.98
+    },
+    {
+      "task_id": "2026-08-29-opencode-harness-verification",
+      "difficulty": "hard",
+      "role": "verifier",
+      "requested_provider": "codex",
+      "effective_provider": "codex",
+      "requested_model": "gpt-5.6-terra",
+      "effective_model": "gpt-5.6-terra",
+      "requested_reasoning": "high",
+      "effective_reasoning": "high",
+      "acceptance_result": "static_config_agents_permissions_paths_hashes_and_fail_closed_wrapper_passed_runtime_unverified",
+      "outcome": "success_after_retry",
+      "quality": "high",
+      "reason": "Found a missing Codex absolute evaluation reference, then passed the corrected snapshot with 69 of 69 staged files matching, all active references present, compatibility isolation, and preserved baseline hashes.",
+      "runtime": "not_available",
+      "routing_change": "none",
+      "date": "2026-08-29",
+      "confidence": 0.98
     }
   ]
 }
