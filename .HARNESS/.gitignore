@@ -1,0 +1,43 @@
+# .gitignore for unified .harness repository
+
+# Sensitive Credentials & Auth
+google_accounts.json
+oauth_creds.json
+state.json
+settings.json
+projects.json
+secrets/
+config.toml
+
+# Temporary & Runtime Session Data
+tmp/
+*.db
+*.db-shm
+*.db-wal
+*.log
+*.temp
+*.tmp*
+*.bak*
+*.backup*
+
+# Compiled Binaries & Dynamic Libraries
+*.exe
+*.exe.*
+*.dll
+*.so
+*.dylib
+
+# Python & Node Runtime / Caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+node_modules/
+
+# Intermediate generation runs
+pet-runs/
+
+# Editor / OS
+.DS_Store
+Thumbs.db

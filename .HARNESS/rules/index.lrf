@@ -1,0 +1,15 @@
+@lrf=1|aud=GPT-5.6|scope=index
+R|guard.no-greedy|*|MUST_NOT|RO_LOCAL|full-file read by default; reading whole catalog or reference files without prior grep is forbidden; context pollution=false
+R|protocol.order|*|MUST|RO_LOCAL|retrieval-sequence=index-lookup -> rg-query -> bounded-slice(view_file StartLine/EndLine or head)
+R|skill.head|task:skill-match|MUST|RO_LOCAL|read only frontmatter/tags using view_file StartLine=1 EndLine=15 or head -n 15; omit rest of SKILL.md
+R|skill.rg-action|task:skill-match|MUST|RO_LOCAL|extract command line with rg.exe -n "⊢.*⇒" <skill>/SKILL.md; extract action details with rg.exe -n -C 2 "<action-keyword>" <skill>/SKILL.md
+R|skill.rg-lrf|task:skill-match|MUST|RO_LOCAL|extract skill authority/effects contract with rg.exe -n "^R\x7c" <skill>/SKILL.md
+R|lrf.by-id|*|MUST|RO_LOCAL|extract by rule-id or topic: rg.exe -n "^[RL]\x7c[^\.]*\.<topic>" <file>
+R|lrf.by-guard|*|MUST|RO_LOCAL|extract by guard attribute: rg.exe -n "^[RL]\x7c[^\x7c]+\x7c[^\x7c]*<guard_key>:<val>" <file>
+R|lrf.by-modality|*|MUST|RO_LOCAL|extract prohibitions: rg.exe -n "\x7cMUST_NOT\x7c" <file>; extract write effects: rg.exe -n -e "\x7cLW_SCOPE\x7c" -e "\x7cLIVE_WRITE\x7c" -e "\x7cVCS_WRITE\x7c" <file>
+R|lrf.by-payload|*|MUST|RO_LOCAL|extract by payload keyword: rg.exe -n "^[RL]\x7c.*<keyword>" <file>
+R|state.decisions|file:decisions.md|MUST|RO_LOCAL|query high-level goals: rg.exe -n "^## " decisions.md
+R|state.knowledge|file:knowledge.md|MUST|RO_LOCAL|query facts: rg.exe -n -e "<api id=" -e "<term>" -A 8 knowledge.md
+R|state.issues|file:issues.md|MUST|RO_LOCAL|query task queue: rg.exe -n "\[[ -~*x]\]" -C 3 issues.md
+R|state.diary|file:diary.md|MUST|RO_LOCAL|query turn friction: rg.exe -n "^### " diary.md
+R|state.etl|*|MUST|RO_LOCAL|query etl sequence: rg.exe -n "^[@🔎🔭🧠🧐⚒🏁🧾]" ../etl/*.seq

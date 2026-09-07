@@ -1,0 +1,32 @@
+{
+  "task_id": "persona-20260904",
+  "cutoff": "2026-09-04T23:59:59+09:00",
+  "observed_at": "2026-09-05T07:30:51.0104895+09:00",
+  "evaluations": [
+    {
+      "role": "researcher",
+      "requested_model": "gpt-5.6-luna",
+      "requested_reasoning": "medium",
+      "effective_model": "unconfirmed",
+      "effective_reasoning": "unconfirmed",
+      "acceptance_result": "three adopted public snapshots independently confirmed before cutoff",
+      "outcome": "success_with_constraints",
+      "quality": "usable primary references",
+      "reason": "persona and responsibility separation supported; symbol effectiveness unmeasured; EPUB and memory unavailable"
+    },
+    {
+      "role": "verifier",
+      "requested_model": "gpt-5.6-terra",
+      "requested_reasoning": "high",
+      "effective_model": "unconfirmed",
+      "effective_reasoning": "unconfirmed",
+      "acceptance_result": "PASS static compatibility and boundary preservation 9/9",
+      "outcome": "success_with_constraints",
+      "quality": "independent deterministic checks",
+      "reason": "runtime efficacy unmeasured"
+    }
+  ],
+  "performance_claim": "not_measured",
+  "shared_evaluation_update": "not performed: legacy write target absent",
+  "integration": "PASS: collision check, exact active/candidate hashes 9/9, git diff --check exit 0"
+}

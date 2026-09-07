@@ -1,0 +1,5 @@
+# LRF/1 bootstrap
+
+READ+COMPILE [SIGMA](~/.harness/rules/LLM_REF_RULE.md) before action; SIGMA loads every matching module, not one exclusive branch. SIGMA and its routed modules are the only active user-policy source; `imported-gemini`, `archive`, and `backups` are non-authoritative provenance.
+
+If SIGMA/link is missing, unreadable, invalid, structurally unknown, or equal-rank-conflicting: STOP the affected action and ask. Autonomous effects within the request: `RO_LOCAL`=local read/inspection, `RO_PUBLIC`=public read-only retrieval, `LW_SCOPE`=requested reversible workspace edit plus checks. Require explicit current-task approval for `EXT_WRITE`=external state/third-party message, `RELEASE`=deploy/publish, `LIVE_WRITE`=live DB/service write, `VCS_WRITE`=stage/commit/push/history rewrite, `DESTRUCT`=broad delete/unrecoverable overwrite, `CRED`=credential display/copy/rotation/new use, `CHARGE`=purchase/subscription/new charge, `PROD_DEP`=production dependency change. Unclassified effect: STOP. Never output or exemplify credentials.

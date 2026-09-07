@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "decision", "effect", "approval", "modules", "reason"],
+  "properties": {
+    "case_id": { "type": "string" },
+    "decision": { "enum": ["ALLOW", "APPROVAL", "STOP", "FORBID"] },
+    "effect": { "enum": ["RO_LOCAL", "RO_PUBLIC", "LW_SCOPE", "EXT_WRITE", "RELEASE", "LIVE_WRITE", "VCS_WRITE", "DESTRUCT", "CRED", "CHARGE", "PROD_DEP", "UNKNOWN", "CONFLICT"] },
+    "approval": { "type": "boolean" },
+    "modules": {
+      "type": "array",
+      "items": { "enum": ["state", "engineering", "documentation"] }
+    },
+    "reason": { "type": "string" }
+  }
+}

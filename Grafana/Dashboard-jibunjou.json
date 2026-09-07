@@ -116,7 +116,7 @@
               "wideLayout": true
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -190,7 +190,7 @@
                     }
                   ]
                 },
-                "unit": "lengthm"
+                "unit": "velocityms"
               },
               "overrides": []
             },
@@ -212,7 +212,7 @@
               "wideLayout": true
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -308,7 +308,7 @@
               "wideLayout": true
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -359,7 +359,8 @@
             "fieldConfig": {
               "defaults": {
                 "color": {
-                  "mode": "continuous-GrYlRd"
+                  "mode": "continuous-YlRd",
+                  "seriesBy": "max"
                 },
                 "custom": {
                   "axisBorderShow": false,
@@ -368,7 +369,7 @@
                   "axisLabel": "",
                   "axisPlacement": "auto",
                   "barAlignment": 0,
-                  "barWidthFactor": 0.6,
+                  "barWidthFactor": 0.9,
                   "drawStyle": "line",
                   "fillOpacity": 0,
                   "gradientMode": "none",
@@ -379,12 +380,15 @@
                   },
                   "insertNulls": false,
                   "lineInterpolation": "linear",
+                  "lineStyle": {
+                    "fill": "solid"
+                  },
                   "lineWidth": 1,
-                  "pointSize": 5,
+                  "pointSize": 1,
                   "scaleDistribution": {
                     "type": "linear"
                   },
-                  "showPoints": "auto",
+                  "showPoints": "always",
                   "showValues": false,
                   "spanNulls": false,
                   "stacking": {
@@ -395,7 +399,8 @@
                     "mode": "off"
                   }
                 },
-                "max": 70,
+                "max": 80,
+                "min": 25,
                 "thresholds": {
                   "mode": "absolute",
                   "steps": [
@@ -408,7 +413,8 @@
                       "value": 80
                     }
                   ]
-                }
+                },
+                "unit": "celsius"
               },
               "overrides": []
             },
@@ -420,6 +426,8 @@
               "legend": {
                 "calcs": [],
                 "displayMode": "list",
+                "enableFacetedFilter": false,
+                "overflow": "ellipsis",
                 "placement": "bottom",
                 "showLegend": true
               },
@@ -430,7 +438,7 @@
               }
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -480,7 +488,8 @@
             "fieldConfig": {
               "defaults": {
                 "color": {
-                  "mode": "continuous-BlYlRd"
+                  "mode": "continuous-GrYlRd",
+                  "seriesBy": "max"
                 },
                 "custom": {
                   "axisBorderShow": false,
@@ -489,7 +498,7 @@
                   "axisLabel": "",
                   "axisPlacement": "auto",
                   "barAlignment": 0,
-                  "barWidthFactor": 0.6,
+                  "barWidthFactor": 0.9,
                   "drawStyle": "line",
                   "fillOpacity": 0,
                   "gradientMode": "none",
@@ -500,12 +509,15 @@
                   },
                   "insertNulls": false,
                   "lineInterpolation": "linear",
+                  "lineStyle": {
+                    "fill": "solid"
+                  },
                   "lineWidth": 1,
-                  "pointSize": 5,
+                  "pointSize": 1,
                   "scaleDistribution": {
                     "type": "linear"
                   },
-                  "showPoints": "auto",
+                  "showPoints": "always",
                   "showValues": false,
                   "spanNulls": false,
                   "stacking": {
@@ -516,7 +528,8 @@
                     "mode": "off"
                   }
                 },
-                "max": 75,
+                "max": 80,
+                "min": 26,
                 "thresholds": {
                   "mode": "absolute",
                   "steps": [
@@ -529,7 +542,8 @@
                       "value": 80
                     }
                   ]
-                }
+                },
+                "unit": "celsius"
               },
               "overrides": []
             },
@@ -541,6 +555,8 @@
               "legend": {
                 "calcs": [],
                 "displayMode": "list",
+                "enableFacetedFilter": false,
+                "overflow": "ellipsis",
                 "placement": "bottom",
                 "showLegend": true
               },
@@ -551,7 +567,7 @@
               }
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -575,7 +591,7 @@
                     "spec": {
                       "direction": "backward",
                       "editorMode": "code",
-                      "expr": "{level=~\"error|warn|fatal|crit|emerg\"}\r\n| json\r\n| regexp \"(?P<message>^.*(admin|root).*$)\"\r\n| line_format \"{{.computer}}\\t{{.unit}}:\\t{{.message}}\"",
+                      "expr": "{level=~\"error|warn|fatal|crit|emerg\"} | json | label_format computer=\"{{.computer}}\", source=\"{{.source}}\", message=\"{{.message}}\"",
                       "legendFormat": "computer, source, message",
                       "queryType": "range"
                     },
@@ -619,7 +635,7 @@
               "wrapLogMessage": false
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -636,9 +652,9 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "${db_prometheus}"
+                      "name": "${db_victoriametrics}"
                     },
-                    "group": "prometheus",
+                    "group": "victoriametrics-metrics-datasource",
                     "kind": "DataQuery",
                     "spec": {
                       "editorMode": "code",
@@ -662,7 +678,7 @@
         "description": "",
         "id": 16,
         "links": [],
-        "title": "💾Disk Temperature",
+        "title": "Disk Temperature",
         "vizConfig": {
           "group": "timeseries",
           "kind": "VizConfig",
@@ -670,7 +686,8 @@
             "fieldConfig": {
               "defaults": {
                 "color": {
-                  "mode": "continuous-BlPu"
+                  "mode": "continuous-BlPu",
+                  "seriesBy": "max"
                 },
                 "custom": {
                   "axisBorderShow": false,
@@ -679,7 +696,7 @@
                   "axisLabel": "",
                   "axisPlacement": "auto",
                   "barAlignment": 0,
-                  "barWidthFactor": 0.6,
+                  "barWidthFactor": 0.9,
                   "drawStyle": "line",
                   "fillOpacity": 0,
                   "gradientMode": "none",
@@ -690,12 +707,15 @@
                   },
                   "insertNulls": false,
                   "lineInterpolation": "linear",
+                  "lineStyle": {
+                    "fill": "solid"
+                  },
                   "lineWidth": 1,
-                  "pointSize": 5,
+                  "pointSize": 1,
                   "scaleDistribution": {
                     "type": "linear"
                   },
-                  "showPoints": "never",
+                  "showPoints": "always",
                   "showValues": false,
                   "spanNulls": true,
                   "stacking": {
@@ -707,7 +727,7 @@
                   }
                 },
                 "decimals": 0,
-                "min": 20,
+                "min": 25,
                 "thresholds": {
                   "mode": "absolute",
                   "steps": [
@@ -737,6 +757,8 @@
                   "max"
                 ],
                 "displayMode": "table",
+                "enableFacetedFilter": false,
+                "overflow": "ellipsis",
                 "placement": "right",
                 "showLegend": true,
                 "sortBy": "Mean",
@@ -749,7 +771,7 @@
               }
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -766,9 +788,9 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "${db_prometheus}"
+                      "name": "${db_victoriametrics}"
                     },
-                    "group": "prometheus",
+                    "group": "victoriametrics-metrics-datasource",
                     "kind": "DataQuery",
                     "spec": {
                       "editorMode": "builder",
@@ -790,9 +812,9 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "${db_prometheus}"
+                      "name": "${db_victoriametrics}"
                     },
-                    "group": "prometheus",
+                    "group": "victoriametrics-metrics-datasource",
                     "kind": "DataQuery",
                     "spec": {
                       "editorMode": "code",
@@ -1005,7 +1027,7 @@
                   "properties": [
                     {
                       "id": "custom.width",
-                      "value": 50
+                      "value": 140
                     }
                   ]
                 },
@@ -1029,7 +1051,7 @@
                   "properties": [
                     {
                       "id": "custom.width",
-                      "value": 106
+                      "value": 134
                     }
                   ]
                 },
@@ -1059,7 +1081,7 @@
               ]
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -1076,9 +1098,9 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "${db_prometheus}"
+                      "name": "${db_victoriametrics}"
                     },
-                    "group": "prometheus",
+                    "group": "victoriametrics-metrics-datasource",
                     "kind": "DataQuery",
                     "spec": {
                       "editorMode": "builder",
@@ -1109,6 +1131,7 @@
             "fieldConfig": {
               "defaults": {
                 "color": {
+                  "fixedColor": "#73BF69",
                   "mode": "palette-classic"
                 },
                 "custom": {
@@ -1203,6 +1226,7 @@
               "displayLabels": [],
               "legend": {
                 "displayMode": "table",
+                "overflow": "ellipsis",
                 "placement": "right",
                 "showLegend": false,
                 "values": [
@@ -1225,7 +1249,7 @@
               }
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -1248,9 +1272,7 @@
                     "kind": "DataQuery",
                     "spec": {
                       "editorMode": "builder",
-                      "expr": "count by(instance) (delta(loki_response_message_bytes_count[$__interval]))",
-                      "format": "time_series",
-                      "legendFormat": "__auto",
+                      "expr": "esp32_pressure_hectopascals{job=\"esp32-exporter\"}",
                       "range": true
                     },
                     "version": "v0"
@@ -1266,9 +1288,9 @@
         "description": "",
         "id": 20,
         "links": [],
-        "title": "Loki stream/day",
+        "title": "⛅️ESP32-気圧",
         "vizConfig": {
-          "group": "gauge",
+          "group": "stat",
           "kind": "VizConfig",
           "spec": {
             "fieldConfig": {
@@ -1276,6 +1298,9 @@
                 "color": {
                   "mode": "thresholds"
                 },
+                "decimals": 0,
+                "max": 1090,
+                "min": 870,
                 "thresholds": {
                   "mode": "absolute",
                   "steps": [
@@ -1284,26 +1309,29 @@
                       "value": 0
                     },
                     {
-                      "color": "red",
-                      "value": 80
+                      "color": "blue",
+                      "value": 980
+                    },
+                    {
+                      "color": "green",
+                      "value": 990
+                    },
+                    {
+                      "color": "orange",
+                      "value": 1030
                     }
                   ]
-                }
+                },
+                "unit": "pressurehpa"
               },
               "overrides": []
             },
             "options": {
-              "barShape": "flat",
-              "barWidthFactor": 0.3,
-              "effects": {
-                "barGlow": false,
-                "centerGlow": false,
-                "gradient": true
-              },
-              "endpointMarker": "point",
-              "minVizHeight": 75,
-              "minVizWidth": 75,
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
               "orientation": "auto",
+              "percentChangeColorMode": "standard",
               "reduceOptions": {
                 "calcs": [
                   "lastNotNull"
@@ -1311,17 +1339,12 @@
                 "fields": "",
                 "values": false
               },
-              "segmentCount": 1,
-              "segmentSpacing": 0.3,
-              "shape": "gauge",
-              "showThresholdLabels": false,
-              "showThresholdMarkers": false,
-              "sizing": "auto",
-              "sparkline": true,
-              "textMode": "auto"
+              "showPercentChange": true,
+              "textMode": "value",
+              "wideLayout": true
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -1338,15 +1361,60 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "${db_loki}"
+                      "name": "afptfe82uomwwd"
                     },
-                    "group": "loki",
+                    "group": "grafana-postgresql-datasource",
                     "kind": "DataQuery",
                     "spec": {
-                      "direction": "backward",
+                      "dataset": "db",
                       "editorMode": "code",
-                      "expr": "{source=~\".+\"} | json | line_format \"{{.source}} @{{.computer}}:\\t{{.message}}\"| message =~ \"^.*(root|admin).*$\"",
-                      "queryType": "range"
+                      "format": "table",
+                      "key": "Q-2e6cc9d3-a89e-41a6-946d-1f725cd90a38-0",
+                      "rawQuery": true,
+                      "rawSql": "WITH base_stats AS (\r\n    SELECT\r\n        $__timeGroup(event_time, $__interval, 0) AS time,\r\n        hostname,\r\n        domain_root,\r\n        COUNT(*)::double precision AS cnt,\r\n        SUM(GREATEST(COALESCE(visit_duration, 0), 1))::double precision AS dur\r\n    FROM raw.browser\r\n    WHERE\r\n        $__timeFilter(event_time)\r\n        AND hostname IS NOT NULL\r\n        AND hostname != ''\r\n        AND domain_root IS NOT NULL \r\n        AND domain_root != ''\r\n    GROUP BY 1, 2, 3\r\n),\r\nprobs AS (\r\n    SELECT\r\n        time,\r\n        hostname,\r\n        domain_root,\r\n        cnt,\r\n        dur,\r\n        cnt / NULLIF(SUM(cnt) OVER (PARTITION BY time, hostname), 0) AS p_cnt,\r\n        dur / NULLIF(SUM(dur) OVER (PARTITION BY time, hostname), 0) AS p_dur\r\n    FROM base_stats\r\n)\r\nSELECT\r\n    time,\r\n    hostname,\r\n    -- 1. 回数ベース シャノンエントロピー (bits)\r\n    COALESCE(-SUM(CASE WHEN p_cnt > 0 THEN p_cnt * (ln(p_cnt) / ln(2.0)) ELSE 0 END), 0) AS \"Count Entropy (bits)\",\r\n\r\n    -- 2. 滞在時間ベース シャノンエントロピー (bits)\r\n    COALESCE(-SUM(CASE WHEN p_dur > 0 THEN p_dur * (ln(p_dur) / ln(2.0)) ELSE 0 END), 0) AS \"Duration Entropy (bits)\",\r\n\r\n    -- 3. 正規化エントロピー (回数ベース: 0.0〜1.0)\r\n    CASE \r\n        WHEN COUNT(*) > 1 THEN COALESCE(-SUM(CASE WHEN p_cnt > 0 THEN p_cnt * (ln(p_cnt) / ln(2.0)) ELSE 0 END) / (ln(COUNT(*)::double precision) / ln(2.0)), 0)\r\n        ELSE 0 \r\n    END AS \"Normalized Count Entropy (0-1)\",\r\n\r\n    -- 4. 正規化エントロピー (滞在時間ベース: 0.0〜1.0)\r\n    CASE \r\n        WHEN COUNT(*) > 1 THEN COALESCE(-SUM(CASE WHEN p_dur > 0 THEN p_dur * (ln(p_dur) / ln(2.0)) ELSE 0 END) / (ln(COUNT(*)::double precision) / ln(2.0)), 0)\r\n        ELSE 0 \r\n    END AS \"Normalized Duration Entropy (0-1)\",\r\n\r\n    -- 5. ユニークドメイン数 (参考)\r\n    COUNT(domain_root) AS \"Unique Domains\",\r\n\r\n    -- 6. 総閲覧回数 (参考)\r\n    SUM(cnt) AS \"Total Pageviews\"\r\nFROM probs\r\nGROUP BY time, hostname\r\nORDER BY time, hostname;",
+                      "sql": {
+                        "columns": [
+                          {
+                            "name": "$__timeGroup",
+                            "parameters": [
+                              {
+                                "name": "analyzed_at",
+                                "type": "functionParameter"
+                              },
+                              {
+                                "name": "$__interval",
+                                "type": "functionParameter"
+                              },
+                              {
+                                "name": "0",
+                                "type": "functionParameter"
+                              }
+                            ],
+                            "type": "function"
+                          },
+                          {
+                            "name": "COUNT",
+                            "parameters": [
+                              {
+                                "name": "id",
+                                "type": "functionParameter"
+                              }
+                            ],
+                            "type": "function"
+                          }
+                        ],
+                        "groupBy": [
+                          {
+                            "property": {
+                              "name": "$__timeGroup(analyzed_at, $__interval, 0)",
+                              "type": "string"
+                            },
+                            "type": "groupBy"
+                          }
+                        ],
+                        "limit": 50
+                      },
+                      "table": "raw.library_flac"
                     },
                     "version": "v0"
                   },
@@ -1355,37 +1423,113 @@
               }
             ],
             "queryOptions": {},
-            "transformations": []
+            "transformations": [
+              {
+                "group": "partitionByValues",
+                "kind": "Transformation",
+                "spec": {
+                  "options": {
+                    "fields": [
+                      "hostname"
+                    ]
+                  }
+                }
+              }
+            ]
           }
         },
         "description": "",
         "id": 21,
         "links": [],
-        "title": "root",
+        "title": "ブラウザのシャノンエントロピー (Hostname別)",
         "vizConfig": {
-          "group": "logs",
+          "group": "timeseries",
           "kind": "VizConfig",
           "spec": {
             "fieldConfig": {
-              "defaults": {},
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic",
+                  "seriesBy": "last"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "barWidthFactor": 0.6,
+                  "drawStyle": "line",
+                  "fillOpacity": 20,
+                  "gradientMode": "opacity",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineStyle": {
+                    "fill": "solid"
+                  },
+                  "lineWidth": 1,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "showValues": false,
+                  "spanNulls": false,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "percentage",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 40
+                    },
+                    {
+                      "color": "red",
+                      "value": 60
+                    }
+                  ]
+                }
+              },
               "overrides": []
             },
             "options": {
-              "dedupStrategy": "none",
-              "enableInfiniteScrolling": false,
-              "enableLogDetails": true,
-              "prettifyLogMessage": true,
-              "showControls": false,
-              "showFieldSelector": false,
-              "showLevel": true,
-              "showTime": false,
-              "sortOrder": "Descending",
-              "timestampResolution": "ms",
-              "unwrappedColumns": false,
-              "wrapLogMessage": false
+              "annotations": {
+                "clustering": -1,
+                "multiLane": false
+              },
+              "legend": {
+                "calcs": [],
+                "displayMode": "list",
+                "enableFacetedFilter": false,
+                "overflow": "ellipsis",
+                "placement": "bottom",
+                "showLegend": true
+              },
+              "tooltip": {
+                "hideZeros": false,
+                "mode": "multi",
+                "sort": "none"
+              }
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -1402,17 +1546,86 @@
                   "hidden": false,
                   "query": {
                     "datasource": {
-                      "name": "dfif8uo5sjhmod"
+                      "name": "${db_victoriametrics}"
                     },
-                    "group": "loki",
+                    "group": "victoriametrics-metrics-datasource",
                     "kind": "DataQuery",
                     "spec": {
-                      "expr": "{os=~\"Linux|Windows\"}     | json  | logfmt | drop __error__, __error_details__  ",
-                      "legendFormat": ""
+                      "editorMode": "builder",
+                      "expr": "analyzer_tasks_per_minute",
+                      "format": "time_series",
+                      "legendFormat": "処理速度 (tracks/min)",
+                      "range": true
                     },
                     "version": "v0"
                   },
                   "refId": "A"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "${db_victoriametrics}"
+                    },
+                    "group": "victoriametrics-metrics-datasource",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "expr": "analyzer_files_per_minute",
+                      "format": "time_series",
+                      "legendFormat": "処理速度 (files/min)",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "B"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "${db_victoriametrics}"
+                    },
+                    "group": "victoriametrics-metrics-datasource",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "analyzer_avg_task_duration_seconds",
+                      "format": "time_series",
+                      "legendFormat": "1曲平均所要時間 (s)",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "C"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "${db_victoriametrics}"
+                    },
+                    "group": "victoriametrics-metrics-datasource",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "analyzer_avg_file_duration_seconds",
+                      "format": "time_series",
+                      "legendFormat": "1ファイル平均所要時間 (s)",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "D"
                 }
               }
             ],
@@ -1423,90 +1636,124 @@
         "description": "",
         "id": 22,
         "links": [],
-        "title": "Logs",
+        "title": "🎵 Analyzer - 処理速度 ＆ 所要時間",
         "vizConfig": {
-          "group": "logs",
+          "group": "timeseries",
           "kind": "VizConfig",
           "spec": {
             "fieldConfig": {
-              "defaults": {},
+              "defaults": {
+                "color": {
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "処理数 / 分",
+                  "axisPlacement": "left",
+                  "barAlignment": 0,
+                  "barWidthFactor": 0.6,
+                  "drawStyle": "line",
+                  "fillOpacity": 8,
+                  "gradientMode": "none",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 2,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "auto",
+                  "showValues": false,
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "short"
+              },
               "overrides": [
                 {
                   "matcher": {
                     "id": "byRegexp",
-                    "options": "/^(info|information)$/i"
+                    "options": "/所要時間/",
+                    "scope": "series"
                   },
-                  "properties": []
-                },
-                {
-                  "matcher": {
-                    "id": "byRegexp",
-                    "options": "/^debug$/i"
-                  },
-                  "properties": []
-                },
-                {
-                  "matcher": {
-                    "id": "byRegexp",
-                    "options": "/^(warn|warning)$/i"
-                  },
-                  "properties": []
-                },
-                {
-                  "matcher": {
-                    "id": "byRegexp",
-                    "options": "/^(error|errors)$/i"
-                  },
-                  "properties": []
-                },
-                {
-                  "matcher": {
-                    "id": "byRegexp",
-                    "options": "/^(crit|critical|fatal|severe)$/i"
-                  },
-                  "properties": []
-                },
-                {
-                  "matcher": {
-                    "id": "byRegexp",
-                    "options": "/^(logs|unknown)$/i"
-                  },
-                  "properties": []
+                  "properties": [
+                    {
+                      "id": "custom.axisPlacement",
+                      "value": "right"
+                    },
+                    {
+                      "id": "custom.axisLabel",
+                      "value": "所要時間 (秒)"
+                    },
+                    {
+                      "id": "unit",
+                      "value": "s"
+                    },
+                    {
+                      "id": "custom.lineStyle",
+                      "value": {
+                        "dash": [
+                          8,
+                          6
+                        ],
+                        "fill": "dash"
+                      }
+                    }
+                  ]
                 }
               ]
             },
             "options": {
               "annotations": {
-                "multiLane": true
+                "clustering": -1,
+                "multiLane": false
               },
-              "dedupStrategy": "none",
-              "enableInfiniteScrolling": false,
-              "enableLogDetails": true,
               "legend": {
                 "calcs": [
-                  "sum"
+                  "lastNotNull",
+                  "max",
+                  "mean"
                 ],
-                "displayMode": "list",
+                "displayMode": "table",
+                "enableFacetedFilter": false,
+                "overflow": "ellipsis",
                 "placement": "bottom",
                 "showLegend": true
               },
-              "prettifyLogMessage": true,
-              "showControls": false,
-              "showFieldSelector": false,
-              "showLevel": true,
-              "showTime": false,
-              "sortOrder": "Descending",
-              "timestampResolution": "ms",
               "tooltip": {
                 "hideZeros": false,
-                "mode": "single",
+                "mode": "multi",
                 "sort": "none"
-              },
-              "unwrappedColumns": false,
-              "wrapLogMessage": false
+              }
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -1528,15 +1775,37 @@
                     "group": "victoriametrics-metrics-datasource",
                     "kind": "DataQuery",
                     "spec": {
-                      "editorMode": "builder",
-                      "expr": "delta(mariadb_innodb_buffer_pool_bytes_dirty[$__interval])",
+                      "editorMode": "code",
+                      "expr": "label_replace(label_replace(node_hwmon_power_watt, \"chip2\", \"$1\", \"chip\", \"(?:0000:0)?(?:0:0[0-9]_)?(?:platform_)?(?:thermal_)?(?:nvme_)?([^_-]+)?.*\"), \"inst2\", \"$1$2\", \"instance\", \"(?:192\\\\.168\\\\.)?([0-9]*\\\\.)?([^.:]+).*\")",
                       "format": "time_series",
-                      "legendFormat": "__auto",
+                      "legendFormat": "{{inst2}} - CPU/Node ({{chip2}})",
                       "range": true
                     },
                     "version": "v0"
                   },
                   "refId": "A"
+                }
+              },
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "${db_victoriametrics}"
+                    },
+                    "group": "victoriametrics-metrics-datasource",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "code",
+                      "expr": "label_replace(nvidia_smi_power_draw_instant_watts, \"inst2\", \"$1$2\", \"instance\", \"(?:192\\\\.168\\\\.)?([0-9]*\\\\.)?([^.:]+).*\")",
+                      "format": "time_series",
+                      "legendFormat": "{{inst2}} - GPU{{gpu}} ({{name}})",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "B"
                 }
               }
             ],
@@ -1547,16 +1816,51 @@
         "description": "",
         "id": 23,
         "links": [],
-        "title": "innodb_dirty",
+        "title": "⚡ 消費電力 (Power Watts)",
         "vizConfig": {
-          "group": "gauge",
+          "group": "timeseries",
           "kind": "VizConfig",
           "spec": {
             "fieldConfig": {
               "defaults": {
                 "color": {
-                  "mode": "thresholds"
+                  "mode": "palette-classic"
                 },
+                "custom": {
+                  "axisBorderShow": false,
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisLabel": "消費電力",
+                  "axisPlacement": "auto",
+                  "barAlignment": 0,
+                  "barWidthFactor": 0.6,
+                  "drawStyle": "line",
+                  "fillOpacity": 10,
+                  "gradientMode": "opacity",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "insertNulls": false,
+                  "lineInterpolation": "linear",
+                  "lineWidth": 1.5,
+                  "pointSize": 5,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "showPoints": "never",
+                  "showValues": false,
+                  "spanNulls": true,
+                  "stacking": {
+                    "group": "A",
+                    "mode": "none"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "decimals": 1,
                 "thresholds": {
                   "mode": "absolute",
                   "steps": [
@@ -1569,40 +1873,38 @@
                       "value": 80
                     }
                   ]
-                }
+                },
+                "unit": "watt"
               },
               "overrides": []
             },
             "options": {
-              "barShape": "flat",
-              "barWidthFactor": 0.3,
-              "effects": {
-                "barGlow": false,
-                "centerGlow": false,
-                "gradient": true
+              "annotations": {
+                "clustering": -1,
+                "multiLane": false
               },
-              "endpointMarker": "point",
-              "minVizHeight": 75,
-              "minVizWidth": 75,
-              "orientation": "auto",
-              "reduceOptions": {
+              "legend": {
                 "calcs": [
-                  "lastNotNull"
+                  "lastNotNull",
+                  "max",
+                  "mean"
                 ],
-                "fields": "",
-                "values": false
+                "displayMode": "table",
+                "enableFacetedFilter": false,
+                "overflow": "ellipsis",
+                "placement": "right",
+                "showLegend": true,
+                "sortBy": "Last *",
+                "sortDesc": true
               },
-              "segmentCount": 1,
-              "segmentSpacing": 0.3,
-              "shape": "gauge",
-              "showThresholdLabels": false,
-              "showThresholdMarkers": false,
-              "sizing": "auto",
-              "sparkline": true,
-              "textMode": "auto"
+              "tooltip": {
+                "hideZeros": false,
+                "mode": "multi",
+                "sort": "none"
+              }
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -1625,9 +1927,8 @@
                     "kind": "DataQuery",
                     "spec": {
                       "editorMode": "builder",
-                      "expr": "delta(mariadb_innodb_data_written_bytes[$__interval])",
+                      "expr": "esp32_temperature_celsius",
                       "format": "time_series",
-                      "legendFormat": "__auto",
                       "range": true
                     },
                     "version": "v0"
@@ -1643,16 +1944,18 @@
         "description": "",
         "id": 24,
         "links": [],
-        "title": "innodb_write",
+        "title": "🌡️ESP32-温度",
         "vizConfig": {
-          "group": "gauge",
+          "group": "stat",
           "kind": "VizConfig",
           "spec": {
             "fieldConfig": {
               "defaults": {
                 "color": {
-                  "mode": "thresholds"
+                  "mode": "continuous-BlYlRd"
                 },
+                "max": 45,
+                "min": 10,
                 "thresholds": {
                   "mode": "absolute",
                   "steps": [
@@ -1665,22 +1968,17 @@
                       "value": 80
                     }
                   ]
-                }
+                },
+                "unit": "celsius"
               },
               "overrides": []
             },
             "options": {
-              "barShape": "flat",
-              "barWidthFactor": 0.3,
-              "effects": {
-                "barGlow": false,
-                "centerGlow": false,
-                "gradient": true
-              },
-              "endpointMarker": "point",
-              "minVizHeight": 75,
-              "minVizWidth": 75,
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
               "orientation": "auto",
+              "percentChangeColorMode": "same_as_value",
               "reduceOptions": {
                 "calcs": [
                   "lastNotNull"
@@ -1688,17 +1986,100 @@
                 "fields": "",
                 "values": false
               },
-              "segmentCount": 1,
-              "segmentSpacing": 0.3,
-              "shape": "gauge",
-              "showThresholdLabels": false,
-              "showThresholdMarkers": false,
-              "sizing": "auto",
-              "sparkline": true,
-              "textMode": "auto"
+              "showPercentChange": false,
+              "textMode": "value",
+              "wideLayout": true
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
+        }
+      }
+    },
+    "panel-25": {
+      "kind": "Panel",
+      "spec": {
+        "data": {
+          "kind": "QueryGroup",
+          "spec": {
+            "queries": [
+              {
+                "kind": "PanelQuery",
+                "spec": {
+                  "hidden": false,
+                  "query": {
+                    "datasource": {
+                      "name": "${db_victoriametrics}"
+                    },
+                    "group": "victoriametrics-metrics-datasource",
+                    "kind": "DataQuery",
+                    "spec": {
+                      "editorMode": "builder",
+                      "expr": "esp32_humidity_percent",
+                      "format": "time_series",
+                      "legendFormat": "__auto",
+                      "range": true
+                    },
+                    "version": "v0"
+                  },
+                  "refId": "A"
+                }
+              }
+            ],
+            "queryOptions": {},
+            "transformations": []
+          }
+        },
+        "description": "",
+        "id": 25,
+        "links": [],
+        "title": "☁ESP32-湿度",
+        "vizConfig": {
+          "group": "stat",
+          "kind": "VizConfig",
+          "spec": {
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "mode": "continuous-YlBl"
+                },
+                "max": 100,
+                "min": 0,
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": 0
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "humidity"
+              },
+              "overrides": []
+            },
+            "options": {
+              "colorMode": "value",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "percentChangeColorMode": "same_as_value",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "showPercentChange": false,
+              "textMode": "value",
+              "wideLayout": true
+            }
+          },
+          "version": "13.1.1"
         }
       }
     },
@@ -1721,7 +2102,7 @@
                     "kind": "DataQuery",
                     "spec": {
                       "editorMode": "builder",
-                      "expr": "remo_temperature{instance=\"${remo_device}\", __name__=\"remo_temperature\"}",
+                      "expr": "remo_temperature{instance=\"${remo_device}\"}",
                       "format": "time_series",
                       "range": true
                     },
@@ -1785,7 +2166,7 @@
               "wideLayout": true
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -1873,7 +2254,7 @@
               "wideLayout": true
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -1895,7 +2276,7 @@
                     "group": "victoriametrics-metrics-datasource",
                     "kind": "DataQuery",
                     "spec": {
-                      "editorMode": "code",
+                      "editorMode": "builder",
                       "expr": "{instance=\"${remo_device}\", __name__=\"remo_humidity\"}",
                       "format": "time_series",
                       "range": true
@@ -1960,126 +2341,7 @@
               "wideLayout": true
             }
           },
-          "version": "13.0.1"
-        }
-      }
-    },
-    "panel-7": {
-      "kind": "Panel",
-      "spec": {
-        "data": {
-          "kind": "QueryGroup",
-          "spec": {
-            "queries": [
-              {
-                "kind": "PanelQuery",
-                "spec": {
-                  "hidden": false,
-                  "query": {
-                    "datasource": {
-                      "name": "${db_victoriametrics}"
-                    },
-                    "group": "victoriametrics-metrics-datasource",
-                    "kind": "DataQuery",
-                    "spec": {
-                      "editorMode": "code",
-                      "expr": "remo_motion{}",
-                      "format": "time_series",
-                      "range": true
-                    },
-                    "version": "v0"
-                  },
-                  "refId": "A"
-                }
-              }
-            ],
-            "queryOptions": {},
-            "transformations": []
-          }
-        },
-        "description": "",
-        "id": 7,
-        "links": [],
-        "title": "🚶Remo-人感センサ",
-        "vizConfig": {
-          "group": "timeseries",
-          "kind": "VizConfig",
-          "spec": {
-            "fieldConfig": {
-              "defaults": {
-                "color": {
-                  "mode": "fixed"
-                },
-                "custom": {
-                  "axisBorderShow": false,
-                  "axisCenteredZero": false,
-                  "axisColorMode": "text",
-                  "axisLabel": "",
-                  "axisPlacement": "auto",
-                  "barAlignment": 0,
-                  "barWidthFactor": 0.6,
-                  "drawStyle": "line",
-                  "fillOpacity": 0,
-                  "gradientMode": "none",
-                  "hideFrom": {
-                    "legend": false,
-                    "tooltip": false,
-                    "viz": false
-                  },
-                  "insertNulls": false,
-                  "lineInterpolation": "linear",
-                  "lineWidth": 1,
-                  "pointSize": 5,
-                  "scaleDistribution": {
-                    "type": "linear"
-                  },
-                  "showPoints": "auto",
-                  "showValues": false,
-                  "spanNulls": false,
-                  "stacking": {
-                    "group": "A",
-                    "mode": "none"
-                  },
-                  "thresholdsStyle": {
-                    "mode": "off"
-                  }
-                },
-                "decimals": 0,
-                "thresholds": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": 0
-                    },
-                    {
-                      "color": "red",
-                      "value": 80
-                    }
-                  ]
-                }
-              },
-              "overrides": []
-            },
-            "options": {
-              "annotations": {
-                "clustering": -1,
-                "multiLane": false
-              },
-              "legend": {
-                "calcs": [],
-                "displayMode": "list",
-                "placement": "bottom",
-                "showLegend": false
-              },
-              "tooltip": {
-                "hideZeros": false,
-                "mode": "single",
-                "sort": "none"
-              }
-            }
-          },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -2167,7 +2429,7 @@
               "wideLayout": true
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     },
@@ -2254,7 +2516,7 @@
               "wideLayout": true
             }
           },
-          "version": "13.0.1"
+          "version": "13.1.1"
         }
       }
     }
@@ -2268,37 +2530,11 @@
           "spec": {
             "element": {
               "kind": "ElementReference",
-              "name": "panel-12"
-            },
-            "height": 6,
-            "width": 3,
-            "x": 0,
-            "y": 0
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
-              "name": "panel-10"
-            },
-            "height": 6,
-            "width": 3,
-            "x": 3,
-            "y": 0
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
               "name": "panel-8"
             },
-            "height": 6,
+            "height": 4,
             "width": 3,
-            "x": 6,
+            "x": 0,
             "y": 0
           }
         },
@@ -2309,49 +2545,10 @@
               "kind": "ElementReference",
               "name": "panel-4"
             },
-            "height": 6,
-            "width": 3,
-            "x": 9,
-            "y": 0
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
-              "name": "panel-15"
-            },
-            "height": 12,
-            "width": 12,
-            "x": 12,
-            "y": 0
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
-              "name": "panel-11"
-            },
-            "height": 6,
-            "width": 3,
-            "x": 0,
-            "y": 6
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
-              "name": "panel-5"
-            },
-            "height": 6,
+            "height": 4,
             "width": 3,
             "x": 3,
-            "y": 6
+            "y": 0
           }
         },
         {
@@ -2361,10 +2558,10 @@
               "kind": "ElementReference",
               "name": "panel-9"
             },
-            "height": 6,
+            "height": 4,
             "width": 3,
             "x": 6,
-            "y": 6
+            "y": 0
           }
         },
         {
@@ -2374,10 +2571,10 @@
               "kind": "ElementReference",
               "name": "panel-6"
             },
-            "height": 6,
+            "height": 4,
             "width": 3,
             "x": 9,
-            "y": 6
+            "y": 0
           }
         },
         {
@@ -2385,77 +2582,12 @@
           "spec": {
             "element": {
               "kind": "ElementReference",
-              "name": "panel-18"
+              "name": "panel-10"
             },
-            "height": 6,
+            "height": 4,
             "width": 3,
-            "x": 0,
-            "y": 12
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
-              "name": "panel-16"
-            },
-            "height": 12,
-            "width": 9,
-            "x": 3,
-            "y": 12
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
-              "name": "panel-13"
-            },
-            "height": 12,
-            "width": 6,
             "x": 12,
-            "y": 12
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
-              "name": "panel-14"
-            },
-            "height": 12,
-            "width": 6,
-            "x": 18,
-            "y": 12
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
-              "name": "panel-7"
-            },
-            "height": 6,
-            "width": 3,
-            "x": 0,
-            "y": 18
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
-              "name": "panel-17"
-            },
-            "height": 14,
-            "width": 9,
-            "x": 0,
-            "y": 24
+            "y": 0
           }
         },
         {
@@ -2467,8 +2599,8 @@
             },
             "height": 4,
             "width": 3,
-            "x": 9,
-            "y": 24
+            "x": 15,
+            "y": 0
           }
         },
         {
@@ -2476,25 +2608,38 @@
           "spec": {
             "element": {
               "kind": "ElementReference",
-              "name": "panel-21"
-            },
-            "height": 14,
-            "width": 12,
-            "x": 12,
-            "y": 24
-          }
-        },
-        {
-          "kind": "GridLayoutItem",
-          "spec": {
-            "element": {
-              "kind": "ElementReference",
-              "name": "panel-23"
+              "name": "panel-12"
             },
             "height": 4,
             "width": 3,
-            "x": 9,
-            "y": 28
+            "x": 18,
+            "y": 0
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-11"
+            },
+            "height": 4,
+            "width": 3,
+            "x": 21,
+            "y": 0
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-5"
+            },
+            "height": 5,
+            "width": 3,
+            "x": 0,
+            "y": 4
           }
         },
         {
@@ -2504,10 +2649,49 @@
               "kind": "ElementReference",
               "name": "panel-24"
             },
-            "height": 4,
+            "height": 5,
             "width": 3,
+            "x": 3,
+            "y": 4
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-25"
+            },
+            "height": 5,
+            "width": 3,
+            "x": 6,
+            "y": 4
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-18"
+            },
+            "height": 5,
+            "width": 4,
             "x": 9,
-            "y": 32
+            "y": 4
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-21"
+            },
+            "height": 5,
+            "width": 11,
+            "x": 13,
+            "y": 4
           }
         },
         {
@@ -2517,10 +2701,88 @@
               "kind": "ElementReference",
               "name": "panel-22"
             },
-            "height": 8,
+            "height": 7,
             "width": 12,
             "x": 0,
-            "y": 38
+            "y": 9
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-23"
+            },
+            "height": 7,
+            "width": 12,
+            "x": 12,
+            "y": 9
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-13"
+            },
+            "height": 7,
+            "width": 8,
+            "x": 0,
+            "y": 16
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-14"
+            },
+            "height": 7,
+            "width": 8,
+            "x": 8,
+            "y": 16
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-16"
+            },
+            "height": 7,
+            "width": 8,
+            "x": 16,
+            "y": 16
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-17"
+            },
+            "height": 8,
+            "width": 11,
+            "x": 0,
+            "y": 23
+          }
+        },
+        {
+          "kind": "GridLayoutItem",
+          "spec": {
+            "element": {
+              "kind": "ElementReference",
+              "name": "panel-15"
+            },
+            "height": 8,
+            "width": 13,
+            "x": 11,
+            "y": 23
           }
         }
       ]
@@ -2548,10 +2810,12 @@
     "temp",
     "amedas",
     "node_exporter",
-    "lmsensors_exporter"
+    "lmsensors_exporter",
+    "loki",
+    "victoriametrics"
   ],
   "timeSettings": {
-    "autoRefresh": "auto",
+    "autoRefresh": "",
     "autoRefreshIntervals": [
       "5s",
       "10s",
@@ -2565,238 +2829,28 @@
       "1d"
     ],
     "fiscalYearStartMonth": 0,
-    "from": "now-3h",
+    "from": "now-30d",
     "hideTimepicker": false,
-    "timezone": "browser",
+    "timezone": "Asia/Tokyo",
     "to": "now"
   },
   "title": "総合",
   "variables": [
     {
-      "kind": "QueryVariable",
-      "spec": {
-        "allowCustomValue": true,
-        "definition": "label_values(smartctl_device,instance)",
-        "hide": "inControlsMenu",
-        "includeAll": false,
-        "label": "instance",
-        "multi": true,
-        "name": "node",
-        "options": [],
-        "query": {
-          "datasource": {
-            "name": "${db_prometheus}"
-          },
-          "group": "prometheus",
-          "kind": "DataQuery",
-          "spec": {
-            "qryType": 1,
-            "query": "label_values(smartctl_device,instance)",
-            "refId": "PrometheusVariableQueryEditor-VariableQuery"
-          },
-          "version": "v0"
-        },
-        "refresh": "onDashboardLoad",
-        "regex": "",
-        "regexApplyTo": "value",
-        "skipUrlSync": false,
-        "sort": "disabled"
-      }
-    },
-    {
-      "kind": "QueryVariable",
-      "spec": {
-        "allowCustomValue": true,
-        "definition": "label_values(smartctl_device,interface)",
-        "hide": "inControlsMenu",
-        "includeAll": false,
-        "label": "interface",
-        "multi": true,
-        "name": "type",
-        "options": [],
-        "query": {
-          "datasource": {
-            "name": "${db_prometheus}"
-          },
-          "group": "prometheus",
-          "kind": "DataQuery",
-          "spec": {
-            "qryType": 1,
-            "query": "label_values(smartctl_device,interface)",
-            "refId": "PrometheusVariableQueryEditor-VariableQuery"
-          },
-          "version": "v0"
-        },
-        "refresh": "onDashboardLoad",
-        "regex": "",
-        "regexApplyTo": "value",
-        "skipUrlSync": false,
-        "sort": "disabled"
-      }
-    },
-    {
-      "kind": "QueryVariable",
-      "spec": {
-        "allowCustomValue": true,
-        "definition": "label_values(smartctl_device,device)",
-        "hide": "inControlsMenu",
-        "includeAll": false,
-        "label": "device",
-        "multi": true,
-        "name": "disk",
-        "options": [],
-        "query": {
-          "datasource": {
-            "name": "${db_prometheus}"
-          },
-          "group": "prometheus",
-          "kind": "DataQuery",
-          "spec": {
-            "qryType": 1,
-            "query": "label_values(smartctl_device,device)",
-            "refId": "PrometheusVariableQueryEditor-VariableQuery"
-          },
-          "version": "v0"
-        },
-        "refresh": "onDashboardLoad",
-        "regex": "",
-        "regexApplyTo": "value",
-        "skipUrlSync": false,
-        "sort": "disabled"
-      }
-    },
-    {
-      "kind": "QueryVariable",
-      "spec": {
-        "allowCustomValue": true,
-        "definition": "label_values(smartctl_device,model_name)",
-        "hide": "inControlsMenu",
-        "includeAll": false,
-        "label": "model_name",
-        "multi": true,
-        "name": "device_model",
-        "options": [],
-        "query": {
-          "datasource": {
-            "name": "${db_prometheus}"
-          },
-          "group": "prometheus",
-          "kind": "DataQuery",
-          "spec": {
-            "qryType": 1,
-            "query": "label_values(smartctl_device,model_name)",
-            "refId": "PrometheusVariableQueryEditor-VariableQuery"
-          },
-          "version": "v0"
-        },
-        "refresh": "onDashboardLoad",
-        "regex": "",
-        "regexApplyTo": "value",
-        "skipUrlSync": false,
-        "sort": "disabled"
-      }
-    },
-    {
-      "kind": "QueryVariable",
-      "spec": {
-        "allowCustomValue": true,
-        "definition": "label_values(smartctl_device,serial_number)",
-        "hide": "inControlsMenu",
-        "includeAll": false,
-        "label": "serial_number",
-        "multi": true,
-        "name": "serial_number",
-        "options": [],
-        "query": {
-          "datasource": {
-            "name": "${db_prometheus}"
-          },
-          "group": "prometheus",
-          "kind": "DataQuery",
-          "spec": {
-            "qryType": 1,
-            "query": "label_values(smartctl_device,serial_number)",
-            "refId": "PrometheusVariableQueryEditor-VariableQuery"
-          },
-          "version": "v0"
-        },
-        "refresh": "onDashboardLoad",
-        "regex": "",
-        "regexApplyTo": "value",
-        "skipUrlSync": false,
-        "sort": "disabled"
-      }
-    },
-    {
-      "kind": "QueryVariable",
-      "spec": {
-        "allowCustomValue": true,
-        "definition": "label_values(amedas_temperature,name_kana)",
-        "hide": "inControlsMenu",
-        "includeAll": false,
-        "multi": false,
-        "name": "location",
-        "options": [],
-        "query": {
-          "datasource": {
-            "name": "${db_victoriametrics}"
-          },
-          "group": "victoriametrics-metrics-datasource",
-          "kind": "DataQuery",
-          "spec": {
-            "qryType": 1,
-            "query": "label_values(amedas_temperature,name_kana)",
-            "refId": "VariableQueryEditor-VariableQuery"
-          },
-          "version": "v0"
-        },
-        "refresh": "onDashboardLoad",
-        "regex": "",
-        "regexApplyTo": "value",
-        "skipUrlSync": false,
-        "sort": "alphabeticalAsc"
-      }
-    },
-    {
-      "kind": "QueryVariable",
-      "spec": {
-        "allowCustomValue": true,
-        "definition": "label_values(remo_temperature,instance)",
-        "hide": "hideVariable",
-        "includeAll": false,
-        "multi": false,
-        "name": "remo_device",
-        "options": [],
-        "query": {
-          "datasource": {
-            "name": "${db_victoriametrics}"
-          },
-          "group": "victoriametrics-metrics-datasource",
-          "kind": "DataQuery",
-          "spec": {
-            "qryType": 1,
-            "query": "label_values(remo_temperature,instance)",
-            "refId": "VariableQueryEditor-VariableQuery"
-          },
-          "version": "v0"
-        },
-        "refresh": "onDashboardLoad",
-        "regex": "",
-        "regexApplyTo": "value",
-        "skipUrlSync": false,
-        "sort": "alphabeticalAsc"
-      }
-    },
-    {
       "kind": "DatasourceVariable",
       "spec": {
         "allowCustomValue": true,
-        "hide": "hideVariable",
+        "current": {
+          "text": "victoriametrics-metrics-datasource",
+          "value": "dfptek8zvsgzkd"
+        },
+        "hide": "inControlsMenu",
         "includeAll": false,
+        "label": "db_victoriametrics",
         "multi": false,
-        "name": "db_prometheus",
+        "name": "db_victoriametrics",
         "options": [],
-        "pluginId": "prometheus",
+        "pluginId": "victoriametrics-metrics-datasource",
         "refresh": "onDashboardLoad",
         "regex": "",
         "skipUrlSync": false
@@ -2806,7 +2860,11 @@
       "kind": "DatasourceVariable",
       "spec": {
         "allowCustomValue": true,
-        "hide": "hideVariable",
+        "current": {
+          "text": "loki",
+          "value": "efptf4f0yu0hsf"
+        },
+        "hide": "inControlsMenu",
         "includeAll": false,
         "label": "db_loki",
         "multi": false,
@@ -2819,18 +2877,310 @@
       }
     },
     {
+      "kind": "QueryVariable",
+      "spec": {
+        "allowCustomValue": true,
+        "current": {
+          "text": [
+            "magius.tigris-tailor.ts.net:9633",
+            "mammal.tigris-tailor.ts.net:9633",
+            "mangostin.tigris-tailor.ts.net:9633",
+            "morgen.tigris-tailor.ts.net:9633",
+            "mors.tigris-tailor.ts.net:9633"
+          ],
+          "value": [
+            "magius.tigris-tailor.ts.net:9633",
+            "mammal.tigris-tailor.ts.net:9633",
+            "mangostin.tigris-tailor.ts.net:9633",
+            "morgen.tigris-tailor.ts.net:9633",
+            "mors.tigris-tailor.ts.net:9633"
+          ]
+        },
+        "definition": "label_values(smartctl_device,instance)",
+        "hide": "inControlsMenu",
+        "includeAll": false,
+        "label": "instance",
+        "multi": true,
+        "name": "node",
+        "options": [],
+        "query": {
+          "datasource": {
+            "name": "${db_victoriametrics}"
+          },
+          "group": "victoriametrics-metrics-datasource",
+          "kind": "DataQuery",
+          "spec": {
+            "qryType": 1,
+            "query": "label_values(smartctl_device,instance)",
+            "refId": "VariableQueryEditor-VariableQuery"
+          },
+          "version": "v0"
+        },
+        "refresh": "onDashboardLoad",
+        "regex": "",
+        "regexApplyTo": "value",
+        "skipUrlSync": false,
+        "sort": "disabled"
+      }
+    },
+    {
+      "kind": "QueryVariable",
+      "spec": {
+        "allowCustomValue": true,
+        "current": {
+          "text": [
+            "nvme0",
+            "nvme1",
+            "sda",
+            "sdb",
+            "sdc",
+            "sdd",
+            "sde",
+            "sdf"
+          ],
+          "value": [
+            "nvme0",
+            "nvme1",
+            "sda",
+            "sdb",
+            "sdc",
+            "sdd",
+            "sde",
+            "sdf"
+          ]
+        },
+        "definition": "label_values(smartctl_device,device)",
+        "hide": "inControlsMenu",
+        "includeAll": false,
+        "label": "device",
+        "multi": true,
+        "name": "disk",
+        "options": [],
+        "query": {
+          "datasource": {
+            "name": "${db_victoriametrics}"
+          },
+          "group": "victoriametrics-metrics-datasource",
+          "kind": "DataQuery",
+          "spec": {
+            "qryType": 1,
+            "query": "label_values(smartctl_device,device)",
+            "refId": "VariableQueryEditor-VariableQuery"
+          },
+          "version": "v0"
+        },
+        "refresh": "onDashboardLoad",
+        "regex": "",
+        "regexApplyTo": "value",
+        "skipUrlSync": false,
+        "sort": "disabled"
+      }
+    },
+    {
+      "kind": "QueryVariable",
+      "spec": {
+        "allowCustomValue": true,
+        "current": {
+          "text": [
+            "nvme",
+            "sat"
+          ],
+          "value": [
+            "nvme",
+            "sat"
+          ]
+        },
+        "definition": "label_values(smartctl_device,interface)",
+        "hide": "inControlsMenu",
+        "includeAll": false,
+        "label": "interface",
+        "multi": true,
+        "name": "type",
+        "options": [],
+        "query": {
+          "datasource": {
+            "name": "${db_victoriametrics}"
+          },
+          "group": "victoriametrics-metrics-datasource",
+          "kind": "DataQuery",
+          "spec": {
+            "qryType": 1,
+            "query": "label_values(smartctl_device,interface)",
+            "refId": "VariableQueryEditor-VariableQuery"
+          },
+          "version": "v0"
+        },
+        "refresh": "onDashboardLoad",
+        "regex": "",
+        "regexApplyTo": "value",
+        "skipUrlSync": false,
+        "sort": "disabled"
+      }
+    },
+    {
+      "kind": "QueryVariable",
+      "spec": {
+        "allowCustomValue": true,
+        "current": {
+          "text": [
+            "30100381685",
+            "30152374077",
+            "54HF70KVFA5S",
+            "PK1334PEKAB62S",
+            "TTSMA2513X03852",
+            "TTSMA2513X09611",
+            "TTSMA264FX00777",
+            "WCT259DY",
+            "WD-RD1MWXAD",
+            "WD-RD1NR42D",
+            "WD-WCC4E5CJ3H6V",
+            "WD-WX61DC8L5015"
+          ],
+          "value": [
+            "30100381685",
+            "30152374077",
+            "54HF70KVFA5S",
+            "PK1334PEKAB62S",
+            "TTSMA2513X03852",
+            "TTSMA2513X09611",
+            "TTSMA264FX00777",
+            "WCT259DY",
+            "WD-RD1MWXAD",
+            "WD-RD1NR42D",
+            "WD-WCC4E5CJ3H6V",
+            "WD-WX61DC8L5015"
+          ]
+        },
+        "definition": "label_values(smartctl_device,serial_number)",
+        "hide": "inControlsMenu",
+        "includeAll": false,
+        "label": "serial_number",
+        "multi": true,
+        "name": "serial_number",
+        "options": [],
+        "query": {
+          "datasource": {
+            "name": "${db_victoriametrics}"
+          },
+          "group": "victoriametrics-metrics-datasource",
+          "kind": "DataQuery",
+          "spec": {
+            "qryType": 1,
+            "query": "label_values(smartctl_device,serial_number)",
+            "refId": "VariableQueryEditor-VariableQuery"
+          },
+          "version": "v0"
+        },
+        "refresh": "onDashboardLoad",
+        "regex": "",
+        "regexApplyTo": "value",
+        "skipUrlSync": false,
+        "sort": "disabled"
+      }
+    },
+    {
+      "kind": "QueryVariable",
+      "spec": {
+        "allowCustomValue": true,
+        "current": {
+          "text": [
+            "HGST HDN724040ALE640",
+            "HS-SSD-FUTURE 2048G",
+            "KIOXIA-EXCERIA with Heatsink SSD",
+            "MS950G70PCIe4HSE-02TB",
+            "ST6000DM003-2CY186",
+            "TWSC TSC3AN512-F1Q20S",
+            "TWSC TSC3AN512-F8T40S",
+            "WDC WD40EZRZ-00WN9B0",
+            "WDC WD60EZAZ-00ZGHB0",
+            "WDC WD80EAAZ-00BXBB0"
+          ],
+          "value": [
+            "HGST HDN724040ALE640",
+            "HS-SSD-FUTURE 2048G",
+            "KIOXIA-EXCERIA with Heatsink SSD",
+            "MS950G70PCIe4HSE-02TB",
+            "ST6000DM003-2CY186",
+            "TWSC TSC3AN512-F1Q20S",
+            "TWSC TSC3AN512-F8T40S",
+            "WDC WD40EZRZ-00WN9B0",
+            "WDC WD60EZAZ-00ZGHB0",
+            "WDC WD80EAAZ-00BXBB0"
+          ]
+        },
+        "definition": "label_values(smartctl_device,model_name)",
+        "hide": "inControlsMenu",
+        "includeAll": false,
+        "label": "model_name",
+        "multi": true,
+        "name": "device_model",
+        "options": [],
+        "query": {
+          "datasource": {
+            "name": "${db_victoriametrics}"
+          },
+          "group": "victoriametrics-metrics-datasource",
+          "kind": "DataQuery",
+          "spec": {
+            "qryType": 1,
+            "query": "label_values(smartctl_device,model_name)",
+            "refId": "VariableQueryEditor-VariableQuery"
+          },
+          "version": "v0"
+        },
+        "refresh": "onDashboardLoad",
+        "regex": "",
+        "regexApplyTo": "value",
+        "skipUrlSync": false,
+        "sort": "disabled"
+      }
+    },
+    {
       "kind": "DatasourceVariable",
       "spec": {
         "allowCustomValue": true,
-        "hide": "hideVariable",
+        "current": {
+          "text": "victoriametrics-metrics-datasource",
+          "value": "dfptek8zvsgzkd"
+        },
+        "hide": "inControlsMenu",
         "includeAll": false,
+        "label": "remo",
         "multi": false,
-        "name": "db_victoriametrics",
+        "name": "remo",
         "options": [],
         "pluginId": "victoriametrics-metrics-datasource",
         "refresh": "onDashboardLoad",
         "regex": "",
         "skipUrlSync": false
+      }
+    },
+    {
+      "kind": "ConstantVariable",
+      "spec": {
+        "current": {
+          "text": "ナゴヤ",
+          "value": "ナゴヤ"
+        },
+        "hide": "hideVariable",
+        "label": "location",
+        "name": "location",
+        "query": "ナゴヤ",
+        "skipUrlSync": true
+      }
+    },
+    {
+      "kind": "ConstantVariable",
+      "spec": {
+        "current": {
+          "text": "docker.tigris-tailor.ts.net:3200",
+          "value": "docker.tigris-tailor.ts.net:3200"
+        },
+        "hide": "hideVariable",
+        "label": "remo",
+        "name": "remo_device",
+        "query": "docker.tigris-tailor.ts.net:3200",
+        "skipUrlSync": true
       }
     }
   ]
