@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "cases"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "cases": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["case_id", "request", "proposed_effect", "expected_decision", "expected_approval_required", "expected_modules"],
+        "properties": {
+          "case_id": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+          "request": { "type": "string", "minLength": 1 },
+          "proposed_effect": {
+            "type": "object", "additionalProperties": false,
+            "required": ["effect", "authorization", "triggers"],
+            "properties": {
+              "effect": { "type": "string", "enum": ["RO_LOCAL", "RO_PUBLIC", "LW_SCOPE", "EXT_WRITE", "RELEASE", "LIVE_WRITE", "VCS_WRITE", "DESTRUCT", "CRED", "CHARGE", "PROD_DEP", "UNKNOWN", "CONFLICT"] },
+              "authorization": { "type": "string", "enum": ["none", "explicit_current_task"] },
+              "triggers": {
+                "type": "object", "additionalProperties": false,
+                "required": ["task", "tags", "files", "events", "cases"],
+                "properties": {
+                  "task": { "type": "string" },
+                  "tags": { "type": "array", "items": { "type": "string" } },
+                  "files": { "type": "array", "items": { "type": "string" } },
+                  "events": { "type": "array", "items": { "type": "string" } },
+                  "cases": { "type": "array", "items": { "type": "string" } },
+                  "changes": { "type": "array", "items": { "type": "string" } },
+                  "facts": { "type": "array", "items": { "type": "string" } },
+                  "phases": { "type": "array", "items": { "type": "string" } }
+                }
+              }
+            }
+          },
+          "retry_attempts": { "type": "integer", "minimum": 0, "maximum": 4 }
+          ,"expected_decision": { "enum": ["ALLOW", "APPROVAL", "STOP", "FORBID"] }
+          ,"expected_approval_required": { "type": "boolean" }
+          ,"expected_modules": { "type": "array", "items": { "enum": ["state", "engineering", "documentation"] } },
+          "requested_route": { "enum": ["LOCAL_REVIEW", "FULL_ETL"] },
+          "expected_route": { "enum": ["LOCAL_REVIEW", "FULL_ETL", "STOP"] },
+          "review": {
+            "type": "object", "additionalProperties": false, "required": ["query", "targets"],
+            "properties": { "query": { "type": "string", "minLength": 1 }, "targets": { "type": "array", "minItems": 1, "maxItems": 32, "items": { "type": "string", "minLength": 1 } } }
+          }
+        }
+      }
+    }
+  }
+}

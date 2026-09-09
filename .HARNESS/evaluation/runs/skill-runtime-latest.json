@@ -1,0 +1,318 @@
+{
+  "schemaVersion": 1,
+  "run_id": "e064e7bd-fa97-4ae0-901a-4e5fa44782e1",
+  "generated_at": "2026-09-09T11:01:34.7472019Z",
+  "overall_exit_code": 0,
+  "tools": [
+    {
+      "name": "harness-lint",
+      "required": true,
+      "path": "C:\\Users\\letwir\\.harness\\skills\\harness-lint\\harness-lint.exe",
+      "finalPath": "C:\\Users\\letwir\\.harness\\skills\\harness-lint\\harness-lint.exe",
+      "classification": "Healthy",
+      "executableHealthy": "Healthy",
+      "catalogObserved": "Observed",
+      "representativeOperation": "Passed",
+      "commandIdentity": {
+        "executable": "C:\\Users\\letwir\\.harness\\skills\\harness-lint\\harness-lint.exe",
+        "args": [
+          "-h"
+        ],
+        "representativeArgs": [
+          "-path",
+          "C:\\Users\\letwir\\.harness\\rules\\LLM_REF_RULE.md",
+          "-level",
+          "0",
+          "-json"
+        ]
+      },
+      "fileSha256": "8F2EB96F07A632B9DF960730C5B3B12C49F544123E70627598631FDB8099EB98",
+      "version": null,
+      "output": {
+        "exitCode": 0,
+        "timedOut": false,
+        "text": "Usage of C:\\Users\\letwir\\.harness\\skills\\harness-lint\\harness-lint.exe:\n  -json\n    \tOutput diagnostics in JSON format\n  -level int\n    \tMaximum validation level (0, 1, 2, or 3) (default 3)\n  -path string\n    \tTarget file or directory to lint (default \".\")\n  -skill string\n    \tPath to skill directory for Level 3 AST vs PIDGIN check\n  -strict\n    \tTreat warnings as errors",
+        "truncated": false,
+        "sha256": "53D4022AC9F86B42D9E381E800ED4147EEF017E9058CF00859CD0CDA51A5E481",
+        "checkedBeforeNormalization": true,
+        "representative": {
+          "exitCode": 0,
+          "timedOut": false,
+          "text": "null",
+          "truncated": false,
+          "sha256": "74234E98AFE7498FB5DAF1F36AC2D78ACC339464F950703B8C019892F982B90B",
+          "checkedBeforeNormalization": true
+        }
+      },
+      "error": null
+    },
+    {
+      "name": "proof-checker",
+      "required": true,
+      "path": "C:\\Users\\letwir\\.harness\\skills\\proof-checker\\proof-checker.exe",
+      "finalPath": "C:\\Users\\letwir\\.harness\\skills\\proof-checker\\proof-checker.exe",
+      "classification": "Healthy",
+      "executableHealthy": "Healthy",
+      "catalogObserved": "Observed",
+      "representativeOperation": "Passed",
+      "commandIdentity": {
+        "executable": "C:\\Users\\letwir\\.harness\\skills\\proof-checker\\proof-checker.exe",
+        "args": [
+          "-h"
+        ],
+        "representativeArgs": [
+          "-path",
+          "C:\\Users\\letwir\\.harness\\rules",
+          "-json"
+        ]
+      },
+      "fileSha256": "FAEA702FFB145E6B08658432C818C5C7F57B801F5A00DF8F058CA1CD9F320366",
+      "version": null,
+      "output": {
+        "exitCode": 0,
+        "timedOut": false,
+        "text": "Usage of C:\\Users\\letwir\\.harness\\skills\\proof-checker\\proof-checker.exe:\n  -json\n    \tOutput results in JSON format\n  -path string\n    \tTarget directory or file path to check (default \".\")\n  -strict\n    \tStrict mode: treat warnings as errors\n  -vet\n    \tInclude 'go vet' static analysis",
+        "truncated": false,
+        "sha256": "544051C99A14BAF6FEA0F6762DD6A8857636FA61C56EB58FC2E0E8C32CFE30D7",
+        "checkedBeforeNormalization": true,
+        "representative": {
+          "exitCode": 0,
+          "timedOut": false,
+          "text": "{\n  \"diagnostics\": null,\n  \"summary\": {\n    \"errors\": 0,\n    \"info\": 0,\n    \"warnings\": 0\n  },\n  \"target\": \"C:\\\\Users\\\\letwir\\\\.harness\\\\rules\",\n  \"verdict\": \"PASS\"\n}",
+          "truncated": false,
+          "sha256": "E43463BB749CF064B9216727950EC51815A2818308A8BD78853B23B8AF83DCC2",
+          "checkedBeforeNormalization": true
+        }
+      },
+      "error": null
+    },
+    {
+      "name": "sec-forensics",
+      "required": true,
+      "path": "C:\\Users\\letwir\\.harness\\skills\\sec-forensics\\sec-forensics.exe",
+      "finalPath": "C:\\Users\\letwir\\.harness\\skills\\sec-forensics\\sec-forensics.exe",
+      "classification": "Healthy",
+      "executableHealthy": "Healthy",
+      "catalogObserved": "Observed",
+      "representativeOperation": "Passed",
+      "commandIdentity": {
+        "executable": "C:\\Users\\letwir\\.harness\\skills\\sec-forensics\\sec-forensics.exe",
+        "args": [
+          "-h"
+        ],
+        "representativeArgs": [
+          "scan-prompt",
+          "-text",
+          "Summarize this benign local note.",
+          "-json"
+        ]
+      },
+      "fileSha256": "7E40A34566A336AEDC752A9F45E98B18FD681485A5DFAED8E51E43D29761E6CC",
+      "version": null,
+      "output": {
+        "exitCode": 0,
+        "timedOut": false,
+        "text": "sec-forensics: Security Forensics, CTF Immunity & Knowledge Auditor\n\nUsage:\n  sec-forensics dependabot -repo <owner/repo> [-json]\n  sec-forensics scan-prompt (-file <path> | -text <string>) [-json]\n  sec-forensics scan-ctf (-file <path> | -text <string>) [-json]\n  sec-forensics audit-log -transcript <path/to/transcript.jsonl> [-json]\n  sec-forensics cve-fetch [-query <str>] [-cat <category>] [-json]\n  sec-forensics cve-ingest (-seed | -title <t> -content <c> [-cat <cat>] [-tags <t>])\n  sec-forensics mega-check [-repo <owner/repo>] [-docs <dir>] [-transcript <path>] [-json]",
+        "truncated": false,
+        "sha256": "BA25C17821976102E9916F02EF50243ED37BA7255C03667EE700D51715856CD9",
+        "checkedBeforeNormalization": true,
+        "representative": {
+          "exitCode": 0,
+          "timedOut": false,
+          "text": "{\n  \"total_findings\": 0,\n  \"max_severity\": \"LOW\",\n  \"findings\": []\n}",
+          "truncated": false,
+          "sha256": "16340C165C530D0DBA47956C3C2015DDC1E87CCE98F70FE5C7CA1A4C724E1098",
+          "checkedBeforeNormalization": true
+        }
+      },
+      "error": null
+    },
+    {
+      "name": "llm-memory",
+      "required": true,
+      "path": "C:\\Users\\letwir\\.harness\\skills\\llm-memory\\llm-mem.exe",
+      "finalPath": "C:\\Users\\letwir\\.harness\\skills\\llm-memory\\llm-mem.exe",
+      "classification": "Healthy",
+      "executableHealthy": "Healthy",
+      "catalogObserved": "Observed",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "executable": "C:\\Users\\letwir\\.harness\\skills\\llm-memory\\llm-mem.exe",
+        "args": []
+      },
+      "fileSha256": "2709EFB25C74F826F66A7146D902FFE76E01CF0C9A335BCBA056114867A3A204",
+      "version": null,
+      "output": {
+        "exitCode": 1,
+        "timedOut": false,
+        "text": "=== LLM Memory CLI (Bi-Temporal & Multi-Level Knowledge Base) ===\nUsage:\n  llm-mem status                  : DB疎通確認・端末自動登録・統計情報\n  llm-mem ingest [options]        : 統合ナレッジ取り込み (JITMIND自己編集 + 自動多段縮約 + グラフ抽出)\n  llm-mem compact [options]       : 未縮約の古い記憶のバッチ多段要約処理\n  llm-mem add [options]           : 新規記憶の登録 (L0~L3多段対応)\n  llm-mem eval [options]          : 評価を計算して新規イベントとして登録\n  llm-mem evals [options]         : 評価履歴の参照\n  llm-mem survey [options]        : ハーネスアンケートの送信・分類・要望ランキング\n  llm-mem stock [options]         : ストック記憶の簡易一覧表示\n  llm-mem search [options]        : 記憶の横断検索 (キーワード/タグ/カテゴリ)\n  llm-mem semantic [options]      : Gemini embeddingによる意味検索 (要: pgvector migration)\n  llm-mem embed [options]         : 記憶1件をembeddingして保存\n  llm-mem supersede [options]     : 古い記憶の無効化と後続新記憶の登録 (JITMIND流)\n  llm-mem analyze [options]       : diary.md 因果帰属分析 & 双方向フィードバック生成\n  llm-mem graph node [options]    : 知識グラフノードの登録/更新\n  llm-mem graph edge [options]    : 知識グラフ関係性エッジの登録\n  llm-mem graph list [options]    : 有効な知識グラフ関係性の一覧表示\n  llm-mem clients                 : 登録済みクライアント端末一覧\n\nOptions for 'analyze':\n  -file     <string>  : 解析する diary.md ファイルパス (default: 'diary.md' または自動検出)\n  -json               : JSON形式で構造化出力\n  -suggest            : PERSONA.css / MACHINE.toml 最適化パッチDiffの表示\n\nOptions for 'ingest' (Recommended):\n  -file     <string>  : 取り込むMarkdown/テキストファイルのパス\n  -text     <string>  : 直接取り込むテキスト本文\n  -title    <string>  : タイトル (省略時はファイル名や1行目から自動推定)\n  -cat      <string>  : カテゴリ (default: 'knowledge', 'walkthrough', 'rule')\n  -force              : 既存記憶の自己編集判定をスキップし強制新規登録\n  -survey-signals <KIND:n,...> : 改善シグナル（例: DEFECT:1,FRICTION:1,REQUEST:1）\n  -survey-threshold <n>        : 合計シグナル件数がこの値以上ならアンケート案内を表示 (default: 1)\n\nOptions for 'compact':\n  -limit    <int>     : バッチ処理する未縮約レコード上限数 (default: 20)\n\nOptions for 'add':\n  -title    <string>  : 記憶のタイトル (必須)\n  -content  <string>  : L0 Raw 本文 (必須)\n  -cat      <string>  : カテゴリ (default: 'knowledge')\n  -l1       <string>  : L1 要点箇条書き (~30%要約)\n  -l2       <string>  : L2 1行要約 (~5%要約)\n  -tags     <string>  : カンマ区切りタグ\n  -type     <string>  : Memory Object種別 (invariant/decision/constraint/failure/knowledge/procedure/state)\n  -scope    <string>  : 適用範囲 (global/project/subsystem:<name>)\n  -rationale <string> : 採用理由\n  -evidence <string>  : 根拠識別子のカンマ区切り\n  -rejected <string>  : 却下案のカンマ区切り\n  -confidence <float> : 確信度 (0..1)\n\nOptions for 'eval':\n  -file     <string>  : 評価入力JSONファイル (必須)\n  -json               : 登録結果をJSON形式で出力\n\nEvaluation input additions:\n  task_id              : タスク識別子（タスク終了評価では必須）\n  attribution          : PromptDefect / AgentDefect と寄与比率\n\nOptions for 'evals':\n  -key      <string>  : comparison_key (必須)\n  -limit    <int>     : 取得件数 (default: 20)\n  -json               : 評価履歴をJSON形式で出力\n\nOptions for 'survey':\n  template [form-key]                  : 回答提出用JSONの空雛形を出力 (default: harness-feedback)\n  submit -file <path>                  : フォーム定義と回答をJSONから送信\n  list -form <key> -version <n>        : 生回答を新しい順に参照\n  classify -form <key> -version <n>    : Geminiで回答をテーマ分類\n  rank -form <key> -version <n>        : 最多テーマをランキング\n  default-form                         : (互換用) 組み込みの7設問フォーム単体をJSON出力\n  -classifier <string>                 : 分類器版 (default: gemini-harness-themes/v1)\n  -dry-run                              : classifyで保存せずGemini応答だけ検証\n  -limit <int>                          : list/rankの上限 (default: 20)\n  -json                                 : list/rankのJSON出力\n\n  Workflow example:\n    llm-mem survey template harness-feedback > survey.json\n    llm-mem survey submit -file survey.json\n\nOptions for 'stock':\n  -cat      <string>  : カテゴリフィルタ\n  -limit    <int>     : 取得件数 (default: 20)\n  -json               : 記憶レコードをJSON形式で出力\n\nOptions for 'search':\n  -q        <string>  : 検索キーワード (タイトル・本文部分一致)\n  -tag      <string>  : 指定タグ\n  -cat      <string>  : カテゴリフィルタ\n  -level    <int>     : 表示詳細度 (0:Raw, 1:L1, 2:L2, 3:TagsOnly, default: 1)\n  -limit    <int>     : 取得件数 (default: 10)\n  -json               : JSON形式で出力\n\nOptions for 'supersede':\n  -id       <string>  : 無効化する古い記憶のUUID (必須)\n  -title    <string>  : 新しい記憶のタイトル (必須)\n  -content  <string>  :",
+        "truncated": true,
+        "sha256": "9A34B90A4ABD41844B0926052E101CAC143890E316E9FEDD7263B66BF90C5BB3",
+        "checkedBeforeNormalization": true
+      },
+      "error": null
+    },
+    {
+      "name": "agy",
+      "required": true,
+      "path": "C:\\Users\\letwir\\AppData\\Local\\agy\\bin\\agy.exe",
+      "finalPath": "C:\\Users\\letwir\\AppData\\Local\\agy\\bin\\agy.exe",
+      "classification": "Healthy",
+      "executableHealthy": "Healthy",
+      "catalogObserved": "Observed",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "executable": "C:\\Users\\letwir\\AppData\\Local\\agy\\bin\\agy.exe",
+        "args": [
+          "--help"
+        ]
+      },
+      "fileSha256": "D3BAE6895069231C169F427C99527D1F556951E9C43488F45E8B040FBF3011ED",
+      "version": null,
+      "output": {
+        "exitCode": 0,
+        "timedOut": false,
+        "text": "Usage of agy.exe:\n  --add-dir                       Add a directory to the workspace (repeatable) (default [])\n  --agent                         Agent for the current CLI session\n  -c                              Short alias for --continue\n  --continue                      Continue the most recent conversation\n  --conversation                  Resume a previous conversation by ID\n  --dangerously-skip-permissions  Auto-approve all tool permission requests without prompting\n  --disable-slash-commands        Disable slash command and skill expansion in print mode\n  --effort                        Reasoning effort for the current CLI session (low|medium|high)\n  -i                              Short alias for --prompt-interactive\n  --input-format                  Input format for print mode (text, stream-json). stream-json reads one NDJSON message per line from stdin and runs a turn for each; it requires --output-format stream-json (default text)\n  --json-schema                   Optional JSON schema string or path to a schema file to enforce structured output (for stream-json, only applicable to the final result)\n  --log-file                      Override CLI log file path\n  --mode                          Set the agent execution mode for this session (accept-edits, plan)\n  --model                         Model for the current CLI session\n  --new-project                   Create a new project for this session\n  --output-format                 Output format for print mode (text, json, stream-json) (default text)\n  -p                              Short alias for --print\n  --print                         Run a single prompt non-interactively and print the response\n  --print-timeout                 Timeout for print mode wait (default 5m0s)\n  --project                       Project ID or project name for the current CLI session\n  --prompt                        Alias for --print\n  --prompt-interactive            Run an initial prompt interactively and continue the session\n  --sandbox                       Run in a sandbox with terminal restrictions enabled\n\nAvailable subcommands:\n  agent           List available agents\n  agents          List available agents\n  changelog       Show changelog and release notes\n  help            Show help for subcommands\n  install         Configure environment paths and shell settings\n  mcp             Manage MCP servers (add, remove, list, enable, disable)\n  mic-serve       Serve this machine's microphone to a CLI on another host\n  models          List available models\n  plugin          Manage plugins (install, uninstall, list, enable, disable)\n  plugins         Alias for plugin\n  remote-control  Manage the remote-control background daemon (start, status, stop)\n  update          Update CLI",
+        "truncated": false,
+        "sha256": "BCE5DD23661B3F921C80A82B108C2C8E3AA0AB54E9CCF05D30FDB1797CAC985D",
+        "checkedBeforeNormalization": true
+      },
+      "error": null
+    }
+  ],
+  "clients": [
+    {
+      "name": "Gemini",
+      "required": true,
+      "path": "C:\\Users\\letwir\\AppData\\Roaming\\npm\\gemini.ps1",
+      "finalPath": "C:\\Users\\letwir\\AppData\\Roaming\\npm\\gemini.ps1",
+      "classification": "Healthy",
+      "executableHealthy": "Healthy",
+      "catalogObserved": "Observed",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "wrapper": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+        "target": "C:\\Users\\letwir\\AppData\\Roaming\\npm\\gemini.ps1",
+        "args": [
+          "skills",
+          "list"
+        ],
+        "wrapperSha256": "362A356CE7F0940EC74F73A8FC2C990A2CC24A38A11C90BBD8ECA947110AD139",
+        "targetSha256": "4AF406A78AFAD63F4C20B9BB18F386B2DAF59040941474EA02B91942E995E7A3"
+      },
+      "fileSha256": "4AF406A78AFAD63F4C20B9BB18F386B2DAF59040941474EA02B91942E995E7A3",
+      "version": null,
+      "output": {
+        "exitCode": 0,
+        "timedOut": false,
+        "attempts": 1,
+        "text": "Discovered Agent Skills:\\n\\nagy-subagent-router [Enabled]\\n  Description: Route a bounded external coding task through agy.exe with current model discovery, bounded permissions, reasoning effort, and compact structured output.\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\agy-subagent-router\\SKILL.md\\n\\nbabysit [Enabled]\\n  Description: Keep a PR merge-ready by triaging comments, resolving clear conflicts, and fixing CI in a loop.\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\babysit\\SKILL.md\\n\\ncanvas [Enabled]\\n  Description: A Codex Canvas is a live React app that the user can open beside the chat. You MUST use a canvas when producing standalone analytical artifacts.\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\canvas\\SKILL.md\\n\\nchrome-cdp-search [Enabled]\\n  Description: Search local directories or execute live Web search ETL and page scraping by launching headless Google Chrome via Chrome DevTools Protocol (CDP). Returns structured JSON.\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\chrome-cdp-search\\SKILL.md\\n\\ncreate-hook [Enabled]\\n  Description: Create Codex hooks. Use when configuring hooks.json, hook scripts, or automating behavior around agent events.\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\create-hook\\SKILL.md\\n\\ncreate-rule [Enabled]\\n  Description: Create Codex rules for persistent AI guidance. Use when setting up project conventions or .cursor/rules/*.mdc.\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\create-rule\\SKILL.md\\n\\ncreate-skill [Enabled]\\n  Description: Create Codex Agent Skills. Use when authoring a new skill or asking about SKILL.md structure.\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\create-skill\\SKILL.md\\n\\ncreate-subagent [Enabled]\\n  Description: Create custom subagents for specialized AI tasks (code reviewers, debuggers, domain assistants).\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\create-subagent\\SKILL.md\\n\\ndefault-settings [Enabled]\\n  Description: Default user persona, speech rules, shell defaults, and binary path conventions.\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\default-settings\\SKILL.md\\n\\neconomics-api [Enabled]\\n  Description: Fetch Japanese & global economic, financial, corporate filing, macro statistics, and stock market data via unified CLI wrapper (economics.exe).\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\economics-api\\SKILL.md\\n\\nfoobar-sql-exporter [Enabled]\\n  Description: Execute SQL queries against the foobar2000 PostgreSQL database to generate M3U playlists, extract metadata, or inspect configurations.\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\foobar-sql-exporter\\SKILL.md\\n\\ngemini-grounding-search [Enabled]\\n  Description: Use GEMINI_GROUNDING_API_KEY to perform Google search via Gemini's Grounding API, returning structured search results with source attribution. Works from any project.\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\gemini-grounding-search\\SKILL.md\\n\\nharness-lint [Enabled]\\n  Description: Pure Go-based Static Analysis & LRF/PIDGIN/AST Bi-Simulation Compiler Diagnostic CLI. Validates Level 0 lexical, Level 1 structural typing, Level 2 semantic/referential integrity, and Level 3 cross-domain AST vs PIDGIN diffs.\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\harness-lint\\SKILL.md\\n\\nhatch-pet [Enabled]\\n  Description: Create, repair, validate, visually QA, and package Codex-compatible v2 animated pets (8x11 spritesheet, 9 animation rows, 16 look directions).\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\hatch-pet\\SKILL.md\\n\\nhudousan-api [Enabled]\\n  Description: 蝗ｽ蝨滉ｺ､騾夂怐縲御ｸ榊虚逕｣諠・ｱ繝ｩ繧､繝悶Λ繝ｪ縲喉PI (XIT001/XIT002) CLI 繧ｯ繝ｩ繧､繧｢繝ｳ繝医ゆｸ榊虚逕｣蜿門ｼ穂ｾ｡譬ｼ繝ｻ謌千ｴ・ｾ｡譬ｼ縺翫ｈ縺ｳ蟶ょ玄逕ｺ譚台ｸ隕ｧ繧貞叙蠕励・  Location:    C:\\Users\\letwir\\.agents\\skills\\hudousan-api\\SKILL.md\\n\\nkavita-fetch-search [Enabled]\\n  Description: Search an authorized Kavita EPUB library by series, author, and full text through its local cache.\\n  Location:    C:\\Users\\letwir\\.agents\\skills\\kavita-fetch-search\\SKILL.md\\n\\nkokkou-api [Enabled]\\n  Description: 蝗ｽ蝨滉ｺ､騾夂怐繝・・繧ｿ繝励Λ繝・ヨ繝輔か繝ｼ繝 (MLIT DPF) API讀懃ｴ｢繧ｯ繝ｩ繧､繧｢繝ｳ繝医ゅう繝ｳ繝輔Λ繝ｻ蝨ｰ蝓溘ョ繝ｼ繧ｿ讀懃ｴ｢縲∫ｩｺ髢捺､懃ｴ｢縲∽ｻｶ謨ｰ蜿門ｾ励・  Locati",
+        "truncated": true,
+        "sha256": "AC69E9BBF605FAC4F4ECEEE97415F950C34C16280CDAA43DFE797C68CFF93855",
+        "checkedBeforeNormalization": true
+      },
+      "error": null
+    },
+    {
+      "name": "Codex",
+      "required": true,
+      "path": "C:\\Users\\letwir\\AppData\\Roaming\\npm\\codex.ps1",
+      "finalPath": "C:\\Users\\letwir\\AppData\\Roaming\\npm\\codex.ps1",
+      "classification": "Unverified",
+      "executableHealthy": "Healthy",
+      "catalogObserved": "Unverified",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "wrapper": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+        "target": "C:\\Users\\letwir\\AppData\\Roaming\\npm\\codex.ps1",
+        "args": [
+          "--help"
+        ],
+        "wrapperSha256": "362A356CE7F0940EC74F73A8FC2C990A2CC24A38A11C90BBD8ECA947110AD139",
+        "targetSha256": "0C149DB80ED0BF442C810146B0AD0163B74982FE4542D673F56C354D7B8229CB"
+      },
+      "fileSha256": "0C149DB80ED0BF442C810146B0AD0163B74982FE4542D673F56C354D7B8229CB",
+      "version": null,
+      "output": {
+        "exitCode": 0,
+        "timedOut": false,
+        "attempts": 1,
+        "text": "Codex CLI\\n\\nIf no subcommand is specified, options will be forwarded to the interactive CLI.\\n\\nUsage: codex [OPTIONS] [PROMPT]\\n       codex [OPTIONS] <COMMAND> [ARGS]\\n\\nCommands:\\n  agents            Browse all agent sessions on the shared local app-server daemon\\n  exec              Run Codex non-interactively [aliases: e]\\n  review            Run a code review non-interactively\\n  login             Manage login\\n  logout            Remove stored authentication credentials\\n  mcp               Manage external MCP servers for Codex\\n  plugin            Manage Codex plugins\\n  mcp-server        Start Codex as an MCP server (stdio)\\n  app-server        [experimental] Run the app server or related tooling\\n  remote-control    [experimental] Manage the app-server daemon with remote control enabled\\n  app               Launch the Desktop app (opens the app installer if missing)\\n  completion        Generate shell completion scripts\\n  update            Update Codex to the latest version\\n  doctor            Diagnose local Codex installation, config, auth, and runtime health\\n  sandbox           Run commands within a Codex-provided sandbox\\n  debug             Debugging tools\\n  apply             Apply the latest diff produced by Codex agent as a `git apply` to your local\\n                    working tree [aliases: a]\\n  resume            Resume a previous interactive session (picker by default; use --last to continue\\n                    the most recent)\\n  queue             Queue a message for an existing session\\n  archive           Archive a saved session by id or session name\\n  delete            Permanently delete a saved session by id or session name\\n  migrate-rollouts  Inspect or migrate legacy local sessions to paginated thread history\\n  unarchive         Unarchive a saved session by id or session name\\n  fork              Fork a previous interactive session (picker by default; use --last to fork the\\n                    most recent)\\n  cloud             [EXPERIMENTAL] Browse tasks from Codex Cloud and apply changes locally\\n  exec-server       [EXPERIMENTAL] Run the standalone exec-server service\\n  features          Inspect feature flags\\n  help              Print this message or the help of the given subcommand(s)\\n\\nArguments:\\n  [PROMPT]\\n          Optional user prompt to start the session\\n\\nOptions:\\n  -c, --config <key=value>\\n          Override a configuration value that would otherwise be loaded from `~/.codex/config.toml`.\\n          Use a dotted path (`foo.bar.baz`) to override nested values. The `value` portion is parsed\\n          as TOML. If it fails to parse as TOML, the raw string is used as a literal.\\n          \\n          Examples: - `-c model=\"o3\"` - `-c 'sandbox_permissions=[\"disk-full-read-access\"]'` - `-c\\n          shell_environment_policy.inherit=all`\\n\\n      --enable <FEATURE>\\n          Enable a feature (repeatable). Equivalent to `-c features.<name>=true`\\n\\n      --disable <FEATURE>\\n          Disable a feature (repeatable). Equivalent to `-c features.<name>=false`\\n\\n      --remote <ADDR>\\n          Connect the TUI to a remote app server endpoint.\\n          \\n          Accepted forms: `ws://host:port`, `wss://host:port`, `unix://`, or `unix://PATH`.\\n\\n      --remote-auth-token-env <ENV_VAR>\\n          Name of the environment variable containing the Bearer <REDACTED> to send to a remote app\\n          server websocket\\n\\n      --strict-config\\n          Error out when config.toml contains fields that are not recognized by this version of\\n          Codex\\n\\n  -i, --image <FILE>...\\n          Optional image(s) to attach to the initial prompt\\n\\n  -m, --model <MODEL>\\n          Model the agent should use\\n\\n      --oss\\n          Use open-source provider\\n\\n      --local-provider <OSS_PROVIDER>\\n          Specify which local provider to use (lmstudio or ollama). If not specified with --oss,\\n          will use config default or show selection\\n\\n  -p, --profile <CONFIG_PROFILE_V2>\\n          Layer $CODEX_HOME/<name>.config.toml on top of the base user config\\n\\n  -s, --sandbox <SAN",
+        "truncated": true,
+        "sha256": "32EA04E535823053EA4B622D6FD2201AC5E69928DC0C7E17A2F0B465688A742D",
+        "checkedBeforeNormalization": true
+      },
+      "error": null
+    },
+    {
+      "name": "OpenCode",
+      "required": false,
+      "path": "C:\\Users\\letwir\\AppData\\Roaming\\npm\\opencode.ps1",
+      "finalPath": null,
+      "classification": "NotConfigured",
+      "executableHealthy": "Missing",
+      "catalogObserved": "NotObserved",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "wrapper": "",
+        "target": "C:\\Users\\letwir\\AppData\\Roaming\\npm\\opencode.ps1",
+        "args": [
+          "--help"
+        ],
+        "wrapperSha256": null,
+        "targetSha256": null
+      },
+      "fileSha256": null,
+      "version": null,
+      "output": null,
+      "error": null
+    },
+    {
+      "name": "Claude",
+      "required": false,
+      "path": "C:\\Users\\letwir\\AppData\\Roaming\\npm\\claude.ps1",
+      "finalPath": null,
+      "classification": "NotConfigured",
+      "executableHealthy": "Missing",
+      "catalogObserved": "NotObserved",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "wrapper": "",
+        "target": "C:\\Users\\letwir\\AppData\\Roaming\\npm\\claude.ps1",
+        "args": [
+          "--help"
+        ],
+        "wrapperSha256": null,
+        "targetSha256": null
+      },
+      "fileSha256": null,
+      "version": null,
+      "output": null,
+      "error": null
+    },
+    {
+      "name": "Agents",
+      "required": false,
+      "path": "C:\\Users\\letwir\\AppData\\Roaming\\npm\\agents.ps1",
+      "finalPath": null,
+      "classification": "NotConfigured",
+      "executableHealthy": "Missing",
+      "catalogObserved": "NotObserved",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "wrapper": "",
+        "target": "C:\\Users\\letwir\\AppData\\Roaming\\npm\\agents.ps1",
+        "args": [
+          "--help"
+        ],
+        "wrapperSha256": null,
+        "targetSha256": null
+      },
+      "fileSha256": null,
+      "version": null,
+      "output": null,
+      "error": null
+    }
+  ],
+  "latest_updated": true
+}

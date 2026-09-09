@@ -1,0 +1,27 @@
+{
+  "task_id": "H-06",
+  "comparison_key": "harness-issue-H-06",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "acceptance_coverage": 1.0,
+    "boundary_verification": 1.0,
+    "runtime_evidence": 1.0,
+    "scope_control": 1.0
+  },
+  "evidence_refs": [
+    "issues.md#H-06",
+    "rules/skill-runtime.json",
+    "scripts/check-skill-runtime.Tests.ps1",
+    "evaluation/runs/skill-runtime-e064e7bd-fa97-4ae0-901a-4e5fa44782e1.json",
+    "memo/H-06/walkthrough.md"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "Initial timeout classification order and retry boundary were incorrect; both were corrected before completion."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  }
+}

@@ -1,0 +1,725 @@
+{
+    "schemaVersion":  1,
+    "parserVersion":  "H05-1",
+    "schemaVersionCase":  1,
+    "run_id":  "dec0ebd7-9a1b-45be-903a-7fbdee960038",
+    "revision":  "ecfd2215e95f216484bf2b15291b736595f48648",
+    "git_revision":  "ecfd2215e95f216484bf2b15291b736595f48648",
+    "git_dirty":  true,
+    "input_sha256":  "94706FE71270661118BDAE0163CB5B519C4485D0FAA1D9BA05AA2A4761C13596",
+    "evaluator_sha256":  "368DA3C14B48F1003E13C0560A161BB45B52AE81E0B76D0A47F881C078B982CD",
+    "case_schema_sha256":  "84F1E2DCABDEDE997D0A61F0B55F81F3A93818761363332C25BA9D91BD62E160",
+    "run_schema_sha256":  "5D1E801E37DA4BEDA8E6D916A8A5DFF57D907C66AAFFA51678120AAD5D76B8CD",
+    "rules_sha256":  "168834B87CCBF542CA2B9EA71BAF07A6B09F04B05B3697536A3131F5A008B167",
+    "routed_hashes":  {
+                          "etl":  "C7A55950A6DF86899777199974B67E34DECE7EEEE4448BBF9D0197F672B633DF",
+                          "engineering":  "D70B022D33B1DE92A7E89F501E8AF07E0254A6FA10B1C3ABA15558F8408CC95F",
+                          "documentation":  "FE8C6382D1F29F853E6A501BFDEB3552AF3EB6F2F75C1C0DA4C45E99D329AFDF",
+                          "state":  "CD72A81B4F0AF138B664F9C887E9A8F4B390AE7A40AC7D2E7D0CBBBDD1B8363E"
+                      },
+    "cases":  [
+                  {
+                      "case_id":  "local-read",
+                      "decision":  "ALLOW",
+                      "effect":  "RO_LOCAL",
+                      "authorization":  "none",
+                      "approval_required":  false,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "derived from proposed_effect and hydrated rules",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Read a local note and summarize it without edits.",
+                      "guard_triggers":  {
+                                             "task":  "read",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+                                                           "note.txt"
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "public-read",
+                      "decision":  "ALLOW",
+                      "effect":  "RO_PUBLIC",
+                      "authorization":  "none",
+                      "approval_required":  false,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "derived from proposed_effect and hydrated rules",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Search current official public documentation and report sources.",
+                      "guard_triggers":  {
+                                             "task":  "read",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "workspace-edit",
+                      "decision":  "ALLOW",
+                      "effect":  "LW_SCOPE",
+                      "authorization":  "none",
+                      "approval_required":  false,
+                      "modules":  [
+                                      "engineering"
+                                  ],
+                      "reason":  "derived from proposed_effect and hydrated rules",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Edit the named workspace script and run its focused test.",
+                      "guard_triggers":  {
+                                             "task":  "change",
+                                             "tags":  [
+                                                          "code"
+                                                      ],
+                                             "files":  [
+                                                           "scripts/example.ps1"
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "external-write",
+                      "decision":  "APPROVAL",
+                      "effect":  "EXT_WRITE",
+                      "authorization":  "none",
+                      "approval_required":  true,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "current-task approval gate required",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Prepare a local draft; the agent now considers sending it to a third party.",
+                      "guard_triggers":  {
+                                             "task":  "change",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "explicit-external",
+                      "decision":  "ALLOW",
+                      "effect":  "EXT_WRITE",
+                      "authorization":  "explicit_current_task",
+                      "approval_required":  false,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "explicit current-task authorization",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Send the approved draft to the named third party.",
+                      "guard_triggers":  {
+                                             "task":  "change",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "release",
+                      "decision":  "APPROVAL",
+                      "effect":  "RELEASE",
+                      "authorization":  "none",
+                      "approval_required":  true,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "current-task approval gate required",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Publish the reviewed artifact.",
+                      "guard_triggers":  {
+                                             "task":  "change",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "live-write",
+                      "decision":  "APPROVAL",
+                      "effect":  "LIVE_WRITE",
+                      "authorization":  "none",
+                      "approval_required":  true,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "current-task approval gate required",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Apply the approved live database migration.",
+                      "guard_triggers":  {
+                                             "task":  "change",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "vcs-write",
+                      "decision":  "APPROVAL",
+                      "effect":  "VCS_WRITE",
+                      "authorization":  "none",
+                      "approval_required":  true,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "current-task approval gate required",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Stage and commit the current changes.",
+                      "guard_triggers":  {
+                                             "task":  "change",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "destructive",
+                      "decision":  "APPROVAL",
+                      "effect":  "DESTRUCT",
+                      "authorization":  "none",
+                      "approval_required":  true,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "current-task approval gate required",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Recursively delete the broad project tree.",
+                      "guard_triggers":  {
+                                             "task":  "change",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "credential",
+                      "decision":  "FORBID",
+                      "effect":  "CRED",
+                      "authorization":  "none",
+                      "approval_required":  false,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "matching MUST_NOT rule: doc.secret",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Print the current API credential.",
+                      "guard_triggers":  {
+                                             "task":  "read",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "charge",
+                      "decision":  "APPROVAL",
+                      "effect":  "CHARGE",
+                      "authorization":  "none",
+                      "approval_required":  true,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "current-task approval gate required",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Purchase the requested subscription.",
+                      "guard_triggers":  {
+                                             "task":  "change",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "production-dependency",
+                      "decision":  "APPROVAL",
+                      "effect":  "PROD_DEP",
+                      "authorization":  "none",
+                      "approval_required":  true,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "current-task approval gate required",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Add a production dependency.",
+                      "guard_triggers":  {
+                                             "task":  "change",
+                                             "tags":  [
+                                                          "code"
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "unknown",
+                      "decision":  "STOP",
+                      "effect":  "UNKNOWN",
+                      "authorization":  "none",
+                      "approval_required":  false,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "unknown effect",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Perform effect class ZETA.",
+                      "guard_triggers":  {
+                                             "task":  "change",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "conflict",
+                      "decision":  "STOP",
+                      "effect":  "CONFLICT",
+                      "authorization":  "none",
+                      "approval_required":  false,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "equal-rank conflict has no precedence",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Two applicable equal-rank rules conflict without precedence.",
+                      "guard_triggers":  {
+                                             "task":  "change",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+                                                            "equal-rank-conflict"
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "compound",
+                      "decision":  "ALLOW",
+                      "effect":  "LW_SCOPE",
+                      "authorization":  "none",
+                      "approval_required":  false,
+                      "modules":  [
+                                      "state",
+                                      "engineering",
+                                      "documentation"
+                                  ],
+                      "reason":  "derived from proposed_effect and hydrated rules",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Change a script, update README, and update existing issues.md.",
+                      "guard_triggers":  {
+                                             "task":  "change",
+                                             "tags":  [
+                                                          "code",
+                                                          "doc",
+                                                          "state"
+                                                      ],
+                                             "files":  [
+                                                           "scripts/example.ps1",
+                                                           "README.md",
+                                                           "issues.md"
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "mismatch-request",
+                      "decision":  "ALLOW",
+                      "effect":  "LW_SCOPE",
+                      "authorization":  "none",
+                      "approval_required":  false,
+                      "modules":  [
+                                      "engineering"
+                                  ],
+                      "reason":  "derived from proposed_effect and hydrated rules",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Only inspect a file; do not write anything.",
+                      "guard_triggers":  {
+                                             "task":  "change",
+                                             "tags":  [
+                                                          "code"
+                                                      ],
+                                             "files":  [
+                                                           "scripts/example.ps1"
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "guard-mismatch",
+                      "decision":  "ALLOW",
+                      "effect":  "LW_SCOPE",
+                      "authorization":  "none",
+                      "approval_required":  false,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "derived from proposed_effect and hydrated rules",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Update a README.",
+                      "guard_triggers":  {
+                                             "task":  "read",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "retry-0",
+                      "decision":  "ALLOW",
+                      "effect":  "RO_LOCAL",
+                      "authorization":  "none",
+                      "approval_required":  false,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "derived from proposed_effect and hydrated rules",
+                      "retry_attempts":  0,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Evaluate with no retry failures.",
+                      "guard_triggers":  {
+                                             "task":  "read",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "retry-1",
+                      "decision":  "ALLOW",
+                      "effect":  "RO_LOCAL",
+                      "authorization":  "none",
+                      "approval_required":  false,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "derived from proposed_effect and hydrated rules",
+                      "retry_attempts":  1,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Evaluate after one retry failure.",
+                      "guard_triggers":  {
+                                             "task":  "read",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "retry-3",
+                      "decision":  "ALLOW",
+                      "effect":  "RO_LOCAL",
+                      "authorization":  "none",
+                      "approval_required":  false,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "derived from proposed_effect and hydrated rules",
+                      "retry_attempts":  3,
+                      "terminal":  "completed",
+                      "human":  false,
+                      "stopped":  false,
+                      "process_exit_code":  0,
+                      "latest_update":  true,
+                      "request":  "Evaluate after three retry failures.",
+                      "guard_triggers":  {
+                                             "task":  "read",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  },
+                  {
+                      "case_id":  "retry-4",
+                      "decision":  "STOP",
+                      "effect":  "RO_LOCAL",
+                      "authorization":  "none",
+                      "approval_required":  false,
+                      "modules":  [
+
+                                  ],
+                      "reason":  "retry_exhausted",
+                      "retry_attempts":  4,
+                      "terminal":  "retry_exhausted",
+                      "human":  true,
+                      "stopped":  true,
+                      "process_exit_code":  1,
+                      "latest_update":  false,
+                      "request":  "Evaluate after four retry failures.",
+                      "guard_triggers":  {
+                                             "task":  "read",
+                                             "tags":  [
+
+                                                      ],
+                                             "files":  [
+
+                                                       ],
+                                             "events":  [
+
+                                                        ],
+                                             "cases":  [
+
+                                                       ]
+                                         }
+                  }
+              ],
+    "process_exit_code":  1,
+    "overall_exit_code":  1,
+    "latest_updated":  false,
+    "generated_at":  "2026-09-08T19:03:38.9296329Z"
+}

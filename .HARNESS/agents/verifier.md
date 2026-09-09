@@ -39,6 +39,7 @@ AF遵守: エッジ∧異常系∧並行競合∧GR∧ScopeCreep∧SpecDriftを�
 ※ Workerログ流用禁止; 自らpwsh経由実行∧exitcode=0確認:
 - `{CMD_1}` (例: `cd {dir}; go vet ./...; go test -v -race ./...`) × 2回(Flaky検出)
 - `{CMD_PROOF}` (例: `proof-checker.exe -path {dir} -strict -vet`)
+- `{CMD_HARNESS_LINT}` (例: `harness-lint.exe -path {dir} -level 3 -strict`)
 - `{CMD_2}` (例: `cd {dir}; python.exe -m unittest discover -s tests`)
 - `python.exe scripts/verifier_claude.py --target {dir} --rule CODE_RULE.md --model {MODEL_FROM_SUBAGENTS_LRF}`
 - `agy.exe --model {MODEL_FROM_SUBAGENTS_LRF} --mode plan --print-timeout 5m -p "{verifier_prompt}"`

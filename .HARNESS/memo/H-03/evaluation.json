@@ -1,0 +1,25 @@
+{
+  "task_id": "H-03",
+  "comparison_key": "harness-issue-H-03",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "acceptance_coverage": 1.0,
+    "boundary_verification": 1.0,
+    "restore_integrity": 1.0,
+    "scope_control": 1.0
+  },
+  "evidence_refs": [
+    "issues.md#H-03",
+    "scripts/sync-harness.Tests.ps1",
+    "memo/H-03/walkthrough.md"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "Initial implementation omitted binary-source and downstream-stop regression coverage; corrected before completion."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  }
+}

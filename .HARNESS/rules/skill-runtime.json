@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "maxOutputChars": 4096,
+  "defaultTimeoutMs": 5000,
+  "approvedRoots": ["{HarnessRoot}", "{UserHome}\\AppData\\Local\\agy", "{UserHome}\\AppData\\Roaming\\npm", "{PowerShell}"],
+  "tools": [
+    {"name":"harness-lint","required":true,"path":"{HarnessRoot}\\skills\\harness-lint\\harness-lint.exe","helpArgs":["-h"],"requiredText":"Usage of","timeoutMs":5000,"representative":{"args":["-path","{HarnessRoot}\\rules\\LLM_REF_RULE.md","-level","0","-json"],"requiredExitCode":0}},
+    {"name":"proof-checker","required":true,"path":"{HarnessRoot}\\skills\\proof-checker\\proof-checker.exe","helpArgs":["-h"],"requiredText":"Usage of","timeoutMs":5000,"representative":{"args":["-path","{HarnessRoot}\\rules","-json"],"requiredExitCode":0,"requiredText":"\"verdict\": \"PASS\""}},
+    {"name":"sec-forensics","required":true,"path":"{HarnessRoot}\\skills\\sec-forensics\\sec-forensics.exe","helpArgs":["-h"],"requiredText":"Usage:","timeoutMs":5000,"representative":{"args":["scan-prompt","-text","Summarize this benign local note.","-json"],"requiredExitCode":0,"requiredText":"\"total_findings\": 0"}},
+    {"name":"llm-memory","required":true,"path":"{HarnessRoot}\\skills\\llm-memory\\llm-mem.exe","helpArgs":[],"requiredText":"LLM Memory CLI","requiredExitCode":1,"timeoutMs":5000,"representative":null},
+    {"name":"agy","required":true,"path":"{UserHome}\\AppData\\Local\\agy\\bin\\agy.exe","helpArgs":["--help"],"requiredText":"Usage of agy.exe","timeoutMs":5000,"representative":null}
+  ],
+  "clients": [
+    {"name":"Gemini","required":true,"wrapper":"{PowerShell}","target":"{UserHome}\\AppData\\Roaming\\npm\\gemini.ps1","args":["skills","list"],"requiredText":"harness-lint [Enabled]","mode":"catalog-only","timeoutMs":60000,"retryCount":1},
+    {"name":"Codex","required":true,"wrapper":"{PowerShell}","target":"{UserHome}\\AppData\\Roaming\\npm\\codex.ps1","args":["--help"],"mode":"catalog-api-or-unverified","timeoutMs":5000}
+  ],
+  "optionalClients": [
+    {"name":"OpenCode","required":false,"wrapper":null,"target":"{UserHome}\\AppData\\Roaming\\npm\\opencode.ps1","args":["--help"],"mode":"optional","timeoutMs":3000},
+    {"name":"Claude","required":false,"wrapper":null,"target":"{UserHome}\\AppData\\Roaming\\npm\\claude.ps1","args":["--help"],"mode":"optional","timeoutMs":3000},
+    {"name":"Agents","required":false,"wrapper":null,"target":"{UserHome}\\AppData\\Roaming\\npm\\agents.ps1","args":["--help"],"mode":"optional","timeoutMs":3000}
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "form": {
+    "key": "harness-feedback",
+    "version": 1,
+    "title": "ハーネスご意見アンケート",
+    "questions": [
+      {
+        "key": "hard-to-operate",
+        "prompt": "このハーネスで動きづらかったことは？",
+        "required": true,
+        "kind": "long_text"
+      },
+      {
+        "key": "ambiguous",
+        "prompt": "解釈に迷った、または推測して進めたことは？",
+        "required": true,
+        "kind": "long_text"
+      },
+      {
+        "key": "excessive",
+        "prompt": "不要・過剰だった指示、SKILL、工程は？",
+        "required": true,
+        "kind": "long_text"
+      },
+      {
+        "key": "missing",
+        "prompt": "無かったため困ったSKILL・機能は？",
+        "required": true,
+        "kind": "long_text"
+      },
+      {
+        "key": "helpful",
+        "prompt": "このハーネスのおかげで上手くできたことは？",
+        "required": true,
+        "kind": "long_text"
+      },
+      {
+        "key": "next-time",
+        "prompt": "次回同じ仕事をするなら何を変えたい？",
+        "required": true,
+        "kind": "long_text"
+      },
+      {
+        "key": "other",
+        "prompt": "その他、ワイへの実装依頼・ご意見",
+        "required": false,
+        "kind": "long_text"
+      }
+    ]
+  },
+  "respondent": "Codex main agent",
+  "source": "user-requested post-task survey",
+  "task_id": "20260908-harness-gap-review",
+  "context": {
+    "observation_scope": "Local harness inspection; agent observations, not verified universal defects",
+    "signal_kinds": [
+      "FRICTION",
+      "REQUEST"
+    ]
+  },
+  "answers": {
+    "ambiguous": "構成上の不足と実行証拠の不足を区別する必要があった。ユーザー指示自体は明確。",
+    "excessive": "ローカル構成棚卸しにも通常Web-first/委譲工程が要求される点。今回は明示されたサブエージェント無しを優先。",
+    "hard-to-operate": "ルール読込みと記録先が複数ルートに分かれている。初期に全文を読みすぎたのはエージェント側の手順ミス。",
+    "helpful": "作用分類、既存変更の保持、rgの段階検索、事実と未確認の区別。",
+    "missing": "同期異常の非0終了、WhatIf無変更保証、競合manifest、ルール差分検出、評価再実行手順。根拠と未確認事項はissues.md。",
+    "next-time": "同期の終了コードとWhatIfの隔離検証から着手し、既存lintの担当範囲を確認する。",
+    "other": "H-01からH-08を改善候補として記録。実装修正は今回行っていない。"
+  }
+}

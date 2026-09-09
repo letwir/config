@@ -1,0 +1,22 @@
+{
+  "evidence_refs": [
+    "issues.md",
+    "memo/20260908-harness-gap-review/walkthrough.md"
+  ],
+  "task_family": "local-review",
+  "axes": {
+    "scoped_inspection": 0.8,
+    "artifact_complete": 1.0
+  },
+  "role": "main",
+  "task_id": "20260908-harness-gap-review",
+  "attribution": {
+    "agent_defects": [
+      "Initial full rule/skill reads exceeded targeted retrieval needs; corrected to rg slices."
+    ],
+    "prompt_defects": [],
+    "agent_ratio": 1.0,
+    "prompt_ratio": 0.0
+  },
+  "comparison_key": "harness-local-gap-review-v1"
+}

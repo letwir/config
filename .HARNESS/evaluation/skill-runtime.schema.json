@@ -1,0 +1,13 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "type":"object","additionalProperties":false,
+  "required":["schemaVersion","run_id","generated_at","overall_exit_code","tools","clients"],
+  "properties":{
+    "schemaVersion":{"const":1},"run_id":{"type":"string","format":"uuid"},"generated_at":{"type":"string"},"overall_exit_code":{"type":"integer"},
+    "tools":{"type":"array","items":{"$ref":"#/$defs/result"}},"clients":{"type":"array","items":{"$ref":"#/$defs/result"}},
+    "latest_updated":{"type":"boolean"}
+  },
+  "$defs":{"result":{"type":"object","additionalProperties":false,"required":["name","classification","executableHealthy","catalogObserved","representativeOperation"],"properties":{
+    "name":{"type":"string"},"classification":{"type":"string"},"executableHealthy":{"type":"string"},"catalogObserved":{"type":"string"},"representativeOperation":{"type":"string"},"required":{"type":"boolean"},"path":{"type":"string"},"finalPath":{"type":["string","null"]},"commandIdentity":{"type":"object"},"fileSha256":{"type":["string","null"]},"version":{"type":["string","null"]},"output":{"type":["object","null"]},"error":{"type":["string","null"]}
+  }}}
+}

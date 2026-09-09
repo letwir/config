@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "name": "harness-rule-distribution",
+  "canonical": "{HarnessRoot}\\rules\\LLM_REF_RULE.md",
+  "canonicalSha256": "168834B87CCBF542CA2B9EA71BAF07A6B09F04B05B3697536A3131F5A008B167",
+  "entries": [
+    {
+      "name": "harness-project",
+      "kind": "HarnessProject",
+      "required": true,
+      "entry": "{HarnessRoot}\\AGENTS.md",
+      "chain": [
+        { "path": "{HarnessRoot}\\AGENTS.md", "kind": "entry", "sha256": "4A20B83B8F7288EE6122DEA96D0E578A669807E013AA48FC3ABAAC28C5FFCF17", "contains": "~/.harness/rules/LLM_REF_RULE.md", "ids": [], "allowedDifferenceIds": [] },
+        { "path": "{HarnessRoot}\\rules\\LLM_REF_RULE.md", "kind": "lrf", "sha256": "168834B87CCBF542CA2B9EA71BAF07A6B09F04B05B3697536A3131F5A008B167", "ids": ["intent.ro","intent.rw","ctx","scope","host","skill","legacy","persona","route.phase","route.tags","route.order","load.state","load.engineering","load.agy","load.subagents","subagent.eval-evidence","load.documentation","load.skill","load.index","load.diary","load.research","agent.mode","workflow.default","agent.handoff","agent.gates","agent.roles","done","ref"], "allowedDifferenceIds": [] }
+      ]
+    },
+    {
+      "name": "codex",
+      "kind": "Codex",
+      "required": true,
+      "entry": "{UserHome}\\.codex\\AGENTS.md",
+      "chain": [
+        { "path": "{UserHome}\\.codex\\AGENTS.md", "kind": "entry", "sha256": "7299B7A62145A68BC28A88E0186649B2EA07B503620E894FA07E7D358A408D6F", "contains": "{UserHomeForward}/.codex/rules/LLM_REF_RULE.md", "ids": [], "allowedDifferenceIds": [] },
+        { "path": "{UserHome}\\.codex\\rules\\LLM_REF_RULE.md", "kind": "lrf", "sha256": "6F50FFE21569ABE25BF5B255BD6517712A0D74AA1C192F26A3CAF9A7B1F769A7", "ids": ["intent.ro","intent.rw","ctx","scope","host","skill","legacy","persona","route.phase","route.tags","route.order","load.state","load.engineering","load.agy","load.subagents","subagent.eval-evidence","load.documentation","load.skill","load.diary","load.research","agent.mode","agent.handoff","agent.gates","agent.roles","done","ref"], "allowedDifferenceIds": ["load.index","persona","skill","workflow.default"] }
+      ]
+    },
+    {
+      "name": "gemini",
+      "kind": "Gemini",
+      "required": true,
+      "entry": "{UserHome}\\.gemini\\GEMINI.md",
+      "chain": [
+        { "path": "{UserHome}\\.gemini\\GEMINI.md", "kind": "entry", "sha256": "4A20B83B8F7288EE6122DEA96D0E578A669807E013AA48FC3ABAAC28C5FFCF17", "contains": "~/.harness/rules/LLM_REF_RULE.md", "ids": [], "allowedDifferenceIds": [] },
+        { "path": "{HarnessRoot}\\rules\\LLM_REF_RULE.md", "kind": "lrf", "sha256": "168834B87CCBF542CA2B9EA71BAF07A6B09F04B05B3697536A3131F5A008B167", "ids": ["intent.ro","intent.rw","ctx","scope","host","skill","legacy","persona","route.phase","route.tags","route.order","load.state","load.engineering","load.agy","load.subagents","subagent.eval-evidence","load.documentation","load.skill","load.index","load.diary","load.research","agent.mode","workflow.default","agent.handoff","agent.gates","agent.roles","done","ref"], "allowedDifferenceIds": [] }
+      ]
+    },
+    {
+      "name": "opencode",
+      "kind": "OpenCode",
+      "required": true,
+      "entry": "{UserHome}\\.opencode\\opencode.jsonc",
+      "chain": [
+        { "path": "{UserHome}\\.opencode\\opencode.jsonc", "kind": "entry", "sha256": "E171A22A9023A24744A2F09C327CBB651EEC3A4280240C61495E08602E8D51C9", "contains": "{UserHomeForward}/.opencode/AGENTS.md", "ids": [], "allowedDifferenceIds": [] },
+        { "path": "{UserHome}\\.opencode\\AGENTS.md", "kind": "entry", "sha256": "76142256DF9D5D5DE2A2080630EF57D4074695117735768CED037B3F6B5CC8FA", "contains": "{UserHomeForward}/.opencode/rules/LLM_REF_RULE.md", "ids": [], "allowedDifferenceIds": [] },
+        { "path": "{UserHome}\\.opencode\\rules\\LLM_REF_RULE.md", "kind": "lrf", "sha256": "B5CD9C9D9842A9F71FE3D5FE72C39BC692F736092C64869282311BAC052C01C0", "ids": ["intent.ro","intent.rw","ctx","scope","host","skill","legacy","persona","route.phase","route.tags","route.order","load.state","load.engineering","load.agy","load.codex","load.subagents","subagent.eval-evidence","load.documentation","load.skill","load.diary","load.research","agent.mode","agent.handoff","agent.gates","agent.roles","done","ref"], "allowedDifferenceIds": ["load.agy","load.codex","load.diary","load.documentation","load.engineering","load.index","load.research","load.skill","load.state","load.subagents","persona","route.tags","skill","subagent.eval-evidence","workflow.default"] }
+      ]
+    },
+    { "name": "agents", "kind": "Agents", "required": false, "entry": "{UserHome}\\.agents\\AGENTS.md", "chain": [ { "path": "{UserHome}\\.agents\\AGENTS.md", "kind": "entry", "sha256": "0000000000000000000000000000000000000000000000000000000000000000", "ids": [], "allowedDifferenceIds": [] } ] },
+    { "name": "claude", "kind": "Claude", "required": false, "entry": "{UserHome}\\.claude\\CLAUDE.md", "chain": [ { "path": "{UserHome}\\.claude\\CLAUDE.md", "kind": "entry", "sha256": "0000000000000000000000000000000000000000000000000000000000000000", "ids": [], "allowedDifferenceIds": [] } ] }
+  ]
+}

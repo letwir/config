@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object", "additionalProperties": false,
+  "required": ["schemaVersion", "parserVersion", "schemaVersionCase", "run_id", "revision", "git_revision", "git_dirty", "input_sha256", "evaluator_sha256", "case_schema_sha256", "run_schema_sha256", "rules_sha256", "routed_hashes", "cases", "process_exit_code", "overall_exit_code", "latest_updated", "generated_at"],
+  "properties": {
+    "schemaVersion": { "const": 1 }, "parserVersion": { "type": "string" }, "schemaVersionCase": { "const": 1 },
+    "run_id": { "type": "string", "format": "uuid" }, "revision": { "type": "string" }, "git_revision": { "type": "string" }, "git_dirty": { "type": "boolean" }, "input_sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" },
+    "evaluator_sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" }, "case_schema_sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" }, "run_schema_sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" }, "rules_sha256": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" },
+    "routed_hashes": { "type": "object", "required": ["state", "engineering", "documentation", "etl"], "additionalProperties": false, "properties": { "state": {"type":"string","pattern":"^[A-Fa-f0-9]{64}$"}, "engineering": {"type":"string","pattern":"^[A-Fa-f0-9]{64}$"}, "documentation": {"type":"string","pattern":"^[A-Fa-f0-9]{64}$"}, "etl": {"type":"string","pattern":"^[A-Fa-f0-9]{64}$"} } }, "cases": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["case_id", "route", "decision", "effect", "approval_required", "modules", "reason"], "properties": { "case_id": {"type":"string"}, "route": {"enum":["LOCAL_REVIEW","FULL_ETL","STOP"]}, "decision": {"enum":["ALLOW","APPROVAL","STOP","FORBID"]}, "effect": {"type":"string"}, "authorization": {"type":"string"}, "approval_required": {"type":"boolean"}, "modules": {"type":"array"}, "reason": {"type":"string"}, "retry_attempts": {"type":"integer"}, "terminal": {"type":"string"}, "human": {"type":"boolean"}, "stopped": {"type":"boolean"}, "process_exit_code": {"type":"integer"}, "latest_update": {"type":"boolean"}, "request": {"type":"string"}, "guard_triggers": {"type":"object"}, "review": {"type":["object","null"]} }, "additionalProperties": false } }, "process_exit_code": { "type": "integer" }, "overall_exit_code": { "type": "integer" },
+    "latest_updated": { "type": "boolean" }, "generated_at": { "type": "string" }
+  }
+}

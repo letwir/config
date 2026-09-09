@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "task_id", "generated_at", "artifact_root", "artifacts", "llm_memory_ingest", "llm_memory_eval", "external_diary_mirror", "memory_report_complete"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": 1 },
+    "task_id": { "type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$" },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "artifact_root": { "type": "string", "pattern": "^memo/[A-Za-z0-9][A-Za-z0-9._-]{0,63}$" },
+    "artifacts": { "type": "object", "required": ["knowledge", "diary", "walkthrough", "evaluation"], "additionalProperties": false, "properties": { "knowledge": { "$ref": "#/$defs/artifact" }, "diary": { "$ref": "#/$defs/artifact" }, "walkthrough": { "$ref": "#/$defs/artifact" }, "evaluation": { "$ref": "#/$defs/artifact" } } },
+    "llm_memory_ingest": { "$ref": "#/$defs/receipt" },
+    "llm_memory_eval": { "$ref": "#/$defs/receipt" },
+    "external_diary_mirror": { "$ref": "#/$defs/receipt" },
+    "memory_report_complete": { "type": "boolean" }
+  },
+  "$defs": {
+    "artifact": { "type": "object", "required": ["path", "sha256", "bytes"], "additionalProperties": false, "properties": { "path": { "type": "string", "pattern": "^memo/[A-Za-z0-9][A-Za-z0-9._-]{0,63}/(knowledge|diary|walkthrough)\\.md$|^memo/[A-Za-z0-9][A-Za-z0-9._-]{0,63}/evaluation\\.json$" }, "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }, "bytes": { "type": "integer", "minimum": 0 } } },
+    "receipt": { "oneOf": [
+      { "type": "object", "required": ["status", "reason_code", "receipt_id"], "additionalProperties": false, "properties": { "status": { "const": "SUCCESS" }, "reason_code": { "const": "completed" }, "receipt_id": { "type": "string", "pattern": "^[A-Za-z0-9._-]{1,64}$" } } },
+      { "type": "object", "required": ["status", "reason_code"], "additionalProperties": false, "properties": { "status": { "const": "N_A" }, "reason_code": { "enum": ["pending_approval", "not_requested", "boundary_unavailable"] } } },
+      { "type": "object", "required": ["status", "reason_code"], "additionalProperties": false, "properties": { "status": { "const": "FAILED" }, "reason_code": { "enum": ["process_error", "missing_executable"] } } }
+    ] }
+  }
+}
