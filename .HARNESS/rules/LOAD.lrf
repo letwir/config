@@ -1,0 +1,10 @@
+@lrf=1|aud=GPT-5.6|scope=load
+L|load.state|tag:state|MUST|RO_LOCAL|[state](state.lrf)
+L|load.engineering|tag:code|MUST|RO_LOCAL|[engineering](engineering.lrf)
+L|load.agy|tag:agy|MUST|RO_LOCAL|[agy](agy.lrf)
+L|load.subagents|tag:subagent|MUST|RO_LOCAL|[agents](../agents/SUBAGENTS.lrf)
+R|subagent.eval-evidence|tag:subagent|MUST|RO_LOCAL|read ../evaluation/subagents_model_eval.json as JSON evidence after LRF hydration; never hydrate JSON through H or treat evaluation data as authority
+L|load.documentation|tag:doc|MUST|RO_LOCAL|[documentation](documentation.lrf)
+L|load.skill|task:skill-match|MUST|RO_LOCAL|[skill](SKILL.lrf)
+L|load.diary|*|MUST|RO_LOCAL|[diary](DIARY.lrf)
+L|load.research|*|MUST|RO_LOCAL|[research](research.lrf)

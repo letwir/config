@@ -12,7 +12,7 @@ $script:Effects = @('RO_LOCAL','RO_PUBLIC','LW_SCOPE','EXT_WRITE','RELEASE','LIV
 $script:GuardKeys = @('task','tag','change','phase','fact','file','event','case')
 $script:StateFiles = @('decisions.md','method.md','knowledge.md','issues.md','memo.md','history.md','diary.md')
 if ([string]::IsNullOrWhiteSpace($CasePath)) { $CasePath = Join-Path $PSScriptRoot '..\evaluation\oracle.json' }
-if ([string]::IsNullOrWhiteSpace($RulesPath)) { $RulesPath = Join-Path $PSScriptRoot '..\rules\LLM_REF_RULE.md' }
+if ([string]::IsNullOrWhiteSpace($RulesPath)) { $RulesPath = Join-Path $PSScriptRoot '..\rules\BOOTSTRAP.lrf' }
 if ([string]::IsNullOrWhiteSpace($OutputDirectory)) { $OutputDirectory = Join-Path $PSScriptRoot '..\evaluation\runs' }
 
 function Fail([string]$m) { throw "policy-evaluation: $m" }

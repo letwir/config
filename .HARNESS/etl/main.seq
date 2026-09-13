@@ -1,81 +1,20 @@
-@seq 1
-@entry PRECEDENT
+@seq 2
+@entry ROUTE
 ∀ agent: depth(agent) ≤ 2
 ∀ gate: retry(gate, ADV ∨ DENY) ≤ 3
-
-⊥ retry_exhausted(gate)
-→ 🧾 Trouble(gate, latest_advisory_or_denial)
-→ 🧑 Human
-→ End(Conversation) ⊣ ⊤
+⊥ retry_exhausted(gate) → 🧾 Trouble(gate, latest_advisory_or_denial) → 🧑 Human → End(Conversation) ⊣ ⊤
 
 🔎 PRECEDENT
 Obj(Task{task_id,target,acceptance}) → Mor(llm-mem.search[level=2,json]) → Precedents
-⊢ executable($env:LLM_MEMORY_BIN) ∧ outside_sandbox
-HIT   ⇒ Evidence(memory=Precedents) → ROUTE
+HIT ⇒ Evidence(memory=Precedents) → ROUTE
 EMPTY ⇒ Evidence(memory=N_A(no_precedent)) → ROUTE
 ERROR ∨ missing_executable ⇒ Evidence(memory=FAILED(non_secret_cause)) → ROUTE
 
 🔀 ROUTE
 RO_LOCAL ∧ valid_local_review ⇒ LOCAL_REVIEW
-otherwise ⇒ FULL_ETL → EXPLORE
-
-🔎 LOCAL_REVIEW
-Obj(LocalReview{query,targets,scope}) → Mor(local-review.collector) → ReviewReport
-⊢ fixed_string(query) ∧ finite_exact_targets(targets) ∧ target_scope(scope)
-⊢ collector_commands={rg.fixed_string,git.status.targets,git.diff_check.targets}
-⊢ no_edit ∧ no_memory ∧ no_diary ∧ no_external ∧ no_vcs
-LOCAL_REVIEW ⇒ ReviewReport → 🧑 Human → End(Conversation) ⊣ ⊤
-scope_expansion ∨ edit ∨ public ∨ external ∨ live ∨ vcs ∨ credential ⇒ FULL_ETL → EXPLORE
-unknown ∨ conflict ∨ malformed ∨ retry_exhausted ⇒ STOP → 🧑 Human → End(Conversation)
-
-🔭 EXPLORE @codex.selected
-Evidence(memory) → Evidence(task)
-🧠 PLAN @terra.high
-Evidence → Plan
-🧐 PRE_VERIFY
-Γ ⊢ Plan : Verdict
-PASS ⇒ CODE
-ADV  ⇒ PLAN ↺
-DENY ⇒ PLAN ↺
-⚒ CODE @codex.worker
-Plan → Change
-⊢ explicit_current_task_request(agy) ∧ live_model_resolved ⇒ CODE @agy
-¬explicit_current_task_request(agy) ⇒ CODE @codex.worker
-🧬 worker* : depth ≤ 2
-execution := worker₁ ∥ ... ∥ workerₙ
-🧐 POST_VERIFY
-Γ ⊢ Change : Verdict
-PASS ⇒ FINISH
-ADV  ⇒ CODE ↺
-DENY ⇒ CODE ↺
-🏁 FINISH
-Obj(Change ∘ Diff ∘ Checks ∘ Unknowns) → ArtifactSet
-ArtifactSet → 🧾 TaskReport ∘ EvaluationJSON
-⊢ valid(TaskReport) ∧ valid(EvaluationJSON)
-→ 🔎 git.review
-
-⊢ approval(VCS_WRITE,current_task) ⇒ 📦 git.commit → VCSReceipt
-¬approval(VCS_WRITE,current_task) ⇒ VCSReceipt=N_A(pending_approval)
-ERROR(git.commit) ⇒ VCSReceipt=FAILED(non_secret_cause)
-
-⊢ approval(LIVE_WRITE,current_task) ∧ executable($env:LLM_MEMORY_BIN)
-⇒ outside_sandbox(llm-mem.ingest(TaskReport)) → IngestReceipt=SUCCESS(receipt_id)
-⇒ outside_sandbox(llm-mem.eval(EvaluationJSON)) → EvaluationReceipt=SUCCESS(receipt_id)
-¬approval(LIVE_WRITE,current_task) ⇒ IngestReceipt=N_A(pending_approval) ∧ EvaluationReceipt=N_A(pending_approval)
-missing_executable ⇒ IngestReceipt=FAILED(missing_executable) ∧ EvaluationReceipt=FAILED(missing_executable)
-ERROR(llm-mem.ingest) ⇒ IngestReceipt=FAILED(process_error)
-ERROR(llm-mem.eval) ⇒ EvaluationReceipt=FAILED(process_error)
-MemoryReceipt := IngestReceipt ∘ EvaluationReceipt
-
-⊢ approval(EXT_WRITE,current_task) ⇒ external_diary_mirror(memo/<task_id>/diary.md) → ExternalDiaryMirrorReceipt
-¬approval(EXT_WRITE,current_task) ⇒ ExternalDiaryMirrorReceipt=N_A(not_requested)
-ERROR(external_diary_mirror) ⇒ ExternalDiaryMirrorReceipt=FAILED(process_error)
-
-⊢ final(IngestReceipt) ∧ final(EvaluationReceipt) ∧ final(ExternalDiaryMirrorReceipt)
-⇒ 🧾 write-task-record(memo/<task_id>/{knowledge.md,diary.md,walkthrough.md,evaluation.json}, IngestReceipt, EvaluationReceipt, ExternalDiaryMirrorReceipt)
-→ TaskRecordReceipt
-
-🧾 RESULT.share(TaskReport ∘ VCSReceipt ∘ MemoryReceipt) → 🧑 Human
-⊢ IngestReceipt=SUCCESS ∧ EvaluationReceipt=SUCCESS ⇒ memory_report_complete
-IngestReceipt∈{N_A,FAILED} ∨ EvaluationReceipt∈{N_A,FAILED} ⇒ ¬memory_report_complete
-→ End(Conversation) ⊣ ⊤
+explicit(research-local) ⇒ RESEARCH_LOCAL
+otherwise ⇒ RESEARCH → CHANGE → FINISH
+LOCAL_REVIEW ⇒ load(research-local.seq)
+RESEARCH ⇒ load(research.seq)
+CHANGE ⇒ load(change.seq)
+FINISH ⇒ load(finish.seq)

@@ -1,0 +1,15 @@
+@lrf=1|aud=GPT-5.6|scope=bootstrap
+R|intent.ro|task:read-only|MUST|RO_LOCAL|answer/diagnose/review=inspect+evidence; repair=false
+R|intent.rw|task:change|MUST|LW_SCOPE|requested workspace edit+proportionate checks=true
+R|ctx|*|MUST|RO_LOCAL|precedence=P; merge=compatible conjunction; equal-rank conflict=STOP; invented merge=false
+R|scope|*|MUST|RO_LOCAL|unrelated changes=preserve; destructive target=resolve exact; project rules=nearest project source
+R|host|*|MUST|RO_LOCAL|os=Windows11; shell=PowerShell7; deny=Bash/sh/GitBash/WSL unless explicit; exec=native+.exe; all-file-discovery=rg.exe; text=UTF8-noBOM
+R|legacy|*|MUST_NOT|RO_LOCAL|activate imported-gemini/archive/backups/legacy hooks
+R|route.phase|*|MUST|RO_LOCAL|effect decision first; decision!=ALLOW=>conditional leaf count=0
+R|route.tags|*|MUST|RO_LOCAL|after ALLOW collect all: code=software create/edit/refactor/design; doc=README/docs create/edit or SKILL.md contract scan/repair; state=basename in {decisions.md,method.md,knowledge.md,issues.md,memo.md,history.md,diary.md} applies/touched/requested-create; agy=explicit current-task user request for bounded external coding delegation through agy.exe; subagent=subagent invocation or subagent configuration work
+R|route.order|*|MUST|RO_LOCAL|matching leaf union once: state>engineering>documentation
+R|bootstrap.next|*|MUST|RO_LOCAL|after bootstrap read ../README-forLLM.md for bounded LRF lookup and sequence navigation; then hydrate only matching MANUAL.lrf and LOAD.lrf records
+R|workflow.default|*|MUST|RO_LOCAL|default sequence=../etl/main.seq; main.seq is the standard dispatcher; normal path=research.seq -> change.seq -> finish.seq; explicit local path=research-local.seq; execute phases in strict sequence PRECEDENT->RESEARCH->PLAN->PRE_VERIFY->CODE->POST_VERIFY->FINISH; do not skip gates
+R|agent.mode|*|MUST|RO_LOCAL|default=orchestrate; when task has 2+ bounded independent workstreams delegate proactively; assign one persona per workstream; run read-heavy or disjoint work in parallel; one-writer-per-file; overlap or ordered dependency=serial; main waits for all requested results then validates and synthesizes; correction-cycles<=3
+R|agent.gates|*|MUST|RO_LOCAL|substantial=multi-file behavior/API/schema/security/concurrency/migration/difficult rollback; unstable fact=>read-only researcher+dated primary+fact/inference/unknown; substantial pre=>auditor PASS; substantial done=>verifier real diff/snapshot+deterministic checks
+R|done|*|MUST|RO_LOCAL|confirm behavior+non-change scope+checks+changed files+residual risk; authorized mem.etl may persist bounded plan/diary/completion summaries; secrets/raw logs excluded; ETL failure=>warn+report

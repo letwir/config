@@ -1,0 +1,17 @@
+@seq 1
+@entry RESEARCH
+🔭 RESEARCH @codex.selected
+Evidence(memory) → Evidence(task)
+⊢ default_profile={web,llm-mem}
+⊢ web=RO_PUBLIC ∧ llm-mem=RO_LOCAL
+🔎 WEB
+Obj(Task{keywords}) → Mor(web.search) → Sources
+ERROR ⇒ Evidence(web=FAILED(non_secret_cause))
+EMPTY ⇒ Evidence(web=N_A(no_applicable_source))
+🔎 MEMORY
+Obj(Task{keywords}) → Mor(llm-mem.search[level=2,json]) → Precedents
+ERROR ∨ missing_executable ⇒ Evidence(memory=FAILED(non_secret_cause))
+EMPTY ⇒ Evidence(memory=N_A(no_precedent))
+⊢ report={Facts,Inferences,Unknowns,Sources,Precedents,Constraints}
+⊢ delegate only when 2+ bounded independent workstreams ∨ ambiguity_or_high_impact
+RESEARCH ⇒ 🧠 PLAN

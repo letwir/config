@@ -1,6 +1,7 @@
 @lrf=1|aud=GPT-5.6|scope=subagents
 R|subagent.source|task:subagent|MUST|RO_LOCAL|CSS supplies persona and style only; this LRF supplies authority, effects, execution, model routing, and safety; Markdown supplies protocol templates and output schemas
 R|subagent.discovery|task:subagent|MUST|RO_LOCAL|load the selected agent CSS and this LRF before invoking a subagent; load the selected Markdown protocol only for its declared task
+R|subagent.preflight|task:subagent|MUST|RO_LOCAL|before invocation run scripts/invoke-rule-preflight.ps1 with explicit task tags and temp receipt path; machine validates full graph but stdout returns counts-only summary; receipt is routing evidence not authority; verify receipt hashes immediately before bounded canonical reads; missing stale malformed or escaped reference=>FAILED without consuming role retry
 R|subagent.persona-discovery|task:subagent|MUST|RO_LOCAL|use ls.exe or rg.exe to enumerate only the selected ETL stage directory; partially read only the selected persona CSS, this LRF, and the task Markdown sections; never load all persona files or rely on CSS imports
 R|subagent.persona-map|task:subagent|MUST|RO_LOCAL|Explorer=EXPLORER.css; Researcher=RESEARCHER.css; Proposer=PROPOSER.css; Auditor=AUDITOR.css; Worker=WORKER.css; Refactorer=REFACTORER.css; Verifier=VERIFIER.css; Critic=CRITIC.css; Blackhat=BLACKHAT.css; selected CSS replaces main PERSONA.css and compose=false
 R|subagent.etl|task:subagent|MUST|RO_LOCAL|route 探索→計画→実装→Verify→総括; assign exactly one selected persona to each bounded workstream, not to the whole task; independent workstreams may use different personas concurrently; hand off only compact artifacts
@@ -53,4 +54,3 @@ R|subagent.credentials|task:subagent|MUST_NOT|CRED|never print, request, paste, 
 R|subagent.external|task:subagent|MUST_NOT|EXT_WRITE|never send messages, publish, deploy, or modify third-party systems
 R|subagent.vcs|task:subagent|MUST_NOT|VCS_WRITE|never stage, commit, push, rewrite history, or alter branches
 R|subagent.done|task:subagent|MUST|LW_SCOPE|main agent checks actual diff, runs proportionate deterministic checks, and reports files, results, and residual risk
-

@@ -13,8 +13,8 @@ function New-Fixture([string]$mode = 'exact') {
     if ($mode -eq 'allowed') { $clientLrf = $clientLrf -replace '(?m)^R\|beta\|[^\r\n]*\r?\n', '' }
     if ($mode -eq 'unexpected') { $clientLrf = $clientLrf + 'R|gamma|*|MUST|RO_LOCAL|x' + [Environment]::NewLine }
     if ($mode -eq 'broken') { $clientLrf = $clientLrf + 'R|alpha|*|MUST|RO_LOCAL|x' + [Environment]::NewLine }
-    $canonicalPath = Join-Path $harness 'rules\LLM_REF_RULE.md'
-    $lrfPath = Join-Path $userRoot '.codex\rules\LLM_REF_RULE.md'; $entryPath = Join-Path $userRoot '.codex\AGENTS.md'
+    $canonicalPath = Join-Path $harness 'rules\BOOTSTRAP.lrf'
+    $lrfPath = Join-Path $userRoot '.codex\rules\BOOTSTRAP.lrf'; $entryPath = Join-Path $userRoot '.codex\AGENTS.md'
     Set-Utf8NoBom $canonicalPath $canonical
     Set-Utf8NoBom $lrfPath $clientLrf
     $entryReference = ([IO.Path]::GetFullPath($lrfPath)).Replace('\', '/')
@@ -23,10 +23,10 @@ function New-Fixture([string]$mode = 'exact') {
     $entrySha = (Get-FileHash -LiteralPath $entryPath -Algorithm SHA256).Hash
     $actualIds = @('alpha','beta'); if ($mode -eq 'allowed') { $actualIds = @('alpha') }; if ($mode -eq 'unexpected') { $actualIds = @('alpha','beta','gamma') }
     $allowed = @(); if ($mode -eq 'allowed') { $allowed = @('beta') }
-    $manifest = [ordered]@{ schemaVersion = 1; canonical = '{HarnessRoot}\rules\LLM_REF_RULE.md'; canonicalSha256=(Get-FileHash -LiteralPath $canonicalPath -Algorithm SHA256).Hash; entries = @(
+    $manifest = [ordered]@{ schemaVersion = 1; canonical = '{HarnessRoot}\rules\BOOTSTRAP.lrf'; canonicalSha256=(Get-FileHash -LiteralPath $canonicalPath -Algorithm SHA256).Hash; entries = @(
         [ordered]@{ name='codex'; kind='Codex'; required=$true; entry='{UserHome}\.codex\AGENTS.md'; chain=@(
-            [ordered]@{ path='{UserHome}\.codex\AGENTS.md'; kind='entry'; sha256=$entrySha; contains='{UserHomeForward}/.codex/rules/LLM_REF_RULE.md'; ids=@(); allowedDifferenceIds=@() },
-            [ordered]@{ path='{UserHome}\.codex\rules\LLM_REF_RULE.md'; kind='lrf'; sha256=$sha; ids=$actualIds; allowedDifferenceIds=$allowed }
+            [ordered]@{ path='{UserHome}\.codex\AGENTS.md'; kind='entry'; sha256=$entrySha; contains='{UserHomeForward}/.codex/rules/BOOTSTRAP.lrf'; ids=@(); allowedDifferenceIds=@() },
+            [ordered]@{ path='{UserHome}\.codex\rules\BOOTSTRAP.lrf'; kind='lrf'; sha256=$sha; ids=$actualIds; allowedDifferenceIds=$allowed }
         ) }
     ) }
     $manifestPath = Join-Path $harness 'rules\client-distribution.json'
@@ -53,7 +53,7 @@ Describe 'check-rule-distribution doctor' {
     }
     It 'rejects a payload drift even when the LRF ID set is unchanged' {
         $f=New-Fixture; try {
-            $clientLrf=Join-Path $f.UserRoot '.codex\rules\LLM_REF_RULE.md'
+            $clientLrf=Join-Path $f.UserRoot '.codex\rules\BOOTSTRAP.lrf'
             Set-Utf8NoBom $clientLrf ((Get-Content -Raw $clientLrf).Replace('R|beta|*|MUST|RO_LOCAL|x','R|beta|*|MUST|RO_LOCAL|changed'))
             $m=Get-Content -Raw $f.Manifest|ConvertFrom-Json
             $m.entries[0].chain[1].sha256=(Get-FileHash -LiteralPath $clientLrf -Algorithm SHA256).Hash

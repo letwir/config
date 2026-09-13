@@ -4,7 +4,7 @@
   "defaultTimeoutMs": 5000,
   "approvedRoots": ["{HarnessRoot}", "{UserHome}\\AppData\\Local\\agy", "{UserHome}\\AppData\\Roaming\\npm", "{PowerShell}"],
   "tools": [
-    {"name":"harness-lint","required":true,"path":"{HarnessRoot}\\skills\\harness-lint\\harness-lint.exe","helpArgs":["-h"],"requiredText":"Usage of","timeoutMs":5000,"representative":{"args":["-path","{HarnessRoot}\\rules\\LLM_REF_RULE.md","-level","0","-json"],"requiredExitCode":0}},
+    {"name":"harness-lint","required":true,"path":"{HarnessRoot}\\skills\\harness-lint\\harness-lint.exe","helpArgs":["-h"],"requiredText":"Usage of","timeoutMs":5000,"representative":{"args":["-path","{HarnessRoot}\\rules\\BOOTSTRAP.lrf","-level","0","-json"],"requiredExitCode":0}},
     {"name":"proof-checker","required":true,"path":"{HarnessRoot}\\skills\\proof-checker\\proof-checker.exe","helpArgs":["-h"],"requiredText":"Usage of","timeoutMs":5000,"representative":{"args":["-path","{HarnessRoot}\\rules","-json"],"requiredExitCode":0,"requiredText":"\"verdict\": \"PASS\""}},
     {"name":"sec-forensics","required":true,"path":"{HarnessRoot}\\skills\\sec-forensics\\sec-forensics.exe","helpArgs":["-h"],"requiredText":"Usage:","timeoutMs":5000,"representative":{"args":["scan-prompt","-text","Summarize this benign local note.","-json"],"requiredExitCode":0,"requiredText":"\"total_findings\": 0"}},
     {"name":"llm-memory","required":true,"path":"{HarnessRoot}\\skills\\llm-memory\\llm-mem.exe","helpArgs":[],"requiredText":"LLM Memory CLI","requiredExitCode":1,"timeoutMs":5000,"representative":null},

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "artifact": "subagents_model_eval",
-  "updated_at": "2026-08-29T22:40:00+09:00",
+  "updated_at": "2026-09-13T22:30:00+09:00",
   "evaluation_policy": {
     "event": "main_wait_all_then_batch_append_per_subagent",
     "record_when_no_subagent": false,
@@ -810,6 +810,63 @@
       "routing_change": "none",
       "date": "2026-08-29",
       "confidence": 0.98
+    },
+    {
+      "task_id": "2026-09-13-survey-classification",
+      "difficulty": "medium",
+      "role": "worker",
+      "requested_provider": "codex",
+      "effective_provider": "codex",
+      "requested_model": "gpt-5.6-luna",
+      "effective_model": "gpt-5.6-luna",
+      "requested_reasoning": "medium",
+      "effective_reasoning": "medium",
+      "acceptance_result": "classification_timed_out_twice_rank_readback_succeeded",
+      "outcome": "partial_failure",
+      "quality": "useful",
+      "reason": "Both versioned survey classification attempts timed out at the same response and question; the read-only rank still returned 12 partial theme rows.",
+      "runtime": "not_available",
+      "routing_change": "retry_classification_with_bounded_per_response_progress",
+      "date": "2026-09-13",
+      "confidence": 0.98
+    },
+    {
+      "task_id": "2026-09-13-rule-preflight-plan-audit",
+      "difficulty": "hard",
+      "role": "auditor",
+      "requested_provider": "codex",
+      "effective_provider": "codex",
+      "requested_model": "inherit_parent",
+      "effective_model": "inherit_parent",
+      "requested_reasoning": "inherit_parent",
+      "effective_reasoning": "inherit_parent",
+      "acceptance_result": "plan_passed_after_manifest_integrity_and_boundary_refinements",
+      "outcome": "success_after_retry",
+      "quality": "high",
+      "reason": "Required complete record validation, deterministic graph limits, path containment, exact-byte hashes, stale receipt checks, and failure-boundary tests before implementation.",
+      "runtime": "not_available",
+      "routing_change": "none",
+      "date": "2026-09-13",
+      "confidence": 0.97
+    },
+    {
+      "task_id": "2026-09-13-rule-preflight-verification",
+      "difficulty": "hard",
+      "role": "verifier",
+      "requested_provider": "codex",
+      "effective_provider": "codex",
+      "requested_model": "gpt-5.6-terra",
+      "effective_model": "gpt-5.6-terra",
+      "requested_reasoning": "high",
+      "effective_reasoning": "high",
+      "acceptance_result": "pass_after_root_and_ancestor_reparse_escapes_were_blocked",
+      "outcome": "success_after_retry",
+      "quality": "high",
+      "reason": "Rejected root and receipt ancestor symlink escapes, then independently confirmed both attacks fail after shared safe-leaf validation was applied.",
+      "runtime": "not_available",
+      "routing_change": "none",
+      "date": "2026-09-13",
+      "confidence": 0.99
     }
   ]
 }

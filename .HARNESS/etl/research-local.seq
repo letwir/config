@@ -1,0 +1,15 @@
+@seq 1
+@entry RESEARCH_LOCAL
+🔎 RESEARCH_LOCAL
+Obj(LocalResearch{query,scope}) → Mor(local.evidence) → Evidence
+⊢ local_or_private_target(scope)
+⊢ web=SKIPPED_UNLESS_EXPLICIT
+🔎 EPUB
+Mor(kavita-fetch-search.search[keywords]) → Sources
+EMPTY ⇒ Evidence(epub=N_A(no_hit))
+ERROR ⇒ Evidence(epub=FAILED(non_secret_cause))
+🔎 MEMORY
+Obj(Task{keywords}) → Mor(llm-mem.search[level=2,json]) → Precedents
+ERROR ∨ missing_executable ⇒ Evidence(memory=FAILED(non_secret_cause))
+⊢ report={Facts,Inferences,Unknowns,Sources,Precedents,Constraints}
+RESEARCH_LOCAL ⇒ 🧠 PLAN
