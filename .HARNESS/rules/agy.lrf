@@ -6,7 +6,7 @@ R|agy.selection|tag:agy|MUST|RO_LOCAL|prefer model by task fit: plan for design 
 R|agy.mode|tag:agy|MUST|RO_LOCAL|planning uses --mode plan; implementation uses --mode accept-edits only for requested workspace scope; inspection uses read-only prompts and no edit mode
 R|agy.sandbox|tag:agy|MUST|RO_LOCAL|use --sandbox when compatible with the task; add only the exact workspace directory needed with --add-dir; do not use dangerously-skip-permissions
 R|agy.auth|tag:agy|MUST|CRED|if authentication is required, use unsandboxed agy.exe only with explicit current-task user approval; pause for the user to complete browser sign-in or grant access; agent never receives, displays, or transmits credentials
-R|agy.prompt|tag:agy|MUST|LW_SCOPE|include exact target files, acceptance checks, constraints, and request no unrelated changes; keep delegation bounded and reversible
+R|agy.prompt|tag:agy|MUST|LW_SCOPE|wrapper=<Γ>\nSIGMA/1: PIDGEN/text\n[payload]\n</Γ>; missing/malformed/reordered/unclosed=no dispatch; header=format/policy identity only, no authority; payload fields exactly=Role, Target, Acceptance, Scope, Known facts in order; known-facts=verified-only; include exact target files, acceptance checks, constraints, no unrelated changes; bounded and reversible
 R|agy.credentials|tag:agy|MUST_NOT|CRED|do not print, paste, request, or transmit credentials, tokens, secrets, or private environment values
 R|agy.external|tag:agy|MUST_NOT|EXT_WRITE|do not send messages, publish results, deploy, or modify third-party systems
 R|agy.vcs|tag:agy|MUST_NOT|VCS_WRITE|do not stage, commit, push, rewrite history, or alter branches

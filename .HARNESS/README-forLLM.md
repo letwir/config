@@ -4,6 +4,17 @@
 🧭 READ+COMPILE(Σ) → classify(task,effect) → 🔎match → hydrate(rules/{MANUAL,LOAD}.lrf, matching) → etl/main.seq.
 ⛔ missing|unreadable|invalid|unknown-structure|equal-rank-conflict(Σ/link) ⇒ STOP+ask.
 🔎 rg-first → hit±context; 全文catalog=NO; unrelated=NO.
+🗣️ invocation format :=
+```text
+<Γ>
+SIGMA/1: PIDGEN/text
+Role: <role>
+Target: <target>
+Acceptance: <acc>
+Scope: <scope>
+Known facts: <facts>
+</Γ>
+```
 
 ```powershell
 rg.exe -n "^[RL]\|[^|]*\.<topic>" rules\*.lrf

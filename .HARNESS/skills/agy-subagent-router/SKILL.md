@@ -2,10 +2,26 @@
 name: agy-subagent-router
 description: Route a bounded external coding task through agy.exe with current model discovery, bounded permissions, reasoning effort, and compact structured output.
 ---
-[SPR/PIDGIN::ρ→max] 📋models 🤖delegate ⚡exec 📊eval
+[SPR/PIDGEN::ρ→max] 📋models 🤖delegate ⚡exec 📊eval
 📋 モデル models ⊢ ∅ ⇒ 利用可能モデル一覧取得・確証 | `agy.exe models`
-🤖 委譲 delegate ⊢ Task⊗Model ⇒ 外部エージェントハンドオフ作成・計画実行 | `agy.exe --print="<task>" --model <id> --effort <low|med|high> --mode plan --output-format json`
-⚡ 実行 exec ⊢ Task⊗Files ⇒ 排他的ファイルスコープ外科的編集実行 | `agy.exe --print="<task>" --model <id> --mode accept-edits --output-format json`
+🤖 委譲 delegate ⊢ Task⊗Model ⇒ 外部エージェントハンドオフ作成・計画実行 |
+```powershell
+$p = @"
+<Γ>
+SIGMA/1: PIDGEN/text
+Role: <role>
+Target: <target>
+Acceptance: <acc>
+Scope: <scope>
+Known facts: <facts>
+</Γ>
+"@
+agy.exe --print=$p --model <id> --effort <low|med|high> --mode plan --output-format json
+```
+⚡ 実行 exec ⊢ Task⊗Files ⇒ 排他的ファイルスコープ外科的編集実行 |
+```powershell
+agy.exe --print=$p --model <id> --mode accept-edits --output-format json
+```
 📊 評価 eval ⊢ RunResult ⇒ 結果検証 & subagents_model_eval.json 記録 | SUCCESS ⊕ FAILED ⊕ ADVICE ⊕ ESCALATE
 
 #SIGMA LRF/1

@@ -867,6 +867,25 @@
       "routing_change": "none",
       "date": "2026-09-13",
       "confidence": 0.99
+    },
+    {
+      "task_id": "H-10-spr-pidgen-wrapper-20260923",
+      "difficulty": "medium",
+      "role": "worker",
+      "requested_provider": "gemini",
+      "effective_provider": "gemini",
+      "requested_model": "gemini-3.1-pro-high",
+      "effective_model": "gemini-3.1-pro-high",
+      "requested_reasoning": "high",
+      "effective_reasoning": "high",
+      "acceptance_result": "wrapper_contract_verified; preexisting_subagents_l2_effect_mismatch_recorded",
+      "outcome": "success_with_known_preexisting_lint_issue",
+      "quality": "medium",
+      "reason": "Implemented the SPR/PIDGEN envelope across central LRF rules, agy guidance, and nine role configs; corrected a newly introduced lint mismatch. MANUAL and agy L2, SUBAGENTS L1, TOML parsing, and diff check passed.",
+      "runtime": "not_available",
+      "routing_change": "none",
+      "date": "2026-09-23",
+      "confidence": 0.9
     }
   ]
 }
