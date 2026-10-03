@@ -1,0 +1,26 @@
+{
+  "task_id": "20260923-agent-router-revision",
+  "evaluation_id": "20260923-agent-router-revision-final",
+  "comparison_key": "agent-router-manifest-design",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "user_steering_alignment": 1.0,
+    "authority_boundary": 0.9,
+    "route_consolidation": 0.9,
+    "implementation_readiness": 0.7
+  },
+  "evidence_refs": [
+    "memo/20260923-agent-router-revision/walkthrough.md",
+    "agents/SUBAGENTS.lrf",
+    "etl/main.seq"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "Current role selection is split across ETL, LRF, README, and TOML descriptions; AGENT_ROUTER.md is not yet registered."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  }
+}

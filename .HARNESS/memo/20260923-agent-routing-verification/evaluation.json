@@ -1,0 +1,30 @@
+{
+  "task_id": "20260923-agent-routing-verification",
+  "evaluation_id": "20260923-agent-routing-verification-final",
+  "comparison_key": "agent-routing-issues-1-to-4",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "main_flow_router_independence": 0.95,
+    "role_trigger_clarity": 0.9,
+    "worker_backend_separation": 0.95,
+    "toml_consistency": 0.95,
+    "static_verification": 0.9
+  },
+  "evidence_refs": [
+    "agents/AGENT_ROUTER.md",
+    "agents/SUBAGENTS.lrf",
+    "etl/main.seq",
+    "etl/research.seq",
+    "etl/change.seq",
+    "memo/20260923-agent-routing-verification/walkthrough.md"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "Previous routing text left role triggers vague, pinned CSS by role, and conflated repair analysis with writable implementation."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  }
+}

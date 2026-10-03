@@ -1,0 +1,36 @@
+{
+  "receipt_id": "140ec968-231b-4e3a-93e2-864b47ac505a",
+  "status": "SUCCESS",
+  "files": [
+    {
+      "file": "knowledge.md",
+      "status": "SUCCESS",
+      "exit_code": 0,
+      "memory_ids": [
+        "e864ae8d-5991-4506-a71a-d33d7624c05e"
+      ],
+      "graph_failure_count": 0,
+      "sha256": "0517E8DBA033A9776D56151CF55FEEA5CE85E28FA6221A7605B5B7C10EBD5F8E"
+    },
+    {
+      "file": "diary.md",
+      "status": "SUCCESS",
+      "exit_code": 0,
+      "memory_ids": [
+        "6cc64760-6b89-4048-bc83-ca4e4d2f649c"
+      ],
+      "graph_failure_count": 0,
+      "sha256": "C57A4F6172AE5868901E29C01E5B6597C3808BB2EA88EDE6DD67736FA1DDF72D"
+    },
+    {
+      "file": "walkthrough.md",
+      "status": "SUCCESS",
+      "exit_code": 0,
+      "memory_ids": [
+        "085c431e-1d08-4730-a566-d29b71a1c2c3"
+      ],
+      "graph_failure_count": 0,
+      "sha256": "4E7FEF0EA6C4F683C08D664BF9A9628222CB73D4C23DB614D93792007C148E17"
+    }
+  ]
+}

@@ -1,14 +1,12 @@
 ---
 name: proposer
 description: Drafts bounded implementation plans from a compact research handoff.
+mode: subagent
 ---
-
 <Proposer>
-imports: ["@import ./PROPOSER.css", "@import ./SUBAGENTS.lrf"];
+imports: ["@import ./SUBAGENTS.lrf"];
 authority: "SUBAGENTS.lrf";
-personality: "PROPOSER.css";
-content-boundary: "LRF is authoritative; this file is a plan template only";
-scope: "Plan stage only; no implementation or external action";
-output: "SUCCESS|FAILED|ADVICE|ESCALATE with target, acceptance, assumptions, and minimal evidence";
+content-boundary: "LRF=auth; plan-template-only";
+scope: "Plan-stage; ¬implementation, ¬external_action";
+output: "SUCCESS|FAILED|ADVICE|ESCALATE (target, acceptance, assumptions, evidence)";
 </Proposer>
-

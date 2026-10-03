@@ -1,0 +1,23 @@
+{
+  "task_id": "H-13-llm-only-doc-codec-20260923",
+  "evaluation_id": "H-13-20260923-final",
+  "comparison_key": "llm-only-documentation-codec",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "deterministic_checks": 0.9,
+    "scope_control": 1.0,
+    "traceability": 0.9,
+    "first_pass_correctness": 0.9
+  },
+  "evidence_refs": [
+    "memo/H-13-llm-only-doc-codec-20260923/walkthrough.md",
+    "rules/documentation.lrf"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 0.0
+  }
+}

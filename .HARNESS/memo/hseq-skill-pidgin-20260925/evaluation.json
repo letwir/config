@@ -1,0 +1,20 @@
+{
+  "task_id": "hseq-skill-pidgin-20260925",
+  "comparison_key": "harness/hseq-lint-skill-doc/v1",
+  "role": "documentation",
+  "task_family": "skill-documentation",
+  "axes": {
+    "notation_alignment": 1.0,
+    "installed_cli_single_file_check": 1.0,
+    "scoped_diff_check": 1.0
+  },
+  "attribution": {
+    "prompt": "The user requested HSEQ installation under .harness/skills and PIDGIN-style documentation.",
+    "agent": "The existing CLI was confirmed installed and the HSEQ skill section was rewritten in the established notation."
+  },
+  "evidence_refs": [
+    "C:/Users/letwir/.harness/skills/harness-lint/SKILL.md",
+    "C:/Users/letwir/.harness/skills/harness-lint/harness-lint.exe",
+    "C:/Users/letwir/.harness/etl/main.seq"
+  ]
+}

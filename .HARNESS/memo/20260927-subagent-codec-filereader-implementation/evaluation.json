@@ -1,0 +1,23 @@
+{
+  "task_id": "20260927-subagent-codec-filereader-implementation",
+  "evaluation_id": "20260927-subagent-codec-filereader-implementation-contract",
+  "comparison_key": "file-reader-multilingual-score-primary-codec",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "contract_alignment": 1.0,
+    "semantic_fidelity": 1.0,
+    "ambiguity_resolution": 1.0,
+    "static_validation": 1.0,
+    "scope_control": 0.9
+  },
+  "attribution": {
+    "prompt_defects": ["The initial request did not rank minimum token count against the new compression×uniqueness score; the user clarified score-primary."],
+    "agent_defects": ["Initial worker changes omitted a fixed-persona exception and detailed FileReader codec copy; independent verification also found ADV.1/ADV.3 wording drift. The parent corrected these before completion."],
+    "prompt_ratio": 0.2,
+    "agent_ratio": 0.8
+  },
+  "outcome": "success_after_corrections",
+  "quality": "high",
+  "reason": "Aligned the explicit five-language score-primary codec and existing FileReader role/output contracts; all scoped static checks passed, and final focused independent verification confirmed the corrected ADV gates."
+}

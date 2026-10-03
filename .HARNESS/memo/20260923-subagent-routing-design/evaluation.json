@@ -1,0 +1,28 @@
+{
+  "task_id": "20260923-subagent-routing-design",
+  "evaluation_id": "20260923-subagent-routing-design-final",
+  "comparison_key": "agent-selection-single-authority-design",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "current_state_evidence": 0.9,
+    "authority_alignment": 0.9,
+    "role_boundary_clarity": 0.8,
+    "implementation_readiness": 0.7
+  },
+  "evidence_refs": [
+    "memo/20260923-subagent-routing-design/walkthrough.md",
+    "agents/SUBAGENTS.lrf",
+    "etl/main.seq",
+    "etl/change.seq",
+    "memo/H-12-nested-handoff-probe-20260923/walkthrough.md"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "The active rules and stale role documentation disagree on worker routing; TOML descriptions contain unbounded proactive language."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  }
+}

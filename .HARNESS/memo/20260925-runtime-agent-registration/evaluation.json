@@ -1,0 +1,31 @@
+{
+  "task_id": "20260925-runtime-agent-registration",
+  "evaluation_id": "20260925-runtime-agent-registration-partial",
+  "comparison_key": "codex-custom-agent-runtime-registration",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "runtime_validation": 0.0,
+    "scope_control": 1.0,
+    "traceability": 1.0,
+    "first_pass_correctness": 0.45
+  },
+  "evidence_refs": [
+    "memo/20260925-runtime-agent-registration/walkthrough.md",
+    "agents/AGENT_ROUTER.md",
+    "agents/compressor.toml",
+    "agents/orchestrator.toml",
+    "C:/Users/letwir/.codex/config.toml"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "Worker-agy applied incomplete custom-agent config layers and its correction generation failed; runtime registry entries were not added."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  },
+  "outcome": "partial_failure",
+  "quality": "low",
+  "reason": "Role styling and policy bindings were partly applied, but custom-agent config validation, global runtime registration, and a live dispatch test remain incomplete."
+}

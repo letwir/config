@@ -1,0 +1,29 @@
+[
+  {
+    "model": "gemini-3.1-pro-high",
+    "conversation_id": "c8803a30-7648-4357-b0b9-a321ece8b589",
+    "requested_effort": "high",
+    "effective_effort": "unverified",
+    "status": "implementation_with_verified_defects",
+    "boundary": "direct agy CLI; no Codex subagents"
+  },
+  {
+    "model": "claude-sonnet-4-6",
+    "conversation_id": "c8803a30-7648-4357-b0b9-a321ece8b589",
+    "requested_effort": "high rejected; retry unspecified",
+    "effective_effort": "provider_default_unverified",
+    "status": "correction_with_verified_defects"
+  },
+  {
+    "model": "gemini-3.8-flash-high",
+    "requested_effort": "unspecified",
+    "effective_effort": "unverified",
+    "status": "SUCCESS; corrections verified by final tests"
+  },
+  {
+    "model": "gemini-3.8-flash-high",
+    "conversation_id": "fbc4dd16-35b3-431c-93f9-0da851887731",
+    "status": "SUCCESS",
+    "verification": "final 17 tests PASS"
+  }
+]

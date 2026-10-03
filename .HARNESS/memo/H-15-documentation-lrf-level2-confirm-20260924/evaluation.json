@@ -1,0 +1,23 @@
+{
+  "task_id": "H-15-documentation-lrf-level2-confirm-20260924",
+  "evaluation_id": "H-15-20260924-final",
+  "comparison_key": "documentation-lrf-level2-effect-mismatch-confirmation",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "deterministic_checks": 1.0,
+    "scope_control": 1.0,
+    "traceability": 1.0,
+    "first_pass_correctness": 1.0
+  },
+  "evidence_refs": [
+    "memo/H-15-documentation-lrf-level2-confirm-20260924/walkthrough.md",
+    "rules/documentation.lrf"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 0.0
+  }
+}

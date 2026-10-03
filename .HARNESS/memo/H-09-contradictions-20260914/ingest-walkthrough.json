@@ -1,0 +1,10 @@
+{
+  "file": "walkthrough.md",
+  "status": "SUCCESS",
+  "exit_code": 0,
+  "memory_ids": [
+    "085c431e-1d08-4730-a566-d29b71a1c2c3"
+  ],
+  "graph_failure_count": 0,
+  "sha256": "4E7FEF0EA6C4F683C08D664BF9A9628222CB73D4C23DB614D93792007C148E17"
+}

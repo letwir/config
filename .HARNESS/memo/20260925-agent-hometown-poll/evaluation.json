@@ -1,0 +1,27 @@
+{
+  "task_id": "20260925-agent-hometown-poll",
+  "evaluation_id": "20260925-agent-hometown-poll-result",
+  "comparison_key": "agent-persona-same-question-luna-low",
+  "role": "main",
+  "task_family": "agent-persona-test",
+  "axes": {
+    "role_coverage": 0.67,
+    "answer_collection": 0.8,
+    "model_resolution": 0.7,
+    "traceability": 1.0
+  },
+  "evidence_refs": [
+    "memo/20260925-agent-hometown-poll/walkthrough.md",
+    "evaluation/subagents_model_eval.json",
+    "agents/AGENT_ROUTER.md"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 0.0
+  },
+  "outcome": "success_with_constraints",
+  "quality": "useful",
+  "reason": "Eight configured role calls yielded answers, while two new roles were not registered and low reasoning depth was not exposed by the runtime."
+}

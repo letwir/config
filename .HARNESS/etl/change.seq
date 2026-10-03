@@ -1,17 +1,26 @@
+@dialect harness-seq/1
 @seq 1
-@entry CHANGE
-🧠 PLAN @terra.high
+@entry PLAN
+🧠 PLAN @main
 Evidence → Plan
 🧐 PRE_VERIFY
+⊢ independent only when agent.mode permits; otherwise main audit with limitation recorded
 Γ ⊢ Plan : Verdict
-PASS ⇒ CODE
+PASS ⇒ COMPRESS
 ADV ∨ DENY ⇒ PLAN ↺
-⚒ CODE @codex.worker
-Plan → Change
-⊢ explicit_current_task_request(agy) ∧ live_model_resolved ⇒ CODE @agy
-¬explicit_current_task_request(agy) ⇒ CODE @codex.worker
-🧬 worker* : depth ≤ 2
-execution := worker₁ ∥ ... ∥ workerₙ
+🗜 COMPRESS
+⊢ human instruction/plan settled ∧ ¬unresolved_human_decision ∧ ADV.1/ADV.3 gates applied
+Plan → Compressor(y) → retain exact settled payload; no retranslation or redundant Y/N; preserve user authorization and every explicit effect approval
+⊢ compression grants no execution authority; required authorization/effect approvals remain gates
+PASS ∧ required_user_authorization ∧ explicit_effect_approvals ⇒ CODE
+⚒ CODE
+⊢ live_model_resolved ∧ bounded_file_scope ∧ requested_change
+⊢ backend_selection := load(../agents/AGENT_ROUTER.md)
+CompressedInstruction → Change
+ERROR ∨ unavailable(router) ⇒ Evidence(code=FAILED(non_secret_cause)) → FINISH
+⊢ select_smallest_comparable_measured_context_consumption ∨ dated_nonnormative_fallback(../evaluation/worker-context-priority.json); context_window≠consumption
+⊢ agy_only_if_separate_explicit_user_request ∧ agy_non_recursive ∧ operational_failure⇒stop_or_confirm_exit+inspect_partial_diff+serial_same_scope_reselection ∧ no_fallback(auth|policy|approval|credential|permission) ∧ nested_dispatch_only_if_runtime_capable
+execution := one_eligible_context_selected_worker
 🧐 POST_VERIFY
 Γ ⊢ Change : Verdict
 PASS ⇒ FINISH

@@ -1,0 +1,14 @@
+{
+  "task_id": "20260926-absolute-paths",
+  "comparison_key": "absolute-path-cleanup",
+  "axes": {
+    "scope_accuracy": 1,
+    "policy_consistency": 0,
+    "verification": 1
+  },
+  "attribution": {
+    "prompt": "0%",
+    "agent": "0%"
+  },
+  "outcome": "blocked_before_code_by_equal-rank-workflow-conflict"
+}

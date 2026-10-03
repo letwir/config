@@ -1,0 +1,29 @@
+{
+  "task_id": "20260926-agy-gpt-fallback",
+  "evaluation_id": "20260926-agy-gpt-fallback-contract",
+  "comparison_key": "agy-failure-gpt-difficulty-routing",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "contract_alignment": 1.0,
+    "failure_coverage": 1.0,
+    "permission_preservation": 1.0,
+    "static_validation": 1.0
+  },
+  "evidence_refs": [
+    "memo/20260926-agy-gpt-fallback/walkthrough.md",
+    "rules/agy.lrf",
+    "agents/AGENT_ROUTER.md",
+    "agents/worker-gpt-fallback.md",
+    "skills/agy-subagent-router/SKILL.md"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 0.0
+  },
+  "outcome": "success",
+  "quality": "useful",
+  "reason": "Authoritative harness contracts now route operational agy failures to a serial difficulty-selected GPT-family fallback while preserving terminal permission and policy gates; all applicable static checks passed."
+}

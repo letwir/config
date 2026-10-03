@@ -1,0 +1,27 @@
+{
+  "task_id": "20260923-agent-router-selection-clarification",
+  "evaluation_id": "20260923-agent-router-selection-clarification-final",
+  "comparison_key": "agent-router-selector-clarification",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "user_intent_alignment": 1.0,
+    "authority_boundary": 0.9,
+    "persona_selection_flexibility": 1.0,
+    "implementation_readiness": 0.8
+  },
+  "evidence_refs": [
+    "memo/20260923-agent-router-selection-clarification/walkthrough.md",
+    "agents/SUBAGENTS.lrf",
+    "rules/MANUAL.lrf",
+    "rules/LOAD.lrf"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "The prior proposed selection.lrf contradicted the user's desired single AGENT_ROUTER.md selector and flexible CSS choice."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  }
+}

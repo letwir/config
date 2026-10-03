@@ -1,17 +1,18 @@
+@dialect harness-seq/1
 @seq 1
 @entry FINISH
 🏁 FINISH
-Obj(Change ∘ Diff ∘ Checks ∘ Unknowns) → ArtifactSet
-ArtifactSet → 🧾 TaskReport ∘ EvaluationJSON
+Obj(Result ∘ Diff_or_N_A ∘ Checks ∘ Unknowns) → ArtifactSet
+ArtifactSet → 🧾 TaskMarkdownSet{knowledge.md,diary.md,walkthrough.md} ∘ TaskReport ∘ EvaluationJSON
 ⊢ valid(TaskReport) ∧ valid(EvaluationJSON) → 🔎 git.review
-⊢ approval(VCS_WRITE,current_task) ⇒ 📦 git.commit → VCSReceipt
-¬approval(VCS_WRITE,current_task) ⇒ VCSReceipt=N_A(pending_approval)
-ERROR(git.commit) ⇒ VCSReceipt=FAILED(non_secret_cause)
-⊢ approval(LIVE_WRITE,current_task) ∧ executable($env:LLM_MEMORY_BIN)
-⇒ outside_sandbox(llm-mem.ingest(TaskReport)) → IngestReceipt=SUCCESS(receipt_id)
+⊢ mandatory(mem.etl) ∧ executable($env:LLM_MEMORY_BIN) ∧ valid(ArtifactSet)
+⇒ foreach generated task Markdown once: outside_sandbox(llm-mem.ingest(file,category)) → FileIngestReceipt
+all_file_receipts_success ⇒ IngestReceipt=SUCCESS(receipt_manifest_id)
+any_file_receipt_failed ⇒ IngestReceipt=FAILED(process_error)
+⊢ executable($env:LLM_MEMORY_BIN) ∧ valid(EvaluationJSON)
 ⇒ outside_sandbox(llm-mem.eval(EvaluationJSON)) → EvaluationReceipt=SUCCESS(receipt_id)
-¬approval(LIVE_WRITE,current_task) ⇒ IngestReceipt=N_A(pending_approval) ∧ EvaluationReceipt=N_A(pending_approval)
 missing_executable ⇒ IngestReceipt=FAILED(missing_executable) ∧ EvaluationReceipt=FAILED(missing_executable)
+blocked_by_higher_priority_policy ⇒ IngestReceipt=FAILED(process_error) ∧ EvaluationReceipt=FAILED(process_error)
 ERROR(llm-mem.ingest) ⇒ IngestReceipt=FAILED(process_error)
 ERROR(llm-mem.eval) ⇒ EvaluationReceipt=FAILED(process_error)
 MemoryReceipt := IngestReceipt ∘ EvaluationReceipt
@@ -21,4 +22,7 @@ ERROR(external_diary_mirror) ⇒ ExternalDiaryMirrorReceipt=FAILED(process_error
 ⊢ final(IngestReceipt) ∧ final(EvaluationReceipt) ∧ final(ExternalDiaryMirrorReceipt)
 ⇒ 🧾 write-task-record(memo/<task_id>/{knowledge.md,diary.md,walkthrough.md,evaluation.json}, IngestReceipt, EvaluationReceipt, ExternalDiaryMirrorReceipt)
 → TaskRecordReceipt
-🧾 RESULT.share(TaskReport ∘ VCSReceipt ∘ MemoryReceipt) → 🧑 Human → End(Conversation) ⊣ ⊤
+🧾 POST_TEST_CHOICE: "ここで終わりにする。/実行してテストログを監視しデバッグフェーズに入る/git pushし、他のマシンでテストしてもらう" → Wait(Answer)
+Answer == 終わり ⇒ 🧾 RESULT.share(TaskReport ∘ MemoryReceipt) → 🧑 Human → End(Conversation) ⊣ ⊤
+Answer == デバッグ ⇒ DEBUG ↺ (within bounded correction-cycles)
+Answer == push ⇒ ⊢ explicit approval(VCS_WRITE,current_task) → 📦 git.commit ∧ git.push (no automatic external message) → VCSReceipt ⇒ 🧾 RESULT.share(TaskReport ∘ VCSReceipt ∘ MemoryReceipt) → 🧑 Human → End(Conversation) ⊣ ⊤

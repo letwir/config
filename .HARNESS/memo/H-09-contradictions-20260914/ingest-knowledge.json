@@ -1,0 +1,10 @@
+{
+  "file": "knowledge.md",
+  "status": "SUCCESS",
+  "exit_code": 0,
+  "memory_ids": [
+    "e864ae8d-5991-4506-a71a-d33d7624c05e"
+  ],
+  "graph_failure_count": 0,
+  "sha256": "0517E8DBA033A9776D56151CF55FEEA5CE85E28FA6221A7605B5B7C10EBD5F8E"
+}

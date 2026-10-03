@@ -1,0 +1,29 @@
+{
+  "task_id": "20260926-subagent-symbolic-codec-implementation",
+  "evaluation_id": "20260926-subagent-symbolic-codec-implementation-contract",
+  "comparison_key": "subagent-symbolic-payload-contract",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "contract_alignment": 1.0,
+    "semantic_fidelity": 1.0,
+    "ambiguity_resolution": 1.0,
+    "static_validation": 1.0,
+    "scope_control": 0.9
+  },
+  "evidence_refs": [
+    "rules/MANUAL.lrf",
+    "agents/SUBAGENTS.lrf",
+    "agents/worker.md",
+    "memo/20260926-subagent-symbolic-codec-implementation/walkthrough.md"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": ["The first post-worker validation pass caught a raw LRF delimiter collision; it was corrected before completion."],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  },
+  "outcome": "success_after_correction",
+  "quality": "high",
+  "reason": "Implemented the confirmed payload suffix and wrapper ordering, preserved task-specific safety constraints without granting permissions, and passed strict LRF lint plus preflight/receipt verification after addressing the delimiter and verifier advisory."
+}

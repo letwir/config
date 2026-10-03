@@ -1,0 +1,8 @@
+{
+  "as_of": "2026-09-26",
+  "provenance": "User-supplied heuristic ranking; external nonnormative fallback, not an official empirical measurement",
+  "metric": "Comparable measured context consumption per bounded CODE workstream; context window capacity is not consumption",
+  "official_comparable_measurements": null,
+  "fallback_order": ["GPT-6 Luna", "GPT-5.6 Luna", "GPT-5.6 Terra", "GPT-5.5", "llama", "GPT-6 Sol"],
+  "selection": "Use only eligible and currently available workers; agy requires a separate explicit current-task request. Replace fallback with attributable official comparable context-consumption measurements only when found; do not invent figures."
+}

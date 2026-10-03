@@ -1,0 +1,9 @@
+# Diary: FileReader codec alignment
+
+- task_id: `20260927-subagent-codec-filereader-implementation`; timestamp: `2026-09-27T13:52:35+09:00`; target_environment: Windows 11, PowerShell 7, `C:\Users\letwir\.harness`; verification_status: completed after two focused verifier corrections; remaining_uncertainty: W3Techs ranking is user-provided and unverified.
+- Request: compare subagent compression/routing rules with the supplied FileReader plan, and replace misaligned instructions with the chosen five-language, symbols, emoji and uniqueness-oriented contract.
+- Clarification: user selected score maximization as primary and token count as the tie-break. Plan audit also advised a deterministic final tie-break; Unicode-NFKC lexical order was added.
+- Implementation: reconciled 12 authorized files in place. Added/clarified the explicit language set and candidate-dependent compression×contextual-uniqueness score; fixed FileReader hits-only, `NO_MATCH`, `FAILED`, read-only/no-nesting output; bound its exact CSS persona; kept Explorer's high-recall trigger; removed redundant translation/Y/N for settled payloads while retaining explicit human and effect-approval gates.
+- Verification/corrections: strict LRF and HSEQ lint, TOML parse and change-task preflight/receipt passed. First independent verification found ADV.3 incomplete; parent fixed it. A focused verifier then found ADV.1 wording drift; parent aligned it with the governing LRF and a second focused verification passed.
+- Global `git diff --check` surfaced trailing whitespace in unrelated existing `skills/.system/openai-docs` files. Targeted checks on the allowed files found no trailing whitespace. No unrelated files were edited; no VCS mutation or external effect occurred.
+- Workspace already contained modified and untracked files among the targets, so Git did not provide a clean baseline diff for every target; existing partial content was reviewed and preserved.

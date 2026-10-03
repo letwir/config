@@ -1,0 +1,3 @@
+# knowledge | 20260923-worker-backend-routing-design
+
+User wants independent `worker-agy` and `worker-llama` routes selected by AGENT_ROUTER. Existing agy policy supports bounded accept-edits and is the primary CODE executor, with one retry on pre-launch failure then main Luna fallback. Existing llama2coder skill is local llama.cpp-compatible REST source generation, pure code on stdout; it does not edit files except an explicitly enabled pipe-to-target path. Design should keep engine-specific contracts separate and make the main agent own applying llama output, diff review, and verification. Avoid silently treating llama as a fallback for auth, policy, or backend errors.

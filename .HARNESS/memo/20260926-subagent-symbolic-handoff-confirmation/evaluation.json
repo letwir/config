@@ -1,0 +1,27 @@
+{
+  "task_id": "20260926-subagent-symbolic-handoff-confirmation",
+  "evaluation_id": "20260926-subagent-symbolic-handoff-confirmation-contract",
+  "comparison_key": "subagent-handoff-symbolic-codec",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "contract_alignment": 1.0,
+    "semantic_fidelity": 1.0,
+    "ambiguity_resolution": 1.0,
+    "verification": 1.0
+  },
+  "evidence_refs": [
+    "memo/20260926-subagent-symbolic-handoff-confirmation/walkthrough.md",
+    "rules/MANUAL.lrf",
+    "agents/SUBAGENTS.lrf"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 0.0
+  },
+  "outcome": "success",
+  "quality": "useful",
+  "reason": "The user confirmed that SIGMA/1 terminates the compressed payload and the enclosing handoff wrapper then closes with </Γ>."
+}

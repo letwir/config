@@ -33,9 +33,31 @@ Describe 'rule reference preflight' {
 
     It 'rejects an empty forged receipt' {
         $receiptPath = Join-Path $TestDrive 'empty-receipt.json'
-        '{"schema":"lrf-preflight/v1","parser":"invoke-rule-preflight.ps1/v1","task":"subagent","root":"C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf","files":[],"selected":[]}' | Set-Content -LiteralPath $receiptPath -Encoding utf8
+        '{"schema":"lrf-preflight/v1","parser":"invoke-rule-preflight.ps1/v1","task":"subagent","root":"placeholder","files":[],"selected":[]}' | Set-Content -LiteralPath $receiptPath -Encoding utf8
         & pwsh.exe -NoProfile -File $sut -VerifyReceipt $receiptPath *> $null
         $LASTEXITCODE | Should Not Be 0
+    }
+
+    It 'proves route resolution for change with code+doc tags selects expected module leaves' {
+        # -Detailed returns the full receipt JSON with a files array
+        $json = & $sut -Task change -Tag code,doc -Detailed
+        $LASTEXITCODE | Should Be 0
+        $receipt = $json | ConvertFrom-Json
+        $leafNames = $receipt.files | ForEach-Object { Split-Path $_.path -Leaf }
+        $leafNames -contains 'engineering.lrf'   | Should Be $true
+        $leafNames -contains 'documentation.lrf' | Should Be $true
+        $leafNames -contains 'MANUAL.lrf'        | Should Be $true
+        $leafNames -contains 'LOAD.lrf'          | Should Be $true
+        $leafNames -contains 'research.lrf'      | Should Be $true
+        $leafNames -contains 'diary.lrf'         | Should Be $true
+    }
+
+    It 'proves Task subagent with Tag subagent loads SUBAGENTS' {
+        $json = & $sut -Task subagent -Tag subagent -Detailed
+        $LASTEXITCODE | Should Be 0
+        $receipt = $json | ConvertFrom-Json
+        $leafNames = $receipt.files | ForEach-Object { Split-Path $_.path -Leaf }
+        $leafNames -contains 'SUBAGENTS.lrf' | Should Be $true
     }
 
     It 'enforces graph resource limits' {

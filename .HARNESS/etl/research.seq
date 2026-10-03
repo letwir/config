@@ -1,17 +1,24 @@
+@dialect harness-seq/1
 @seq 1
 @entry RESEARCH
-🔭 RESEARCH @codex.selected
+🔭 RESEARCH
 Evidence(memory) → Evidence(task)
 ⊢ default_profile={web,llm-mem}
 ⊢ web=RO_PUBLIC ∧ llm-mem=RO_LOCAL
+⊢ local_or_private_target ⇒ load(research-local.seq)
 🔎 WEB
 Obj(Task{keywords}) → Mor(web.search) → Sources
 ERROR ⇒ Evidence(web=FAILED(non_secret_cause))
 EMPTY ⇒ Evidence(web=N_A(no_applicable_source))
 🔎 MEMORY
+current_task_precedent_exists ⇒ reuse(Evidence(memory))
+otherwise ⇒ search
 Obj(Task{keywords}) → Mor(llm-mem.search[level=2,json]) → Precedents
 ERROR ∨ missing_executable ⇒ Evidence(memory=FAILED(non_secret_cause))
 EMPTY ⇒ Evidence(memory=N_A(no_precedent))
-⊢ report={Facts,Inferences,Unknowns,Sources,Precedents,Constraints}
-⊢ delegate only when 2+ bounded independent workstreams ∨ ambiguity_or_high_impact
-RESEARCH ⇒ 🧠 PLAN
+⊢ report={CandidateMethods,SourceQuality,Facts,Inferences,Unknowns,Sources,Precedents,Constraints}
+⊢ eligible_delegation := explicit_bounded_need ∧ agent.mode_permits_Codex_subagents
+eligible_delegation ⇒ load(../agents/AGENT_ROUTER.md)
+¬eligible_delegation ⇒ main_local_exploration
+task:change ⇒ CHANGE → load(change.seq) → 🧠 PLAN
+otherwise ⇒ FINISH

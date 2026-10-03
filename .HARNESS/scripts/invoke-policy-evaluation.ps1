@@ -7,7 +7,7 @@ param(
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-$script:ParserVersion = 'H08-1'
+$script:ParserVersion = 'H09-1'
 $script:Effects = @('RO_LOCAL','RO_PUBLIC','LW_SCOPE','EXT_WRITE','RELEASE','LIVE_WRITE','VCS_WRITE','DESTRUCT','CRED','CHARGE','PROD_DEP')
 $script:GuardKeys = @('task','tag','change','phase','fact','file','event','case')
 $script:StateFiles = @('decisions.md','method.md','knowledge.md','issues.md','memo.md','history.md','diary.md')
@@ -17,17 +17,17 @@ if ([string]::IsNullOrWhiteSpace($OutputDirectory)) { $OutputDirectory = Join-Pa
 
 function Fail([string]$m) { throw "policy-evaluation: $m" }
 function Hash-File([string]$p) { if (!(Test-Path -LiteralPath $p -PathType Leaf)) { Fail "missing file: $p" }; (Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash.ToUpperInvariant() }
-function Read-Json([string]$p) { try { Get-Content -Raw -LiteralPath $p | ConvertFrom-Json -ErrorAction Stop } catch { Fail "invalid JSON ${p}: $($_.Exception.Message)" } }
+function Read-Json([string]$p) { try { Get-Content -Encoding UTF8 -Raw -LiteralPath $p | ConvertFrom-Json -ErrorAction Stop } catch { Fail "invalid JSON ${p}: $($_.Exception.Message)" } }
 function Is-Array($v) { return ($null -ne $v -and $v -is [System.Collections.IEnumerable] -and $v -isnot [string]) }
 function Require-Text($v,[string]$name) { if ($v -isnot [string] -or [string]::IsNullOrWhiteSpace($v)) { Fail "$name must be a nonempty string" } }
 
 function Parse-Lrf([string]$path) {
   if (!(Test-Path -LiteralPath $path -PathType Leaf)) { Fail "missing LRF: $path" }
-  $header = $false; $ids = @{}; $records = @(); $lines = Get-Content -LiteralPath $path
+  $header = $false; $ids = @{}; $records = @(); $lines = Get-Content -Encoding UTF8 -LiteralPath $path
   foreach ($line in $lines) {
     if ([string]::IsNullOrWhiteSpace($line)) { continue }
     if ($line -match '^@lrf=1\|aud=[^|]+\|scope=\S+$') { if ($header) { Fail "duplicate LRF header: $path" }; $header = $true; continue }
-    if ($line -match '^(#SIGMA LRF/1|F=.+|C:.+|L invokes .+)$') { continue }
+    if ($line -match '^(#SIGMA LRF/1|C:.+|L invokes .+)$') { continue }
     $parts = $line -split '\|',6
     if ($parts.Count -ne 6) { Fail "LRF record is not six fields: ${path}: $line" }
     if ($parts[0] -notin @('R','L')) { Fail "unknown LRF record kind: ${path}: $line" }
@@ -45,27 +45,175 @@ function Parse-Lrf([string]$path) {
   $records
 }
 
+function Validate-VocabRecord([string]$payload) {
+  # Extract E={...} from payload and validate strictly against script:Effects
+  $vm = [regex]::Match($payload, '(?s)E=\{(.*?)\}')
+  if (!$vm.Success) { Fail "effect vocabulary record missing E={...} payload" }
+  $raw = $vm.Groups[1].Value
+  if ([string]::IsNullOrWhiteSpace($raw)) { Fail "effect vocabulary is empty" }
+  $tokens = @($raw -split ',' | ForEach-Object { $_.Trim() })
+  foreach ($tok in $tokens) {
+    if ($tok -notmatch '^[A-Z_]+$') { Fail "effect vocabulary contains invalid token: $tok" }
+    if ($tok -notin $script:Effects) { Fail "effect vocabulary contains unknown member: $tok" }
+  }
+  $dupes = @($tokens | Group-Object | Where-Object { $_.Count -gt 1 })
+  if ($dupes.Count -gt 0) { Fail "effect vocabulary contains duplicate: $($dupes[0].Name)" }
+  $missing = @($script:Effects | Where-Object { $_ -notin $tokens })
+  if ($missing.Count -gt 0) { Fail "effect vocabulary missing required member: $($missing[0])" }
+  $tokens
+}
+
+function Validate-SequenceHeader([string]$text,[string]$path,[string]$expectedSeq,[string]$expectedEntry) {
+  $seqAll = @([regex]::Matches($text, '(?m)^@seq(?:\s.*)?$'))
+  $seqExact = @([regex]::Matches($text, "(?m)^@seq $expectedSeq\r?$"))
+  if ($seqAll.Count -ne 1 -or $seqExact.Count -ne 1) { Fail "$path must declare exactly one valid @seq header: @seq $expectedSeq" }
+  $entryAll = @([regex]::Matches($text, '(?m)^@entry(?:\s.*)?$'))
+  $entryExact = @([regex]::Matches($text, "(?m)^@entry $expectedEntry\r?$"))
+  if ($entryAll.Count -ne 1 -or $entryExact.Count -ne 1) { Fail "$path must declare exactly one valid @entry header: @entry $expectedEntry" }
+}
+
 function Parse-Rules([string]$root,[string]$canonical) {
-  $canonicalText=Get-Content -Raw -LiteralPath $canonical; $all = @(Parse-Lrf $canonical)
-  $state = Join-Path $root 'rules\state.lrf'; $eng = Join-Path $root 'rules\engineering.lrf'; $doc = Join-Path $root 'rules\documentation.lrf'
-  foreach ($p in @($state,$eng,$doc)) { $null = $all += @(Parse-Lrf $p) }
+  $canonicalText = Get-Content -Encoding UTF8 -Raw -LiteralPath $canonical
+  $all = @(Parse-Lrf $canonical)
+  $manualPath = Join-Path $root 'rules\MANUAL.lrf'
+  $loadPath   = Join-Path $root 'rules\LOAD.lrf'
+  $state      = Join-Path $root 'rules\state.lrf'
+  $eng        = Join-Path $root 'rules\engineering.lrf'
+  $doc        = Join-Path $root 'rules\documentation.lrf'
+  foreach ($p in @($manualPath,$loadPath,$state,$eng,$doc)) { $null = $all += @(Parse-Lrf $p) }
   $ids = @{}; foreach ($r in $all) { if ($ids.ContainsKey($r.id)) { Fail "duplicate routed LRF id: $($r.id)" }; $null = $ids[$r.id]=$true }
-  $seq = Join-Path $root 'etl\main.seq'; if (!(Test-Path -LiteralPath $seq -PathType Leaf)) { Fail 'missing etl/main.seq' }
-  $s = Get-Content -Raw -LiteralPath $seq
-  foreach ($needle in @('@seq 1','@entry PRECEDENT','retry_exhausted','End(Conversation)','PRE_VERIFY','POST_VERIFY','LOCAL_REVIEW','ReviewReport','FULL_ETL')) { if (!$s.Contains($needle)) { Fail "etl/main.seq missing required structure: $needle" } }
-  $vocab=@(); $vm=[regex]::Match($canonicalText,'(?s)E=\{(.*?)\}'); if($vm.Success){$vocab=@($vm.Groups[1].Value -split ',' | ForEach-Object {$_.Trim()} | Where-Object {$_ -match '^[A-Z_]+$'})}; if($vocab.Count -eq 0){Fail 'effect vocabulary missing from canonical rule'}
-  $safe=@(@($vocab | Where-Object {$_ -match '^RO_'}) + @($all | Where-Object {$_.id -in @('intent.ro','intent.rw')} | ForEach-Object effect) | Select-Object -Unique); if ($safe.Count -eq 0) { Fail 'safe effects missing from intent rules' }
-  $approval=@($vocab | Where-Object {$_ -notin $safe})
-  $order=@(); $ord=$all | Where-Object {$_.id -eq 'route.order'} | Select-Object -First 1; if($ord){$om=[regex]::Match($ord.payload,'matching leaf union once:\s*([a-z]+(?:>[a-z]+)+)');if($om.Success){$order=@($om.Groups[1].Value -split '>')}}; if($order.Count -eq 0){Fail 'route precedence missing from hydrated rules'}
-  $routeTags=$all | Where-Object {$_.id -eq 'route.tags'} | Select-Object -First 1
+
+  # Validate all ETL sequence files exist
+  $seq   = Join-Path $root 'etl\main.seq'
+  $seqR  = Join-Path $root 'etl\research.seq'
+  $seqC  = Join-Path $root 'etl\change.seq'
+  $seqF  = Join-Path $root 'etl\finish.seq'
+  $seqRL = Join-Path $root 'etl\research-local.seq'
+  foreach ($p in @($seq,$seqR,$seqC,$seqF,$seqRL)) {
+    if (!(Test-Path -LiteralPath $p -PathType Leaf)) { Fail "missing ETL leaf: $p" }
+  }
+
+  $s   = Get-Content -Encoding UTF8 -Raw -LiteralPath $seq
+  $sR  = Get-Content -Encoding UTF8 -Raw -LiteralPath $seqR
+  $sC  = Get-Content -Encoding UTF8 -Raw -LiteralPath $seqC
+  $sF  = Get-Content -Encoding UTF8 -Raw -LiteralPath $seqF
+  $sRL = Get-Content -Encoding UTF8 -Raw -LiteralPath $seqRL
+
+  Validate-SequenceHeader $s   'etl/main.seq'           '2' 'PRECEDENT'
+  Validate-SequenceHeader $sR  'etl/research.seq'       '1' 'RESEARCH'
+  Validate-SequenceHeader $sC  'etl/change.seq'         '1' 'CHANGE'
+  Validate-SequenceHeader $sF  'etl/finish.seq'         '1' 'FINISH'
+  Validate-SequenceHeader $sRL 'etl/research-local.seq' '1' 'RESEARCH_LOCAL'
+
+  # main.seq: orchestration markers, leaf references
+  foreach ($needle in @('retry_exhausted','LOCAL_REVIEW','research.seq','change.seq','finish.seq','research-local.seq')) {
+    if (!$s.Contains($needle)) { Fail "etl/main.seq missing required token: $needle" }
+  }
+  # Validate retry cap in main.seq
+  $retry = [regex]::Match($s,'retry\([^)]*\)\s*' + [char]0x2264 + '\s*(\d+)')
+  if (!$retry.Success) { Fail 'retry cap missing from etl/main.seq' }
+
+  # research.seq: PLAN, FINISH
+  foreach ($needle in @('PLAN','FINISH')) {
+    if (!$sR.Contains($needle)) { Fail "etl/research.seq missing required token: $needle" }
+  }
+
+  # change.seq: PRE_VERIFY, CODE @agy, POST_VERIFY, PASS [U+21D2] FINISH
+  $passFinish = 'PASS ' + [char]0x21D2 + ' FINISH'
+  foreach ($needle in @('PRE_VERIFY','CODE @agy','POST_VERIFY',$passFinish)) {
+    if (!$sC.Contains($needle)) { Fail "etl/change.seq missing required token: $needle" }
+  }
+
+  # finish.seq: mem.etl, llm-mem.ingest, End(Conversation)
+  foreach ($needle in @('mem.etl','llm-mem.ingest','End(Conversation)')) {
+    if (!$sF.Contains($needle)) { Fail "etl/finish.seq missing required token: $needle" }
+  }
+
+  # research-local.seq: LOCAL_REVIEW, ReviewReport, FINISH
+  foreach ($needle in @('LOCAL_REVIEW','ReviewReport','FINISH')) {
+    if (!$sRL.Contains($needle)) { Fail "etl/research-local.seq missing required token: $needle" }
+  }
+
+  # Validate E vocabulary record: must exist in canonical, must exactly match script:Effects
+  $canonicalFull = [IO.Path]::GetFullPath($canonical)
+  $vocabRec = $all | Where-Object { [IO.Path]::GetFullPath($_.path) -eq $canonicalFull -and ($_.id -eq 'vocab' -or $_.payload -match '(?s)E=\{[^}]+\}') } | Select-Object -First 1
+  if (!$vocabRec) { Fail 'effect vocabulary record not found in canonical rule' }
+  $vocab = Validate-VocabRecord $vocabRec.payload
+
+  $safe = @(@($vocab | Where-Object {$_ -match '^RO_'}) + @($all | Where-Object {$_.id -in @('intent.ro','intent.rw')} | ForEach-Object effect) | Select-Object -Unique)
+  if ($safe.Count -eq 0) { Fail 'safe effects missing from intent rules' }
+  $approval = @($vocab | Where-Object {$_ -notin $safe})
+
+  $order = @()
+  $ord = $all | Where-Object {$_.id -eq 'route.order'} | Select-Object -First 1
+  if ($ord) { $om=[regex]::Match($ord.payload,'matching leaf union once:\s*([a-z]+(?:>[a-z]+)+)'); if($om.Success){$order=@($om.Groups[1].Value -split '>')} }
+  if ($order.Count -eq 0) { Fail 'route precedence missing from hydrated rules' }
+
+  $routeTags = $all | Where-Object {$_.id -eq 'route.tags'} | Select-Object -First 1
   if (!$routeTags) { Fail 'route tag contract missing from hydrated rules' }
-  $knownTags=@([regex]::Matches($routeTags.payload,'(?:^|[:;]\s*)([a-z]+)=') | ForEach-Object {$_.Groups[1].Value})
+  $knownTags = @([regex]::Matches($routeTags.payload,'(?:^|[:;]\s*)([a-z]+)=') | ForEach-Object {$_.Groups[1].Value})
   if ($knownTags.Count -eq 0 -or @($knownTags | Sort-Object -Unique).Count -ne $knownTags.Count) { Fail 'route tag contract is malformed or duplicated' }
-  $stateText=Get-Content -Raw -LiteralPath $state; $stateFiles=@([regex]::Matches($stateText,'[a-z]+\.md')|ForEach-Object Value|Sort-Object -Unique); if($stateFiles.Count -eq 0){Fail 'state file set missing from routed rule'}
-  $moduleTags=@{}
-  foreach($ref in @(@{id='load.state';module='state';path=$state},@{id='load.engineering';module='engineering';path=$eng},@{id='load.documentation';module='documentation';path=$doc})) { $rr=$all|Where-Object {$_.id -eq $ref.id}|Select-Object -First 1; if(!$rr -or $rr.payload -notmatch '\[.+\]\([^)]*\.lrf\)' -or $rr.guard -notmatch '^tag:([^&]+)$'){Fail "unknown routed reference: $($ref.id)"}; $moduleTags[$ref.module]=$Matches[1] }
-  $retry=[regex]::Match($s,'retry\([^)]*\)\s*≤\s*(\d+)'); if (!$retry.Success) { Fail 'retry cap missing from orchestration' }
-  [pscustomobject]@{ Records=$all; RuleHash=(Hash-File $canonical); RoutedHashes=@{ state=(Hash-File $state); engineering=(Hash-File $eng); documentation=(Hash-File $doc); etl=(Hash-File $seq) }; Policy=[pscustomobject]@{ Vocabulary=$vocab; Approval=$approval; Safe=$safe; Order=$order; StateFiles=$stateFiles; RetryCap=[int]$retry.Groups[1].Value; KnownTags=$knownTags; ModuleTags=$moduleTags } }
+
+  $stateText = Get-Content -Encoding UTF8 -Raw -LiteralPath $state
+  $stateFiles = @([regex]::Matches($stateText,'[a-z]+\.md') | ForEach-Object Value | Sort-Object -Unique)
+  if ($stateFiles.Count -eq 0) { Fail 'state file set missing from routed rule' }
+
+  # Validate module load records: must come from LOAD.lrf with correct guard and target filename
+  $moduleTags = @{}
+  $loadPathFull = [IO.Path]::GetFullPath($loadPath)
+  foreach ($ref in @(
+    @{id='load.state';       module='state';         expectedTag='state'; expectedFile='state.lrf'},
+    @{id='load.engineering'; module='engineering';   expectedTag='code';  expectedFile='engineering.lrf'},
+    @{id='load.documentation';module='documentation';expectedTag='doc';   expectedFile='documentation.lrf'}
+  )) {
+    $rr = $all | Where-Object {$_.id -eq $ref.id} | Select-Object -First 1
+    if (!$rr) { Fail "load record missing: $($ref.id)" }
+    if ([IO.Path]::GetFullPath($rr.path) -ne $loadPathFull) { Fail "load record $($ref.id) must come from LOAD.lrf (found in $($rr.path))" }
+    if ($rr.guard -ne "tag:$($ref.expectedTag)") { Fail "load record $($ref.id) must have guard tag:$($ref.expectedTag) (got $($rr.guard))" }
+    if ($rr.payload -notmatch "\[.+\]\($([regex]::Escape($ref.expectedFile))\)") { Fail "load record $($ref.id) must reference $($ref.expectedFile) in payload" }
+    $moduleTags[$ref.module] = $ref.expectedTag
+  }
+
+  # Validate bootstrap link records: must come from canonical BOOTSTRAP with guard=* and exact filenames
+  $canonicalFull = [IO.Path]::GetFullPath($canonical)
+  $rrM = $all | Where-Object {$_.id -eq 'bootstrap.manual'} | Select-Object -First 1
+  if (!$rrM) { Fail 'bootstrap.manual record missing' }
+  if ([IO.Path]::GetFullPath($rrM.path) -ne $canonicalFull) { Fail "bootstrap.manual must come from BOOTSTRAP.lrf (found in $($rrM.path))" }
+  if ($rrM.guard -ne '*') { Fail "bootstrap.manual must have guard=* (got $($rrM.guard))" }
+  if ($rrM.payload -notmatch '\[.+\]\(MANUAL\.lrf\)') { Fail 'bootstrap.manual payload must reference MANUAL.lrf' }
+
+  $rrL = $all | Where-Object {$_.id -eq 'bootstrap.load'} | Select-Object -First 1
+  if (!$rrL) { Fail 'bootstrap.load record missing' }
+  if ([IO.Path]::GetFullPath($rrL.path) -ne $canonicalFull) { Fail "bootstrap.load must come from BOOTSTRAP.lrf (found in $($rrL.path))" }
+  if ($rrL.guard -ne '*') { Fail "bootstrap.load must have guard=* (got $($rrL.guard))" }
+  if ($rrL.payload -notmatch '\[.+\]\(LOAD\.lrf\)') { Fail 'bootstrap.load payload must reference LOAD.lrf' }
+
+  [pscustomobject]@{
+    Records      = $all
+    RuleHash     = (Hash-File $canonical)
+    RoutedHashes = @{
+      manual             = (Hash-File $manualPath)
+      load               = (Hash-File $loadPath)
+      state              = (Hash-File $state)
+      engineering        = (Hash-File $eng)
+      documentation      = (Hash-File $doc)
+      etl                = (Hash-File $seq)
+      etl_research       = (Hash-File $seqR)
+      etl_change         = (Hash-File $seqC)
+      etl_finish         = (Hash-File $seqF)
+      etl_research_local = (Hash-File $seqRL)
+    }
+    Policy = [pscustomobject]@{
+      Vocabulary  = $vocab
+      Approval    = $approval
+      Safe        = $safe
+      Order       = $order
+      StateFiles  = $stateFiles
+      RetryCap    = [int]$retry.Groups[1].Value
+      KnownTags   = $knownTags
+      ModuleTags  = $moduleTags
+    }
+  }
 }
 
 function Validate-Fixture($data) {
@@ -78,8 +226,13 @@ function Validate-Fixture($data) {
     if ($p.effect -notin ($script:Effects + @('UNKNOWN','CONFLICT'))) { Fail "invalid proposed effect: $($c.case_id)" }
     if ($p.authorization -notin @('none','explicit_current_task')) { Fail "invalid authorization: $($c.case_id)" }
     $t=$p.triggers; if ($null -eq $t) { Fail "missing triggers: $($c.case_id)" }
-    Require-Text $t.task 'triggers.task'; foreach ($n in @('tags','files','events','cases','changes','facts','phases')) { if ($t.PSObject.Properties.Name -contains $n -and !(Is-Array $t.$n)) { Fail "triggers.$n must be an array: $($c.case_id)" } }
-    foreach ($n in @('tags','files','events','cases','changes','facts','phases')) { if ($t.PSObject.Properties.Name -contains $n -and @($t.$n | Sort-Object -Unique).Count -ne @($t.$n).Count) { Fail "duplicate triggers.$n value: $($c.case_id)" } }
+    Require-Text $t.task 'triggers.task'
+    foreach ($n in @('tags','files','events','cases','changes','facts','phases')) {
+      if ($t.PSObject.Properties.Name -contains $n -and !(Is-Array $t.$n)) { Fail "triggers.$n must be an array: $($c.case_id)" }
+    }
+    foreach ($n in @('tags','files','events','cases','changes','facts','phases')) {
+      if ($t.PSObject.Properties.Name -contains $n -and @($t.$n | Sort-Object -Unique).Count -ne @($t.$n).Count) { Fail "duplicate triggers.$n value: $($c.case_id)" }
+    }
     foreach ($n in @('expected_decision','expected_approval_required','expected_modules')) { if ($c.PSObject.Properties.Name -notcontains $n) { Fail "missing $n`: $($c.case_id)" } }
     if ($c.expected_decision -notin @('ALLOW','APPROVAL','STOP','FORBID') -or $c.expected_approval_required -isnot [bool] -or !(Is-Array $c.expected_modules)) { Fail "invalid expected result: $($c.case_id)" }
     $hasRetry = $c.PSObject.Properties.Name -contains 'retry_attempts'
@@ -89,7 +242,11 @@ function Validate-Fixture($data) {
 }
 
 function Get-Modules($triggers,$policy) {
-  $tags=@($triggers.tags); $files=@($triggers.files); $mods=[System.Collections.Generic.List[string]]::new()
+  $tags = @()
+  if ($triggers.PSObject.Properties.Name -contains 'tags') { $tags = @($triggers.tags) }
+  $files = @()
+  if ($triggers.PSObject.Properties.Name -contains 'files') { $files = @($triggers.files) }
+  $mods = [System.Collections.Generic.List[string]]::new()
   foreach ($tag in $tags) { if ($tag -notin $policy.KnownTags) { Fail "unknown route trigger: $tag" } }
   if ($triggers.task -ne 'change') { return @() }
   if ($tags -contains $policy.ModuleTags.state -or @($files | Where-Object { [IO.Path]::GetFileName($_).ToLowerInvariant() -in $policy.StateFiles }).Count -gt 0) { $mods.Add('state') }
@@ -106,7 +263,7 @@ function Evaluate-Case($c,$policy) {
   elseif ($effect -in $policy.Approval) { $decision='APPROVAL'; $approval=$true; $reason='current-task approval gate required' }
   elseif ($effect -notin $policy.Safe) { $decision='STOP'; $reason='unclassified effect'; }
   $matching=@($rules.Records | Where-Object { $_.mode -eq 'MUST_NOT' -and $_.effect -eq $effect -and (Guard-Matches $_.guard $p.triggers) })
-  $specific=@($matching | Where-Object { $_.guard -ne '*' -or $effect -eq 'CRED' -and $_.payload -match '(?i)credential|secret' })
+  $specific=@($matching | Where-Object { ($_.guard -ne '*') -or (($effect -eq 'CRED') -and ($_.payload -match '(?i)credential|secret')) })
   if ($specific.Count -gt 0) { $decision='FORBID'; $approval=$false; $reason='matching MUST_NOT rule: ' + $specific[0].id }
   elseif ($p.authorization -eq 'explicit_current_task' -and $decision -eq 'APPROVAL') { $decision='ALLOW'; $approval=$false; $reason='explicit current-task authorization' }
   if ($decision -eq 'ALLOW') { $modules=Get-Modules $p.triggers $policy }
@@ -115,7 +272,9 @@ function Evaluate-Case($c,$policy) {
   if ($decision -in @('STOP','FORBID')) { $route='STOP' }
   elseif ($requested -eq 'LOCAL_REVIEW') {
     $changes=@(); if ($p.triggers.PSObject.Properties.Name -contains 'changes') { $changes=@($p.triggers.changes) }
-    $expansion=@($p.triggers.tags + $changes + $p.triggers.events | Where-Object { $_ -in @('code','config','schema','public','external','live','vcs','credential','scope-expansion') })
+    $trigTags=@(); if ($p.triggers.PSObject.Properties.Name -contains 'tags') { $trigTags=@($p.triggers.tags) }
+    $trigEvents=@(); if ($p.triggers.PSObject.Properties.Name -contains 'events') { $trigEvents=@($p.triggers.events) }
+    $expansion=@($trigTags + $changes + $trigEvents | Where-Object { $_ -in @('code','config','schema','public','external','live','vcs','credential','scope-expansion') })
     $validReview=$c.PSObject.Properties.Name -contains 'review'
     if ($validReview) {
       $validReview=$c.review.query -is [string] -and ![string]::IsNullOrWhiteSpace($c.review.query) -and $c.review.query.Length -le 512 -and $c.review.query -notmatch '[\r\n]' -and (Is-Array $c.review.targets) -and @($c.review.targets).Count -ge 1 -and @($c.review.targets).Count -le 32
@@ -140,7 +299,15 @@ function Evaluate-Case($c,$policy) {
 
 function Guard-Matches([string]$guard,$triggers) {
   if ($guard -eq '*') { return $true }
-  foreach ($part in ($guard -split '&')) { $kv=$part -split ':',2; $v=$triggers.($kv[0]+'s'); if ($kv[0] -eq 'task') { $v=$triggers.task }; if ($kv[0] -eq 'tag') { $v=$triggers.tags }; if ($null -eq $v -or ($v -is [string] -and $v -ne $kv[1]) -or ($v -isnot [string] -and $kv[1] -notin @($v))) { return $false } }
+  foreach ($part in ($guard -split '&')) {
+    $kv = $part -split ':',2; $k = $kv[0]; $val = $kv[1]; $v = $null
+    # task maps directly; all others map to plural property name
+    $propName = if ($k -eq 'task') { 'task' } else { $k + 's' }
+    if ($triggers.PSObject.Properties.Name -contains $propName) { $v = $triggers.$propName }
+    if ($null -eq $v) { return $false }
+    if ($v -is [string] -and $v -ne $val) { return $false }
+    if ($v -isnot [string] -and $val -notin @($v)) { return $false }
+  }
   return $true
 }
 

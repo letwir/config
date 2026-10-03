@@ -1,0 +1,30 @@
+{
+  "task_id": "20260925-compressor-orchestrator-implementation",
+  "evaluation_id": "20260925-compressor-orchestrator-partial",
+  "comparison_key": "compressor-orchestrator-grandchild-etl-contract",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "deterministic_checks": 0.4,
+    "scope_control": 0.95,
+    "traceability": 1.0,
+    "first_pass_correctness": 0.35
+  },
+  "evidence_refs": [
+    "memo/20260925-compressor-orchestrator-implementation/walkthrough.md",
+    "agents/SUBAGENTS.lrf",
+    "etl/change.seq",
+    "etl/finish.seq"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "First worker output introduced an LRF raw-pipe delimiter collision and incomplete role configuration/protocol details; the correction response was invalid structured JSON and applied no changes."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  },
+  "outcome": "partial_failure",
+  "quality": "low",
+  "reason": "Initial bounded worker output applied, but required LRF validation failed and the same-route correction returned invalid structured JSON; feature completion and grandchild runtime remain unverified."
+}

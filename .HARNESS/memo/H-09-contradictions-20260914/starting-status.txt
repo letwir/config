@@ -1,0 +1,42 @@
+ M AGENTS.md
+ M agents/SUBAGENTS.lrf
+ M agents/auditor.toml
+ M agents/blackhat.toml
+ M agents/critic.toml
+ M agents/explorer.toml
+ M agents/proposer.toml
+ M agents/refactorer.toml
+ M agents/researcher.toml
+ M agents/verifier.toml
+ M agents/worker.toml
+ M etl/main.seq
+ M evaluation/subagents_model_eval.json
+ D rules/LLM_REF_RULE.md
+ M rules/client-distribution.json
+ D rules/index.lrf
+ M rules/skill-runtime.json
+ M scripts/check-rule-distribution.Tests.ps1
+ M scripts/invoke-policy-evaluation.Tests.ps1
+ M scripts/invoke-policy-evaluation.ps1
+ M skills/.system/.codex-system-skills.marker
+ M skills/.system/openai-docs/SKILL.md
+ M skills/.system/openai-docs/references/latest-model.md
+ M skills/.system/openai-docs/references/model-migration.md
+ M skills/.system/openai-docs/references/prompting-guide.md
+ M skills/.system/openai-docs/references/upgrade-guide.md
+ D skills/.system/openai-docs/references/upgrading-to-gpt-5p6-sol.md
+?? README-forLLM.md
+?? etl/change.seq
+?? etl/finish.seq
+?? etl/research-local.seq
+?? etl/research.seq
+?? memo/H-07/.record.lock
+?? memo/H-08/.record.lock
+?? memo/H-09-contradictions-20260914/
+?? rules/BOOTSTRAP.lrf
+?? rules/LOAD.lrf
+?? rules/MANUAL.lrf
+?? rules/default.rules
+?? scripts/invoke-rule-preflight.Tests.ps1
+?? scripts/invoke-rule-preflight.ps1
+?? skills/.system/openai-docs/references/upgrading-to-gpt-6-astra.md

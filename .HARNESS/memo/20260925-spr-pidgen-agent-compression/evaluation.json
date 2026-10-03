@@ -1,0 +1,13 @@
+{
+  "task_id": "20260925-spr-pidgen-agent-compression",
+  "comparison_key": "spr-pidgen-compress-agent-md-css",
+  "axes": {
+    "scope": 0.4,
+    "semantic_preservation": 0.0,
+    "verification": 0.1
+  },
+  "attribution": {
+    "prompt": "The task's multi-file, policy-sensitive compression required careful modeling of each file's exact contract; first allowlist had a case-insensitive duplicate.",
+    "agent": "The selected worker-agy route failed in transactional apply on a Windows rename permission error after launch; backend switching was not permitted."
+  }
+}

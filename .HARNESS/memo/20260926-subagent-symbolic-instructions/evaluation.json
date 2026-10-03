@@ -1,0 +1,27 @@
+{
+  "task_id": "20260926-subagent-symbolic-instructions",
+  "evaluation_id": "20260926-subagent-symbolic-instructions-contract",
+  "comparison_key": "subagent-handoff-symbolic-codec",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "contract_alignment": 0.8,
+    "semantic_fidelity": 1.0,
+    "ambiguity_resolution": 0.7,
+    "verification": 1.0
+  },
+  "evidence_refs": [
+    "rules/MANUAL.lrf",
+    "agents/SUBAGENTS.lrf",
+    "memo/20260926-subagent-symbolic-instructions/walkthrough.md"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": ["The payload suffix versus wrapper closing-line interaction remains unresolved."],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  },
+  "outcome": "partial",
+  "quality": "useful",
+  "reason": "The requested symbolic task-payload style was recorded and aligned with the existing semantic-preserving codec; the payload-versus-wrapper final-line boundary needs clarification before modifying the persistent handoff contract."
+}

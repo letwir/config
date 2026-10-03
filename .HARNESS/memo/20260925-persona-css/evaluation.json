@@ -1,0 +1,30 @@
+{
+  "task_id": "20260925-persona-css",
+  "evaluation_id": "20260925-persona-css-failed",
+  "comparison_key": "compressor-orchestrator-persona-css",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "deterministic_checks": 0.5,
+    "scope_control": 1.0,
+    "traceability": 1.0,
+    "first_pass_correctness": 0.0
+  },
+  "evidence_refs": [
+    "memo/20260925-persona-css/walkthrough.md",
+    "agents/SUBAGENTS.lrf",
+    "agents/AGENT_ROUTER.md",
+    "rules/MANUAL.lrf"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "The bounded worker-agy CSS generation returned FAILED and applied no CSS or route changes."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  },
+  "outcome": "failure",
+  "quality": "none",
+  "reason": "CSS generation did not produce a usable result; rule preflight was repaired and passed, but persona assets remain absent."
+}

@@ -1,0 +1,28 @@
+{
+  "task_id": "H-09-contradictions-20260914",
+  "evaluation_id": "H-09-20260915-final",
+  "comparison_key": "harness-contradiction-repair",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "deterministic_checks": 1.0,
+    "scope_control": 1.0,
+    "traceability": 1.0,
+    "first_pass_correctness": 0.0
+  },
+  "evidence_refs": [
+    "memo/H-09-contradictions-20260914/tests.json",
+    "memo/H-09-contradictions-20260914/preflight.json",
+    "memo/H-09-contradictions-20260914/changed-files.json",
+    "memo/H-09-contradictions-20260914/walkthrough.md"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "Corrected initial PowerShell edit-array flattening, agy test binding, UTF-8 fixture decoding, Unicode comparison and missing boolean grouping; all final focused tests passed.",
+      "Generic memory report titles collided with an existing active identity; task-specific titles resolved ingestion without modifying unrelated records."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  }
+}

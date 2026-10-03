@@ -1,0 +1,30 @@
+{
+  "task_id": "20260924-explorer-researcher-role-boundaries",
+  "evaluation_id": "20260924-explorer-researcher-role-boundaries-final",
+  "comparison_key": "explorer-researcher-breadth-vs-method-synthesis",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "role_distinction": 0.98,
+    "explorer_recall_contract": 0.95,
+    "researcher_actionability": 0.95,
+    "routing_consistency": 0.95,
+    "static_verification": 0.95
+  },
+  "evidence_refs": [
+    "agents/AGENT_ROUTER.md",
+    "agents/explorer.md",
+    "agents/researcher.md",
+    "agents/SUBAGENTS.lrf",
+    "etl/research.seq",
+    "memo/20260924-explorer-researcher-role-boundaries/walkthrough.md"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "Explorer was described as a local-only mapper and Researcher did not explicitly require applicable-method usage and side-effect synthesis."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  }
+}

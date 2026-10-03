@@ -1,0 +1,25 @@
+{
+  "task_id": "20260925-gemini-harness-dir-links",
+  "evaluation_id": "20260925-gemini-harness-dir-links-audit",
+  "comparison_key": "gemini-harness-directory-link-audit",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "deterministic_checks": 1.0,
+    "scope_control": 1.0,
+    "traceability": 1.0,
+    "first_pass_correctness": 0.6
+  },
+  "evidence_refs": [
+    "memo/20260925-gemini-harness-dir-links/walkthrough.md",
+    "memo/20260925-gemini-harness-dir-links/knowledge.md"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "The initial conclusion that no directory links needed adding was stated before validating all link destinations; corrected after user clarification and a complete directory/link audit."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  }
+}

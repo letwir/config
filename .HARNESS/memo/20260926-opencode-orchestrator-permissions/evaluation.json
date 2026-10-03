@@ -1,0 +1,19 @@
+{
+  "task_id": "20260926-opencode-orchestrator-permissions",
+  "comparison_key": "opencode-gui-orchestrator-permissions",
+  "axes": {
+    "research": 0.8,
+    "implementation": 1.0,
+    "verification": 0.7
+  },
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": []
+  },
+  "evidence": [
+    "Global OpenCode orchestrator.md inspected",
+    "Official OpenCode permissions and agents documentation inspected",
+    "User confirmed Y and global Orchestrator agent definition was updated",
+    "Independent static inspection passed; nested GUI dispatch remains untested"
+  ]
+}

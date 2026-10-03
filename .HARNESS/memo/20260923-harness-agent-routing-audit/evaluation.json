@@ -1,0 +1,28 @@
+{
+  "task_id": "20260923-harness-agent-routing-audit",
+  "evaluation_id": "20260923-harness-agent-routing-audit-final",
+  "comparison_key": "harness-agent-routing-static-audit",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "routing_traceability": 0.9,
+    "role_contract_consistency": 0.6,
+    "runtime_evidence": 0.3,
+    "scope_control": 1.0
+  },
+  "evidence_refs": [
+    "memo/20260923-harness-agent-routing-audit/walkthrough.md",
+    "agents/SUBAGENTS.lrf",
+    "agents/README.md",
+    "etl/main.seq",
+    "etl/change.seq"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "The README lifecycle disagrees with current LRF and ETL contracts; the Codex Worker definition is not part of the active CODE path."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  }
+}

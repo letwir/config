@@ -1,0 +1,21 @@
+{
+  "task_id": "hseq-linter-20260925",
+  "comparison_key": "harness/hseq-lint/v1",
+  "role": "coder",
+  "task_family": "sequence-linter",
+  "axes": {
+    "build_success": 1.0,
+    "current_seq_corpus_lint": 1.0,
+    "existing_lrf_path_check": 1.0
+  },
+  "attribution": {
+    "prompt": "The user requested .seq linting and a named DSL dialect visible from the first line.",
+    "agent": "The implementation added HSEQ structure checks and validated the installed CLI against the current local corpus."
+  },
+  "evidence_refs": [
+    "A:/Users/letwir/repo/mcp2go/src/harness-lint/main.go",
+    "A:/Users/letwir/repo/mcp2go/src/harness-lint/seq_lint.go",
+    "C:/Users/letwir/.harness/etl",
+    "C:/Users/letwir/.harness/skills/harness-lint/harness-lint.exe"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "task_id": "20260926-absolute-paths-completion",
+  "comparison_key": "absolute-path-cleanup",
+  "axes": {
+    "path_generalization": 1,
+    "behavior_preservation": 1,
+    "verification": 1
+  },
+  "attribution": {
+    "prompt": 0,
+    "agent": 0
+  },
+  "outcome": "completed_with_exact_command_and_historical_records_preserved"
+}

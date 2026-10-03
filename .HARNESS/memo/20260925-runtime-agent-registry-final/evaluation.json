@@ -1,0 +1,33 @@
+{
+  "task_id": "20260925-runtime-agent-registry-final",
+  "evaluation_id": "20260925-runtime-agent-registry-configured",
+  "comparison_key": "opencode-codex-custom-agent-registration",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "config_validation": 1.0,
+    "runtime_validation": 0.4,
+    "scope_control": 1.0,
+    "traceability": 1.0
+  },
+  "evidence_refs": [
+    "memo/20260925-runtime-agent-registry-final/walkthrough.md",
+    "agents/AGENT_ROUTER.md",
+    "agents/compressor.toml",
+    "agents/orchestrator.toml",
+    "agents/compressor.css",
+    "agents/orchestrator.css",
+    "C:/Users/letwir/.codex/config.toml",
+    "C:/Users/letwir/.config/opencode/agents/compressor.md",
+    "C:/Users/letwir/.config/opencode/agents/orchestrator.md"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 0.0
+  },
+  "outcome": "success_with_constraints",
+  "quality": "useful",
+  "reason": "Codex and OpenCode role registrations and static contracts were added and validated; live child dispatch remains unverified until runtime reload."
+}

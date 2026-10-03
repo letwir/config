@@ -1,15 +1,32 @@
+@dialect harness-seq/1
 @seq 1
 @entry RESEARCH_LOCAL
 🔎 RESEARCH_LOCAL
+ordinary_repository_file_lookup ∧ delegation_runtime_permits ⇒ AGENT_ROUTER→FileReader(read-only; hits=only(repository-relative-path,line_number)-tuples, no status prefix; completed_zero_hits=exactly NO_MATCH; operational/search/permission/IO_failure=sanitized FAILED; ¬excerpt|snippet|match_text|content|summary|absolute_path)
+ordinary_repository_file_lookup ∧ ¬delegation_runtime_permits ⇒ ESCALATE(no_dispatch; no_local_fallback; no_claimed_result)
+stuck ∨ sparse/repetitive_investigation ⇒ Explorer(broad_high_recall; preserve current role)
+valid_local_review ⇒ LOCAL_REVIEW
+otherwise ⇒ LOCAL_RESEARCH
+🔎 LOCAL_REVIEW
+Obj(LocalReview{query,targets}) → Mor(invoke-local-review.ps1) → ReviewReport
+⊢ collector=bounded-read-only ∧ no_task_artifact_writes
+ERROR ⇒ Evidence(review=FAILED(non_secret_cause)) → FINISH
+ReviewReport ⇒ FINISH
+🔎 LOCAL_RESEARCH
 Obj(LocalResearch{query,scope}) → Mor(local.evidence) → Evidence
 ⊢ local_or_private_target(scope)
-⊢ web=SKIPPED_UNLESS_EXPLICIT
+⊢ web=N_A(local_evidence_only) unless public facts are required
 🔎 EPUB
+⊢ explicit_EPUB_request ∨ applicable_public_search_insufficient
 Mor(kavita-fetch-search.search[keywords]) → Sources
 EMPTY ⇒ Evidence(epub=N_A(no_hit))
 ERROR ⇒ Evidence(epub=FAILED(non_secret_cause))
+not_applicable ⇒ Evidence(epub=N_A(local_evidence_only))
 🔎 MEMORY
+current_task_precedent_exists ⇒ reuse(Evidence(memory))
+otherwise ⇒ search
 Obj(Task{keywords}) → Mor(llm-mem.search[level=2,json]) → Precedents
 ERROR ∨ missing_executable ⇒ Evidence(memory=FAILED(non_secret_cause))
 ⊢ report={Facts,Inferences,Unknowns,Sources,Precedents,Constraints}
-RESEARCH_LOCAL ⇒ 🧠 PLAN
+task:change ⇒ CHANGE → load(change.seq) → 🧠 PLAN
+otherwise ⇒ FINISH

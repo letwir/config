@@ -1,0 +1,15 @@
+{
+  "task_id": "20260926-filereader-subagent",
+  "comparison_key": "bounded_agent_config_implementation",
+  "axes": {
+    "acceptance": 1.0,
+    "scope_preservation": 0.95,
+    "verification": 0.95
+  },
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [],
+    "prompt_ratio": 0.5,
+    "agent_ratio": 0.5
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "task_id": "20260926-file-reader-codec-plan-block",
+  "evaluation_id": "20260926-file-reader-codec-plan-block-contract",
+  "comparison_key": "file-reader-multilingual-codec-alignment",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "contract_alignment": 0.8,
+    "ambiguity_resolution": 0.5,
+    "scope_control": 1.0,
+    "evidence_quality": 0.8
+  },
+  "attribution": {
+    "prompt_defects": ["The request does not set priority between minimizing total tokens and maximizing compression×uniqueness."],
+    "agent_defects": ["One plan-audit claim about FileReader-local frequency objectives conflicted with directly inspected live contents; it was not used."],
+    "prompt_ratio": 0.7,
+    "agent_ratio": 0.3
+  },
+  "outcome": "blocked_before_implementation",
+  "quality": "useful",
+  "reason": "Comparison found the exact rule gaps and existing FileReader output/persona inconsistencies, but the implementation plan was rejected at the bounded plan gate because the codec objective order remains ambiguous. No files were edited."
+}

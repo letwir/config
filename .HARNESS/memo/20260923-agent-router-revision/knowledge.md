@@ -1,0 +1,3 @@
+# knowledge | 20260923-agent-router-revision
+
+User steering: designate `agents/AGENT_ROUTER.md` as the place that selects model role, base CSS, and TOML together. Keep `main.seq` limited to invoking the router for agent branching. To remain consistent with current SIGMA, LRF must define the authority boundary and consume the Markdown router as a validated selection manifest/data table; safety and effects remain LRF-only. Model choice should stay dynamic and role TOMLs should not pin models. Existing CODE policy still requires direct agy, so `worker.toml` cannot simultaneously be an active Codex code-writing route unless the user changes that policy.

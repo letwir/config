@@ -1,0 +1,12 @@
+{
+  "TotalCount": 9,
+  "PassedCount": 8,
+  "FailedCount": 1,
+  "Failures": [
+    {
+      "Name": "Guard-Matches handles missing optional event array without error",
+      "FailureMessage": "Expected: {0}\nBut was:  {1}",
+      "StackTrace": "at line: 239 in C:\\Users\\letwir\\.harness\\scripts\\invoke-policy-evaluation.Tests.ps1\n239:       $r.Exit | Should Be 0"
+    }
+  ]
+}

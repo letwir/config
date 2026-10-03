@@ -3,7 +3,7 @@
     sync-harness.ps1 - LLM Agent Harness SSOT, Skill Synchronization & Junction Linker
 .DESCRIPTION
     Consolidates skills across all agent harnesses (.gemini, .codex, .agents, .claude, .opencode)
-    into C:\Users\letwir\.harness\skills as the Single Source of Truth (SSOT).
+    into `$env:USERPROFILE\.harness\skills` as the Single Source of Truth (SSOT).
     Creates transparent NTFS directory junctions pointing each agent's skills/ directory directly
     to .harness\skills, ensuring zero-drift instant synchronization.
 #>

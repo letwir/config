@@ -1,0 +1,27 @@
+{
+  "task_id": "20260923-worker-backend-routing-design",
+  "evaluation_id": "20260923-worker-backend-routing-design-final",
+  "comparison_key": "worker-agy-llama-backend-routing",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "execution_contract_separation": 0.95,
+    "fallback_safety": 0.95,
+    "router_clarity": 0.9,
+    "implementation_readiness": 0.8
+  },
+  "evidence_refs": [
+    "memo/20260923-worker-backend-routing-design/walkthrough.md",
+    "skills/agy-subagent-router/SKILL.md",
+    "skills/llama2coder/SKILL.md",
+    "rules/agy.lrf"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "The current single-worker description does not expose distinct AGY edit and llama stdout-code contracts."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  }
+}

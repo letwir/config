@@ -1,8 +1,10 @@
+@dialect harness-seq/1
 @seq 2
-@entry ROUTE
-∀ agent: depth(agent) ≤ 2
+@entry PRECEDENT
+∀ agent: depth(agent) ≤ 2 (root=0, child=1, grandchild=2 only; deny great-grandchildren)
 ∀ gate: retry(gate, ADV ∨ DENY) ≤ 3
-⊥ retry_exhausted(gate) → 🧾 Trouble(gate, latest_advisory_or_denial) → 🧑 Human → End(Conversation) ⊣ ⊤
+⊥ retry_exhausted(gate) → 🧾 Trouble(gate, latest_advisory_or_denial) → FINISH(task=FAILED) → 🧑 Human → End(Conversation) ⊣ ⊤
+unavailable_or_root_only_runtime ⇒ ESCALATE ∧ apply applicable ADV gate for rework ∧ never claim dispatch/result
 
 🔎 PRECEDENT
 Obj(Task{task_id,target,acceptance}) → Mor(llm-mem.search[level=2,json]) → Precedents
@@ -11,10 +13,12 @@ EMPTY ⇒ Evidence(memory=N_A(no_precedent)) → ROUTE
 ERROR ∨ missing_executable ⇒ Evidence(memory=FAILED(non_secret_cause)) → ROUTE
 
 🔀 ROUTE
+eligible_delegation ⇒ load(../agents/AGENT_ROUTER.md)
 RO_LOCAL ∧ valid_local_review ⇒ LOCAL_REVIEW
-explicit(research-local) ⇒ RESEARCH_LOCAL
-otherwise ⇒ RESEARCH → CHANGE → FINISH
+explicit(research-local) ∨ local_or_private_target ⇒ RESEARCH_LOCAL
+otherwise ⇒ RESEARCH
 LOCAL_REVIEW ⇒ load(research-local.seq)
+RESEARCH_LOCAL ⇒ load(research-local.seq)
 RESEARCH ⇒ load(research.seq)
 CHANGE ⇒ load(change.seq)
 FINISH ⇒ load(finish.seq)

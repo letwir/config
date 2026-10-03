@@ -1,0 +1,99 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "orchestrator",
+  "subagent_depth": 2,
+  "agent": {
+    "orchestrator": {
+      "mode": "primary",
+      "description": "Coordinates the confirmed task through research, plan, implementation and verification; delegate bounded specialist work only when authorized.",
+      "permission": { "task": "deny", "orchestration_dispatch": "allow" }
+    },
+    "explorer": { "mode": "subagent", "description": "Use only when direct repository searches are stuck or sparse; return read-only high-recall leads with confidence.", "permission": { "edit": "deny", "task": "deny" } },
+    "researcher": { "mode": "subagent", "description": "Use for bounded research into official docs, methods, prerequisites, usage and side effects before planning; do not implement.", "permission": { "edit": "deny", "task": "deny" } },
+    "proposer": { "mode": "subagent", "description": "Use when material planning uncertainty requires a bounded implementation plan proposal from verified research.", "permission": { "edit": "deny", "task": "deny" } },
+    "auditor": { "mode": "subagent", "description": "Use before substantial changes to independently challenge a bounded plan for contract drift, effects and test gaps.", "permission": { "edit": "deny", "task": "deny" } },
+    "verifier": { "mode": "subagent", "description": "Use after changes for independent diff-first verification, focused checks and adversarial regression review.", "permission": { "edit": "deny", "task": "deny" } },
+    "refactorer": { "mode": "subagent", "description": "Use after a verifier defect to diagnose a surgical repair boundary; implementation stays with the approved CODE backend.", "permission": { "edit": "deny", "task": "deny" } },
+    "critic": { "mode": "subagent", "description": "Use to challenge one disputed bounded plan or decision with focused evidence and convergence advice.", "permission": { "edit": "deny", "task": "deny" } },
+    "blackhat": { "mode": "subagent", "description": "Use only for explicitly bounded security attackability assessment and defensive advice, never exploit execution.", "permission": { "edit": "deny", "task": "deny" } },
+    "compressor": { "mode": "subagent", "description": "Compress settled task instructions without redundant confirmation.", "permission": { "edit": "deny", "task": "deny" } },
+    "worker": { "mode": "subagent", "description": "Use only for one approved bounded CODE workstream via the selected eligible backend; edit only the exact authorized files and report checks to the parent.", "permission": { "edit": "ask", "task": "deny" } }
+  },
+  "share": "disabled",
+  "snapshot": true,
+  "plugin": [
+    "file:///C:/Users/letwir/.harness/opencode/plugins/bootstrap.ts"
+  ],
+  "instructions": [
+    "C:/Users/letwir/.opencode/AGENTS.md"
+  ],
+  "skills": {
+    "paths": [
+      "C:/Users/letwir/.opencode/skills"
+    ]
+  },
+  "watcher": {
+    "ignore": [
+      "node_modules/**",
+      "sessions/**",
+      "logs/**",
+      "memories/**"
+    ]
+  },
+  "permission": {
+    "*": "ask",
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*credentials*": "deny",
+      "*secret*": "deny",
+      "*.pem": "deny",
+      "*.key": "deny",
+      "*id_rsa*": "deny",
+      "*id_ed25519*": "deny",
+      "*.pfx": "deny",
+      "*.p12": "deny",
+      "*.kdbx": "deny",
+      "*.env.example": "allow"
+    },
+    "glob": "allow",
+    "list": "allow",
+    "grep": "allow",
+    "edit": "ask",
+    "bash": {
+      "*": "ask",
+      "rm *": "deny",
+      "rmdir *": "deny",
+      "del *": "deny",
+      "Remove-Item *": "deny",
+      "git reset *": "deny",
+      "git clean *": "deny",
+      "git push *": "deny",
+      "git commit *": "allow",
+      "gh release *": "allow",
+      "npm publish *": "deny",
+      "docker *": "allow",
+      "kubectl *": "ask",
+      "rg.exe *": "allow",
+      "dust.exe *":"allow",
+      "lsd.exe *": "allow"
+    },
+    "task": "deny",
+    "agy_worker": "ask",
+    "agy_worker_current_task": "ask",
+    "codex_worker": "ask",
+    "agy_council": "ask",
+    "orchestration_dispatch": "allow",
+    "orchestration_status": "allow",
+    "orchestration_result": "allow",
+    "orchestration_cancel": "allow",
+    "external_directory": "ask",
+    "skill": "allow",
+    "webfetch": "allow",
+    "websearch": "allow",
+    "lsp": "allow",
+    "question": "allow",
+    "doom_loop": "allow"
+  }
+}

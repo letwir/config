@@ -1,0 +1,24 @@
+{
+  "task_id": "codex-agents-symlink-20260925",
+  "comparison_key": "harness/codex-agents-link/v1",
+  "role": "implementer-verifier",
+  "persona": "evidence-first",
+  "task_family": "configuration-link",
+  "axes": {
+    "requested_link_created": 1.0,
+    "target_resolution_verified": 1.0,
+    "prior_contents_preserved": 1.0,
+    "runtime_instruction_reload": 0.0
+  },
+  "evidence_refs": [
+    "C:\\Users\\letwir\\.codex\\AGENTS.md",
+    "C:\\Users\\letwir\\.harness\\AGENTS.md",
+    "C:\\Users\\letwir\\.codex\\AGENTS.md.pre-harness-symlink-20260925.bak"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": ["Initial memory-search attempt used an unavailable stale executable path."],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  }
+}

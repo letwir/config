@@ -1,0 +1,25 @@
+{
+  "task_id": "20260925-spr-pidgen-agent-compression-followup",
+  "comparison_key": "agents-spr-pidgen-compression-20260925",
+  "difficulty": "hard",
+  "role": "worker-agy",
+  "requested_provider": "agy",
+  "effective_provider": "agy",
+  "requested_model": "current model selected by worker route",
+  "effective_model": "gemini-3.1-pro-high",
+  "reasoning": "high",
+  "acceptance_result": "PASS",
+  "outcome": "SUCCESS after two bounded correction passes",
+  "axes": {
+    "scope": 1.0,
+    "semantic_fidelity": 0.9,
+    "checks": 1.0
+  },
+  "attribution": {
+    "prompt": "User provided target glob and SPR/PIDGEN objective.",
+    "agent": "Main agent reviewed fidelity; agy worker applied and corrected the requested compression."
+  },
+  "ratios": null,
+  "quality": "Good after correction; Markdown/CSS parser coverage remains unverified.",
+  "rerouting_advice": "Keep protocol schemas and semantic acceptance review separate from token reduction."
+}

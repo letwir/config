@@ -1,0 +1,3 @@
+# knowledge | 20260923-agent-router-selection-clarification
+
+User clarified the router design: no startup keys or role-selection rules in `agents/selection.lrf`; place selection constraints in `agents/AGENT_ROUTER.md`. Agent TOML/profile selection and model role are described there. Persona CSS is not fixed to a role; the router may select a base CSS according to task difficulty. Remove `selection.lrf` from the proposed architecture. Current fixed role-to-CSS records in MANUAL/SUBAGENTS will need revision, while LRF retains authority/effect/safety boundaries and explicitly binds the router as its selection source.

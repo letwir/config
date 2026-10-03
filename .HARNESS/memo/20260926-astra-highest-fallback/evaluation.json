@@ -1,0 +1,29 @@
+{
+  "task_id": "20260926-astra-highest-fallback",
+  "evaluation_id": "20260926-astra-highest-fallback-contract",
+  "comparison_key": "agy-gpt-fallback-highest-astra",
+  "role": "main",
+  "task_family": "harness-maintenance",
+  "axes": {
+    "scope_precision": 1.0,
+    "contract_alignment": 1.0,
+    "permission_preservation": 1.0,
+    "static_validation": 1.0
+  },
+  "evidence_refs": [
+    "memo/20260926-astra-highest-fallback/walkthrough.md",
+    "rules/BOOTSTRAP.lrf",
+    "rules/agy.lrf",
+    "agents/AGENT_ROUTER.md",
+    "agents/worker-gpt-fallback.md"
+  ],
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 0.0
+  },
+  "outcome": "success",
+  "quality": "useful",
+  "reason": "Astra may now be called as a subagent but is always leaf-only and cannot dispatch another subagent; the agy GPT fallback selects Astra only at highest difficulty, with permission gates preserved."
+}
