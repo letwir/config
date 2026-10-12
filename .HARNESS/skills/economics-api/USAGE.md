@@ -59,10 +59,19 @@
 
 ---
 
-## 2. 環境変数の設定方法 (PowerShell)
+## 2. 環境変数の設定方法 (HARDWARE.md `active_profile` 準拠)
 
-キー取得後、`$PROFILE` や環境変数に設定いただくことで、コマンドライン引数での渡しいらずで自動的にキーが読み込まれますわ。
+キー取得後、`HARDWARE.md` の `active_profile` に合致したシェル記法で環境変数を設定してください。
 
+#### 【`active_profile: android-termux-bash` (Bash)】
+```bash
+export ESTAT_API_KEY="your_estat_app_id"
+export EDINET_SUBSCRIPTION_KEY="your_edinet_subscription_key"
+export FRED_API_KEY="your_fred_api_key"
+export ALPHAVANTAGE_API_KEY="your_alphavantage_api_key"
+```
+
+#### 【`active_profile: windows-pwsh` (PowerShell)】
 ```powershell
 $env:ESTAT_API_KEY = "your_estat_app_id"
 $env:EDINET_SUBSCRIPTION_KEY = "your_edinet_subscription_key"
@@ -72,9 +81,23 @@ $env:ALPHAVANTAGE_API_KEY = "your_alphavantage_api_key"
 
 ---
 
-## 3. CLI の使い方と使用例
+## 3. CLI の使い方と使用例 (`active_profile` 準拠)
 
-### 統合ラッパー CLI (`economics.exe`) を使用する場合
+### 統合ラッパー CLI を使用する場合
+
+#### 【`android-termux-bash` (Termux / Linux)】
+```bash
+# 日本の有価証券報告書一覧を取得 (EDINET)
+./economics edinet --date 2026-08-14
+
+# 米国Apple社(AAPL)の財務ファクトを取得 (SEC EDGAR)
+./economics sec --ticker AAPL --facts
+
+# 米国政策金利データを取得 (FRED)
+./economics fred --series FEDFUNDS
+```
+
+#### 【`windows-pwsh` (Windows)】
 ```powershell
 # 日本の有価証券報告書一覧を取得 (EDINET)
 .\economics.exe edinet --date 2026-08-14
@@ -84,20 +107,4 @@ $env:ALPHAVANTAGE_API_KEY = "your_alphavantage_api_key"
 
 # 米国政策金利データを取得 (FRED)
 .\economics.exe fred --series FEDFUNDS
-
-# 日本の名目GDP時系列を取得 (World Bank)
-.\economics.exe worldbank --country JPN --indicator NY.GDP.MKTP.CD
-
-# Apple株価の1ヶ月日足チャートデータを取得 (Yahoo Finance)
-.\economics.exe yfinance --symbol AAPL --range 1mo
-
-# トヨタ自動車(7203.T)の株価を取得 (Alpha Vantage)
-.\economics.exe alphavantage --symbol 7203.T
-```
-
-### 個別 CLI を直接使用する場合
-各バイナリ（`estat.exe`, `edinet.exe`, `sec_edgar.exe`, `fred.exe`, `worldbank.exe`, `yfinance.exe`, `alphavantage.exe`）を直接起動することも可能ですわ。
-```powershell
-.\sec_edgar.exe --ticker AAPL --facts
-.\worldbank.exe --country USA --indicator FP.CPI.TOTL.ZG
 ```

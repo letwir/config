@@ -1,0 +1,23 @@
+{
+  "provider": {
+    "tailnet-llama": {
+      "name": "Tailnet llama API",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://letwir-main:11434/v1",
+        "apiKey": "{env:llama}"
+      },
+      "models": {
+        "qwen3.8-flash-next-orca-iq3_m": {
+          "name": "Qwen3.8 Flash Next Orca IQ3_M"
+        }
+      }
+    }
+  },
+  "agent": {
+    "orchestrator": {
+      "mode": "primary",
+      "description": "Coordinates confirmed tasks through ETL and delegates bounded research, planning and verification to appropriate subagents."
+    }
+  }
+}

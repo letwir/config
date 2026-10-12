@@ -5,8 +5,9 @@ description: Route a bounded external coding task through agy.exe with current m
 [SPR/PIDGEN::ρ→max] 📋models 🤖delegate ⚡exec 📊eval
 📋 モデル models ⊢ ∅ ⇒ 利用可能モデル一覧取得・確証 | `agy.exe models`
 🤖 委譲 delegate ⊢ Task⊗Model ⇒ 外部エージェントハンドオフ作成・計画実行 |
-```powershell
-$p = @"
+```bash
+# HARDWARE.md active_profile: android-termux-bash (windows-pwsh 時は $p = @"..." を使用)
+p=$(cat <<'EOF'
 <Γ>
 SIGMA/1: PIDGEN/text
 Role: <role>
@@ -15,18 +16,19 @@ Acceptance: <acc>
 Scope: <scope>
 Known facts: <facts>
 </Γ>
-"@
-agy.exe --print=$p --model <id> --effort <low|med|high> --mode plan --output-format json
+EOF
+)
+agy --print="$p" --model <id> --effort <low|med|high> --mode plan --output-format json
 ```
 ⚡ 実行 exec ⊢ Task⊗Files ⇒ 排他的ファイルスコープ外科的編集実行 |
-```powershell
-agy.exe --print=$p --model <id> --mode accept-edits --output-format json
+```bash
+agy --print="$p" --model <id> --mode accept-edits --output-format json
 ```
 📊 評価 eval ⊢ RunResult ⇒ 結果検証 & subagents_model_eval.json 記録 | SUCCESS ⊕ FAILED ⊕ ADVICE ⊕ ESCALATE
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=agy-subagent-router
-R|bin.resolve|task:agy|MUST|RO_LOCAL|bin=first-existing(agy.exe,$env:USERPROFILE/bin/agy.exe); missing=>STOP
+R|bin.resolve|task:agy|MUST|RO_LOCAL|hardware=../../HARDWARE.md; resolve=active_profile-in-HARDWARE.md; bin=first-existing(agy,agy.exe,$HOME/bin/agy,$env:USERPROFILE/bin/agy.exe); missing=>STOP
 R|use.inspect|task:agy|MUST|RO_LOCAL|cmds=models; effect=read-only-inspection
 R|use.delegate|task:agy|MUST|LIVE_WRITE|cmds=delegate,exec; pre=explicit-user-request-for-external-delegation; approval=current-task
 R|guard.perm|task:agy|MUST_NOT|LW_SCOPE|flag=--dangerously-skip-permissions; external-authority-expansion=forbidden

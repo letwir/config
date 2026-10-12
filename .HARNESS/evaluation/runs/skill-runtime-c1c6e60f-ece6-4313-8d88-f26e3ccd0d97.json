@@ -1,0 +1,224 @@
+{
+  "schemaVersion": 1,
+  "run_id": "c1c6e60f-ece6-4313-8d88-f26e3ccd0d97",
+  "generated_at": "2026-10-12T01:18:23.666099+00:00",
+  "overall_exit_code": 1,
+  "tools": [
+    {
+      "name": "harness-lint",
+      "required": true,
+      "path": "/data/data/com.termux/files/home/.harness/skills/harness-lint/harness-lint.exe",
+      "finalPath": null,
+      "classification": "Missing",
+      "executableHealthy": "Missing",
+      "catalogObserved": "NotObserved",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "executable": "/data/data/com.termux/files/home/.harness/skills/harness-lint/harness-lint.exe",
+        "args": []
+      },
+      "fileSha256": null,
+      "version": null,
+      "output": null,
+      "error": null
+    },
+    {
+      "name": "proof-checker",
+      "required": true,
+      "path": "/data/data/com.termux/files/home/.harness/skills/proof-checker/proof-checker.exe",
+      "finalPath": null,
+      "classification": "Missing",
+      "executableHealthy": "Missing",
+      "catalogObserved": "NotObserved",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "executable": "/data/data/com.termux/files/home/.harness/skills/proof-checker/proof-checker.exe",
+        "args": []
+      },
+      "fileSha256": null,
+      "version": null,
+      "output": null,
+      "error": null
+    },
+    {
+      "name": "sec-forensics",
+      "required": true,
+      "path": "/data/data/com.termux/files/home/.harness/skills/sec-forensics/sec-forensics.exe",
+      "finalPath": null,
+      "classification": "Missing",
+      "executableHealthy": "Missing",
+      "catalogObserved": "NotObserved",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "executable": "/data/data/com.termux/files/home/.harness/skills/sec-forensics/sec-forensics.exe",
+        "args": []
+      },
+      "fileSha256": null,
+      "version": null,
+      "output": null,
+      "error": null
+    },
+    {
+      "name": "llm-memory",
+      "required": true,
+      "path": "/data/data/com.termux/files/home/.harness/skills/llm-memory/llm-mem.exe",
+      "finalPath": "/data/data/com.termux/files/home/.harness/skills/llm-memory/llm-mem",
+      "classification": "Healthy",
+      "executableHealthy": "Healthy",
+      "catalogObserved": "Observed",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "executable": "/data/data/com.termux/files/home/.harness/skills/llm-memory/llm-mem.exe",
+        "args": []
+      },
+      "fileSha256": "D12365F09B0834609508129DF612AFB6CF92062E8323DF878A176E7DDFC27C90",
+      "version": null,
+      "output": {
+        "exitCode": 1,
+        "timedOut": false,
+        "text": "=== LLM Memory CLI (Bi-Temporal & Multi-Level Knowledge Base) ===\nUsage:\n  llm-mem status                  : DB疎通確認・端末自動登録・統計情報\n  llm-mem ingest [options]        : 統合ナレッジ取り込み (JITMIND自己編集 + 自動多段縮約 + グラフ抽出)\n  llm-mem compact [options]       : 未縮約の古い記憶のバッチ多段要約処理\n  llm-mem add [options]           : 新規記憶の登録 (L0~L3多段対応)\n  llm-mem eval [options]          : 評価を計算して新規イベントとして登録\n  llm-mem evals [options]         : 評価履歴の参照\n  llm-mem survey [options]        : ハーネスアンケートの送信・分類・要望ランキング\n  llm-mem stock [options]         : ストック記憶の簡易一覧表示\n  llm-mem search [options]        : 記憶の横断検索 (キーワード/タグ/カテゴリ)\n  llm-mem semantic [options]      : Gemini embeddingによる意味検索 (要: pgvector migration)\n  llm-mem embed [options]         : 記憶1件をembeddingして保存\n  llm-mem supersede [options]     : 古い記憶の無効化と後続新記憶の登録 (JITMIND流)\n  llm-mem analyze [options]       : diary.md 因果帰属分析 & 双方向フィードバック生成\n  llm-mem graph node [options]    : 知識グラフノードの登録/更新\n  llm-mem graph edge [options]    : 知識グラフ関係性エッジの登録\n  llm-mem graph list [options]    : 有効な知識グラフ関係性の一覧表示\n  llm-mem clients                 : 登録済みクライアント端末一覧\n\nOptions for 'analyze':\n  -file     <string>  : 解析する diary.md ファイルパス (default: 'diary.md' または自動検出)\n  -json               : JSON形式で構造化出力\n  -suggest            : PERSONA.css / MACHINE.toml 最適化パッチDiffの表示\n\nOptions for 'ingest' (Recommended):\n  -file     <string>  : 取り込むMarkdown/テキストファイルのパス\n  -text     <string>  : 直接取り込むテキスト本文\n  -title    <string>  : タイトル (省略時はファイル名や1行目から自動推定)\n  -cat      <string>  : カテゴリ (default: 'knowledge', 'walkthrough', 'rule')\n  -force              : 既存記憶の自己編集判定をスキップし強制新規登録\n  -survey-signals <KIND:n,...> : 改善シグナル（例: DEFECT:1,FRICTION:1,REQUEST:1）\n  -survey-threshold <n>        : 合計シグナル件数がこの値以上ならアンケート案内を表示 (default: 1)\n\nOptions for 'compact':\n  -limit    <int>     : バッチ処理する未縮約レコード上限数 (default: 20)\n\nOptions for 'add':\n  -title    <string>  : 記憶のタイトル (必須)\n  -content  <string>  : L0 Raw 本文 (必須)\n  -cat      <string>  : カテゴリ (default: 'knowledge')\n  -l1       <string>  : L1 要点箇条書き (~30%要約)\n  -l2       <string>  : L2 1行要約 (~5%要約)\n  -tags     <string>  : カンマ区切りタグ\n  -type     <string>  : Memory Object種別 (invariant/decision/constraint/failure/knowledge/procedure/state)\n  -scope    <string>  : 適用範囲 (global/project/subsystem:<name>)\n  -rationale <string> : 採用理由\n  -evidence <string>  : 根拠識別子のカンマ区切り\n  -rejected <string>  : 却下案のカンマ区切り\n  -confidence <float> : 確信度 (0..1)\n\nOptions for 'eval':\n  -file     <string>  : 評価入力JSONファイル (必須)\n  -json               : 登録結果をJSON形式で出力\n\nEvaluation input additions:\n  task_id              : タスク識別子（タスク終了評価では必須）\n  attribution          : PromptDefect / AgentDefect と寄与比率\n\nOptions for 'evals':\n  -key      <string>  : comparison_key (必須)\n  -limit    <int>     : 取得件数 (default: 20)\n  -json               : 評価履歴をJSON形式で出力\n\nOptions for 'survey':\n  show [options] [id]                  : アンケート回答を一覧または詳細表示 (default: 直近5件)\n  template [form-key]                  : 回答提出用JSONの空雛形を出力 (default: harness-feedback)\n  submit -file <path>                  : フォーム定義と回答をJSONから送信\n  list [options]                       : 生回答を新しい順にJSON参照 (default: 直近20件)\n  classify -form <key> -version <n>    : Geminiで回答をテーマ分類\n  rank -form <key> -version <n>        : 最多テーマをランキング\n  default-form                         : (互換用) 組み込みの7設問フォーム単体をJSON出力\n  -classifier <string>                 : 分類器版 (default: gemini-harness-themes/v1)\n  -dry-run                              : classifyで保存せずGemini応答だけ検証\n  -limit <int>                          : show/list/rankの上限 (show default: 5, list/rank: 20)\n  -json                                 : show/list/rankのJSON出力\n\n  Workflow example:\n    llm-mem survey show\n    llm-mem survey template harness-feedback > survey.json\n    llm-mem survey submit -file survey.json\n\nOptions for 'stock':\n  -cat      <string>  : カテゴリフィルタ\n  -limit    <int>     : 取得件数 (default: 20)\n  -json               : 記憶レコードをJSON形式で出力\n\nOptions for 'search':\n  -q        <string>  : 検索キーワード (タイトル・本文部分一致)\n  -tag      <string>  : 指定タグ\n  -cat      <string>  : カテゴリフィルタ\n  -level    <int>     : 表示詳細度 (0:Raw, 1:L1, 2:L2, 3:TagsOnly, default: 1)\n  -limit    <int>     : 取得件数 (default: 10)\n  -json           ",
+        "truncated": true,
+        "sha256": "299D244CEE270CB2E73CCFE2FB5B8FEB7A4D7C2521A2DAD489AB3D88497E7697",
+        "checkedBeforeNormalization": true
+      },
+      "error": null
+    },
+    {
+      "name": "agy",
+      "required": true,
+      "path": "/data/data/com.termux/files/home/AppData/Local/agy/bin/agy.exe",
+      "finalPath": null,
+      "classification": "Missing",
+      "executableHealthy": "Missing",
+      "catalogObserved": "NotObserved",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "executable": "/data/data/com.termux/files/home/AppData/Local/agy/bin/agy.exe",
+        "args": []
+      },
+      "fileSha256": null,
+      "version": null,
+      "output": null,
+      "error": null
+    }
+  ],
+  "clients": [
+    {
+      "name": "Gemini",
+      "required": true,
+      "path": "/data/data/com.termux/files/home/AppData/Roaming/npm/gemini.ps1",
+      "finalPath": null,
+      "classification": "Missing",
+      "executableHealthy": "Missing",
+      "catalogObserved": "NotObserved",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "wrapper": "",
+        "target": "/data/data/com.termux/files/home/AppData/Roaming/npm/gemini.ps1",
+        "args": [
+          "skills",
+          "list"
+        ],
+        "wrapperSha256": null,
+        "targetSha256": null
+      },
+      "fileSha256": null,
+      "version": null,
+      "output": null,
+      "error": null
+    },
+    {
+      "name": "Codex",
+      "required": true,
+      "path": "/data/data/com.termux/files/home/AppData/Roaming/npm/codex.ps1",
+      "finalPath": null,
+      "classification": "Missing",
+      "executableHealthy": "Missing",
+      "catalogObserved": "NotObserved",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "wrapper": "",
+        "target": "/data/data/com.termux/files/home/AppData/Roaming/npm/codex.ps1",
+        "args": [
+          "--help"
+        ],
+        "wrapperSha256": null,
+        "targetSha256": null
+      },
+      "fileSha256": null,
+      "version": null,
+      "output": null,
+      "error": null
+    },
+    {
+      "name": "OpenCode",
+      "required": false,
+      "path": "/data/data/com.termux/files/home/AppData/Roaming/npm/opencode.ps1",
+      "finalPath": null,
+      "classification": "NotConfigured",
+      "executableHealthy": "Missing",
+      "catalogObserved": "NotObserved",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "wrapper": null,
+        "target": "/data/data/com.termux/files/home/AppData/Roaming/npm/opencode.ps1",
+        "args": [
+          "--help"
+        ],
+        "wrapperSha256": null,
+        "targetSha256": null
+      },
+      "fileSha256": null,
+      "version": null,
+      "output": null,
+      "error": null
+    },
+    {
+      "name": "Claude",
+      "required": false,
+      "path": "/data/data/com.termux/files/home/AppData/Roaming/npm/claude.ps1",
+      "finalPath": null,
+      "classification": "NotConfigured",
+      "executableHealthy": "Missing",
+      "catalogObserved": "NotObserved",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "wrapper": null,
+        "target": "/data/data/com.termux/files/home/AppData/Roaming/npm/claude.ps1",
+        "args": [
+          "--help"
+        ],
+        "wrapperSha256": null,
+        "targetSha256": null
+      },
+      "fileSha256": null,
+      "version": null,
+      "output": null,
+      "error": null
+    },
+    {
+      "name": "Agents",
+      "required": false,
+      "path": "/data/data/com.termux/files/home/AppData/Roaming/npm/agents.ps1",
+      "finalPath": null,
+      "classification": "NotConfigured",
+      "executableHealthy": "Missing",
+      "catalogObserved": "NotObserved",
+      "representativeOperation": "UnTested",
+      "commandIdentity": {
+        "wrapper": null,
+        "target": "/data/data/com.termux/files/home/AppData/Roaming/npm/agents.ps1",
+        "args": [
+          "--help"
+        ],
+        "wrapperSha256": null,
+        "targetSha256": null
+      },
+      "fileSha256": null,
+      "version": null,
+      "output": null,
+      "error": null
+    }
+  ],
+  "latest_updated": false
+}

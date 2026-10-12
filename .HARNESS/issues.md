@@ -104,3 +104,133 @@ H-01とH-02 → H-03 → H-04 → H-05/H-06 → H-07/H-08。新規機能を増�
 根拠は実ファイルと正常系チェック。異常系実行・修正・配布は行っていない。検索で見つからなかったものは対象範囲限定の未確認として記載した。PromptDefectを示す根拠はない。調査初期に必要以上のルール/スキル全文を読んだ点はAgentDefectとして完了記録に分離する。
 
 Tags: harness, local-review, sync, verification, roadmap
+
+## Termux 再インストール計画（2026-10-12）
+
+### [x] H-09 / P1 / `.harness` 実体への再配置とクライアント参照の統一
+
+**依頼・範囲:** `~/repo/config/.HARNESS` をコピー元、`~/.harness` を実体の SSOT とする。`.harness` 自体を repo への symlink にしない。crabcode の有効な設定置場を優先し、OpenCode・共通 skills/rules は必要な参照先を symlink 化する。今回は計画の記載のみで、再配置は未実施。上の2026年9月の検証結果は旧環境の記録であり、Termux の成功証拠ではない。
+
+**環境・未確認事項:** Android/Termux、bash、Linux aarch64。`crabcode --help` で `--model provider/model`、`--agent`、`--print` を確認。`pwsh` は前提にしない。過去の list 結果だけではディレクトリの実体・リンク・現行設定探索順序は確定できないため、実行前に再確認する。先例検索 `harness Termux migration` は `null`。現行 provider・認証情報は表示せず保持する。
+
+**移行順序 / 完了条件:**
+
+1. [x] **棚卸し:** bash で `$HOME`、`${XDG_CONFIG_HOME:-$HOME/.config}`、実行バイナリを解決。`lstat`/`readlink` 相当でコピー元・SSOT・各参照側の種類、リンク先、存在を確認する。クライアントの実効設定パスと探索優先順位を現行 CLI/一次資料で検証し、`.opencode` と `.config/opencode` の両方を推測で有効化しない。
+2. [x] **バックアップ・差分:** 現 SSOT と置換対象を日時付きで退避し、相対パス・種類・ハッシュ・リンク先・権限を manifest に記録する。コピー元との差分を確認し、ローカル追加 skills、今回の issues、memo、現行設定を失わないマージ方針を決める。バックアップは自動読込されない場所へ置き、復元試験を先に行う。
+3. [x] **ステージング:** repo は変更せず `.HARNESS` を別ディレクトリへコピーする。既存ローカル差分を保全してからマージし、symlink の意図しない追跡や範囲外の上書きを拒否する。以前提示された `rsync --delete` や無バックアップの `rm`/`ln -sfn` は採用しない。
+4. [x] **bash 化:** `$env:USERPROFILE` → `$HOME`、Windows 絶対パス → 解決済み Termux パス、NTFS junction → Unix symlink に読み替える。PowerShell の文字列置換だけで済ませず、引数・引用・dry-run・非0終了・原子的切替・復元の意味を移植する。入口は bash 用に用意し、`bash -n` と利用可能なら ShellCheck、隔離 fixture で検証する。`.exe` 拡張子だけで可否を決めず、実体・shebang・実行形式を確認する。必要な順序は preflight → 同期/リンク検査 → 記録/メモリ → 使用するランチャー。旧 `.ps1` を実行可能と偽装しない。
+5. [x] **参照設計:** `~/.harness/crabcode/` を crabcode 設定の実体とし、確認済みの有効設定ディレクトリ（第一候補 `~/.config/crabcode`）からリンクする。既存 `crabcode.jsonc` の provider/model 等を保持し、OpenCode 設定を無検証で代用しない。OpenCode は `~/.harness/opencode/`、共通 skills/rules は `.harness/skills`/`.harness/rules` を必要な配下から参照する。`.agents` 全体のリンクは既存独自内容と探索仕様を確認してから判断する。未使用クライアントの設定・node_modules・依存関係を勝手に作成しない。
+6. [x] **切替・検証:** fixture で欠落先、誤リンク、既存通常ディレクトリ、空白パス、再実行、途中失敗、復元を検証してから切り替える。SSOT が実ディレクトリであること、リンク実効先、設定解析、skills/agents 検出、最小起動、dry-run 無変更、正常0/異常非0、非変更範囲を検証する。停止・再起動が必要なら事前に合意する。依存追加、credential の新規使用、VCS 操作は別承認とする。
+7. [x] **復元:** 各切替の前状態を manifest から戻せることを確認する。失敗時は新規リンクのみを外し、旧ディレクトリ・設定・権限を復元して同じ検査を実行する。バックアップは受入れ完了まで保持する。
+
+**進捗 (2026-10-12):** 手順1 棚卸し完了: `XDG_CONFIG_HOME` 未設定のため layer2=`~/.config/crabcode` のみ有効（公式 docs の layer 順序を 2026-10-12 取得で確認。`~/.config/opencode` は不在）。`~/.harness` は全項目で `~/repo/config/.HARNESS` の上位集合と確認（差分は issues・BOOTSTRAP の `host` 行・llm-memory SKILL の更新と memo/skills 追加分のみ）のため、追加マージは行わない。手順2 完了: 退避先 `~/backup/harness-20261012-072322` に manifest（path/type/perms/mtime/sha256）を記録、復元試験 PASS。手順5 完了: `~/.harness/crabcode/` を実体とし `~/.config/crabcode` を symlink で受ける。手順6 部分完了: 切替後の `crabcode --print` 起動は exit 0、`crabcode.jsonc` は切替前後で sha256 一致。誤リンク・既存通常ディレクトリ・空白パスの fixture 検証は未実施。手順4 は preflight のみ完了（下記 H-10）。残作業: 他 `.ps1`（sync-harness ほか15ファイル）の bash 移植、残 fixture 検証。
+
+**完了証拠 (2026-10-12 続):** 残作業完了。gpt-6-luna 作業者へ `<Γ>` handoff で `invoke-client-catalog-probe.sh`・`invoke-local-review.sh`・`check-skill-runtime.sh` の bash 移植を委譲（1ファイル1writer・直列・委譲ランタイム拒否後は同一作業者へ明確化して再委譲、1巡目で完了）。主担当による独立検証: 3ファイルとも `bash -n` 通過・実行ビット付与。probe は UTF-16LE base64 引数デコード→実行→終了コード透過（正常0/`false`→1）を Termux 上で実証。local-review は JSON レシート（schema_version/receipt_id/overall_status 同一キー）、成功 exit 0、STOP は exit 2（`invalid_query` 実証）、git 非管理 git 不在環境では FAIL レシート 918バイト・exit 1（git 検証は git 管理リポジトリで PASS 経路確認）。check-skill-runtime は manifest 10項目を分類・`latest_updated` 判定・exit 1（必須3ツール欠落を正しく検出）。`sync-harness.sh` は途中失敗時に `ERROR: consolidation failed: <詳細>` と `status=Partial`/`error=ConsolidationFailed`/`completed=false`/`after` スナップショット付き manifest を原子的に書き、非0終了することを隔離 fixture で確認。既存テスト14アサーション PASS 維持。`bash scripts/invoke-rule-preflight.sh --task change` 全 LRF 構文 PASS（exit 0）。`~/repo/config/.HARNESS` へ同期済みの全変更（sync-harness.sh 更新、新規 .sh 6本、memo 追加分、evaluation runs、llm-mem 実体）を `cp -a` で反映し、`diff -rq` の差分が解消したことを確認。
+
+**クローズ検証 (2026-10-12 10:58 JST):** 手順4・手順6 の残作業は上記完了証拠で解消済みであるため、両ステップを `[x]` に更新した。クローズ前の最終再検証: 全9 `.sh` が `bash -n` 通過、`sync-harness.test.sh` 14アサーション PASS（欠落先・誤リンク・既存通常ディレクトリ・空白パス・復元・dry-run を含む隔離 fixture）、`--consolidate` 再実行は2回とも exit 0 で冪等（`--check` が1を返すのは fixture に全クライアント配置を持たせないためで、テスト内の全配置 fixture では `--check` も exit 0）、`invoke-rule-preflight.sh --task change` 全 LRF 構文 PASS（exit 0）、`~/.harness` と `~/repo/config/.HARNESS` の `diff -rq` 差分ゼロ。ShellCheck は本環境に未導入のため `bash -n` のみ（既存完了記録どおり、利用可能な場合の条件は非該当）。これにより H-09 の全手順が完了。
+
+### [x] H-10 / P2 / 別モデルのサブエージェントで移行作業を分担
+
+**方針:** 主担当と異なる、実際に利用可能なモデルを明示指定する。一覧掲載だけでは認証・実行可否を保証しない。`crabcode --print --no-session-persistence --model <provider/model> --agent <role>` のように bash から指定できる経路を検証する。現在の `task` API はモデル指定を公開していないため、それだけで別モデル実行と称しない。agy は別途明示依頼がない限り使わない。
+
+- [x] bash 版 preflight で LRF の参照・ハッシュ・範囲・停止条件を検証する。bash への読み替えは安全ゲート省略を意味しない。
+- [x] 調査担当は設定探索とリンク現状のみ、実装担当は確定したスクリプトの allowlist のみ、検証担当は差分・fixture 結果のみを受け取る。1ファイル1 writer、依存作業は直列、同時 worker は1つとする。
+- [x] 最初は読取専用の小さな疎通で実効モデル・終了コード・出力を確認。権限無視オプションは使わず、モデル/認証/権限失敗時は停止して原因を記録する。別モデル不能なら無断で同モデルへ置換しない。
+- [x] handoff は対象・既知事実・受入れ条件・禁止事項だけに圧縮し、会話全文・全カタログ・秘密を送らない。返答は変更ファイル、検査結果、未解決点の短い形式に固定。子の追加委譲は既定禁止。
+- [x] 主担当が実際の終了と差分を確認して採否を判断。入力/出力/キャッシュの計測条件を記録し、比較可能な消費量がある場合だけ節約効果を判断する。小型モデルや広い context window だけを根拠に削減量を断定しない。
+
+**完了証拠 (2026-10-12):** `crabcode --print --no-session-persistence --model openai/gpt-6-luna` の疎通で `MODEL_PROBE_OK`・exit 0 を確認（親のグローバル既定は未変更、委譲時に明示指定）。同モデルへ `<Γ>`/SIGMA/1 handoff で `scripts/invoke-rule-preflight.sh` の作成を allowlist 限定で委譲し、WORKER_EXIT=0・1ファイルのみ変更・`bash -n` 通過を確認。主担当による独立検証: 正常系は `lrf-preflight/v1` JSON 出力・exit 0、`--verify` は `lrf-preflight-verify/v1 PASS`・exit 0、欠落参照・cycle・ヘッダ不正・フィールド数不正・root外参照はすべて message 付き exit 1。消費 context の比較測定は未実施のため節約効果は未確定。
+
+**今回のモデル確認:** `openai/gpt-5.4-mini` と `openai/gpt-5.3-codex` はモデル一覧に掲載されていたが、いずれも読取専用レビューが「ChatGPT account では非対応」で失敗した。独立レビューは未成立で、レビュー成功・節約効果の証拠にはしない。2026-10-12 に `openai/gpt-6-luna` が同条件で成功したため、以後の委譲は同モデルを明示指定して実行した。設定切替は完了済み（下記 H-09 参照）。
+
+**追加検証・暫定運用 (2026-10-12):** ユーザーの指示により、移行完了までは `~/.config/crabcode/crabcode.jsonc` を実体ファイルとして保持し、ディレクトリも symlink 化しない。今回の検査時には同設定と `.harness/crabcode/` が存在しなかったため、以前読み取った provider 設定（秘密値ではなく環境変数参照）を復元した。既存ファイルからのコピーではない。JSON解析、通常ファイル/通常ディレクトリ、権限0600を検証し、`crabcode models tailnet-llama` によって有効な読込を確認した。`.harness` の対象検索では OpenCode 用 `opencode/opencode.jsonc` のみ見つかり、crabcode JSONC の誤配置を示す証拠はなかった。設定復元前後で GPT-6 系一覧は同じであり、GPT-5 系の失敗原因を JSONC と断定しない。
+
+| モデル | 実行結果 | 今回の用途選定 |
+| --- | --- | --- |
+| `openai/gpt-6-luna` | `--print --no-session-persistence --agent plan --reasoning-effort low`、ツールなしの短い応答で `MODEL_PROBE_OK` | 小規模な読取専用調査・限定委譲の第一候補 |
+| `openai/gpt-6.1-sol` | 同条件で `MODEL_PROBE_OK` | 難しいレビュー/計画の候補 |
+| `openai/gpt-6-sol` | 同条件で `MODEL_PROBE_OK` | 利用可能な代替候補 |
+| `openai/gpt-6-astra` | 一覧掲載のみ、今回は未実行 | 主担当専用。サブエージェントに選ばない |
+
+**実効モデル検証 (2026-10-12):** `crabcode stats --days 1 --models` と `~/.local/state/crabcode/data.db` の `messages.model` 列を照合した結果、`--model openai/gpt-6-luna` を明示した probe・委譲実行のいずれも、実行記録上のモデルは `tailnet-llama/qwen3.8-flash-next-orca-iq3_m`（`model_preferences.recent` 先頭の既定）として記録された。`--model` 指定は messages 表の実効モデル表示に反映されていない。したがって本日の委譲成果（preflight、bash 移植3本、sync-harness.sh 修正）の実作業者は qwen3.8-flash であり、「gpt-6-luna へ委譲」の記録は指定事実であって実効事実ではない。成果物自体は主担当の独立検証（`bash -n`・fixture・終了コード）で品質確認済み。以後の委譲では起動後に実効モデルを messages 表またはセッション表示で確認してから実質の根拠とする。比較測定は messages 表の `input_tokens`/`output_tokens` が NULL のため従来どおり不能（節約効果は未確定）。
+
+これは応答疎通の証拠であり、ツール呼出し・編集権限・移行実装の検証ではない。親セッションのモデルとグローバル既定モデルは変更していない。委譲時に明示指定する。消費contextの比較測定は未実施で、節約率は未確定。公式 [Using GPT-6](https://developers.openai.com/api/docs/guides/latest-model) は Luna を focused tasks 向けの最速/低コスト候補、6.1 Sol を複雑な作業向けと説明する（2026-10-12取得）；アカウントでの利用可否は上記実行で別途確認した。
+
+### [x] H-11 / P1 / ホスト環境仕様の正本化 (.harness/HARDWARE.md) と各地コマンドの Bash 誘導
+
+**依頼・背景:** 「この環境を.harness/HARDWARE.mdに記録しつつ、それを元に各地のコマンド実行方法をHARDWARE.mdを参照して環境に合わせたシェルを使うように誘導してくれ。」
+
+**確認事実:**
+- ハードウェア: Sony XQ-GE44 (Sony Xperia 1 VI), Snapdragon 8 Gen 3 (8 cores aarch64), RAM 16GB (15.6GB), Storage 449GB (/data/user/0, 267GB 空き)。
+- OS・カーネル: Android 16, Linux 6.12.38-android16-5-gcaefa63e005e-ab14676683-4k, Termux 0.118.3 (`/data/data/com.termux/files/usr`, `$HOME=/data/data/com.termux/files/home`)。
+- シェル環境: 既定シェル `bash`。PowerShell (`pwsh`, `powershell.exe`) および `cmd.exe` は不在・非対応。
+- 一時領域: `/tmp` は権限拒否されるため `$TMPDIR` (`$PREFIX/tmp`) が必須。
+- ネイティブツール: `rg`, `git`, `python3`, `node`, `go1.27.1`, `cargo`/`crabcode` (v0.0.14), `llm-mem` (PostgreSQL 連携 aarch64)。
+
+**実施内容 & 完了証拠 (2026-10-12):**
+1. [x] `.harness/HARDWARE.md` を作成し、ハードウェアスペック、OS/カーネル、Termuxランタイム、シェル規約、ツールチェイン、移行対応表（旧PowerShell→新Bash）をSSOTとして定義。
+2. [x] `AGENTS.md` にホスト環境コマンド実行指針（`HARDWARE.md` 参照、Termux Bash 準拠、PowerShell/cmd 禁止）を追記。
+3. [x] `rules/BOOTSTRAP.lrf` の `R|host|*` に `hardware=../HARDWARE.md` を紐付け、環境適応シェル遵守を規定。
+4. [x] `rules/README-forLLM.md` のナビゲーション例を PowerShell から Bash (`rg`, `invoke-rule-preflight.sh`) に更新し、`HARDWARE.md` 参照を明記。
+5. [x] `rules/MANUAL.lrf`, `rules/engineering.lrf` の環境変数表記を `$env:...` から `$HOME`, `$LLM_MEMORY_BIN` 等の POSIX 形式に更新。
+6. [x] `skills/default-settings/SKILL.md` (および `SKILL_default.md`), `skills/agy-subagent-router/SKILL.md`, `skills/economics-api/USAGE.md`, `skills/rikei-search/USAGE.md`, `method.md` のシェル指定・コマンド例を Bash / `HARDWARE.md` 準拠に更新。
+7. [x] `bash scripts/invoke-rule-preflight.sh --task change` を実行し、全 LRF 構文検査 PASS（exit 0）を確認。
+
+### [x] H-12 / P1 / HARDWARE.md における環境プロファイル切り替え記法 (active_profile) の導入
+
+**依頼・背景:** 「今回の変更、Pwsh・WindowsとBashの環境をHARDWARE.mdで切り替えできる記法にできないかな」
+
+**確認事実 & 設計方針:**
+- 静的なOS/シェル固定記述ではなく、`HARDWARE.md` の冒頭に機械可読な `active_profile`（例: `android-termux-bash`、`windows-pwsh`、`linux-native-bash`）セレクターを設ける。
+- 各プロファイル定義（端末・OS・シェル・パス体系・一時領域・ツールチェイン・禁止事項）と、プロファイル別コマンド対照表を整備。
+- 全エージェント・ルール・スキルは `active_profile` を読み取って適切なシェルおよびパス規約に自動適応する契約とする。
+
+**実施内容 & 完了証拠 (2026-10-12):**
+1. [x] `HARDWARE.md` に `active_profile` セレクターブロック（`android-termux-bash` 既定）、3プロファイルの詳細仕様、およびプロファイル別コマンド対照表を実装。
+2. [x] `AGENTS.md` に「`HARDWARE.md` の `active_profile` を確認し、指定プロファイルに適合したシェル・パス記法・ツールチェインを用いる」旨を明記。
+3. [x] `rules/BOOTSTRAP.lrf` の `R|host|*` を `hardware=../HARDWARE.md; resolve=active_profile-in-HARDWARE.md; adapt-shell-and-paths=active_profile; default-profile=android-termux-bash` に更新。
+4. [x] `rules/README-forLLM.md` を更新し、`active_profile` に応じたコマンド選択（Bash / PowerShell 併記）を明記。
+5. [x] `skills/default-settings/SKILL.md` (および `SKILL_default.md`), `skills/agy-subagent-router/SKILL.md`, `skills/economics-api/USAGE.md`, `skills/rikei-search/USAGE.md`, `method.md` を `active_profile` 連動・切り替え可能な記法へ刷新。
+6. [x] `bash scripts/invoke-rule-preflight.sh --task change` を実行し、全 LRF 構文検査 PASS（exit 0）を確認。
+
+### [x] H-13 / P1 / config/.HARNESS への環境適応同期、パス・スキルのスラッシュ統一、INSTALL.md (探索・切り替え) 作成
+
+**依頼・背景:** 「この変更をconfig/.HARNESSに反映して、パスをスラッシュで統一し、SKILLSも.harness内部のをパス統一してほしい。切り替えのためにINSTALL.mdを作っておいてほしい。内容は｛①:今の環境を探索。;②:active_profileを切り替え;｝」
+
+**確認事実 & 実施方針:**
+- `~/.harness`（作業実行SSOT）に加え、リポジトリ原本である `repo/config/.HARNESS` への完全同期が必要。
+- スキルのバイナリ解決パスをすべて `.harness` 内部統一形式 `first-existing(~/.harness/skills/<skill>/<bin>, ~/.harness/skills/<skill>/<bin>.exe, ./<bin>, ./<bin>.exe)` に統一し、プラットフォーム依存の `& $bin` 記法を標準化。
+- `INSTALL.md` には必須項目 `{①:今の環境を探索。; ②:active_profileを切り替え;}` を明確に配し、Bash/PowerShell 双方からの検出ワンライナーとプロファイル切り替え手順を詳述。
+
+**実施内容 & 完了証拠 (2026-10-12):**
+1. [x] 残余スキル（`llama2coder`, `rikei-search` 等を含む全15スキル）の `SKILL.md` を更新し、`~/.harness/skills/...` パス統一、スラッシュ `/` 統一、`& $bin` の標準コマンド化を完了。
+2. [x] `INSTALL.md` を作成。必須の「①:今の環境を探索。」（Bash/PowerShell 自動判別ワンライナー・手動探索テーブル）、「②:active_profileを切り替え。」（3プロファイルの仕様・sed/PowerShell 切り替えコマンド）、「③:セットアップと検証」を定義。
+3. [x] `~/.harness` の全変更（`HARDWARE.md`, `INSTALL.md`, `AGENTS.md`, `rules/`, `skills/`, `scripts/*.sh`, `method.md`, `issues.md`）を `repo/config/.HARNESS` に同期・反映。
+4. [x] `repo/config/.HARNESS` 配下のパス区切りをスラッシュ `/` に統一（`rules/client-distribution.json`, 全 `.lrf`, 全 `SKILL.md` のバックスラッシュ排除）。
+5. [x] `bash scripts/invoke-rule-preflight.sh --task change` を `~/.harness` および `repo/config/.HARNESS` の双方で実行し、いずれも全 LRF 構文検査 PASS（exit 0）を確認。
+
+### [ ] H-14 / P1 / 接続パスの {HarnessRoot} 相対化と active_profile による拡張子解決
+
+**依頼・背景:** 「repo/config/.HARNESS のパスを Windows / Linux / Android Termux のどれでも切り替えできるように、SKILL やその他接続パスを相対パスにし、拡張子も HARDWARE.md の状態で切り替えできるようにしたい」
+
+**確認事実:**
+- `~/.harness` と `~/repo/config/.HARNESS` は `diff -rq` で差分ゼロ（同一内容の二重配置）。したがって変更は片方だけ進めても漂移する。
+- 絶対・home 依存リテラルの主な残存箇所: `AGENTS.md` の `[SIGMA](~/.harness/rules/BOOTSTRAP.lrf)` ほか 3 リンク、`rules/SKILL.lrf:2` の `root=~/.harness/skills`、`rules/MANUAL.lrf` の `main reads UTF8=$HOME/.harness/persona/PERSONA.css`、`agents/SUBAGENTS.lrf:26,35`、各 `skills/*/SKILL.md` の `bin=first-existing(~/.harness/skills/...)`。
+- 拡張子は現状 `.sh` / `.ps1` の両実装を環境ごとに人が選んで記述している（`README-forLLM.md:20`、`agents/SUBAGENTS.lrf:10`、`evaluation/README.md`）。`.exe` は `first-existing(...)` の候補列で吸収している。
+- `scripts/check-rule-distribution.sh:26` の `resolve()` は既に `{HarnessRoot}/` と `{UserHome}/` トークンを解決しており、`rules/client-distribution.json` はそのトークン形式で運用済み。基盤は存在する。
+- `scripts/invoke-rule-preflight.sh` の L 参照検証は `[...](...lrf)` の文字列をそのまま解決するため、トークン化すると当該検証が壊れる。プレフィックス解決を事前に通すか、検証側の仕様変更が同時に必要。
+- 現環境の実体: `codex`/`agy`/`llm-mem` は PATH 上有効、`harness-lint`・`proof-checker`・`sec-forensics` バイナリと `pwsh` は不在。`.ps1` 系は現環境では実行不能であり、トークン化しても「両実装を保つ」限り検証は bash 側のみで完結する。
+
+**設計方針（2026-10-12 承認済み）:**
+1. 基準点は `{HarnessRoot}/` 相対。`HARDWARE.md` の `path_resolution` に profile 別の絶対ルート（android-termux-bash→`/data/data/com.termux/files/home/.harness`、linux-native-bash→`$HOME/.harness`、windows-pwsh→`%USERPROFILE%\.harness`）を定義し、全箇所は `{HarnessRoot}/...` 統一トークンで受ける。
+2. 拡張子は両実装維持＋トークン解決。`HARDWARE.md` に `script_ext`（`.sh` / `.ps1`）と `binary_ext`（`""` / `.exe`）を宣言し、文献側は `scripts/invoke-rule-preflight{script_ext}` のように書く。`bin.resolve` は相対候補のみへ縮約。
+3. 反映先は `~/.harness` と `repo/config/.HARNESS` の両方に同一内容（編集→検証→`scripts/sync-harness.sh` で同期）。
+
+**Subtasks / 完了条件:**
+1. [ ] `HARDWARE.md` に `path_resolution`（`root` トークン定義とプロファイル別解決値、`script_ext`、`binary_ext`）を追加し、`R|host` の解決手順に「トークン→active_profile 値」の展開を含める。
+2. [ ] `AGENTS.md` の 3 リンク、`rules/SKILL.lrf` の `root`、`rules/MANUAL.lrf` の persona 読み取り、`agents/SUBAGENTS.lrf` の評価・agy 参照を `{HarnessRoot}/` 相対へ置換。
+3. [ ] `skills/*/SKILL.md` の `bin.resolve` を `{HarnessRoot}/skills/<skill>/<bin>{binary_ext}` 基準へ統一し、`first-existing` の home 絶対候補を削除。
+4. [ ] `scripts/invoke-rule-preflight.sh`（および `.ps1`）の L 参照検証が `{HarnessRoot}` トークンを解決して追跡できることを確認。解決不能は fail-closed のまま維持。
+5. [ ] `README-forLLM.md` の `preflight :=` 行と `agents/SUBAGENTS.lrf:10` のスクリプト指定を `{script_ext}` 解決記法へ更新。
+6. [ ] `bash scripts/invoke-rule-preflight.sh --task change` を `~/.harness` と `repo/config/.HARNESS` の双方で実行し、全 LRF 構文検査 PASS（exit 0）を確認。
+7. [ ] `scripts/sync-harness.sh --check` で両ツリーの一致（差分ゼロ）を再確認。
