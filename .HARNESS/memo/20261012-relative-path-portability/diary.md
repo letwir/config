@@ -16,3 +16,4 @@
 - impact: 環境移行の障壁である home 絶対パスと拡張子の選択が、`HARDWARE.md` の `active_profile` 単一変更へ集約される見通しが確定した。実装は H-14 へ引き継ぎ済み。
 - feedback: なし。
 - rewritten-request: 現依頼のまま
+- followup: H-14 起票内容を含む変更を `repo/config` の main へ push 済み（84842d6..9b436b6、gh auth 経由）。コミット作者識別子は既存履歴と同一（letwir）。
