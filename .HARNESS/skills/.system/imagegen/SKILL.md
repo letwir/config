@@ -3,32 +3,37 @@ name: "imagegen"
 description: "Generate or edit raster images when the task benefits from AI-created bitmap visuals such as photos, illustrations, textures, sprites, mockups, or transparent-background cutouts. Use when Codex should create a brand-new image, transform an existing image, or derive visual variants from references, and the output should be a bitmap asset rather than repo-native code or vector. Do not use when the task is better handled by editing existing SVG/vector/code-native assets, extending an established icon or logo system, or building the visual directly in HTML/CSS/canvas."
 ---
 
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
 # Image Generation Skill
 
-Generates or edits images for the current project (for example website assets, game assets, UI mockups, product mockups, wireframes, logo design, photorealistic images, or infographics).
+Current-project bitmap creation/editing: website/game/UI/product mockups, wireframes, logos, photorealism, infographics, etc.
 
 ## Top-level modes and rules
 
-This skill has exactly two top-level modes:
+Modes=exactly 2:
 
-- **Default built-in tool mode (preferred):** built-in `image_gen` tool for image generation, editing, and transparent-image requests. Does not require `OPENAI_API_KEY`.
-- **Fallback CLI mode:** `scripts/image_gen.py` CLI. Use when the user explicitly asks for or confirms the CLI/API/model path. Requires `OPENAI_API_KEY`.
+- Built-in `image_gen` (default/preferred): generate/edit/transparency; no `OPENAI_API_KEY`.
+- CLI fallback `scripts/image_gen.py`: only explicit user ask/confirmation of CLI/API/model path; requires `OPENAI_API_KEY`.
 
-Within CLI fallback, the CLI exposes three subcommands:
+CLI subcommands:
 
 - `generate`
 - `edit`
 - `generate-batch`
 
 Rules:
-- Use the built-in `image_gen` tool by default for normal image generation and editing requests.
-- Do not switch to CLI fallback for ordinary quality, size, or file-path control.
-- For transparent images, ask built-in `image_gen` for a transparent background and preserve the generated alpha.
+- Normal generation/edit ⇒ built-in `image_gen`.
+- Ordinary quality/size/path control ≠ reason for CLI fallback.
+- Transparency ⇒ request transparent background from built-in; preserve alpha.
 - Never silently switch from built-in `image_gen` or CLI `gpt-image-2` to CLI `gpt-image-1.5`; ask the user first unless they explicitly requested `gpt-image-1.5`.
 - The word `batch` by itself does not mean CLI fallback. If the user asks for many assets or says to batch-generate assets without explicitly asking for CLI/API/model controls, stay on the built-in path and issue one built-in call per requested asset or variant.
 - If the built-in tool fails or is unavailable, tell the user the CLI fallback exists and that it requires `OPENAI_API_KEY`. Proceed only if the user explicitly asks for that fallback.
 - If the user explicitly asks for CLI mode, use the bundled `scripts/image_gen.py` workflow. Do not create one-off SDK runners.
-- Never modify `scripts/image_gen.py`. If something is missing, ask the user before doing anything else.
+- `scripts/image_gen.py` immutable; missing item ⇒ ask user before any further action.
 
 Built-in save-path policy:
 - In built-in tool mode, Codex saves generated images under `$CODEX_HOME/*` by default.
@@ -85,7 +90,7 @@ Execution strategy:
 - In the CLI fallback path, use the CLI `generate-batch` subcommand only when the user explicitly chose CLI mode and needs many prompts/assets.
 - For many distinct assets, do not use `n` as a substitute for separate prompts. `n` is for variants of one prompt; distinct assets need distinct built-in calls or distinct CLI `generate-batch` jobs.
 
-Assume the user wants a new image unless they clearly ask to change an existing one.
+Default intent=generate; existing-image change explicitly clear ⇒ edit.
 
 ## Workflow
 1. Decide the top-level mode: built-in by default, including transparent-output requests; fallback CLI only if explicitly requested or confirmed.

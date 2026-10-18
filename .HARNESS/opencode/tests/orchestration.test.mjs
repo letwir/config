@@ -1,7 +1,8 @@
 import assert from "node:assert/strict"
 import test from "node:test"
 import path from "node:path"
-import { mkdtemp, mkdir, writeFile, rm, symlink } from "node:fs/promises"
+import { mkdtemp, mkdir, writeFile, rm, symlink, realpath } from "node:fs/promises"
+import { tmpdir } from "node:os"
 import orchestration from "../plugins/orchestration.ts"
 
 const { State, Runtime, wrapper, operationFiles, envelope, canonical } = orchestration.testing
@@ -13,7 +14,7 @@ const tick = () => new Promise((resolve) => setTimeout(resolve, 1))
 async function settle(runtime) { for (let i = 0; i < 100 && runtime.pending.size; i++) await tick(); assert.equal(runtime.pending.size, 0) }
 
 async function fixture(t, overrides = {}) {
-  const root = await mkdtemp("A:/TMP/opencode/rts-test-")
+  const root = await mkdtemp(path.join(process.env.TMPDIR ?? tmpdir(), "opencode-rts-test-"))
   await writeFile(path.join(root, "a.txt"), "a"); await writeFile(path.join(root, "b.txt"), "b")
   let n = 0
   const sessions = new Map([["root", { id: "root" }]])
@@ -48,23 +49,86 @@ test("exact wrapper and explicit HTTP envelope validation fail closed", () => {
   assert.equal(envelope({ response: { ok: true } }, "promptAsync", false), undefined)
 })
 
-test("pure reservations enforce max6 including grandchildren, root max4 and immutable ownership", () => {
+test("Runtime-wide capacity allows 20 descendants, rejects 21, and shares budget across roots/nesting", () => {
   const s = new State()
-  for (let i = 0; i < 4; i++) { const j = reserve(s, "root", "researcher", `c${i}`, [], ["a"]); j.session = `ses${i}`; s.sessions.set(j.session, j) }
-  assert.throws(() => reserve(s, "root", "researcher", "fifth"), /slots/)
-  const g = reserve(s, "ses0", "researcher", "grand", [], ["a"]); g.session = "grand-session"; s.sessions.set(g.session, g)
-  assert.equal(g.depth, 2)
-  assert.throws(() => reserve(s, "grand-session", "researcher", "depth3"), /eligible/)
-  assert.throws(() => reserve(s, "ses1", "worker", "write-grand", ["a"], ["a"]), /read-only/)
-  assert.throws(() => reserve(s, "ses1", "researcher", "escape", [], ["b"]), /inherited/)
-  reserve(s, "ses1", "verifier", "sixth", [], ["a"])
-  assert.throws(() => reserve(s, "ses2", "researcher", "seventh", [], ["a"]), /slots/)
-  assert.throws(() => reserve(s, "root", "guessed", "bad"), /allowlist/)
+  for (let i = 0; i < 20; i++) reserve(s, "root", "researcher", `c${i}`)
+  assert.equal(s.jobs.size, 20)
+  assert.throws(() => reserve(s, "second-root", "researcher", "overflow"), /capacity exhausted/)
+  // A separate Runtime owns an independent State and budget.
+  const independent = new State()
+  reserve(independent, "root", "researcher", "independent")
+
+  const nested = new State()
+  const first = reserve(nested, "root-a", "researcher", "root-child", [], ["a"])
+  first.session = "child-a"; nested.sessions.set(first.session, first)
+  const grand = reserve(nested, "child-a", "researcher", "grandchild", [], ["a"])
+  grand.session = "grandchild-session"; nested.sessions.set(grand.session, grand)
+  for (let i = 2; i < 20; i++) reserve(nested, "root-b", "researcher", `other-root-${i}`)
+  assert.equal(nested.jobs.size, 20)
+  assert.throws(() => reserve(nested, "root-b", "researcher", "twenty-first"), /capacity exhausted/)
+  assert.equal(grand.depth, 2)
+  assert.throws(() => reserve(nested, "grandchild-session", "researcher", "depth3"), /eligible/)
+  assert.throws(() => reserve(nested, "child-a", "worker", "write-grand", ["a"], ["a"]), /read-only/)
+  assert.throws(() => reserve(nested, "child-a", "researcher", "escape", [], ["b"]), /inherited/)
+
+  const direct = new State()
+  for (let i = 0; i < 20; i++) reserve(direct, "root", "researcher", `direct-${i}`)
+  assert.throws(() => reserve(direct, "root", "researcher", "direct-21"), /capacity exhausted/)
   const own = new State(); reserve(own, "root", "worker", "w1", ["a"], ["a"])
   assert.throws(() => reserve(own, "root", "worker", "w2", ["a"], ["a"]), /overlapping/)
   assert.throws(() => reserve(own, "root", "auditor", "w3", ["b"], ["b"]), /only worker/)
   const w = own.jobs.get("w1"); w.session = "w"; own.sessions.set("w", w)
   assert.throws(() => reserve(own, "w", "researcher", "leaf"), /eligible/)
+})
+
+test("separate Runtime instances retain independent State capacity", async (t) => {
+  const a = await fixture(t), b = await fixture(t)
+  assert.notEqual(a.runtime.state, b.runtime.state)
+  for (let i = 0; i < 20; i++) reserve(a.runtime.state, "root", "researcher", `a${i}`)
+  reserve(b.runtime.state, "root", "researcher", "b0")
+  assert.equal(a.runtime.state.jobs.size, 20)
+  assert.equal(b.runtime.state.jobs.size, 1)
+})
+
+test("reservations retain capacity while blocked and release it only after confirmed stop", () => {
+  const state = new State()
+  const first = reserve(state, "root-a", "researcher", "reserved")
+  for (let i = 1; i < 20; i++) reserve(state, "root-b", "researcher", `fill-${i}`)
+  assert.equal(first.pendingLaunch, true)
+  assert.throws(() => reserve(state, "root-b", "researcher", "overflow"), /capacity exhausted/)
+
+  first.state = "blocked"
+  assert.equal(first.stopped, false)
+  assert.throws(() => reserve(state, "root-b", "researcher", "still-full"), /capacity exhausted/)
+
+  state.stop(first, "completed")
+  reserve(state, "root-b", "researcher", "slot-reused")
+  assert.equal([...state.jobs.values()].filter((job) => !job.stopped).length, 20)
+})
+
+test("canonical Runtime registry shares state only for the same server and worktree", async (t) => {
+  const a = await fixture(t), b = await fixture(t)
+  const owned = new Set()
+  t.after(async () => { await Promise.all([...owned].map((runtime) => runtime.dispose())) })
+  const openRuntime = async (f, serverUrl = f.input.serverUrl) => {
+    const input = { ...f.input, serverUrl }
+    await orchestration(input)
+    const canonicalRoot = (await realpath(f.root)).toLowerCase()
+    const identity = `${serverUrl.toString()}|${canonicalRoot}`
+    const promise = orchestration.testing.registry.get(identity)
+    assert.ok(promise)
+    const runtime = await promise
+    owned.add(runtime)
+    return runtime
+  }
+
+  const first = await openRuntime(a)
+  assert.equal(await openRuntime(a), first)
+  const otherServer = await openRuntime(a, new URL("http://localhost:5678"))
+  const otherWorktree = await openRuntime(b)
+  assert.notEqual(otherServer, first)
+  assert.notEqual(otherWorktree, first)
+  assert.notEqual(otherWorktree, otherServer)
 })
 
 test("dispatch ID is immediate; real SDK parentID links grandchildren; preflight before each submission", async (t) => {

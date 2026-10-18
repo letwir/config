@@ -2,10 +2,14 @@
 name: create-rule
 description: Create Codex rules for persistent AI guidance. Use when setting up project conventions or .cursor/rules/*.mdc.
 ---
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 [SPR/PIDGIN::ρ→max] 📜rule 🎯scope 📐standards
-📜 ルール rule ⊢ Globs ∧ Standards ⇒ プロジェクト規約定義 | `.cursor/rules/<name>.mdc`
-🎯 適用 scope ⊢ Always ∨ Glob ⇒ 常時適用（`alwaysApply: true`）またはファイルパターン一致（`globs: "**/*.ts"`）
-📐 規約 standards ⊢ StyleGuideline ⇒ 言語規約・設計パターン・必須規約の明確化
+🔎 RuleAuthoring(task) ∧ Globs ∧ Standards ⊢ define_project_guidance → `.cursor/rules/<name>.mdc`
+🎯 Scope ∈ {Always(`alwaysApply: true`), matching_files(`globs: "**/*.ts"`)} → specify_when_rule_applies
+📐 Standards ∈ {style_guidelines, design_patterns, required_conventions} → make_project_expectations_explicit
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=create-rule

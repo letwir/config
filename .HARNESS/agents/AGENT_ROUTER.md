@@ -1,3 +1,8 @@
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
 [SPR/XML::ρ→max|target:AGENT_ROUTER|legibility:LLM≫human]
 # Agent Router
 <router auth="rules/BOOTSTRAP.lrf, rules/MANUAL.lrf, agents/SUBAGENTS.lrf">
@@ -20,14 +25,14 @@ worker-gpt-fallback: legacy agy.failure compatibility⇒Codex_GPT_family(accept-
 </routes>
 
 <constraints>
-Hierarchy: root owns dispatch; root(0)→child(1)→grandchild(2); ¬great-grandchild; ¬codex⇒root_local
-Diff: uncertainty⊕scope⊕risk⊕verify_burden ↦ {easy,med,hard} ↦ model
-CSS: 1 persona_CSS/invocation (stance⊗difficulty) ∨ {COMPRESSOR|ORCHESTRATOR|FILEREADER}; FileReader fixed=FILEREADER.css(persona=🌼 ⊕ お嬢様); all other role CSS dynamic; ¬main_persona; ¬SUBAGENTS.css; CSS=presentation-only
-FileReader: ordinary_file_lookup⇒FileReader when delegation/runtime permits; hits⇒only (repository-relative-path,line_number) tuples with no status prefix ∧ ¬excerpt∧¬snippet∧¬match_text∧¬content∧¬summary∧¬absolute_path; zero_hits_after_completed_search⇒exactly NO_MATCH; operational/search/permission/IO error⇒sanitized FAILED. Stuck/sparse/repetitive investigation⇒Explorer broad high-recall; preserve ¬topic/source precision filters.
-Backend: ≤1 active worker/workstream; select among eligible currently available workers by smallest comparable measured context consumption for the bounded task (same accounting, workload and scope); context window capacity ≠ consumed context; if no comparable measurements use evaluation/worker-context-priority.json dated nonnormative user heuristic in listed order, skipping unavailable/ineligible models; no invented figures; update measurements only from attributable official comparable sources when found; agy opt-in only, never default; llama=single-file_stdout; operational failure⇒stop_or_confirm_exit+inspect_partial_diff⇒serial_same_scope_reselection; Astra⇒leaf_no_subagent_dispatch; ¬fallback(auth|policy|approval|credential|permission)
-Isolation: Researcher/Explorer ¬CODE; Worker ¬external/OOB_write
+Hierarchy: root owns(dispatch); root0→child1→grandchild2; ¬great-grandchild; ¬codex⇒root_local
+Diff: (uncertainty⊕scope⊕risk⊕verify_burden)↦{easy,med,hard}↦model
+CSS: per invocation=1 persona_CSS(stance⊗difficulty)∨{COMPRESSOR|ORCHESTRATOR|FILEREADER}; FileReader fixed=FILEREADER.css(persona=🌼⊕お嬢様); others dynamic; ¬main_persona∧¬SUBAGENTS.css; CSS=presentation-only
+FileReader: ordinary_file_lookup⇒FileReader iff delegation/runtime permits; hits⇒only(repository-relative-path,line_number) tuples; ¬status_prefix∧¬excerpt∧¬snippet∧¬match_text∧¬content∧¬summary∧¬absolute_path; completed_search∧zero_hits⇒exactly NO_MATCH; operational/search/permission/IO error⇒sanitized FAILED. Stuck∨sparse∨repetitive investigation⇒Explorer(broad high-recall); retain ¬topic/source precision filters.
+Backend: ≤1 active worker/workstream; eligible∧available⇒argmin(comparable measured context consumption for bounded task; identical accounting/workload/scope); capacity≠consumption; absent comparable measurement⇒evaluation/worker-context-priority.json dated nonnormative user heuristic order, skip unavailable/ineligible; ¬invent(figures); update measurements iff attributable official comparable sources found; agy=opt-in only∧¬default; llama=single-file_stdout; operational failure⇒stop_or_confirm_exit→inspect_partial_diff→serial_same_scope_reselection; Astra⇒leaf_no_subagent_dispatch; ¬fallback(auth|policy|approval|credential|permission)
+Isolation: Researcher/Explorer¬CODE; Worker¬external/OOB_write
 Handoff: rules/MANUAL.lrf envelope; scoped_facts_only
-Concurrency: ≤6 independent children concurrently when runtime slots permit; unlimited total invocations; 1_writer/file; ordered dependencies remain serial
+Concurrency: per Runtime(exact server identity+canonical worktree): ≤20 active descendants total incl grandchildren; ≤20 direct root children; roots sharing Runtime share first-come slots; saturation⇒immediate reject; ¬queue∧¬fair-share∧¬preemption; total invocations=unlimited; 1_writer/file; ordered dependencies=serial
 </constraints>
 
 <backend_bounds>

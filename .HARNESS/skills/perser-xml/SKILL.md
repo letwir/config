@@ -2,11 +2,13 @@
 name: universal-html-interpreter
 description: HTML/XML files interpreter. Extract structured information (JSON-LD, OGP, Metadata, Site-specific details) from HTML files.
 ---
-[SPR/PIDGIN::ρ→max] 🌐parse 🏷️meta 📦jsonld 🛍️dmm
-🌐 解析 parse ⊢ HTMLFilePath ⇒ メタデータ・JSON-LD・OGP一括抽出 | `go run scripts/interpret.go <html-file>`
-🏷️ メタ meta ⊢ Title ∧ OGP ⇒ `<title>`, `<meta>`, OGPタグ抽出
-📦 構造化 jsonld ⊢ JSON-LD ⇒ `application/ld+json` オブジェクト配列抽出
-🛍️ 特化 dmm ⊢ SKU ∧ Maker ⇒ DMM/FANZA等ECサイト特定項目（品番、メーカー、配信日）抽出
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
+[SPR/PIDGIN::ρ→max|target:HTML-metadata-interpreter|legibility:LLM≫human] 🌐parse 🏷️meta 📦jsonld 🛍️dmm
+🔎 HTML/XML-file request ⊢ HTML file; `go run scripts/interpret.go <html-file>` → interpret supported HTML → title∪meta∪OGP∪`application/ld+json` object arrays∪[DMM/FANZA: SKU,item#,maker,release-date where present]. XML extent=unspecified. ⛔ unsupported claims∪fabricated results; ✅ return only extracted information.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=universal-html-interpreter

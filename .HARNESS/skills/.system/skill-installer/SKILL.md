@@ -4,21 +4,26 @@ description: Install Codex skills into $CODEX_HOME/skills from a curated list or
 metadata:
   short-description: Install curated skills from openai/skills or other repos
 ---
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
+[SPR/XML::ρ→max|target:skill-installer|legibility:LLM≫human]
 # Skill Installer
 
-Helps install skills. By default these are from https://github.com/openai/skills/tree/main/skills/.curated, but users can also provide other locations. Experimental skills live in https://github.com/openai/skills/tree/main/skills/.experimental and can be installed the same way.
+🎯 skill-management: default source=https://github.com/openai/skills/tree/main/skills/.curated; user may specify another location. Experimental source=https://github.com/openai/skills/tree/main/skills/.experimental; same installation procedure.
 
-Use the helper scripts based on the task:
-- List skills when the user asks what is available, or if the user uses this skill without specifying what to do. Default listing is `.curated`, but you can pass `--path skills/.experimental` when they ask about experimental skills.
-- Install from the curated list when the user provides a skill name.
-- Install from another repo when the user provides a GitHub repo/path (including private repos).
+⊢ choose helper action by request:
+- 🔎 list when user asks availability ∨ invokes skill without specifying action. Default `.curated`; experimental request⇒pass `--path skills/.experimental`.
+- 📦 curated install when user supplies skill name.
+- 📦 other-repository install when user supplies GitHub repo/path, private repositories included.
 
-Install skills with the helper scripts.
+⊢ install only through helper scripts; every script uses network. In sandbox, request escalation before running them.
 
 ## Communication
 
-When listing skills, output approximately as follows, depending on the context of the user's request. If they ask about experimental skills, list from `.experimental` instead of `.curated` and label the source accordingly:
+🔎 For listing, adapt the following output to request context. Experimental request⇒list `.experimental` and label source:
 """
 Skills from {repo}:
 1. skill-1
@@ -27,11 +32,9 @@ Skills from {repo}:
 Which ones would you like installed?
 """
 
-After installing a skill, tell the user it will be available on their next turn.
+✅ After successful installation, tell user skill is available on their next turn.
 
 ## Scripts
-
-All of these scripts use network, so when running in the sandbox, request escalation when running them.
 
 - `scripts/list-skills.py` (prints skills list with installed annotations)
 - `scripts/list-skills.py --format json`
@@ -42,17 +45,17 @@ All of these scripts use network, so when running in the sandbox, request escala
 
 ## Behavior and Options
 
-- Defaults to direct download for public GitHub repos.
-- If download fails with auth/permission errors, falls back to git sparse checkout.
-- Aborts if the destination skill directory already exists.
-- Installs into `$CODEX_HOME/skills/<skill-name>` (defaults to `~/.codex/skills`).
-- Multiple `--path` values install multiple skills in one run, each named from the path basename unless `--name` is supplied.
+- Public GitHub repo default⇒direct download.
+- ⛔ Download auth/permission failure⇒git sparse-checkout fallback.
+- ⛔ Destination skill directory already exists⇒abort.
+- 📍 destination `$CODEX_HOME/skills/<skill-name>`; default `~/.codex/skills`.
+- Multiple `--path` values⇒install each skill; name=path basename unless `--name` supplied.
 - Options: `--ref <ref>` (default `main`), `--dest <path>`, `--method auto|download|git`.
 
 ## Notes
 
-- Curated listing is fetched from `https://github.com/openai/skills/tree/main/skills/.curated` via the GitHub API. If it is unavailable, explain the error and exit.
-- Private GitHub repos can be accessed via existing git credentials or optional `GITHUB_TOKEN`/`GH_TOKEN` for download.
-- Git fallback tries HTTPS first, then SSH.
-- The skills at https://github.com/openai/skills/tree/main/skills/.system are preinstalled, so no need to help users install those. If they ask, just explain this. If they insist, you can download and overwrite.
-- Installed annotations come from `$CODEX_HOME/skills`.
+- Curated listing uses GitHub API at `https://github.com/openai/skills/tree/main/skills/.curated`. If unavailable, explain error and exit.
+- Private GitHub repo access may use existing git credentials or optional `GITHUB_TOKEN`/`GH_TOKEN` for download. Do not request or expose credentials.
+- Git fallback order: HTTPS, then SSH.
+- Skills at https://github.com/openai/skills/tree/main/skills/.system are preinstalled; normally explain this rather than installing. If user insists, download and overwrite.
+- Installed annotations source: `$CODEX_HOME/skills`.

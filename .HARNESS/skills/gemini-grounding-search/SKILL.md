@@ -2,9 +2,15 @@
 name: gemini-grounding-search
 description: Use GEMINI_GROUNDING_API_KEY to perform Google search via Gemini's Grounding API, returning structured search results with source attribution. Works from any project.
 ---
-[SPR/PIDGIN::ρ→max] 🌐search 📰qiita
-🌐 検索 search ⊢ Query ⇒ Google Search Grounding実時間Web検索(ソース引用付) | `$bin --search "<query>"`
-📰 記事 qiita ⊢ ItemID∨Word ⇒ Qiita記事メタデータ取得(自動検知連携 ∨ 直接検索) | `$qiita item <id> [--json]` ∨ `--search "<query>"`
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
+🔎 search🌐: request current web information/source-backed research → Google Search Grounding.
+📰 Qiita: request article metadata by ItemID ∨ search words → Qiita lookup.
+⊢ Search(Query) → `$bin --search "<query>"` → web search results with source attribution. Qiita(ItemID ∨ Word) → `$qiita item <id> [--json]` ∨ `--search "<query>"` → article metadata (automatic-detection integration ∨ direct search).
+∴ Output requested retrieved information with source attribution; do not present unverified claims as facts. ⛔ missing command/setup or retrieval failure → report failure; no fabricated result or citation. ✅ success iff requested search results/metadata returned with attribution as applicable.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=gemini-grounding-search

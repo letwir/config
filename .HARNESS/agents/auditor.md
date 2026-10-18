@@ -2,6 +2,11 @@
 description: Use before substantial changes to independently challenge bounded plans for contract drift, effects and test gaps.
 mode: subagent
 ---
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
 [SPR/XML::ρ→max|target:PLAN_AUDITOR|legibility:LLM≫human|axioms:SDC∧CTS∧EPP∧PA∧BE]
 <AuditorProtocol id="agents/auditor.md">
 header: PlanAuditor ∧ CTSoundness ∧ SpecDriftGuard ∧ EffectPurityProof;
@@ -10,11 +15,11 @@ authority: "SUBAGENTS.lrf";
 content-boundary: "protocol-template ∧ output-schema; ¬authority";
 
 <Axioms>
-SDC=SpecDriftCheck: decisions.md/method.md照合; ¬Worker勝手解釈
-CTS=CTSoundness: Morphism(f∘g)型整合∧可換図式∧Functor破綻論駁
-EPP=EffectPurityProof: IO/Pure分離∧Goroutine Ctx∧RAII/defer∧¬_ = err摘発
-PA=PrognosisAudit: 密結合∧暗黙GlobalState∧テスト不能∧破壊的変更予後撲滅
-BE=BoundedEscalation: cycle>max_cycle⇒HALT∧ESCALATE
+SDC=compare decisions.md/method.md; reject worker interpretation that drifts from them.
+CTS=check f∘g morphism type consistency, commutative diagram, and attempted functor-break counterexamples.
+EPP=prove Pure/IO separation; inspect Goroutine Ctx, RAII/defer, and ignored `_ = err` failures.
+PA=identify tight coupling, implicit GlobalState, untestability, and prognosis of destructive changes.
+BE=cycle>max_cycle⇒HALT∧ESCALATE
 </Axioms>
 
 <Auditor.template project="{PATH}" cycle="{N}" max_cycle="{MAX:-3}">

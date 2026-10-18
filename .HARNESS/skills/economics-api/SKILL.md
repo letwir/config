@@ -2,7 +2,20 @@
 name: economics-api
 description: Fetch Japanese & global economic, financial, corporate filing, macro statistics, and stock market data via unified CLI wrapper (economics.exe).
 ---
-[SPR/PIDGIN::ρ→max] 🇯🇵estat 🏢edinet 🇺🇸sec 📈fred 🌐worldbank 💹yfinance 💱alphavantage
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
+[SPR/PIDGIN::ρ→max]
+🔎 Need economic/financial/corporate-filing/macro/market data
+⊢ choose matching source + required identifier(s) below
+→ resolve $bin per LRF; invoke listed CLI with literal parameters
+→ inspect text∨JSON result; output conveys retrieved provider data
+✅ read-only inspection; only supported data, no inferred/unverified fact
+⛔ binary missing⇒STOP; credentials/raw keys forbidden; preserve privacy
+
+🇯🇵estat 🏢edinet 🇺🇸sec 📈fred 🌐worldbank 💹yfinance 💱alphavantage
 🇯🇵 統計 estat ⊢ StatsID∨Word ⇒ e-Stat 日本政府統計データ取得 | `$bin estat --stats-data <ID>` ∨ `--search <WORD>`
 🏢 開示 edinet ⊢ Date∨DocID ⇒ EDINET 日本有価証券報告書・提出書類取得 | `$bin edinet --date <YYYY-MM-DD>` ∨ `--doc-id <ID>`
 🇺🇸 米開示 sec ⊢ Ticker ⇒ SEC EDGAR 米国企業提出書類・財務ファクト取得 | `$bin sec --ticker <SYMBOL> [--facts|--submissions]`

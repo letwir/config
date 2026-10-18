@@ -1,0 +1,26 @@
+{
+  "task_id": "20261018-polygllyph-format-lint",
+  "comparison_key": "polyglyph-instruction-migration-lint",
+  "task_family": "llm-instruction-format-migration",
+  "role": "main",
+  "axes": {
+    "request_clarity": 1.0,
+    "acceptance_completion": 0.0,
+    "scope_preservation": 1.0,
+    "artifact_integrity": 0.0
+  },
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "Repeated worker dispatch attempts did not produce the linter or migrations; one partial worker generated a preservation fixture whose hashes failed independent verification for 8 files.",
+      "Repeated path-base confusion and excessive audit/dispatch retries delayed the task without reaching acceptance."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  },
+  "evidence_refs": [
+    "memo/20261018-polygllyph-format-lint/plan.md",
+    "memo/20261018-polygllyph-format-lint/diary.md",
+    "memo/20261018-polygllyph-format-lint/walkthrough.md"
+  ]
+}

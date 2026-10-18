@@ -1,0 +1,51 @@
+{
+  "schema": "llm-memory-receipt-manifest/v1",
+  "manifest_id": "mem-cf395cff2ea77b2d9a6ee306",
+  "task_id": "20261018-rts-parallel-capacity-20",
+  "receipts": [
+    {
+      "file": "plan.md",
+      "category": "plan",
+      "status": "SUCCESS",
+      "receipt_id": "e93057ec-dfc0-4e0a-8c5f-6c1510203f81"
+    },
+    {
+      "file": "knowledge.md",
+      "category": "knowledge",
+      "status": "SUCCESS",
+      "receipt_id": "1181d519-ad1f-4f49-b1de-572d12ad0d32"
+    },
+    {
+      "file": "diary.md",
+      "category": "diary",
+      "status": "SUCCESS",
+      "receipt_id": "cf4403a8-dfd0-4415-aeeb-a175b7d805d6",
+      "note": "Original content before attribution correction"
+    },
+    {
+      "file": "walkthrough.md",
+      "category": "walkthrough",
+      "status": "SUCCESS",
+      "receipt_id": "1ae2d236-bc1e-4217-9350-2cd387cf813b"
+    },
+    {
+      "file": "evaluation.json",
+      "category": "evaluation",
+      "status": "SUCCESS",
+      "receipt_id": "fbbb465b-63d2-4576-b6a5-ccf73469d2ea"
+    },
+    {
+      "file": "diary.md",
+      "category": "diary",
+      "status": "FAILED",
+      "reason": "process_error",
+      "note": "Corrected file rejected by memory self-edit; normal and -force retries failed"
+    },
+    {
+      "file": "diary-correction.md",
+      "category": "diary",
+      "status": "SUCCESS",
+      "receipt_id": "69c63efe-9292-4357-ab2f-40ef96983e7c"
+    }
+  ]
+}

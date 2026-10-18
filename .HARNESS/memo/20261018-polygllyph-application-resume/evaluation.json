@@ -1,0 +1,28 @@
+{
+  "task_id": "20261018-polygllyph-application-resume",
+  "comparison_key": "polyglyph-harness-instruction-migration-v1",
+  "task_family": "llm-instruction-format-migration",
+  "role": "main",
+  "axes": {
+    "scope_completion": 1.0,
+    "structural_validation": 1.0,
+    "frozen_region_preservation": 1.0,
+    "representative_semantic_review": 1.0,
+    "formal_or_cross_model_equivalence_proof": 0.0
+  },
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "Several worker attempts confused workspace-relative policy paths or reported only marker insertion; parent reselected narrower workstreams and independently corrected/verified failures before acceptance."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  },
+  "evidence_refs": [
+    "memo/20261018-polygllyph-application-resume/plan.md",
+    "memo/20261018-polygllyph-application-resume/knowledge.md",
+    "memo/20261018-polygllyph-application-resume/diary.md",
+    "memo/20261018-polygllyph-application-resume/walkthrough.md",
+    "memo/20261018-polygllyph-application-resume/semantic-review.md"
+  ]
+}

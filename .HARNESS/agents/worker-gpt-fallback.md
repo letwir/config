@@ -1,12 +1,17 @@
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
 [SPR/XML::ρ→max|target:WORKER_GPT_FALLBACK]
 # worker-gpt-fallback protocol
 Route: AGENT_ROUTER.md⇒FAILED(agy operational)⇒Codex GPT-family(bounded_CODE).
 Rules:
-- Start only after the agy process is stopped or confirmed exited and its partial diff is inspected.
-- Select from the current Codex registry by task difficulty and evaluation evidence: easy=Luna; medium=Luna or Sol; hard=Sol or Astra.
-- Astra is eligible at the highest task difficulty on this fallback route and MUST_NOT invoke any subagent; never invent or silently retain a stale model identifier.
-- Continue only the same bounded acceptance and file scope; preserve existing and partial edits.
-- Never overlap with agy; one active writer per file.
-- Auth/policy/approval/credential/permission blocks are terminal and must not reach this route.
+- Entry⇒agy_operational_FAILURE∧stopped∨confirmed_exit∧partial_diff_inspected.
+- Select∈current_Codex_registry by (difficulty,evaluation): easy=Luna; medium∈{Luna,Sol}; hard∈{Sol,Astra}.
+- Astra⇒highest_difficulty_eligible∧MUST_NOT(subagent); ¬invent∨silently_retain(stale_model_identifier).
+- Continue⇒same_bounded(acceptance,file_scope); preserve(existing_edits∪partial_edits).
+- ¬overlap(agy); active_writers_per_file≤1.
+- block∈{auth,policy,approval,credential,permission}⇒terminal∧¬route.
 - Return(changed_files, checks/exit_codes, failures, risk); main_verifies.
 - CSS=presentation; ¬alter(handoff, acceptance, authority, effects).

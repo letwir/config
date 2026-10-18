@@ -3,10 +3,15 @@ name: create-subagent
 description: Create custom subagents for specialized AI tasks (code reviewers, debuggers, domain assistants).
 disable-model-invocation: true
 ---
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
 [SPR/PIDGIN::ρ→max] 🤖agent 📂scope 🎯dispatch
-🤖 サブエージェント agent ⊢ Name ∧ Prompt ⇒ 特化型サブエージェント作成 | `<name>.md`（name, description, system prompt）
-📂 スコープ scope ⊢ Project ∨ User ⇒ プロジェクト用 `.cursor/agents/`（高優先） ∨ ユーザー用 `~/.cursor/agents/`
-🎯 委譲 dispatch ⊢ Description ⇒ 委譲トリガーを明確化（AIが委譲判断できる明確な説明文）
+🤖agent ⊢ Name ∧ Prompt → custom-specialist `<name>.md` {name,description,system prompt}; examples={code reviewer,debugger,domain assistant}
+📂scope ⊢ target∈{Project,User} → Project:`.cursor/agents/` (priority↑) | User:`~/.cursor/agents/`
+🎯dispatch ⊢ Description → explicit, concrete delegation-trigger text (AI can decide when to delegate)
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=create-subagent

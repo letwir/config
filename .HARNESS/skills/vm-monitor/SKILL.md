@@ -2,13 +2,20 @@
 name: vm-monitor
 description: VictoriaMetrics cluster monitoring, MetricsQL/PromQL instant/range query execution, TSDB health verification, and intelligent spare compute resource capacity analysis.
 ---
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
 [SPR/PIDGIN::ρ→max] 🩺status 📊metrics ⚡query 📈query_range 🖥️nodes 💡suggest
-🩺 疎通 status ⊢ ∅ ⇒ TSDB健全性 ∧ 系列数 ∧ メトリクス概要 | `$bin -status` ∨ `$bin -url <URL> -status`
-📊 系列 metrics ⊢ Keyword ⇒ 登録メトリクス系列一覧・検索 | `$bin -metrics` ∨ `$bin -search "<keyword>"`
-⚡ 即時 query ⊢ MetricsQL ⇒ 即時ベクトル評価・PromQL実行 | `$bin -query "<expr>" [-format json]`
-📈 範囲 query_range ⊢ MetricsQL⊗Start⊗End⊗Step ⇒ 範囲クエリ実行 | `$bin -query-range "<expr>" -start "<start>" -end "<end>" -step "<step>"`
-🖥️ ノード nodes ⊢ ∅ ⇒ ノード別リソース集計(CPU/RAM/Disk/Load1) | `$bin -nodes` ∨ `$bin -top`
-💡 推奨 suggest ⊢ ∅ ⇒ 余剰コンピュート容量スコアリング & ワークロード配置提案 | `$bin -suggest` ∨ `$bin -capacity`
+🩺status ⊢ ∅ ⇒ inspect TSDB health + series count + metric overview; connectivity/health status only, not a write. | `$bin -status` ∨ `$bin -url <URL> -status`
+📊metrics ⊢ Keyword ⇒ list/search registered metric series; keyword narrows search. | `$bin -metrics` ∨ `$bin -search "<keyword>"`
+⚡query ⊢ MetricsQL/PromQL expr ⇒ instant-vector evaluation; result reflects queried expression/time, not an unqualified capacity guarantee. | `$bin -query "<expr>" [-format json]`
+📈query_range ⊢ MetricsQL/PromQL expr ⊗ Start ⊗ End ⊗ Step ⇒ evaluate across requested interval/step; returned samples are time-bounded. | `$bin -query-range "<expr>" -start "<start>" -end "<end>" -step "<step>"`
+🖥️nodes ⊢ ∅ ⇒ per-node aggregate CPU/RAM/Disk/Load1; `-top` is alternate node view. | `$bin -nodes` ∨ `$bin -top`
+💡suggest ⊢ ∅ ⇒ score spare compute capacity + suggest workload placement; recommendation ≠ guaranteed available capacity or safe placement. | `$bin -suggest` ∨ `$bin -capacity`
+Interpretation: query values/series describe observed VictoriaMetrics data; empty, stale, partial, or failed responses do not prove zero usage, health, or capacity. Distinguish query/transport failure from valid results; if source, freshness, units, scope, or result meaning is unclear, preserve uncertainty and do not infer.
+Boundary: monitoring/query commands are read-only; do not modify metrics, nodes, workloads, or service configuration. Capacity suggestions are estimates, not authorization to allocate/deploy; no threshold, reserve, freshness window, or placement guarantee is specified here.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=vm-monitor

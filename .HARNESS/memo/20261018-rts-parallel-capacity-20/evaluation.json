@@ -1,0 +1,26 @@
+{
+  "task_id": "20261018-rts-parallel-capacity-20",
+  "comparison_key": "rts-descendant-capacity-20-v1",
+  "task_family": "runtime-concurrency-configuration",
+  "role": "main",
+  "axes": {
+    "request_match": 1.0,
+    "safety_boundary_preservation": 1.0,
+    "deterministic_checks": 1.0,
+    "live_runtime_integration": 0.5
+  },
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "Initial worker mislocated the required rules/README-forLLM.md navigation file and stopped; serial reselection corrected this.",
+      "Initial implementation omitted explicit capacity release/retention and registry-key assertions; independent review caught this and main added tests before acceptance."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  },
+  "evidence_refs": [
+    "memo/20261018-rts-parallel-capacity-20/plan.md",
+    "memo/20261018-rts-parallel-capacity-20/knowledge.md",
+    "memo/20261018-rts-parallel-capacity-20/walkthrough.md"
+  ]
+}

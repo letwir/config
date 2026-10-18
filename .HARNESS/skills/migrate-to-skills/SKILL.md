@@ -3,11 +3,19 @@ name: migrate-to-skills
 description: Convert intelligent rules (.cursor/rules/*.mdc) and slash commands (.cursor/commands/*.md) to Agent Skills format (.cursor/skills/).
 disable-model-invocation: true
 ---
-[SPR/PIDGIN::ρ→max] 🚚migrate 📜rule2skill ⚡cmd2skill 🔄undo
-🚚 移行 migrate ⊢ Rules ∨ Commands ⇒ Agent Skills形式へ一括移行 | `.cursor/skills/<name>/SKILL.md`
-📜 ルール rule2skill ⊢ .mdc ⇒ Frontmatter改編（name/description付与、globs削除、本文完全保持）
-⚡ コマンド cmd2skill ⊢ .md ⇒ `disable-model-invocation: true` 付与、本文完全保持
-🔄 復元 undo ⊢ Backup ⇒ 移行前バックアップからのロールバック復元
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
+[SPR/PIDGIN::ρ→max|task:migrate-to-skills|map:input→operation→result]
+🔎 Trigger: explicit migration request for `.cursor/rules/*.mdc`, `.cursor/commands/*.md`, or a requested rollback from migration backups.
+⊢ Scope: only those requested source rule/command files and their corresponding `.cursor/skills/<name>/SKILL.md` outputs; no unrelated files.
+📜 Rule: `.mdc` ⇒ add `name`/`description`, remove `globs`; condition=has-description-and-no-globs-and-not-alwaysApply; preserve body verbatim, without reformatting.
+⚡ Command: `.md` ⇒ add `disable-model-invocation: true`; preserve body verbatim, without reformatting.
+🔄 Rollback: restore from migration-before backup; delete originals only after output verification; retain required undo guidance.
+⛔ Failure/ambiguity: do not guess, broaden scope, or delete unverified originals; stop and report the unresolved input or failed verification.
+✅ Success: verified output at `.cursor/skills/<name>/SKILL.md` with required frontmatter and unchanged body; rollback restores the pre-migration state.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=migrate-to-skills

@@ -1,0 +1,342 @@
+{
+  "revision": "6a8889674bd01d867e9374430dbab46ebd3115b8",
+  "files": {
+    "AGENTS.md": {
+      "frontmatter": null,
+      "fences": [],
+      "lrf": null
+    },
+    "agents/AGENT_ROUTER.md": {
+      "frontmatter": null,
+      "fences": [],
+      "lrf": null
+    },
+    "agents/auditor.md": {
+      "frontmatter": "4c9ce44810ea5f92133583ac130e9f9677fdbb1c98ad9c567f46416bd938bf3c",
+      "fences": [
+        "c26ee956b42dc50b8f17bd7ac93aed5394faae7d93b696606e3623ccba3d9479"
+      ],
+      "lrf": null
+    },
+    "agents/blackhat.md": {
+      "frontmatter": "e4dbf6efd36ed601a0774f1a25c7885a90b801ac43df9f2b47d4e37844dfce03",
+      "fences": [],
+      "lrf": null
+    },
+    "agents/compressor.md": {
+      "frontmatter": "6e27619fc0e2dd424040dbbe85e4fea98f75327d76c88948ceef50f1a6c2285b",
+      "fences": [],
+      "lrf": null
+    },
+    "agents/critic.md": {
+      "frontmatter": "ee5f426843a04cfd5184535f1bf7187fe19cbf42d1bd357865d8ed89659a9f9c",
+      "fences": [],
+      "lrf": null
+    },
+    "agents/explorer.md": {
+      "frontmatter": "78f2ac13fa0a7582117ff043501cc3f2b0e279f031228b21fda04267b475e438",
+      "fences": [],
+      "lrf": null
+    },
+    "agents/filereader.md": {
+      "frontmatter": "c174ccac508fa9a700e586633940932e993837b2c834a94ac6c909d6d0fb082e",
+      "fences": [],
+      "lrf": null
+    },
+    "agents/orchestrator.md": {
+      "frontmatter": "d052565111cbc0a4b46f7223fcc98764dc80ff6383acc993470a4ae7d3fab8ff",
+      "fences": [],
+      "lrf": null
+    },
+    "agents/proposer.md": {
+      "frontmatter": "a681b707473961253fe0727033866c661deb2a248e7a7686239c7c736eec8b91",
+      "fences": [],
+      "lrf": null
+    },
+    "agents/refactorer.md": {
+      "frontmatter": "c4433cc2655704a1e4fc463beedce43bb697ab03386bd589aec5e04e33462922",
+      "fences": [],
+      "lrf": null
+    },
+    "agents/researcher.md": {
+      "frontmatter": "42d31d0bf51fa3e277af55b585f2cd4a9c549b4ddf7266df0461f5f1798d7a7b",
+      "fences": [],
+      "lrf": null
+    },
+    "agents/verifier.md": {
+      "frontmatter": "3a3bd44dfa15556716d2951ef05d3845a9f71cf8a771f055015b19145dae2aaf",
+      "fences": [
+        "2d451bf36f1e122862396e7d6e796d4da25efdfb53ffc8bb08ab6cc50a025f54",
+        "95ca9fb465d7a4c70499687569f293a4ecb6ffb20fe67c903a742a5dd94e1f90"
+      ],
+      "lrf": null
+    },
+    "agents/worker-agy.md": {
+      "frontmatter": null,
+      "fences": [],
+      "lrf": null
+    },
+    "agents/worker-gpt-fallback.md": {
+      "frontmatter": null,
+      "fences": [],
+      "lrf": null
+    },
+    "agents/worker-llama.md": {
+      "frontmatter": null,
+      "fences": [],
+      "lrf": null
+    },
+    "agents/worker.md": {
+      "frontmatter": "c9e71a3c435ae332f0ab1ecec84287e1c379265569a705dab4d45c76f145f28a",
+      "fences": [
+        "019f5cd2b9be3781321169746848a998d3fb10533cbee6dcceec5efe99c375d3"
+      ],
+      "lrf": null
+    },
+    "opencode/agents/orchestrator.md": {
+      "frontmatter": "d9aecd2b6df86d07d1c3609fbb45f8d6f88c39886bb8c003b5780ea4004e2c14",
+      "fences": [],
+      "lrf": null
+    },
+    "rules/README-forLLM.md": {
+      "frontmatter": null,
+      "fences": [
+        "e338d146df16b57641ce9b142973877fc403eb1b1285b07f1956bec60faf4b9e",
+        "553c6032356f292209165b95983c95c290f3092bd24af6289c2aa803d9a38ae0"
+      ],
+      "lrf": null
+    },
+    "skills/.system/imagegen/SKILL.md": {
+      "frontmatter": "ab78421ac12434a463e48d480e2d498d44c98efb099e1df58b678af22ac0427f",
+      "fences": [
+        "ae884750570a58fa33845b592e26fd7164c71cf442edab95c9ca2ce02f554754",
+        "dd0e933c18e7cc15118bca2c6f67619876e883069732dceecf8bdb93fbb63d5c",
+        "8e0d3e5400af3401d10fe5ec8a83eb3e761c7bf547d389161b2b823e34aaed25",
+        "973a6771abc78a0710092689cb26dfaf8f236b3c06b56aa915a0faa90ad13f94",
+        "62b5bc55cd995b0870b0b9aca0205722fad5f40e95039ff63f3637f999da038c"
+      ],
+      "lrf": null
+    },
+    "skills/.system/openai-docs/SKILL.md": {
+      "frontmatter": "e1e21139c8f6031a193170d0dcfc7f77758f40d0710510b769a606f3ab905991",
+      "fences": [],
+      "lrf": null
+    },
+    "skills/.system/plugin-creator/SKILL.md": {
+      "frontmatter": "b3803d251c377cb52f0879b82c45d819b630622c2b479f563430e4589162c2ed",
+      "fences": [
+        "8f6e37e6b97f01f9e4f58db841b7da3f63adaec6783482d224275237c8d0a394",
+        "92aa0b2d531a485be40dece0511d64b8f2c43fc0153360e0029f11e060bb7f93",
+        "b092f67f4ed562c9472b0c9c87942a8fbb7bd975782b333a79e2d452c665cd13",
+        "ad2b1d67bc7a71412e2e6382bef695a1a96c9305e6b0cc941a9b070e71f36f20",
+        "deace1ee12e57e0db011b9617dd96287d4f432ded91a422843e748ab98719c32",
+        "08b4d30d0eceadc5bbe5e2b19f429b00492517199b043b24e30295de8ef69b1a",
+        "4f3326fec81c6ddb82036910e1386bfa6fba3a45b105bc15b09dbb8b6ed8706e",
+        "6b878ffbac436cb0d3e6325dc20d71e6d838fa76a32f752ea6936f7ceb58acdc",
+        "8879af623d276e19d127795634e5c25821556b2d861bba1c874b893c9f1d219c",
+        "37e85dafd0c21cdb7b3f68295ad345ee80a41dc853064ec421f6423b9c5c0711",
+        "08b4d30d0eceadc5bbe5e2b19f429b00492517199b043b24e30295de8ef69b1a"
+      ],
+      "lrf": null
+    },
+    "skills/.system/review-agent/SKILL.md": {
+      "frontmatter": "9f0e4d8e11db67291443cb2ef6b2a8b3ae5b873f064aa388239485c89c286f04",
+      "fences": [],
+      "lrf": null
+    },
+    "skills/.system/skill-creator/SKILL.md": {
+      "frontmatter": "3004c117c2d06a398c8a98e615defd5acbe3c8ae173733a59492bb765603a25a",
+      "fences": [
+        "fa64b2ce275de05c1df9d4cffe60d4c3fd8862131a7fda57261f608908105a86",
+        "27aba816235bd3382f307ee901c138bd9631d208fd48a436342ae14e7c483a66",
+        "b7fbf81a4fbf9e4feda340115cba25fe9ee310314645b69883090a657fe41e2b",
+        "9fd679f2bb29de924f8a3cca20aeca35de244c0b20f46e1a8a58a6c2a841b6f4",
+        "9e03bea45ad5f2a31779158041b73755011749eea409cfcfe92cdb0048e65be5",
+        "80d81cdda1fdeb46742411647db259db084b1c6ae71ef0e469b3eb9bf1feec18",
+        "dcdad470425f035c284bef4af3b6e387c9e17138541003bff103906cfdf83826",
+        "b7f96676951388aff06df219b35829ef62595bb65c4257a3429a87eee9d53330",
+        "742a8cedbb516980864a048fc101a4bcef72eaf49d4dfe2b337f8a9a6814d374",
+        "a7dcb67737c30bc87835670eadc1fab0430c171a0a6d5ae39b9422be2b22f655"
+      ],
+      "lrf": null
+    },
+    "skills/.system/skill-installer/SKILL.md": {
+      "frontmatter": "9af734cb2ddf6ecf27ba3861f7789e2f045bfb6fea81fc66056a3b7a43b7ec86",
+      "fences": [],
+      "lrf": null
+    },
+    "skills/agy-subagent-router/SKILL.md": {
+      "frontmatter": "f9fea8110263f984c93e1ab2552ac09e2b00a1561bed40ac6514ecf76b65d373",
+      "fences": [
+        "c9dfbdff8b2baa056c1ff4aa811dac7be06d4c6a07eedadc2282335e9ffd5405",
+        "8d026ae6497a3811268e5910377c907d55ffed5f28db0a1001c4681215035102"
+      ],
+      "lrf": "98f08f9bccefe2e0e8d5e8093a938be6add23c3d54b75e04b686ef32f5410093"
+    },
+    "skills/babysit/SKILL.md": {
+      "frontmatter": "4a289aa45b4b62ce3fbdd2e01fad5f3e927b9fbf24e0b349db09a3b76f1b5d3d",
+      "fences": [],
+      "lrf": "c1aed8064561852aebf3adfe9560736f6509debcc7465c886dd9f121ffad832b"
+    },
+    "skills/canvas/SKILL.md": {
+      "frontmatter": "9123af8afed64b4f417b7880a7d1c20ff590c1cdf3f1b11fc9f8db00f1539b0d",
+      "fences": [],
+      "lrf": "69c9bc3d4ae763fb1f802b5dd2982ea61f7b1017cbb945ad1e3d9418a888d6ac"
+    },
+    "skills/chrome-cdp-search/SKILL.md": {
+      "frontmatter": "33edaec0586384973423a71097c5ec3ac7424a412545c8bea2852dac5b6f17dc",
+      "fences": [],
+      "lrf": "59cf1d6d4b3943ecc12dafa1200dd9acf1ac637e52a545b754e73e101260c234"
+    },
+    "skills/create-hook/SKILL.md": {
+      "frontmatter": "ecd70fcc9dd0136d84f245f9b7361b4ef3296818c76b932542c85a1f0af35f40",
+      "fences": [],
+      "lrf": "d7830d6a3d402e5c642fe963f7fbd8261c27206ba37dd6bef18e47fcfdf80522"
+    },
+    "skills/create-rule/SKILL.md": {
+      "frontmatter": "378535b35e3d073253d028d30e526e9af39c2dc2d3d8e168cbbbeb9ff0fc3b9d",
+      "fences": [],
+      "lrf": "d78612e4ba329e6ef247e4c15037b5ee1b29e4adf225f18d7018c7f434b81dfd"
+    },
+    "skills/create-skill/SKILL.md": {
+      "frontmatter": "4d34b340c7b67673956d2993598499ac1ba43465a40e0ce5a3dd697a309cf365",
+      "fences": [],
+      "lrf": "5c753765b67ecddbcb12f0bf9bb948dbd1accb4eb68be5e44105e5dc12b7a757"
+    },
+    "skills/create-subagent/SKILL.md": {
+      "frontmatter": "0b8d02128967b9aa93fc8e8d02fdf9d727634594cdb9f7d5f818c75add0578d5",
+      "fences": [],
+      "lrf": "24e7d6dda23374402f68a19f593fd858c8ee09129cc098a02ffb3fe21508e560"
+    },
+    "skills/default-settings/SKILL.md": {
+      "frontmatter": "b7e85610bec50145e954aab49b7db97edf082c6dcec059b6531667f1cac97122",
+      "fences": [],
+      "lrf": "7dcdfaf8feeb3858680e5131d75d9ab8216b67a4252649eea6a6bc22f30830ee"
+    },
+    "skills/economics-api/SKILL.md": {
+      "frontmatter": "2ad8ea168d0481523a9509cdc144f03f4dad3caa78724af54c295b4387b539fb",
+      "fences": [],
+      "lrf": "59a62b730c197cf8995561def95896f8fb9f3328ee1591c4311ebd455f47a0bc"
+    },
+    "skills/foobar-sql-exporter/SKILL.md": {
+      "frontmatter": "2571cb3eb6bb910471a0e14de35ca6f9b09520a247537082a986981fb033d9a5",
+      "fences": [],
+      "lrf": "57a73fde1ff251667998cfb8bb1fc6ffaf4324a772760f91034fb5e662989b00"
+    },
+    "skills/gemini-grounding-search/SKILL.md": {
+      "frontmatter": "dc413eb757e9828442dd74099a0085b13071b0654489a5fad3641e56178ba894",
+      "fences": [],
+      "lrf": "76887b05bfe4ff07e1c6aca59908bf82356e516387e9a628e16a1fb8d10148e0"
+    },
+    "skills/google-search/SKILL.md": {
+      "frontmatter": "c227bee8c0906fda0ab1b649117567d04561a10ad3a6feb995e9f34408b9e83b",
+      "fences": [],
+      "lrf": "d26405a70fdcd104919b883faabe7b493d087a794258d850a296e01b0759b4b4"
+    },
+    "skills/harness-lint/SKILL.md": {
+      "frontmatter": "20757842abb8f886c71a3ab8cd2b1931843f62c1334ecf4a3f3c9526f59eec00",
+      "fences": [],
+      "lrf": "11eeac9dcdd90c10de52a037073564047b4e6e67bad5e447bae986eed5d4e39b"
+    },
+    "skills/hatch-pet/SKILL.md": {
+      "frontmatter": "161cbe721fb3335000e158b5c71612cf1ac854df5ad5e0e578d180a3d4240dc8",
+      "fences": [],
+      "lrf": "d099b6d2779190102ffabc3d0409ee5bb1ce0dcbff3877741e32cdb2934bfb9f"
+    },
+    "skills/hudousan-api/SKILL.md": {
+      "frontmatter": "e458691f087acb331291e3146dd7516d7720ca77ae21f06a485f195cfd7bf0be",
+      "fences": [],
+      "lrf": "f058dedd37b7f9270ff803642902d44ffe314f1a8040907d43533a4d3813be1b"
+    },
+    "skills/kavita-fetch-search/SKILL.md": {
+      "frontmatter": "7a3f6994254e76c071a7e8df5e1b51061d2a9039816c68133567333c20d932c5",
+      "fences": [],
+      "lrf": "68437ec77c010fd2bef8f02e58530ae84f34a134944bc5f1cae930156147b994"
+    },
+    "skills/kokkousyou-api/SKILL.md": {
+      "frontmatter": "127b3c70827f52d0a25137d3e855db618ea2e69c37a8f22787e0c9aa495ca64b",
+      "fences": [],
+      "lrf": "1978ada4d29f3615e37735d515f32a5321e4b59aeffc369526ab7c847221921c"
+    },
+    "skills/llama2coder/SKILL.md": {
+      "frontmatter": "afd8225958cdbcff703a1d5bdb7228f4540c78f45d4e5671cc6a09051e2ec25a",
+      "fences": [],
+      "lrf": "0a68460361a8586b4c4c1339456c40f7a62581b9677050d6e7e5f30b3f4dc2fd"
+    },
+    "skills/llm-memory/SKILL.md": {
+      "frontmatter": "f191d1fe857d430f7016f12a2ceab4caef566a3e68d0887f3c632f09c6c936fa",
+      "fences": [],
+      "lrf": "affe47abc6cc517fd59c18d7964399b96e0a5e1aaffe1b6e87cfb2c2093d817b"
+    },
+    "skills/loop-agent/SKILL.md": {
+      "frontmatter": "01cc4e33c56ae84d4ed7b0a57085ac24cf2734cab8e52abf755bedc68e495f80",
+      "fences": [],
+      "lrf": "065b301441593f0f3ea80696bdc48fb7155c028310641b3b579ca147949cd63c"
+    },
+    "skills/loop/SKILL.md": {
+      "frontmatter": "397f389b1ab074862016e955782b5feb6fceb20bda7b6a812600d3ff5ec665a6",
+      "fences": [],
+      "lrf": "5fffc8880f04baf6dc74faac1253552f2f2f3bdf6dea9ae583c14a7e3e25befa"
+    },
+    "skills/migrate-to-skills/SKILL.md": {
+      "frontmatter": "18305c2af595f189c9e0c613f3201a26f538648673623f19a8b75fab0abf0921",
+      "fences": [],
+      "lrf": "01479ee814eaad78d4b91abfb9505dc198660592d8551accfb58f4e76d45bd1f"
+    },
+    "skills/perser-xml/SKILL.md": {
+      "frontmatter": "b1a9f98b6dc2944d6c7064e7a54d53cfc1bad80e89292d56f19803349633519f",
+      "fences": [],
+      "lrf": "676fd265a9a28620168733d6e8e0642b83a9ff8f0226b0c17b53e87a7c6ea374"
+    },
+    "skills/proof-checker/SKILL.md": {
+      "frontmatter": "06d8ee0d1f66d2f529759010e98883e270632c1fb45e15ad25dc57206d5d7ec7",
+      "fences": [],
+      "lrf": "d30e8f907f0ed349add86b948f9e90b374579ad06a232fac8689a4126de6cf6e"
+    },
+    "skills/rikei-search/SKILL.md": {
+      "frontmatter": "4ca52231916793ee55665a96b1dee783d9e02715fdb292f50b3d83f4ff951bcb",
+      "fences": [],
+      "lrf": "4fc4e5572376f80b0b06fcf2014ace2f9e7d9283c6ba5d8d78bfcf8e192f181d"
+    },
+    "skills/sdk/SKILL.md": {
+      "frontmatter": "af86a524df1ebd1b4d5705d9e2ed3b4918d94587dec8530ab8c20706bf24f89e",
+      "fences": [],
+      "lrf": "34d1943cffffd93704c29413dafd8105b00d4d7e00656f6fab002e33f7f5e3ba"
+    },
+    "skills/sec-forensics/SKILL.md": {
+      "frontmatter": "7ea9f640e55744ef67f289951344046fc6258da3a9d92b682c1fb01445d10cfb",
+      "fences": [],
+      "lrf": "0719c4311381644d5071d7427abfcba3f840150029351aa4d10991176187620a"
+    },
+    "skills/shell/SKILL.md": {
+      "frontmatter": "976fb42c7fa4a4b94530458bff8953941409a92435da3b581edbd93d3c0753e1",
+      "fences": [],
+      "lrf": "200b4806e581a1d2e338630d9aab1c4be27cea58403cead0f4c93f63107d6790"
+    },
+    "skills/split-to-prs/SKILL.md": {
+      "frontmatter": "5aa2e47378e8a9a883acc42997ef4979fde40b2721b37ccb1b95523ba544648e",
+      "fences": [],
+      "lrf": "9928f4a4fc174a19aa43329f79c5602118a42a1a23512993639024bad58be601"
+    },
+    "skills/statusline/SKILL.md": {
+      "frontmatter": "5c8700dbeec9f546aa0865b9b822841f595a163aca8cf724f77fe4d22de987c4",
+      "fences": [],
+      "lrf": "a1875dba61d066f717f81a598f7fe30575d35d4bde81a5db982977e1fbf3aba5"
+    },
+    "skills/update-cli-config/SKILL.md": {
+      "frontmatter": "7adc677e7d90abc8ee6b3d9de368977f12d50b6b8c914afdc82183cc312c428c",
+      "fences": [],
+      "lrf": "3802ff3152791d58d197a5b7c276fd91298580867b597a111a8b74f8320bc0ad"
+    },
+    "skills/update-cursor-settings/SKILL.md": {
+      "frontmatter": "6188346f4c38ad5fc4f82bdd1a7aedf91d902e76a209a35a98068a17b7454ed5",
+      "fences": [],
+      "lrf": "cd49bbca86c7ac41e34122fd7b72958b36a6e429eeb52f218cefa57c1327f41e"
+    },
+    "skills/vm-monitor/SKILL.md": {
+      "frontmatter": "b7999879eb482bb6e4083e32b18b72d1f63a0f90bad1bccd393f9048b600d3ca",
+      "fences": [],
+      "lrf": "7ac408e30d285bfbac091f173654dca05e5c9e8c3ca4cf3e86d23946b3684c68"
+    }
+  }
+}

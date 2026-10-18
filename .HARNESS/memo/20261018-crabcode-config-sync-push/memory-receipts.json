@@ -1,0 +1,22 @@
+{
+  "schema": "llm-memory-receipt-manifest/v1",
+  "manifest_id": "mem-a0e83c92944e2c7989ddbf01",
+  "task_id": "20261018-crabcode-config-sync-push",
+  "receipts": [
+    {
+      "file": "knowledge.md",
+      "category": "knowledge",
+      "receipt_id": "604fd704-fe42-4993-88d6-11e02e188d1e"
+    },
+    {
+      "file": "diary.md",
+      "category": "diary",
+      "receipt_id": "3b1c9e37-d1d9-4480-9183-68fd40a1fc83"
+    },
+    {
+      "file": "walkthrough.md",
+      "category": "walkthrough",
+      "receipt_id": "caa1c66d-bc9b-476a-a098-2986ca118fb4"
+    }
+  ]
+}

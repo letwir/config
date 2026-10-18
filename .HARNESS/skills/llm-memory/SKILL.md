@@ -2,16 +2,27 @@
 name: llm-memory
 description: Multi-client Bi-Temporal & multi-level (L0-L3) agent memory and knowledge graph CLI client backed by PostgreSQL. Works from Windows & Debian CLI.
 ---
-[SPR/PIDGIN::ρ→max] 📡status|clients 📥ingest 📝add|stock 🔍search|semantic|embed 🔄compact|supersede 🩺analyze ⚖️eval|evals 🕸️graph 📮survey
-📡 疎通 status|clients ⊢ ∅ ⇒ DB接続確認 ∧ 端末一覧 | `$bin status` ∧ `$bin clients`
-📥 取込 ingest ⊢ File∨Text ⇒ JITMIND自己編集 ∧ 多段縮約(L0-L3) ∧ グラフ抽出 | `$bin ingest -file <f> -cat <c> [-survey-signals <K:n>]` ∨ `$bin ingest -title <t> -text <s>`
-📝 記憶 add|stock ⊢ Title⊗L0 ⇒ 新規多段登録(L0~L3,type,scope,rationale,evidence) ∧ 概観一覧(L2→L1→L0) | `$bin add -title <T> -content <L0> [-cat <c>] [-l1 <l1>] [-l2 <l2>] [-tags <t>]` ∧ `$bin stock [-cat <c>] [-json]`
-🔍 探索 search|semantic|embed ⊢ Query∨UUID ⇒ キーワード/タグ部分一致(level 0..3) ∧ Gemini埋め込み意味検索 ∧ 特徴量保存 | `$bin search -q "<q>" [-level <0..3>]` ∧ `$bin semantic -q "<q>"` ∧ `$bin embed -id <UUID>`
-🔄 更新 compact|supersede ⊢ Limit∨OldUUID ⇒ 未要約バッチProgressiveCompaction ∧ JITMIND無効化&後続新記憶登録 | `$bin compact -limit <N>` ∧ `$bin supersede -id <UUID> -title <T> -content <L0>`
-🩺 因果 analyze ⊢ Diary ⇒ 因果帰属分析(PromptDefect vs AgentDefect) ∧ 最適化Diff提示 | `$bin analyze [-file <f>] [-suggest] [-json]`
-⚖️ 評価 eval|evals ⊢ EvalJSON ⇒ タスク完了評価記録(LLM抽出bypass直接登録) ∧ 履歴参照 | `$bin eval -file <f> [-json]` ∧ `$bin evals -key <k>`
-🕸️ 知識 graph ⊢ Node∨Edge ⇒ グラフ三つ組操作(node登録 ∧ edge関係線 ∧ list一覧) | `$bin graph node -name <n>` ∧ `$bin graph edge -src <s> -tgt <t>` ∧ `$bin graph list`
-📮 意見 survey ⊢ Op ⇒ ハーネス改善アンケート(show回答表示 ∧ template雛形 ∧ submit送信 ∧ list回答JSON ∧ classify分類 ∧ rank順位) | `$bin survey show|template|submit|list|classify|rank`
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
+[SPR/PIDGIN::ρ→max] CLI=llm-mem; `$bin`=resolved executable. Commands are categorized by the exact contract below; command examples preserve their literal flags.
+🔎 Inspect (RO): status, clients, stock, search, semantic, evals, graph list, survey show/template/list/rank, analyze ⇒ read-only evidence/output; no memory mutation.
+📥 Mutate (approval required): ingest, add, compact, supersede, embed, graph node/edge ⇒ live memory/database changes. Execute only with current-task approval; ingest only verified evidence. Walkthrough: ingest a file with category walkthrough. Research: ingest title/text with category knowledge.
+🧾 Receipt evaluation: eval is a live write, not inspection. Requires memo/<task_id>/{knowledge,diary,walkthrough}.md and task_id, comparison_key, axes{obj}, attribution{prompt,agent}; bypasses compaction and graph; current-task approval required. evals only reads history.
+📮 Survey: show/template/list/rank inspect. A receipt cue with ≥1 of DEFECT, FRICTION, REQUEST may optionally prompt a survey template keyed by form; submit is a live write and requires current-task approval. Do not submit by implication.
+🛡️ Guard: never expose credentials, raw database URLs, raw secret logs, or unmasked environment values. Task-scoped paths, tests, and memory IDs may be used. Unverified claims are forbidden; label observations as survey_observation; state remaining uncertainty explicitly.
+⛔ Resolution/failure: resolve `$bin` as first existing candidate in this exact order: `~/.harness/skills/llm-memory/llm-mem`, `~/.local/bin/llm-mem`, `~/.harness/skills/llm-memory/llm-mem.exe`, `$LLM_MEMORY_BIN`. If none exists, STOP. No command may be run without the governing approval; no failed or unverified operation is a successful receipt.
+📡 Connectivity inspection: `$bin status` ∧ `$bin clients`
+📥 Ingest (mutating): `$bin ingest -file <f> -cat <c> [-survey-signals <K:n>]` ∨ `$bin ingest -title <t> -text <s>`
+📝 Add (mutating) / stock (inspect): `$bin add -title <T> -content <L0> [-cat <c>] [-l1 <l1>] [-l2 <l2>] [-tags <t>]` ∧ `$bin stock [-cat <c>] [-json]`
+🔍 Search (inspect), semantic (inspect), embed (mutating): `$bin search -q "<q>" [-level <0..3>]` ∧ `$bin semantic -q "<q>"` ∧ `$bin embed -id <UUID>`
+🔄 Compact/supersede (mutating): `$bin compact -limit <N>` ∧ `$bin supersede -id <UUID> -title <T> -content <L0>`
+🩺 Analyze (inspect): `$bin analyze [-file <f>] [-suggest] [-json]`
+⚖️ Eval (mutating) / evals (inspect): `$bin eval -file <f> [-json]` ∧ `$bin evals -key <k>`
+🕸️ Graph node/edge (mutating), list (inspect): `$bin graph node -name <n>` ∧ `$bin graph edge -src <s> -tgt <t>` ∧ `$bin graph list`
+📮 Survey subcommands: `$bin survey show|template|submit|list|classify|rank` (submit mutates; classify is not in the read-only inspection contract; do not infer its effect).
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=llm-memory

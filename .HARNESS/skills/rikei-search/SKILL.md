@@ -2,6 +2,11 @@
 name: rikei-search
 description: Unified CLI & skill suite for natural science and engineering APIs (Materials Project, AFLOW, PubChem, IEEE Xplore, NASA ADS, COD).
 ---
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
 [SPR/PIDGIN::ρ→max] 🔬search 💎mp ⚛️aflow 🧪pubchem 📜ieee 🔭ads 🧊cod
 🔬 統合 search ⊢ Query ⇒ 自然科学・工学全領域横断検索 | `$bin search "<query>"`
 💎 物質 mp ⊢ Formula ⇒ Materials Project バンドギャップ・結晶構造・生成エネルギー | `$bin mp <formula>`

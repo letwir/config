@@ -2,10 +2,14 @@
 name: create-hook
 description: Create Codex hooks. Use when configuring hooks.json, hook scripts, or automating behavior around agent events.
 ---
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 [SPR/PIDGIN::ρ→max] 🪝hook ⚡event 🛡️policy
-🪝 フック hook ⊢ Scope ∧ Trigger ⇒ フック定義・スクリプト生成 | `.cursor/hooks.json` ∨ `~/.cursor/hooks.json`
-⚡ イベント event ⊢ Lifecycle ⇒ 発火契機指定（sessionStart, preToolUse, postToolUse, beforeShellExecution 等）
-🛡️ 制御 policy ⊢ Deny ∨ Rewrite ⇒ ツール実行遮断・入力書き換え・コンテキスト動的注入
+🔎 HookCreation(task) ∧ Scope ∧ Trigger ⊢ define_hook+generate_script → `.cursor/hooks.json` ∨ `~/.cursor/hooks.json`
+⚡ LifecycleEvent ∈ {sessionStart, preToolUse, postToolUse, beforeShellExecution, ...} ⊢ select_trigger → hook_fires_at_matching_event
+🛡️ HookPolicy ∈ {Deny, Rewrite} → block_tool_execution ∨ rewrite_input ∨ inject_context_dynamically
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=create-hook

@@ -3,11 +3,16 @@ name: canvas
 description: A Codex Canvas is a live React app that the user can open beside the chat. You MUST use a canvas when producing standalone analytical artifacts.
 metadata: { surfaces: [ide] }
 ---
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
 [SPR/PIDGIN::ρ→max] 🎨create 📐design 🔍dts 🛠️debug
-🎨 作成 create ⊢ Data ⇒ 独立可視化React成果物 | `~/.cursor/projects/<ws>/canvases/<name>.canvas.tsx`
-📐 設計 design ⊢ Flat ∧ Minimal ⇒ スロップ排除（グラデ・絵文字・影禁止） ∧ `useHostTheme()`
-🔍 定義 dts ⊢ CursorCanvasSDK ⇒ 公開コンポーネント・型定義参照 | `~/.cursor/skills-cursor/canvas/sdk/index.d.ts`
-🛠️ 診断 debug ⊢ Status ⇒ ビルド成否・エラー診断 | `<name>.canvas.status.json`
+🎨 作成 create 🔎standalone analytical artifact ⊢ user-provided Data ⇒ independent visualization React artifact at `~/.cursor/projects/<ws>/canvases/<name>.canvas.tsx`; required input=Data.
+📐 設計 design ⊢ Flat ∧ Minimal ⇒ avoid gradients, emojis, shadows ∧ use `useHostTheme()`.
+🔍 定義 dts ⊢ CursorCanvasSDK ⇒ consult public component/type definitions at `~/.cursor/skills-cursor/canvas/sdk/index.d.ts`.
+🛠️ 診断 debug ⊢ `<name>.canvas.status.json` ⇒ build success/failure and error diagnosis; report status evidence, not assumed runtime capabilities.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=canvas

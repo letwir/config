@@ -10,6 +10,8 @@ import { containsCredentialLikeContent } from "../tools/agy_worker.ts"
 const harness = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 const roles = Object.freeze(["explorer", "researcher", "proposer", "auditor", "verifier", "refactorer", "critic", "blackhat", "compressor", "worker"])
 const delegators = new Set(["researcher", "proposer"])
+const MAX_ACTIVE_DESCENDANTS = 20
+const MAX_ROOT_CHILDREN = 20
 const key = (value: string) => path.resolve(value).toLowerCase()
 const inside = (root: string, target: string) => key(target) === key(root) || key(target).startsWith(key(root) + path.sep)
 const messageID = () => `msg_${Date.now().toString(16).padStart(12, "0")}${randomBytes(7).toString("hex")}`
@@ -28,7 +30,7 @@ class State {
     if (writes.length && role !== "worker") throw new Error("only worker may own writes")
     if (ancestor && (writes.length || scope.some((p) => !ancestor.scope.includes(p)))) throw new Error("grandchild scope must be inherited read-only")
     const active = [...this.jobs.values()].filter((j) => !j.stopped)
-    if (active.length >= 6 || (!ancestor && active.filter((j) => j.depth === 1).length >= 4)) throw new Error("descendant slots exhausted (two reserved for grandchildren)")
+    if (active.length >= MAX_ACTIVE_DESCENDANTS || (!ancestor && active.filter((j) => j.depth === 1).length >= MAX_ROOT_CHILDREN)) throw new Error(`descendant capacity exhausted (max ${MAX_ACTIVE_DESCENDANTS} active descendants per Runtime; immediate rejection)`)
     for (const p of writes) if (this.leases.has(p)) throw new Error("overlapping file ownership")
     const j: Job = { id, parent, root: ancestor?.root ?? parent, depth: (ancestor?.depth ?? 0) + 1, role, scope: Object.freeze([...scope]), writes: Object.freeze([...writes]), leases: [...writes], promptID, state: "reserved", deadline: now + timeout, stopped: false, cancelRequested: false, pendingLaunch: true }
     this.jobs.set(id, j)

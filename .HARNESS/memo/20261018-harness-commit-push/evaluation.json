@@ -1,0 +1,24 @@
+{
+  "task_id": "20261018-harness-commit-push",
+  "comparison_key": "harness-all-current-changes-commit-push",
+  "task_family": "vcs-commit-push",
+  "role": "main",
+  "axes": {
+    "scope_authorization": 1.0,
+    "precommit_validation": 1.0,
+    "credential_safety": 1.0,
+    "commit_push_requested": 1.0
+  },
+  "attribution": {
+    "prompt_defects": ["The phrase 'herness v2' was unclear until the user selected the standard Harness procedure."],
+    "agent_defects": [],
+    "prompt_ratio": 1.0,
+    "agent_ratio": 0.0
+  },
+  "evidence_refs": [
+    "memo/20261018-harness-commit-push/plan.md",
+    "memo/20261018-harness-commit-push/knowledge.md",
+    "memo/20261018-harness-commit-push/diary.md",
+    "memo/20261018-harness-commit-push/walkthrough.md"
+  ]
+}

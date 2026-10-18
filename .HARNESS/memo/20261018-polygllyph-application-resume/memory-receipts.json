@@ -1,0 +1,43 @@
+{
+  "schema": "llm-memory-receipt-manifest/v1",
+  "manifest_id": "mem-130f1e58c6febd3813833503",
+  "task_id": "20261018-polygllyph-application-resume",
+  "receipts": [
+    {
+      "file": "plan.md",
+      "category": "plan",
+      "status": "SUCCESS",
+      "receipt_id": "6fae2194-140d-437e-93b8-740fc3d5cfb9"
+    },
+    {
+      "file": "knowledge.md",
+      "category": "knowledge",
+      "status": "SUCCESS",
+      "receipt_id": "ba52c75a-0fb9-4835-a2f8-6618df349bc1"
+    },
+    {
+      "file": "diary.md",
+      "category": "diary",
+      "status": "SUCCESS",
+      "receipt_id": "4badc11b-0e09-48c6-b9e4-4762e5f9d177"
+    },
+    {
+      "file": "walkthrough.md",
+      "category": "walkthrough",
+      "status": "SUCCESS",
+      "receipt_id": "7e125c8f-0de5-4b0b-a41d-cff645b30ada"
+    },
+    {
+      "file": "semantic-review.md",
+      "category": "semantic-review",
+      "status": "SUCCESS",
+      "receipt_id": "d1fb0078-ba9f-47c7-9d56-f539e51ff0dd"
+    },
+    {
+      "file": "evaluation.json",
+      "category": "evaluation",
+      "status": "SUCCESS",
+      "receipt_id": "494743ed-1a3a-4751-82e8-b6d89c0dc5f1"
+    }
+  ]
+}

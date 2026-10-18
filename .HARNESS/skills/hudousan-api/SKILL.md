@@ -2,9 +2,15 @@
 name: hudousan-api
 description: 国土交通省「不動産情報ライブラリ」API (XIT001/XIT002) CLI クライアント。不動産取引価格・成約価格および市区町村一覧を取得。
 ---
-[SPR/PIDGIN::ρ→max] 💴price 🏙️list
-💴 価格 price ⊢ Area⊗Year⊗Quarter ⇒ 取引・成約価格取得(XIT001) | `$bin -price -year <YYYY> -quarter <1..4> -area <Code> [-city <CityCode>]`
-🏙️ 一覧 list ⊢ Area ⇒ 都道府県内市区町村一覧取得(XIT002) | `$bin -list -area <PrefCode>`
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
+[SPR/PIDGIN::ρ→max] 🔎🏠API trigger=real-estate transaction/contract price or municipality lookup; ⊢ choose exactly one method:
+💴 price ⇒ XIT001; required `-year <YYYY>` + exactly one location selector from `-area <Code>`, `-city <CityCode>`, `-station <StationCode>`; optional `-quarter <1..4>`; CLI: `$bin -price -year <YYYY> -quarter <1..4> -area <Code> [-city <CityCode>]` (CLI example is illustrative; selectors are alternatives, not cumulative requirements).
+🏙️ list ⇒ XIT002; required `-area <PrefCode>`; CLI: `$bin -list -area <PrefCode>`.
+→ successful response: API response body to stdout (gzip decoded when applicable); request/validation/HTTP/non-200/decompression/output failures → error on stderr and nonzero exit. Credentials: read `KOKKOU_HUDOUSAN_API`; never expose or print key. Network: invocation sends authenticated HTTP GET to selected API endpoint; this is an external network effect, not local inspection. Do not invoke API absent explicit authorization.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=hudousan-api

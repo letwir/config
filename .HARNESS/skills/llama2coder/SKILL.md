@@ -2,9 +2,15 @@
 name: llama2coder
 description: Generate clean, stdout-only source code using a llama.cpp compatible OpenAI REST API.
 ---
-[SPR/PIDGIN::ρ→max] 💻code 🌊stream
-💻 コード code ⊢ Prompt⊗Language ⇒ stdout直接純粋コード生成(MDフェンス除去済) | `$bin -p "<prompt>" -l "<lang>" [-u <url>] [-m <model>]`
-🌊 逐次 stream ⊢ Prompt⊗Language ⇒ トークン直接標準出力ストリーミング | `$bin -p "<prompt>" -l "<lang>" -s`
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
+[SPR/PIDGIN::ρ→max|target:local-llama-codegen|legibility:LLM≫human] 💻code 🌊stream
+🔎 code: source-code generation request ∧ stream: token-by-token request. ⊢ Resolve `$bin` to first existing configured `coder-*` executable; none ⇒ STOP. Mor(code): local llama.cpp-compatible OpenAI REST API client → stdout source code only, ¬Markdown fences. Args: `$bin -p "<prompt>" -l "<lang>" [-u <url>] [-m <model>]`
+Mor(stream): local llama server → stdout token stream only. Args: `$bin -p "<prompt>" -l "<lang>" -s`
+⛔ Other generation-failure behavior unspecified; preserve uncertainty. ✅ Success: requested output modality returned.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=llama2coder

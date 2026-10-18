@@ -1,0 +1,37 @@
+{
+  "schema": "llm-memory-receipt-manifest/v1",
+  "manifest_id": "mem-b41ef18a22c4aa9ed2a75607",
+  "task_id": "20261018-harness-commit-push",
+  "receipts": [
+    {
+      "file": "plan.md",
+      "category": "plan",
+      "status": "SUCCESS",
+      "receipt_id": "07e1d369-5e00-4cdc-8a07-8b29fc7c02bf"
+    },
+    {
+      "file": "knowledge.md",
+      "category": "knowledge",
+      "status": "SUCCESS",
+      "receipt_id": "18265dac-86c4-4f7b-ab8d-55a322dd5788"
+    },
+    {
+      "file": "diary.md",
+      "category": "diary",
+      "status": "SUCCESS",
+      "receipt_id": "0d82a885-c56f-42e9-b212-01c3aa654a39"
+    },
+    {
+      "file": "walkthrough.md",
+      "category": "walkthrough",
+      "status": "SUCCESS",
+      "receipt_id": "69ab89ca-4aee-4230-90d3-ba02b01caec3"
+    },
+    {
+      "file": "evaluation.json",
+      "category": "evaluation",
+      "status": "SUCCESS",
+      "receipt_id": "955e79f6-7a4c-4a1a-9df9-7c30584d5c8e"
+    }
+  ]
+}

@@ -2,6 +2,11 @@
 description: Use after changes for independent diff-first verification, focused checks and adversarial regression review.
 mode: subagent
 ---
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
 [SPR/XML::ρ→max|target:Verifier|legibility:LLM≫human|axioms:PoC∧BFP∧AF∧GR∧BE]
 <Verifier id="verifier_gate" protocol="agents/verifier.md">
 imports: ["@import ./SUBAGENTS.lrf"];
@@ -9,11 +14,11 @@ authority: "SUBAGENTS.lrf";
 content-boundary: "protocol-template ∧ output-schema; ¬authority";
 
 <Axioms>
-PoC=ProofOverClaim: Worker信用度0%; 自律CLI∧生exitcode; ¬テキスト主張追認
-BFP=BlindFirstPass: 読順:diff→spec→Worker; ¬逆順; discovery前¬Worker申告参照 (anti-anchoring)
-AF=AdversarialFalsification: 合格理由¬探索; エッジ∧異常系∧競合⇒意図的攻撃
-GR=GoodhartResistance: Worker既存テストPASS≠正しさ; Verifier自作テスト≥2必須; 自作FAIL⇒REJECT
-BE=BoundedEscalation: cycle>max_cycle⇒HALT∧ESCALATE
+PoC=accept claims only with independently run CLI evidence and actual exit code; worker credibility=0; ¬textual-claim-as-proof
+BFP=first inspect diff→spec→Worker; ¬reverse; before discovery complete, ¬read Worker report/PR description/changeLOG (anti-anchoring)
+AF=do not search only for pass rationale; deliberately attack edges∧abnormal cases∧contention
+GR=Worker tests PASS≠correctness; Verifier authors ≥2 tests; any authored-test FAIL⇒REJECT
+BE=cycle>max_cycle⇒HALT∧ESCALATE
 </Axioms>
 
 <Verifier.template project="{PATH}" cycle="{N}" max_cycle="{MAX:-3}">

@@ -1,0 +1,32 @@
+{
+  "schema": "llm-memory-receipt-manifest/v1",
+  "manifest_id": "mem-198daa1011244e4b71742346",
+  "task_id": "20261018-polygllyph-format-lint",
+  "receipts": [
+    {
+      "file": "plan.md",
+      "category": "plan",
+      "receipt_id": "9379bb32-b2ee-4966-ad71-c9c94a1a94f6"
+    },
+    {
+      "file": "knowledge.md",
+      "category": "knowledge",
+      "receipt_id": "bbe6c41e-bc50-47be-89f7-4053b2c36b07"
+    },
+    {
+      "file": "diary.md",
+      "category": "diary",
+      "receipt_id": "9161fe8e-a8bf-433b-a55a-38e07702be13"
+    },
+    {
+      "file": "walkthrough.md",
+      "category": "walkthrough",
+      "receipt_id": "ee7e7479-cf85-4eb9-9f7e-3f57ac2556ab"
+    },
+    {
+      "file": "evaluation.json",
+      "category": "evaluation",
+      "receipt_id": "f0a53314-5aac-40c8-a558-15809aec8388"
+    }
+  ]
+}

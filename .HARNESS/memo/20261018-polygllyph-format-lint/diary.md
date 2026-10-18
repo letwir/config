@@ -1,0 +1,13 @@
+# Diary / 20261018-polygllyph-format-lint
+
+### 2026-10-18 — POLYGLYPH format and lint
+
+- task: Unify LLM-majority-read `.HARNESS` instruction/contract text using the user-provided POLYGLYPH format and create a new lint.
+- request-evidence: User directly requested migration and lint, supplied `.HARNESS/POLYGLYPH.md`, clarified the target as `.HARNESS` instruction/contract text, instructed to preserve LRF `MAY`, and explicitly authorized subagent use. The user said twenty parallel workers were acceptable; applicable router caps at six.
+- action: Read applicable SIGMA, routing, documentation, state, and host rules; inventoried 59 candidate paths; drafted a plan and requested independent audits. The first audit findings were addressed in the plan; a later authorization finding misread the original implementation request, which a focused Critic corrected. Multiple worker dispatch/reselection attempts followed. One worker partially modified the user-supplied POLYGLYPH file and created two fixture files; main independently compared fixture hashes against Git source.
+- result: Task stopped incomplete after the implementation worker reported that no worker invocation mechanism was available. Only a partial change to POLYGLYPH and two unverified, misspelled fixtures are present. No target prompt files were converted; no linter or tests were produced; no commit/push was requested or performed.
+- friction: ToolFailure plus AgentDefect. Worker dispatch was unavailable in the final attempt. Earlier process failures included repeatedly confusing `.HARNESS`-relative paths with Git-root paths, and an invalid preservation fixture that was not independently validated before being reported.
+- attribution: PromptDefect=0% (the user clarified the audience/scope and directly requested implementation and lint). AgentDefect=100% for failure to deliver a verified implementation after repeated attempts; the inability to dispatch a worker contributed as environmental friction, but does not make the task complete. These percentages are causal estimates, not measured token/context statistics.
+- impact: The repository contains an incomplete specification edit and two erroneous untracked fixtures. The original target corpus, unrelated user changes, and Git history were not changed. The current state must not be treated as a passing implementation.
+- feedback: No additional user clarification is needed; the task is sufficiently clear. A worker-capable execution path is needed to resume under the configured CODE policy.
+- rewritten-request: Unchanged: apply the provided POLYGLYPH format to `.HARNESS` LLM instruction/contract Markdown and add a structural linter, preserving authority, exact runtime contracts, and LRF `MAY`.
