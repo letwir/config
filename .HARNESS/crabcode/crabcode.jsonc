@@ -14,6 +14,31 @@
       }
     }
   },
+  "permission": {
+    "bash": {
+      "*": "allow",
+      "*cargo +* install": "ask",
+      "*cargo +* install *": "ask",
+      "*cargo install": "ask",
+      "*cargo install *": "ask",
+      "*go -* install": "ask",
+      "*go -* install *": "ask",
+      "*go install": "ask",
+      "*go install *": "ask",
+      "*pkg": "ask",
+      "*pkg *": "ask"
+    },
+    "external_directory": "allow",
+    "read": "allow",
+    "view_image": "allow",
+    "list": "allow",
+    "glob": "allow",
+    "grep": "allow",
+    "edit": "allow",
+    "write": "allow",
+    "write_files": "allow",
+    "apply_patch": "allow"
+  },
   "agent": {
     "orchestrator": {
       "mode": "primary",

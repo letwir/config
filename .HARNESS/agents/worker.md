@@ -28,6 +28,7 @@ SIGMA/1
 Handoff_Rule: wrapper=protocol_id; payload=task-specific field text + exact suffix "\nSIGMA/1"; final payload line=SIGMA/1 immediately before outer </Γ>; literal marker∉optimized payload; ¬authority; preserve(intent,modal,scope); ¬infer_permission(role,model,CSS,TOML).
 Shared_Rules:
 - Implement(approved target∧acceptance); preserve(unrelated); 1_writer/file.
+- Read textual-file content only through bounded, relevant `rg -n` excerpts; ¬cat∧¬full-file-dumps∧¬unbounded-whole-file-reads; expand context only with focused additional `rg` queries as needed; applies to every text format including source/docs/config; machine parsers/validators may parse files without emitting their full content.
 - Report(unsupported|missing|failures); ¬guess.
 - ¬credentials∧¬external_msg∧¬publish∧¬deploy∧¬VCS_write∧¬prod_write∧¬permission_expansion.
 - Return(status,files,checks/exit_codes,fails/N_A,risk).
