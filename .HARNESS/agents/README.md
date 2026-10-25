@@ -25,6 +25,10 @@ worker-agy: worker-agy.md | agy.exe-CLI | complex/tool-assisted
 worker-llama: worker-llama.md | llama2coder-CLI | pure-code/single-file
 </roles>
 
+<worker-model-routing>
+CODE `role=worker` requires explicit difficulty and selects the matching static profile: easy=`worker-easy` (GPT-6 Luna/low), medium=`worker-medium` (GPT-6 Luna/medium), hard=`worker-hard` (GPT-6.1 Sol/high). Verify the child assistant's actual provider/model before claiming the route. Crabcode uses native Task with `subagent_type` set to the profile; it ignores OpenCode plugins and custom tools. OpenCode may use the RTS `difficulty`/`escalation_of` tool only when that plugin is loaded. `worker-astra` is a subagent profile for parent-requested retry only after a completed, effective hard-Sol result returns `RTS_STATUS: FAILED|ESCALATE` and the parent reviews its result/partial diff. Crabcode native Task does not enforce a one-shot token, so the parent must perform only one reviewed retry; OpenCode RTS enforces a one-shot reservation. Astra is a leaf subagent, never main, and cannot dispatch children. No automatic upgrade or Astra fallback for agy failures.
+</worker-model-routing>
+
 <lookup>
 Routine file lookup⇒FileReader when delegation/runtime permits. Hits emit only (repository-relative-path,line_number) tuples with no status prefix; completed zero-hit search emits exactly NO_MATCH; operational/search/permission/IO error emits sanitized FAILED. No excerpt, snippet, match text, content, summary, or absolute path. Explorer remains stuck/sparse/repetitive-only and broad high-recall.
 </lookup>

@@ -12,7 +12,7 @@ function proxy(name: string, args: any) {
     return runtimes[0].hooks().tool![`orchestration_${name}`].execute(input, context)
   } })
 }
-export const dispatch = proxy("dispatch", { role: tool.schema.string(), handoff: tool.schema.string(), scope_files: tool.schema.array(tool.schema.string()), write_files: tool.schema.array(tool.schema.string()).default([]), timeout_ms: tool.schema.number().optional() })
+export const dispatch = proxy("dispatch", { role: tool.schema.string(), difficulty: tool.schema.enum(["easy", "medium", "hard"]).optional(), escalation_of: tool.schema.string().optional(), handoff: tool.schema.string(), scope_files: tool.schema.array(tool.schema.string()), write_files: tool.schema.array(tool.schema.string()).default([]), timeout_ms: tool.schema.number().optional() })
 export const status = proxy("status", { task_id: tool.schema.string().optional() })
 export const result = proxy("result", { task_id: tool.schema.string() })
 export const cancel = proxy("cancel", { task_id: tool.schema.string() })

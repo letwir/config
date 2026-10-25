@@ -3,7 +3,7 @@
 本仕様書は、実行環境・ハードウェア仕様・シェル環境・パス体系・およびツールチェインの正本（SSOT: Single Source of Truth）ですわ。
 **本書は環境切り替え記法（Profile Selector）を備えており、`active_profile` の設定値を変更することで、Android-Termux / Bash 環境と Windows / PowerShell 環境（または汎用 Linux 環境）をハーネス全体で即座に切り替えられる構造になっています。**
 
-すべてのエージェント、サブエージェント、スクリプトは、コマンド生成や実行、パス解決の前に必ず本書の **`active_profile`** を確認し、選択されたプロファイルに適合したシェルとツールチェインを選択しなければなりません。
+本書は **HarnessRoot を基準とする `HARDWARE.md`** です。プロセスのカレントディレクトリ（CWD）を基準に解決してはなりません。すべてのエージェント、サブエージェント、スクリプトは、コマンド生成や実行、パス解決の前に必ず本書の **`active_profile`** を確認し、選択されたプロファイルに適合したシェルとツールチェインを選択しなければなりません。
 
 ---
 
@@ -117,7 +117,7 @@ Windows 11 デスクトップ / ワークステーション環境。PowerShell 7
 ## 🛠️ 各地における切り替え追従指針 (Guidance for Other Files)
 
 1. **ルールファイル (`.lrf`)**:
-   `BOOTSTRAP.lrf` の `R|host|*` は `hardware=../HARDWARE.md; resolve=active_profile-in-HARDWARE.md` と規定し、静的な決め打ちではなく `active_profile` から動的にシェルとパス規約を解決します。
+   `BOOTSTRAP.lrf` の `R|host|*` は `hardware=HARDWARE.md relative to HarnessRoot, never process CWD; resolve=active_profile-in-HARDWARE.md` と規定し、静的な決め打ちではなく `active_profile` から動的にシェルとパス規約を解決します。
 2. **ナビゲーションガイド (`README-forLLM.md`)**:
    `active_profile` を確認した上で、対応するプロファイルのコマンドブロックを選択して実行するようエージェントに指示します。
 3. **スキル定義 (`SKILL.md` / `USAGE.md`)**:

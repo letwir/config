@@ -1,0 +1,4 @@
+# Generated local OpenCode/Bun plugin installation artifacts
+node_modules/
+bun.lock
+bun.lockb

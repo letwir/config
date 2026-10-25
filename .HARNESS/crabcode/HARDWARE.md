@@ -1,0 +1,1 @@
+../../.HARNESS/HARDWARE.md

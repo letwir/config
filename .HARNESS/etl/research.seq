@@ -2,6 +2,12 @@
 @seq 1
 @entry RESEARCH
 🔭 RESEARCH
+task:change ⇒ main_assesses_decomposition_before_plan(independent_bounded_read_only_questions; reuse_current_task_assessment)
+⊢ eligible_delegation := task_authorized ∧ agent.mode_permits_Codex_subagents ∧ runtime_supports_delegation
+⊢ reuse_current_task_question_assignments_and_results_across_research_and_research_local; dispatch_only_unassigned_questions; no_duplicate_fanout
+task:change ∧ independent_questions>=2 ∧ eligible_delegation ⇒ AGENT_ROUTER→concurrent_selected_roles(Explorer=bounded_repo_inventory; Researcher=scoped_knowledge_methods; FileReader=ordinary_exact_lookup), up_to=min(20, currently_available_runtime_slots)
+⊢ do_not_split_coupled_questions; ordered_dependencies=serial; shared_Runtime_caps=20_descendants_including_grandchildren+20_direct_root_children; no_invented_slots_or_dispatch
+⊢ wait_for_all_requested_results ∧ validate_evidence ∧ synthesize(Facts,Inferences,Unknowns,Constraints)_before_PLAN; unavailable_or_unauthorized_delegation⇒main_research_with_limitation
 Evidence(memory) → Evidence(task)
 ⊢ default_profile={web,llm-mem}
 ⊢ web=RO_PUBLIC ∧ llm-mem=RO_LOCAL
@@ -17,8 +23,13 @@ Obj(Task{keywords}) → Mor(llm-mem.search[level=2,json]) → Precedents
 ERROR ∨ missing_executable ⇒ Evidence(memory=FAILED(non_secret_cause))
 EMPTY ⇒ Evidence(memory=N_A(no_precedent))
 ⊢ report={CandidateMethods,SourceQuality,Facts,Inferences,Unknowns,Sources,Precedents,Constraints}
-⊢ eligible_delegation := explicit_bounded_need ∧ agent.mode_permits_Codex_subagents
 eligible_delegation ⇒ load(../agents/AGENT_ROUTER.md)
+eligible_delegation ∧ other_bounded_need ⇒ select_appropriate_role_without_artificial_fanout
 ¬eligible_delegation ⇒ main_local_exploration
+⊢ requirements_or_detailed_design_proposals_in_scope⇒bounded_read_only_Attacker(canonical_role=attacker; blackhat=compatibility_alias; exact_proposal_revision)_BEFORE_finalization/approval, even_for_non_security_or_research_only_tasks
+proposals_in_scope ∧ eligible_delegation ⇒ AGENT_ROUTER→Attacker(findings_only; completeness,contradictions,abuse_cases,trust_boundaries,failure_paths,security_assumptions,unintended_effects; no_design_authorship/edit/write_files/implementation/exploit_execution/external_action)
+proposals_in_scope ∧ ¬eligible_delegation ⇒ record_missing_independent_assessment ∧ separately_labeled_main_proposal_check; never_claim_Attacker_ran
+⊢ material_proposal_findings⇒parent_owned_bounded_revision_and_reassessment_before_finalization/approval; material_revision_invalidates_affected_review; all_review_failures_share_correction_cycles<=3; unresolved_material_findings_or_exhaustion⇒FAILED→FINISH
+⊢ unresolved_scope/evidence_or_operational_failure⇒explicit_INCOMPLETE_not_NO_FINDINGS; non_security_without_proposals⇒no_needless_Attacker
 task:change ⇒ CHANGE → load(change.seq) → 🧠 PLAN
 otherwise ⇒ FINISH

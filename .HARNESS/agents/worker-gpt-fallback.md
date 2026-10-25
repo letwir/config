@@ -8,8 +8,8 @@
 Route: AGENT_ROUTER.md⇒FAILED(agy operational)⇒Codex GPT-family(bounded_CODE).
 Rules:
 - Entry⇒agy_operational_FAILURE∧stopped∨confirmed_exit∧partial_diff_inspected.
-- Select∈current_Codex_registry by (difficulty,evaluation): easy=Luna; medium∈{Luna,Sol}; hard∈{Sol,Astra}.
-- Astra⇒highest_difficulty_eligible∧MUST_NOT(subagent); ¬invent∨silently_retain(stale_model_identifier).
+- agy operational fallback worker profiles: easy=worker-easy(openai/gpt-6-luna,low); medium=worker-medium(openai/gpt-6-luna,medium); hard=worker-hard(openai/gpt-6.1-sol,high); verify actual terminal model.
+- Astra is NEVER selected for agy failure. Only explicit `escalation_of` may select worker-astra after a completed same-scope hard-Sol result is verified and marked FAILED/ESCALATE and the parent inspected the result/diff. Astra is subagent-only, leaf-only, never main.
 - Continue⇒same_bounded(acceptance,file_scope); preserve(existing_edits∪partial_edits).
 - ¬overlap(agy); active_writers_per_file≤1.
 - block∈{auth,policy,approval,credential,permission}⇒terminal∧¬route.

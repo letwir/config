@@ -2,9 +2,16 @@
 @seq 1
 @entry RESEARCH_LOCAL
 🔎 RESEARCH_LOCAL
+task:change ⇒ main_assesses_decomposition_before_plan(independent_bounded_read_only_questions; reuse_current_task_assessment)
+⊢ eligible_delegation := task_authorized ∧ agent.mode_permits_Codex_subagents ∧ runtime_supports_delegation
+⊢ reuse_current_task_question_assignments_and_results_across_research_and_research_local; dispatch_only_unassigned_questions; no_duplicate_fanout
+task:change ∧ independent_questions>=2 ∧ eligible_delegation ⇒ AGENT_ROUTER→concurrent_selected_roles(Explorer=bounded_repo_inventory; Researcher=scoped_knowledge_methods; FileReader=ordinary_exact_lookup), up_to=min(20, currently_available_runtime_slots)
+⊢ do_not_split_coupled_questions; ordered_dependencies=serial; shared_Runtime_caps=20_descendants_including_grandchildren+20_direct_root_children; no_invented_slots_or_dispatch
+⊢ wait_for_all_requested_results ∧ validate_evidence ∧ synthesize(Facts,Inferences,Unknowns,Constraints)_before_PLAN; unavailable_or_unauthorized_delegation⇒main_research_with_limitation_except_FileReader_lookup_contract
 ordinary_repository_file_lookup ∧ delegation_runtime_permits ⇒ AGENT_ROUTER→FileReader(read-only; hits=only(repository-relative-path,line_number)-tuples, no status prefix; completed_zero_hits=exactly NO_MATCH; operational/search/permission/IO_failure=sanitized FAILED; ¬excerpt|snippet|match_text|content|summary|absolute_path)
 ordinary_repository_file_lookup ∧ ¬delegation_runtime_permits ⇒ ESCALATE(no_dispatch; no_local_fallback; no_claimed_result)
-stuck ∨ sparse/repetitive_investigation ⇒ Explorer(broad_high_recall; preserve current role)
+eligible_delegation ∧ bounded_repository_inventory_needed ⇒ Explorer(read_only_issue_dependency_boundary_inventory; may_be_up_front; not_ordinary_exact_lookup)
+eligible_delegation ∧ (stuck ∨ sparse/repetitive_investigation) ⇒ Explorer(broad_high_recall; no_topic_or_source_precision_filters; label_source_relation_confidence; preserve current role)
 valid_local_review ⇒ LOCAL_REVIEW
 otherwise ⇒ LOCAL_RESEARCH
 🔎 LOCAL_REVIEW

@@ -6,16 +6,34 @@ import { spawn } from "node:child_process"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { containsCredentialLikeContent } from "../tools/agy_worker.ts"
+import type { ReviewDepth, ReviewIdentity } from "../tools/model_routing.ts"
+import { ASTRA_MODEL, HARD_SOL_MODEL, assertAttackerEscalation, normalizeReviewRole, reviewIdentity, selectAttackerProfile, configuredAgentModel, modelMatches, parseWorkerStatus, samePathSet, selectWorkerProfile, uniqueCurrentAssistant } from "../tools/model_routing.ts"
 
 const harness = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
-const roles = Object.freeze(["explorer", "researcher", "proposer", "auditor", "verifier", "refactorer", "critic", "blackhat", "compressor", "worker"])
+const roles = Object.freeze(["explorer", "researcher", "proposer", "auditor", "verifier", "refactorer", "critic", "attacker", "blackhat", "compressor", "worker"])
+const roleContract = (role: string) => normalizeReviewRole(role) === "attacker" ? "blackhat.md" : `${role}.md`
 const delegators = new Set(["researcher", "proposer"])
 const MAX_ACTIVE_DESCENDANTS = 20
 const MAX_ROOT_CHILDREN = 20
-const key = (value: string) => path.resolve(value).toLowerCase()
+// Preserve real file names on case-sensitive hosts; the review digest reads them.
+const key = (value: string) => process.platform === "win32" ? path.resolve(value).toLowerCase() : path.resolve(value)
 const inside = (root: string, target: string) => key(target) === key(root) || key(target).startsWith(key(root) + path.sep)
 const messageID = () => `msg_${Date.now().toString(16).padStart(12, "0")}${randomBytes(7).toString("hex")}`
-type Job = { id: string; parent: string; root: string; depth: number; role: string; scope: readonly string[]; writes: readonly string[]; leases: string[]; session?: string; promptID: string; state: string; error?: string; result?: string; resultLoaded?: boolean; deadline: number; stopped: boolean; cancelRequested: boolean; pendingLaunch: boolean; abortConfirmed?: boolean }
+const safeError = (error: unknown, limit = 500) => {
+  const message = String((error as any)?.message ?? error)
+  return containsCredentialLikeContent(message) ? "operation failed; sensitive error details redacted" : message.slice(0, limit)
+}
+
+async function artifactDigest(scope: readonly string[]) {
+  const hash = createHash("sha256")
+  for (const file of [...scope].sort()) {
+    const bytes = await readFile(file)
+    hash.update(JSON.stringify([file, bytes.length])); hash.update(bytes)
+  }
+  return hash.digest("hex")
+}
+type Route = { profile: string; difficulty?: "easy" | "medium" | "hard"; requestedModel?: { providerID: string; modelID: string }; requestedEffort?: "low" | "medium" | "high"; escalationOf?: string; reviewDepth?: ReviewDepth; review?: ReviewIdentity; reviewApproved?: boolean }
+type Job = { id: string; parent: string; parentMessageID: string; root: string; depth: number; role: string; profile: string; difficulty?: "easy" | "medium" | "hard"; requestedModel?: { providerID: string; modelID: string }; requestedEffort?: "low" | "medium" | "high"; actualModel?: { providerID: string; modelID: string }; routeStatus: "unrouted" | "pending" | "configured" | "matched" | "mismatch" | "unknown"; escalationOf?: string; escalationReservedBy?: string; reviewDepth?: ReviewDepth; review?: ReviewIdentity; reviewApproved?: boolean; artifactDigest?: string; resultStatus: "SUCCESS" | "FAILED" | "ESCALATE" | "UNKNOWN"; scope: readonly string[]; writes: readonly string[]; leases: string[]; session?: string; promptID: string; state: string; error?: string; result?: string; resultLoaded?: boolean; deadline: number; stopped: boolean; cancelRequested: boolean; pendingLaunch: boolean; abortConfirmed?: boolean }
 
 // Domain state is synchronous. All reservations happen before control yields to IO.
 class State {
@@ -23,17 +41,34 @@ class State {
   sessions = new Map<string, Job>()
   leases = new Map<string, string>()
   queues = new Map<string, Map<string, { task_id: string; state: string }>>()
-  reserve(parent: string, role: string, scope: string[], writes: string[], id: string, promptID: string, now: number, timeout: number) {
+  reserve(parent: string, role: string, scope: string[], writes: string[], id: string, promptID: string, now: number, timeout: number, parentMessageID = "", route?: Route) {
+    role = normalizeReviewRole(role)
     const ancestor = this.sessions.get(parent)
+    if ((ancestor?.profile === "worker-astra" || ancestor?.profile === "attacker-hard")) throw new Error("Astra subagents are leaf-only")
     if (ancestor && (ancestor.stopped || ancestor.cancelRequested || ancestor.depth >= 2 || !delegators.has(ancestor.role))) throw new Error("parent is not an eligible live delegator")
     if (!roles.includes(role)) throw new Error("role is outside explicit allowlist")
     if (writes.length && role !== "worker") throw new Error("only worker may own writes")
     if (ancestor && (writes.length || scope.some((p) => !ancestor.scope.includes(p)))) throw new Error("grandchild scope must be inherited read-only")
+    if (role === "attacker") {
+      if (writes.length || !scope.length || !route?.review) throw new Error("attacker requires a bounded read-only review route")
+      const selected = selectAttackerProfile(route.reviewDepth, route.escalationOf)
+      reviewIdentity(route.review.target, route.review.revision, route.review.lens)
+      if (route.profile !== selected.agent || !modelMatches(route.requestedModel, selected) || route.requestedEffort !== selected.reasoningEffort) throw new Error("invalid attacker profile/model/effort route")
+    }
+    let escalationSource: Job | undefined
+    if (route?.escalationOf) {
+      escalationSource = this.jobs.get(route.escalationOf)
+      if (role === "attacker") {
+        if (route.profile !== "attacker-hard" || route.reviewDepth !== "hard" || !modelMatches(route.requestedModel, ASTRA_MODEL)) throw new Error("invalid Astra attacker route")
+        assertAttackerEscalation(escalationSource, { parent, root: ancestor?.root ?? parent, depth: (ancestor?.depth ?? 0) + 1, scope, writes, review: route.review, approved: route.reviewApproved })
+      } else if (role !== "worker" || route.profile !== "worker-astra" || !escalationSource || escalationSource.escalationReservedBy || escalationSource.error || escalationSource.parent !== parent || escalationSource.root !== (ancestor?.root ?? parent) || escalationSource.role !== "worker" || escalationSource.difficulty !== "hard" || escalationSource.profile !== "worker-hard" || !modelMatches(escalationSource.actualModel, HARD_SOL_MODEL) || escalationSource.routeStatus !== "matched" || !escalationSource.stopped || !escalationSource.resultLoaded || escalationSource.state !== "completed" || !["FAILED", "ESCALATE"].includes(escalationSource.resultStatus)) throw new Error("source result is not eligible for one-shot Astra escalation")
+    }
     const active = [...this.jobs.values()].filter((j) => !j.stopped)
     if (active.length >= MAX_ACTIVE_DESCENDANTS || (!ancestor && active.filter((j) => j.depth === 1).length >= MAX_ROOT_CHILDREN)) throw new Error(`descendant capacity exhausted (max ${MAX_ACTIVE_DESCENDANTS} active descendants per Runtime; immediate rejection)`)
     for (const p of writes) if (this.leases.has(p)) throw new Error("overlapping file ownership")
-    const j: Job = { id, parent, root: ancestor?.root ?? parent, depth: (ancestor?.depth ?? 0) + 1, role, scope: Object.freeze([...scope]), writes: Object.freeze([...writes]), leases: [...writes], promptID, state: "reserved", deadline: now + timeout, stopped: false, cancelRequested: false, pendingLaunch: true }
+    const j: Job = { id, parent, parentMessageID, root: ancestor?.root ?? parent, depth: (ancestor?.depth ?? 0) + 1, role, profile: route?.profile ?? role, difficulty: route?.difficulty, requestedModel: route?.requestedModel, requestedEffort: route?.requestedEffort, actualModel: undefined, routeStatus: route ? "pending" : "unrouted", resultStatus: "UNKNOWN", escalationOf: route?.escalationOf, reviewDepth: route?.reviewDepth, review: route?.review, reviewApproved: route?.reviewApproved, scope: Object.freeze([...scope]), writes: Object.freeze([...writes]), leases: [...writes], promptID, state: "reserved", deadline: now + timeout, stopped: false, cancelRequested: false, pendingLaunch: true }
     this.jobs.set(id, j)
+    if (escalationSource) escalationSource.escalationReservedBy = id
     for (const p of writes) this.leases.set(p, id)
     return j
   }
@@ -49,19 +84,39 @@ class State {
     const q = this.queues.get(j.parent) ?? new Map()
     q.set(j.id, { task_id: j.id, state: j.state }); this.queues.set(j.parent, q)
   }
+  releaseEscalation(j: Job) {
+    if (!j.escalationOf || j.role === "attacker") return
+    const source = this.jobs.get(j.escalationOf)
+    if (source?.escalationReservedBy === j.id) source.escalationReservedBy = undefined
+  }
   stop(j: Job, state: string) {
     if (j.stopped) return
     j.state = state; j.stopped = true
     for (const p of j.leases) if (this.leases.get(p) === j.id) this.leases.delete(p)
+    if (!j.session && !["blocked", "creating", "submitting"].includes(state)) this.releaseEscalation(j)
     this.notify(j)
   }
   observe(j: Job, info: any, parts: any[] = []) {
-    if (j.stopped || info?.sessionID !== j.session || info?.role !== "assistant" || info?.parentID !== j.promptID) return
+    if (j.resultLoaded || info?.sessionID !== j.session || info?.role !== "assistant" || info?.parentID !== j.promptID) return
     if (!info.time?.completed || (!info.error && info.finish !== "stop")) return
-    const text = parts.filter((p) => p.type === "text" && typeof p.text === "string").map((p) => p.text).join("\n").slice(0, 64_000)
-    j.result = containsCredentialLikeContent(text) ? "FAILED: protected returned evidence rejected" : text
+    if (typeof info.providerID === "string" && typeof info.modelID === "string") {
+      j.actualModel = { providerID: info.providerID, modelID: info.modelID }
+      j.routeStatus = j.requestedModel ? modelMatches(j.actualModel, j.requestedModel) ? "matched" : "mismatch" : "unrouted"
+    } else if (j.requestedModel) j.routeStatus = "unknown"
+    const fullText = parts.filter((p) => p.type === "text" && typeof p.text === "string").map((p) => p.text).join("\n")
+    const text = fullText.slice(0, 64_000)
+    if (parts.length) {
+      if (containsCredentialLikeContent(fullText)) {
+        j.result = "FAILED: protected returned evidence rejected"
+        j.resultStatus = "UNKNOWN"
+      } else {
+        j.result = text
+        j.resultStatus = (j.role === "worker" || j.role === "attacker" && fullText.length <= 64_000) ? parseWorkerStatus(fullText) : "UNKNOWN"
+      }
+    }
     if (info.error) j.error = "assigned prompt assistant returned an error"
-    this.stop(j, info.error ? "failed" : "completed")
+    if (j.routeStatus === "mismatch" || j.routeStatus === "unknown") j.error = "effective model did not match the selected profile"
+    if (!j.stopped) this.stop(j, info.error || j.routeStatus === "mismatch" || j.routeStatus === "unknown" ? "failed" : "completed")
   }
   descendants(session: string): Job[] {
     const direct = [...this.jobs.values()].filter((j) => j.parent === session)
@@ -153,7 +208,7 @@ async function preflight(role: string) {
       if (actual !== file.sha256.toLowerCase()) throw new Error("stale receipt hash")
     }
     // Canonical bounded role reads follow hash verification, never guessed model selection.
-    await readFile(path.join(harness, "agents", `${role}.md`), "utf8")
+    await readFile(path.join(harness, "agents", roleContract(role)), "utf8")
   } finally { await rm(receipt, { force: true }) }
 }
 
@@ -176,7 +231,7 @@ class Runtime {
   }
   background(p: Promise<any>) {
     this.pending.add(p)
-    void p.catch((e) => { this.errors.push(String(e.message).slice(0, 300)); this.errors = this.errors.slice(-20) }).finally(() => this.pending.delete(p))
+    void p.catch((e) => { this.errors.push(safeError(e, 300)); this.errors = this.errors.slice(-20) }).finally(() => this.pending.delete(p))
   }
   async call(operation: string, options: any, requireData = true) {
     const controller = new AbortController()
@@ -193,17 +248,44 @@ class Runtime {
     if (containsCredentialLikeContent(args.handoff)) throw new Error("protected handoff text")
     if (args.timeout_ms !== undefined && (!Number.isInteger(args.timeout_ms) || args.timeout_ms < 1000 || args.timeout_ms > 900000)) throw new Error("invalid timeout")
     if (!Array.isArray(args.scope_files) || !Array.isArray(args.write_files) || args.scope_files.length > 40 || args.write_files.length > 40) throw new Error("invalid bounded scope")
+    if (typeof context.messageID !== "string" || !context.messageID) throw new Error("parent tool-call message identity unavailable")
     const lexical = (values: string[]) => values.map((p) => {
       if (typeof p !== "string" || !p || !inside(this.root, path.resolve(this.root, p))) throw new Error("invalid scope")
       return key(path.resolve(this.root, p))
     })
     const scope = lexical(args.scope_files), writes = lexical(args.write_files)
     if (new Set(scope).size !== scope.length || new Set(writes).size !== writes.length || writes.some((p) => !scope.includes(p))) throw new Error("duplicate/uninherited write scope")
+    const role = normalizeReviewRole(args.role)
+    const hasReviewArgs = [args.review_depth, args.review_target, args.review_revision, args.review_lens, args.review_approved].some((v) => v !== undefined)
+    let route: Route | undefined
+    if (role === "worker") {
+      if (hasReviewArgs) throw new Error("review fields are accepted only for attacker role")
+      const selected = selectWorkerProfile(args.difficulty, args.escalation_of)
+      route = { profile: selected.agent, difficulty: args.difficulty, requestedModel: { providerID: selected.providerID, modelID: selected.modelID }, requestedEffort: selected.reasoningEffort, escalationOf: args.escalation_of }
+    } else if (role === "attacker") {
+      if (args.difficulty !== undefined) throw new Error("difficulty is accepted only for CODE worker role")
+      const depth = args.review_depth ?? "low"
+      const selected = selectAttackerProfile(depth, args.escalation_of)
+      if (!scope.length) throw new Error("attacker requires a nonempty bounded artifact scope")
+      const review = reviewIdentity(args.review_target, args.review_revision, args.review_lens)
+      if (depth !== "hard" && args.review_approved !== undefined) throw new Error("review_approved is only for explicit hard escalation")
+      route = { profile: selected.agent, reviewDepth: depth, review, reviewApproved: args.review_approved, requestedModel: { providerID: selected.providerID, modelID: selected.modelID }, requestedEffort: selected.reasoningEffort, escalationOf: args.escalation_of }
+    } else {
+      if (hasReviewArgs) throw new Error("review fields are accepted only for attacker role")
+      if (args.difficulty !== undefined || args.escalation_of !== undefined) throw new Error("difficulty/escalation are accepted only for CODE worker role")
+    }
     const parentJob = this.state.sessions.get(context.sessionID)
     if (!parentJob && context.agent !== "orchestrator") throw new Error("only root orchestrator can initiate dispatch")
-    const j = this.state.reserve(context.sessionID, args.role, scope, writes, `rts_${randomBytes(12).toString("hex")}`, messageID(), Date.now(), Math.min(Math.max(args.timeout_ms ?? 300_000, 1000), 900_000))
+    const j = this.state.reserve(context.sessionID, role, scope, writes, `rts_${randomBytes(12).toString("hex")}`, messageID(), Date.now(), Math.min(Math.max(args.timeout_ms ?? 300_000, 1000), 900_000), context.messageID, route)
     this.background(this.launch(j, structuredClone(args)))
-    return { task_id: j.id, state: j.state, wake_mode: "queued-next-natural-parent-turn" }
+    return { ...this.view(j), wake_mode: "queued-next-natural-parent-turn" }
+  }
+  async parentModel(j: Job) {
+    const messages = await this.call("messages", { path: { id: j.parent }, query: { limit: 100 } })
+    const current = uniqueCurrentAssistant(messages, j.parentMessageID)
+    if (!current) throw new Error("current parent assistant message/model identity is unavailable or ambiguous")
+    if (modelMatches(current, ASTRA_MODEL)) throw new Error("Astra is not permitted as a parent/main dispatcher model")
+    return current
   }
   async launch(j: Job, args: any) {
     try {
@@ -216,15 +298,35 @@ class Runtime {
       }
       const agents = await this.call("agents", {})
       if (!Array.isArray(agents)) throw new Error("app.agents malformed data")
-      const agent = agents.find((a: any) => a.name === j.role && a.mode !== "primary" && !a.disable)
-      if (!agent) throw new Error("requested agent unavailable in live app.agents")
+      const matchingAgents = agents.filter((a: any) => a.name === j.profile)
+      if (matchingAgents.length !== 1 || matchingAgents[0].mode !== "subagent" || matchingAgents[0].disable) throw new Error("requested agent profile unavailable, ambiguous, or not a subagent")
+      const agent = matchingAgents[0]
+      if (j.requestedModel) {
+        const configured = configuredAgentModel(agent)
+        if (!configured || !modelMatches(configured, j.requestedModel)) throw new Error("selected profile configured model is missing or mismatched")
+      }
+      if (j.role === "attacker" && agent.reasoningEffort !== j.requestedEffort) throw new Error("selected attacker profile reasoning effort is missing or mismatched")
       const scope = await Promise.all(args.scope_files.map((p: string) => canonical(this.root, p)))
       const writes = await Promise.all(args.write_files.map((p: string) => canonical(this.root, p)))
       if (new Set(scope).size !== scope.length || new Set(writes).size !== writes.length) throw new Error("case/realpath aliases in scope")
       this.state.canonicalize(j, scope, writes)
+      if (j.role === "attacker") {
+        // Bind the actual file bytes as well as the parent's explicit revision label.
+        j.artifactDigest = await artifactDigest(j.scope)
+      }
+      if (j.escalationOf) {
+        const source = this.state.jobs.get(j.escalationOf)
+        if (j.role === "attacker") {
+          assertAttackerEscalation(source && { ...source, escalationReservedBy: source.escalationReservedBy === j.id ? undefined : source.escalationReservedBy }, { parent: j.parent, root: j.root, depth: j.depth, scope: j.scope, writes: j.writes, review: j.review, approved: j.reviewApproved })
+          if (!source?.artifactDigest || source.artifactDigest !== j.artifactDigest) throw new Error("attacker artifact revision changed since Sol assessment")
+        }
+        if (!source || !samePathSet(j.scope, source.scope) || !samePathSet(j.writes, source.writes)) throw new Error("Astra escalation scope/write set must exactly match the source task")
+      }
+      await this.parentModel(j)
+      if (j.requestedModel) j.routeStatus = "configured"
       if (j.cancelRequested || this.disposed) { this.state.stop(j, "cancelled"); return }
       j.state = "creating"
-      const created = await this.call("create", { body: { parentID: j.parent, title: `RTS ${j.role} ${j.id}` } })
+      const created = await this.call("create", { body: { parentID: j.parent, title: `RTS ${j.profile} ${j.id}` } })
       if (typeof created.id !== "string") throw new Error("session.create missing ID; acceptance ambiguous")
       j.session = created.id; this.state.sessions.set(created.id, j)
       const actual = await this.call("get", { path: { id: created.id } })
@@ -233,11 +335,13 @@ class Runtime {
       // Re-verify immediately before dispatch, after SDK/filesystem awaits.
       await this.check(j.role)
       if (j.cancelRequested || this.disposed) { await this.abortJob(j); return }
+      if (j.role === "attacker" && await artifactDigest(j.scope) !== j.artifactDigest) throw new Error("attacker artifact revision changed before submission")
       j.state = "submitting"
-      await this.call("promptAsync", { path: { id: j.session }, body: { messageID: j.promptID, agent: j.role, system: `Managed RTS depth ${j.depth}. Exact inherited file scope: ${JSON.stringify(j.scope)}. Write ownership: ${JSON.stringify(j.writes)}. Native task, process and external tools are denied. Only read-only researcher/proposer at depth 1 may use orchestration_dispatch for inherited read-only grandchildren. Parent handles build/test. Report evidence/failures; never infer effects from permissions.`, parts: [{ type: "text", text: args.handoff }] } }, false)
+      await this.call("promptAsync", { path: { id: j.session }, body: { messageID: j.promptID, agent: j.profile, system: `Managed RTS depth ${j.depth}. Selected profile: ${j.profile}; requested model: ${j.requestedModel ? `${j.requestedModel.providerID}/${j.requestedModel.modelID}` : "host role default"}; requested reasoning effort: ${j.requestedEffort ?? "provider default"}; explicit escalation source: ${j.escalationOf ?? "none"}. Exact inherited file scope: ${JSON.stringify(j.scope)}. Write ownership: ${JSON.stringify(j.writes)}. Native task, process and external tools are denied. Only read-only researcher/proposer at depth 1 may dispatch inherited read-only grandchildren; worker-astra and attacker-hard are leaf-only. For attacker review, exact target/revision/lens: ${JSON.stringify(j.review ?? null)}; parent-approved same-scope escalation: ${j.reviewApproved === true}. Attacker-hard requires the nonempty explicit escalation source above; absent source means FAILED without analysis. Attacker ESCALATE is only for completed bounded reasoning insufficiency with the exact structured RTS_ESCALATION evidence from blackhat.md, never operational or authorization failure. Parent handles build/test. For worker or attacker role, first physical output line must be exactly one 'RTS_STATUS: SUCCESS|FAILED|ESCALATE', and the same marker must not appear again. Report evidence/failures; never infer effects from permissions.`, parts: [{ type: "text", text: args.handoff }] } }, false)
       if (j.state === "submitting" && !j.cancelRequested) j.state = "running"
     } catch (e: any) {
-      j.error = String(e.message).slice(0, 500)
+      j.error = safeError(e)
+      if (j.requestedModel && !j.session && j.state !== "creating") j.routeStatus = "unavailable"
       if (j.stopped) this.state.notify(j)
       else if (["creating", "submitting"].includes(j.state) || j.session) { j.state = "blocked"; this.state.notify(j) }
       else this.state.stop(j, j.cancelRequested ? "cancelled" : "failed")
@@ -261,8 +365,7 @@ class Runtime {
         if (j.stopped && !j.resultLoaded) {
           const final = messages.find((m: any) => m.info.parentID === j.promptID && m.info.time?.completed && (m.info.finish === "stop" || m.info.error))
           if (final) {
-            const text = final.parts.filter((p: any) => p.type === "text").map((p: any) => p.text).join("\n").slice(0, 64_000)
-            j.result = containsCredentialLikeContent(text) ? "FAILED: protected returned evidence rejected" : text
+            this.state.observe(j, final.info, final.parts)
             j.resultLoaded = true
           }
           else if (j.state === "cancelled") j.resultLoaded = true
@@ -294,7 +397,7 @@ class Runtime {
       const statuses = await this.call("status", {})
       if (statuses[j.session]?.type !== "idle") throw new Error("abort accepted but idle stop not confirmed")
       this.state.stop(j, "cancelled")
-    } catch (e: any) { if (!j.stopped) j.state = "blocked"; j.error = String(e.message); this.state.notify(j) }
+    } catch (e: any) { if (!j.stopped) j.state = "blocked"; j.error = safeError(e); this.state.notify(j) }
   }
   authorized(id: string, session: string) {
     const j = this.state.jobs.get(id)
@@ -308,10 +411,11 @@ class Runtime {
     for (const item of jobs) if (!item.pendingLaunch) await this.abortJob(item)
     return this.view(j)
   }
-  view(j: Job) { return { task_id: j.id, session_id: j.session, parent_id: j.parent, depth: j.depth, role: j.role, state: j.state, confirmed_stopped: j.stopped, error: j.error } }
+  view(j: Job) { return { task_id: j.id, session_id: j.session, parent_id: j.parent, depth: j.depth, role: j.role, profile: j.profile, difficulty: j.difficulty, review_depth: j.reviewDepth, review_target: j.review?.target, review_revision: j.review?.revision, review_lens: j.review?.lens, artifact_digest: j.artifactDigest, requested_model: j.requestedModel ? `${j.requestedModel.providerID}/${j.requestedModel.modelID}` : undefined, requested_reasoning_effort: j.requestedEffort, effective_model: j.actualModel ? `${j.actualModel.providerID}/${j.actualModel.modelID}` : undefined, route_status: j.routeStatus, result_status: j.resultStatus, escalation_of: j.escalationOf, escalation_reserved_by: j.escalationReservedBy, state: j.state, confirmed_stopped: j.stopped, error: j.error } }
   async before(input: any, args: any) {
     const j = this.state.sessions.get(input.sessionID)
     if (["orchestration_status", "orchestration_result", "orchestration_cancel"].includes(input.tool)) return
+    if ((j?.profile === "worker-astra" || j?.profile === "attacker-hard") && input.tool === "orchestration_dispatch") throw new Error("Astra subagents cannot dispatch child subagents")
     if (input.tool === "orchestration_dispatch" && j && delegators.has(j.role) && j.depth < 2 && !j.stopped && !j.cancelRequested) return
     if (j) {
       if (j.stopped || j.cancelRequested || ["blocked", "cancelling"].includes(j.state)) throw new Error("managed session is stopped/blocked")
@@ -345,7 +449,7 @@ class Runtime {
     const id = { task_id: tool.schema.string() }
     return {
       tool: {
-        orchestration_dispatch: tool({ description: "Reserve a bounded child task and return its ID immediately. Observe asynchronously; no automatic parent prompts.", args: { role: tool.schema.enum(roles as any), handoff: tool.schema.string(), scope_files: tool.schema.array(tool.schema.string()).max(40), write_files: tool.schema.array(tool.schema.string()).max(40).default([]), timeout_ms: tool.schema.number().int().min(1000).max(900000).default(300000) }, execute: async (args, context) => encode(() => this.dispatch(args, context)) }),
+        orchestration_dispatch: tool({ description: "Reserve one bounded child task. CODE worker calls require difficulty; Worker Astra requires a verified failed hard-Sol CODE result. Attacker uses separate review_depth; hard requires an approved same-target/revision/lens completed Sol ESCALATE with reasoning-insufficiency evidence. Observe asynchronously; no automatic model upgrades or parent prompts.", args: { role: tool.schema.enum(roles as any), review_depth: tool.schema.enum(["low", "medium", "hard"]).optional(), review_target: tool.schema.string().optional(), review_revision: tool.schema.string().optional(), review_lens: tool.schema.string().optional(), review_approved: tool.schema.boolean().optional(), difficulty: tool.schema.enum(["easy", "medium", "hard"]).optional(), escalation_of: tool.schema.string().optional(), handoff: tool.schema.string(), scope_files: tool.schema.array(tool.schema.string()).max(40), write_files: tool.schema.array(tool.schema.string()).max(40).default([]), timeout_ms: tool.schema.number().int().min(1000).max(900000).default(300000) }, execute: async (args, context) => encode(() => this.dispatch(args, context)) }),
         orchestration_status: tool({ description: "Observe owned task state and deduplicated queued notifications (does not wait for completion).", args: { task_id: tool.schema.string().optional() }, execute: async (args, c) => encode(() => ({ tasks: args.task_id ? [this.view(this.authorized(args.task_id, c.sessionID))] : [...this.state.jobs.values()].filter((j) => j.parent === c.sessionID || j.root === c.sessionID).map((j) => this.view(j)), notifications: [...(this.state.queues.get(c.sessionID)?.values() ?? [])], observer_errors: this.errors })) }),
         orchestration_result: tool({ description: "Read correlated final result snapshot; pending is not successful evidence. Wait for every requested task before final synthesis.", args: id, execute: async (args, c) => encode(() => { const j = this.authorized(args.task_id, c.sessionID); this.background(this.reconcile()); return { ...this.view(j), evidence_ready: j.resultLoaded === true, result: j.stopped && j.resultLoaded ? j.result : undefined } }) }),
         orchestration_cancel: tool({ description: "Cancel task subtree; retain leases on abort/stop uncertainty.", args: id, execute: async (args, c) => encode(() => this.cancel(args.task_id, c.sessionID)) }),
@@ -377,5 +481,5 @@ async function orchestration(input: PluginInput): Promise<Hooks> {
   return runtime.hooks()
 }
 // One plugin export only: auto-discovery must not interpret test helpers as plugins.
-orchestration.testing = { State, Runtime, wrapper, canonical, operationFiles, envelope, registry, preflight }
+orchestration.testing = { State, Runtime, wrapper, canonical, operationFiles, envelope, registry, preflight, roleContract }
 export default orchestration

@@ -3,7 +3,7 @@
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-Σ=rules/BOOTSTRAP.lrf; authority=Σ+routed-LRF; 本書=nav≠policy; host/cmd=../HARDWARE.md(active_profile).
+Σ=rules/BOOTSTRAP.lrf; authority=Σ+routed-LRF; 本書=nav≠policy; host/cmd=HARDWARE.md relative to HarnessRoot, never process CWD (active_profile).
 Subagent handoff: visible fields exactly Role,Target,Acceptance,Scope,Known facts in order; header identifies text protocol/policy only, grants no authority; read/apply SIGMA/1+routed LRF.
 READ+COMPILE(Σ)→classify→match→hydrate(matching MANUAL+LOAD)→etl/main.seq. Missing|unreadable|invalid|unknown structure|equal-rank conflict⇒STOP+ask.
 rg-first; hit±context; full catalog=NO; unrelated=NO. Choose shell from active_profile.

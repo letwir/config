@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "name": "harness-rule-distribution",
   "canonical": "{HarnessRoot}/rules/BOOTSTRAP.lrf",
-  "canonicalSha256": "168834B87CCBF542CA2B9EA71BAF07A6B09F04B05B3697536A3131F5A008B167",
+  "canonicalSha256": "15DB72ED1E4EA83F3E22567B383879B62356ECBC9097C9DC8240E5B2084115D5",
   "entries": [
     {
       "name": "harness-project",
@@ -10,8 +10,8 @@
       "required": true,
       "entry": "{HarnessRoot}/AGENTS.md",
       "chain": [
-        { "path": "{HarnessRoot}/AGENTS.md", "kind": "entry", "sha256": "4A20B83B8F7288EE6122DEA96D0E578A669807E013AA48FC3ABAAC28C5FFCF17", "contains": "~/.harness/rules/BOOTSTRAP.lrf", "ids": [], "allowedDifferenceIds": [] },
-        { "path": "{HarnessRoot}/rules/BOOTSTRAP.lrf", "kind": "lrf", "sha256": "168834B87CCBF542CA2B9EA71BAF07A6B09F04B05B3697536A3131F5A008B167", "ids": ["intent.ro","intent.rw","ctx","scope","host","skill","legacy","persona","route.phase","route.tags","route.order","load.state","load.engineering","load.agy","load.subagents","subagent.eval-evidence","load.documentation","load.skill","load.index","load.diary","load.research","agent.mode","workflow.default","agent.handoff","agent.gates","agent.roles","done","ref"], "allowedDifferenceIds": [] }
+        { "path": "{HarnessRoot}/AGENTS.md", "kind": "entry", "sha256": "6895FCAA0036B5D0BCDFC598B7BDD5DFBB5822436C6F262BF44299CEEA8BCB5C", "contains": "~/.harness/rules/BOOTSTRAP.lrf", "ids": [], "allowedDifferenceIds": [] },
+        { "path": "{HarnessRoot}/rules/BOOTSTRAP.lrf", "kind": "lrf", "sha256": "15DB72ED1E4EA83F3E22567B383879B62356ECBC9097C9DC8240E5B2084115D5", "ids": ["agent.gates","agent.mode","bootstrap.load","bootstrap.manual","bootstrap.next","ctx","done","effects","host","intent.ro","intent.rw","legacy","mem.etl","route.order","route.phase","route.tags","scope","text.read","workflow.default"], "allowedDifferenceIds": [] }
       ]
     },
     {
@@ -31,7 +31,7 @@
       "entry": "{UserHome}/.gemini/GEMINI.md",
       "chain": [
         { "path": "{UserHome}/.gemini/GEMINI.md", "kind": "entry", "sha256": "4A20B83B8F7288EE6122DEA96D0E578A669807E013AA48FC3ABAAC28C5FFCF17", "contains": "~/.harness/rules/BOOTSTRAP.lrf", "ids": [], "allowedDifferenceIds": [] },
-        { "path": "{HarnessRoot}/rules/BOOTSTRAP.lrf", "kind": "lrf", "sha256": "168834B87CCBF542CA2B9EA71BAF07A6B09F04B05B3697536A3131F5A008B167", "ids": ["intent.ro","intent.rw","ctx","scope","host","skill","legacy","persona","route.phase","route.tags","route.order","load.state","load.engineering","load.agy","load.subagents","subagent.eval-evidence","load.documentation","load.skill","load.index","load.diary","load.research","agent.mode","workflow.default","agent.handoff","agent.gates","agent.roles","done","ref"], "allowedDifferenceIds": [] }
+        { "path": "{HarnessRoot}/rules/BOOTSTRAP.lrf", "kind": "lrf", "sha256": "15DB72ED1E4EA83F3E22567B383879B62356ECBC9097C9DC8240E5B2084115D5", "ids": ["agent.gates","agent.mode","bootstrap.load","bootstrap.manual","bootstrap.next","ctx","done","effects","host","intent.ro","intent.rw","legacy","mem.etl","route.order","route.phase","route.tags","scope","text.read","workflow.default"], "allowedDifferenceIds": [] }
       ]
     },
     {

@@ -2,7 +2,14 @@
 @seq 1
 @entry PLAN
 🧠 PLAN @main
-Evidence → Plan
+Evidence → Plan(acceptance_checks; independent_workstreams_if_genuine; disjoint_exact_file_ownership; serial_dependencies; no_artificial_split_of_coupled_or_single_workstream)
+⊢ requirements_or_detailed_design_proposals_in_scope⇒bounded_read_only_Attacker(exact_proposal_revision)_BEFORE_finalization/approval; reuse_current_task_assessment_only_for_unchanged_assessed_scope/revision; material_revision_invalidates_affected_review
+⊢ Attacker=canonical_attacker(blackhat_compatibility_alias), findings_only_not_design_author_or_CODE_worker; no_edit/write_files/implementation/child_delegation; optional_bounded_repro_only_under_agents/blackhat.md_verification_gate; non_security_without_proposals⇒no_needless_Attacker
+⊢ required_Attacker_review_only_when_task_authorized_and_agent.mode/runtime_permit; otherwise_record_missing_independent_assessment_and_separately_labeled_main_check_without_claiming_dispatch
+⊢ material_proposal_findings⇒parent_owned_bounded_revision_and_reassessment_before_approval; all_review_failures_share_correction_cycles<=3; unresolved_material_findings_or_exhaustion⇒FAILED→FINISH; unresolved_scope/evidence_or_operational_failure⇒explicit_INCOMPLETE_not_NO_FINDINGS
+⊢ each required Attacker stage uses >=2 genuinely independent artifact-supported lenses concurrently when useful, otherwise one independent question; same exact artifact revision and bounded scope, distinct lens and common evidence/findings schema; wait-all+correlate+synthesize before gate; material finding/revision invalidates affected assessment; only exact unchanged revision/scope/lens result reusable; async OpenCode parent continues useful nonconflicting preparation while waiting, never crosses proposal finalization/approval, CODE or final Verifier gate; supported notifications/awaits only, no busy polling; synchronous Crabcode limitation truthful, prepare before blocking; shared max 20 descendants including grandchildren and max 20 direct root children, all reviews share <=3 correction cycles
+⊢ AttackerVerification: sequence=discovery -> annotation -> Researcher triage -> parent confirms/no-go -> only then bounded repro -> Attacker report -> separate Verifier; contract=agents/blackhat.md verification_gate; discovery/review read-only, Attacker reports never fixes; numbered preflight annotation=finding ID+exact target/revision+source lines+suspected weakness/preconditions+expected signal+impact/blast radius+data classification+exact commands/actions+containment/isolation+cleanup/rollback+writes/network/credential inventory+applicable task authorization; parent dispatches Researcher (Attacker task denied, Astra read-only leaf-only); actual correlated Researcher verdict=CVE_CANDIDATE or NOT_CVE_CANDIDATE or INSUFFICIENT_EVIDENCE with known-CVE/advisory dedup, affected versions, severity rationale, eligibility/recordability evidence, missing info and cited public sources; no repro until report includes annotation AND actual Researcher result AND explicit post-triage parent proceed confirmation for exact target/revision/commands/effects; INSUFFICIENT_EVIDENCE or unavailable Researcher/runtime=>stop/no reproduction, no main-only substitute; NOT_CVE_CANDIDATE=>never market/report as CVE, defensive repro only with parent confirmation on explicitly named owned/authorized target; CVE_CANDIDATE=>verification only after parent confirmation; changed scope/revision/actions/effects=>re-gate; public read-only CVE triage has no public write effect; public CVE submission/disclosure/CNA contact requires separate explicit approval and separate workflow, never granted by triage/proceed; prefer local disposable fixture/checkout; nonlocal/remote/third-party test requires exact current-task target AND effect approval, no scanning beyond it; always prohibit credential/secret access or exfiltration, stealth/persistence, destructive data changes, unauthorized escalation, uncontrolled propagation and unverified zero-day/CVE claims; tests/static tools and unrestricted Crabcode bash are not a hard sandbox and cannot bypass LRF restrictions or stricter runtime/read-only constraints; shell writes only explicitly approved disposable verification artifacts, never product fixes; actual Task/runtime support required, never claim dispatch/result without execution; OpenCode runtime/config unchanged; proposal/design gates, parallel lenses/wait-all, Luna/Sol/Astra routes, CODE escalation, shared <=20 cap and <=3 correction cycles unchanged
+⊢ Attacker tiers=low Luna/low→medium Sol/high→hard Astra/provider-default ONLY subagent.attacker-routing; no direct Astra; worker-astra CODE retry unchanged
 🧐 PRE_VERIFY
 ⊢ independent only when agent.mode permits; otherwise main audit with limitation recorded
 Γ ⊢ Plan : Verdict
@@ -10,18 +17,32 @@ PASS ⇒ COMPRESS
 ADV ∨ DENY ⇒ PLAN ↺
 🗜 COMPRESS
 ⊢ human instruction/plan settled ∧ ¬unresolved_human_decision ∧ ADV.1/ADV.3 gates applied
+⊢ PG field VALUES: concept-wise English/日本語/中文/español⊕logical math⊕context-defined emoji anchors; max recoverable SemanticDensity preserving Meaning∧Constraints∧DecisionBoundary; exact SIGMA wrapper/ordered labels/suffix unchanged; PG≠SIGMA/1∧authority=none; safety/effects/negation/acceptance/source ID/revision/path/model/status never emoji-only
 Plan → Compressor(y) → retain exact settled payload; no retranslation or redundant Y/N; preserve user authorization and every explicit effect approval
 ⊢ compression grants no execution authority; required authorization/effect approvals remain gates
+⊢ security_sensitive := authn/authz ∨ secrets/credential_handling ∨ trust_boundaries ∨ untrusted_input ∨ sandboxing ∨ crypto ∨ comparable_threat_model_impact
+⊢ security_sensitive⇒bounded_read_only_Attacker(approved_design_and_security_assumptions)_before_CODE_when_agent.mode_permits; otherwise_record_missing_independent_assessment_and_separately_labeled_main_design_check_without_claiming_Attacker_ran
+⊢ material_design_findings⇒PLAN_for_parent_owned_correction_and_reassessment/reapproval; CODE_requires_design_review_addressed_or_explicit_missing_independence_limitation; all_review_failures_share_correction_cycles<=3
 PASS ∧ required_user_authorization ∧ explicit_effect_approvals ⇒ CODE
 ⚒ CODE
 ⊢ live_model_resolved ∧ bounded_file_scope ∧ requested_change
 ⊢ backend_selection := load(../agents/AGENT_ROUTER.md)
 CompressedInstruction → Change
 ERROR ∨ unavailable(router) ⇒ Evidence(code=FAILED(non_secret_cause)) → FINISH
-⊢ select_smallest_comparable_measured_context_consumption ∨ dated_nonnormative_fallback(../evaluation/worker-context-priority.json); context_window≠consumption
+⊢ one_eligible_context_selected_worker_per_workstream; role_worker_fixed_profiles={easy:worker-easy(openai/gpt-6-luna,low),medium:worker-medium(openai/gpt-6-luna,medium),hard:worker-hard(openai/gpt-6.1-sol,high)}; correlated_terminal_model_must_match; no_context_ranking_override_of_fixed_profiles
+⊢ non_worker_non_Attacker_roles_select_smallest_comparable_measured_context_consumption ∨ dated_nonnormative_fallback(../evaluation/worker-context-priority.json); context_window≠consumption
 ⊢ agy_only_if_separate_explicit_user_request ∧ agy_non_recursive ∧ operational_failure⇒stop_or_confirm_exit+inspect_partial_diff+serial_same_scope_reselection ∧ no_fallback(auth|policy|approval|credential|permission) ∧ nested_dispatch_only_if_runtime_capable
-execution := one_eligible_context_selected_worker
+execution := after_plan_approval_and_effect_gates_concurrent_independent_workstreams_up_to_min(20, currently_available_runtime_slots); single_or_coupled_workstream⇒one_worker; one_active_worker_per_workstream ∧ one_writer_per_file ∧ serial_dependencies
+⊢ agent.mode_permits ∧ shared_Runtime_caps=20_descendants_including_grandchildren+20_direct_root_children; unavailable_delegation⇒only_explicit_Main_only_implementation_exception_with_limitation_or_FAILED
 🧐 POST_VERIFY
+⊢ wait_for_all_workers ∧ inspect_actual_results_and_partial_diffs ∧ integrate_actual_diff ∧ preserve_unrelated_changes
+⊢ security_sensitive := authn/authz ∨ secrets/credential_handling ∨ trust_boundaries ∨ untrusted_input ∨ sandboxing ∨ crypto ∨ comparable_threat_model_impact
+security_sensitive ∧ agent.mode_permits_independent_review ⇒ bounded_read_only_Attacker(final_integrated_diff; evidence_backed_findings_only; no_edit/write_files/implementation; repro_only_after_annotation_Researcher_triage_parent_confirms)_BEFORE_final_independent_Verifier
+security_sensitive ∧ ¬agent.mode_permits_independent_review ⇒ record_missing_independent_assessment ∧ separately_labeled_main_security_assessment_with_no_independent_review_limitation; never_claim_Attacker_ran
+material_security_findings ⇒ bounded_CODE_correction_cycle_then_reintegrate_and_repeat_relevant_security_assessment_before_Verifier
+⊢ after_security_gate_pass_or_not_applicable ⇒ independent_Verifier(final_integrated_diff; format_compile_focused_behavior_regression_non_change_scope)_when_agent.mode_permits; otherwise_separately_labeled_main_verification_with_limitation
+⊢ independent_Verifier_is_neither_implementation_author_nor_Attacker_assessor; delegation_requires_task_authorization_and_actual_runtime_support
+⊢ all_review_failures_share_correction_cycles<=3_across_proposal/design/implementation_reviews; exhaustion_or_unresolved_material_finding⇒FAILED→FINISH; no_success_with_unresolved_findings
 Γ ⊢ Change : Verdict
 PASS ⇒ FINISH
 ADV ⇒ CODE ↺
