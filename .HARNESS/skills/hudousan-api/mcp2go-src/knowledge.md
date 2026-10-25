@@ -1,0 +1,54 @@
+### [golang.org/x/sys/windows/registry]
+- **参照URL**: [https://pkg.go.dev/golang.org/x/sys/windows/registry](https://pkg.go.dev/golang.org/x/sys/windows/registry)
+- **知見**:
+  - Windows環境におけるレジストリ操作に特化したGoパッケージ。
+  - 環境変数 `KOKKOU_API` をレジストリから読み出すために `registry.OpenKey` と `GetStringValue` を利用可能。
+  - ユーザー環境変数キー: `registry.CURRENT_USER` の `"Environment"`
+  - システム環境変数キー: `registry.LOCAL_MACHINE` の `"SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment"`
+  - 利用には `go get golang.org/x/sys/windows/registry` で依存モジュールの追加が必要。
+
+### [MLIT DPF Search API Specifications]
+- **参照URL**: [https://data-platform.mlit.go.jp/api_docs/reference/queries/search.html](https://data-platform.mlit.go.jp/api_docs/reference/queries/search.html)
+- **知見**:
+  - 国土交通省データプラットフォーム (MLIT DPF) の検索APIは GraphQL POST で動作。
+  - クエリ `search` の主要引数：
+    - `term`: `String` (検索キーワード)
+    - `phraseMatch`: `Boolean` (フレーズ完全一致フラグ、通常 `true`)
+    - `first`: `Int` (ページング開始オフセット、通常 `0`)
+    - `size`: `Int` (取得するデータの件数。最大 `10000` 件)
+    - `attributeFilter`: `AttributeFilterInputType` (属性フィルタ用)
+  - `AttributeFilterInputType` 引数仕様：
+    - `attributeName`: `String` (検索する属性の名称。例: `"DPF:dataset_id"`)
+    - `is`: `Any` (属性値の完全一致条件。`similar` との併用不可)
+    - `similar`: `String` (曖昧一致条件、文字列型属性のみ利用可能)
+    - `AND`: `[AttributeFilterInputType]` (複数の条件をすべて満たす)
+    - `OR`: `[AttributeFilterInputType]` (複数の条件のいずれかを満たす)
+  - 戻り値 `SearchResultClass`：
+    - `totalNumber`: `Int` (マッチした件数)
+    - `searchResults`: `[DataClass]`
+      - `id`: `String` (データのID)
+      - `title`: `String` (タイトル)
+      - `metadata`: `JSONObject` (データ属性。緯度・経度、都道府県名などが含まれる)
+
+### [MLIT Real Estate Information Library API]
+- **参照URL**: [https://www.reinfolib.mlit.go.jp/help/apiManual/](https://www.reinfolib.mlit.go.jp/help/apiManual/)
+- **知見**:
+  - 不動産情報ライブラリAPIはREST形式のクエリAPI。
+  - エンドポイントベースURL: `https://www.reinfolib.mlit.go.jp/ex-api/external/`
+  - 認証: リクエストヘッダー `Ocp-Apim-Subscription-Key` にAPIキーを設定してHTTPSリクエスト。
+  - レスポンスはgzip圧縮されていることがあり、クライアント側でのデコードが必要。
+  - 主なAPI:
+    - **XIT001 (不動産価格情報取得API)**:
+      - パラメータ:
+        - `year` (必須, YYYY): 取引時期（年）
+        - `quarter` (任意, 1-4): 取引時期（四半期）
+        - `area` (任意※, NN): 都道府県コード
+        - `city` (任意※, NNNNN): 市区町村コード
+        - `station` (任意※, NNNNNN): 駅コード
+        - ※ `area`, `city`, `station` のうち、少なくとも一つは必須。
+        - `priceClassification` (任意, NN): 価格情報区分コード
+        - `language` (任意, ja/en): 言語
+    - **XIT002 (都道府県内市区町村一覧取得API)**:
+      - パラメータ:
+        - `area` (必須, NN): 都道府県コード
+        - `language` (任意, ja/en): 言語
