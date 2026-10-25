@@ -1,0 +1,25 @@
+{
+  "task_id": "20261025-powershell-config-sanitization",
+  "comparison_key": "portable-powershell-profile-sanitization",
+  "timestamp": "2026-10-25T04:19:35Z",
+  "axes": {
+    "privacy_and_redaction": 0.9,
+    "portability": 0.9,
+    "installation_validation": 1.0,
+    "acceptance_completion": 0.9
+  },
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "Overbroad source searches emitted absolute path text in tool output before safe scanning was used.",
+      "Windows PowerShell 5.1 initially failed to parse a UTF-8 BOM-less Japanese file; BOM was added and all files then passed.",
+      "Several temporary command quoting/regex mistakes caused retries, without persistent unrelated changes.",
+      "CRLF was initially reported as staged trailing whitespace; committed EOL attributes were added and the staged check rerun."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  },
+  "outcome": "IMPLEMENTED_VERIFIED_PENDING_VCS",
+  "verification_status": "Both PowerShell hosts parse the bundle; isolated installer tests and final privacy audit passed.",
+  "remaining_uncertainty": "Live profile startup and optional WSL/external command integrations were not executed; user-requested push is pending the VCS step."
+}

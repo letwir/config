@@ -12,12 +12,12 @@
 
 | 項目 | 現在の設定値 | 利用可能なプロファイル |
 | :--- | :--- | :--- |
-| **`active_profile`** | **`android-termux-bash`** | `android-termux-bash`, `windows-pwsh`, `linux-native-bash` |
+| **`active_profile`** | **`windows-pwsh`** | `android-termux-bash`, `windows-pwsh`, `linux-native-bash` |
 
 ```yaml
 # Profile Switcher Directive
 hardware_environment:
-  active_profile: "android-termux-bash"
+  active_profile: "windows-pwsh"
   fallback_profile: "linux-native-bash"
 ```
 
