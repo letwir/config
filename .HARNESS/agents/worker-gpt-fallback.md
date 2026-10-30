@@ -3,7 +3,7 @@
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/XML::ρ→max|target:WORKER_GPT_FALLBACK]
+Representation: POLYGLYPH.md; ρ→max; target=WORKER_GPT_FALLBACK.
 # worker-gpt-fallback protocol
 Route: AGENT_ROUTER.md⇒FAILED(agy operational)⇒Codex GPT-family(bounded_CODE).
 Rules:

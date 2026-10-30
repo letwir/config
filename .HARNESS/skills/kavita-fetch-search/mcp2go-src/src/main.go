@@ -3,9 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"net/url"
 	"os"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -34,29 +36,99 @@ func loadConfig() (*Config, error) {
 		"config.toml",
 	}
 
-	for _, p := range configPaths {
-		cfg, err := loadConfigFromPath(p)
-		if err == nil {
-			return cfg, nil
+	return loadConfigFromPaths(configPaths, os.LookupEnv)
+}
+
+// Resolve explicit overrides first, so invalid environment settings cannot
+// silently fall back to legacy credentials. Complete environment settings need no file.
+func loadConfigFromPaths(paths []string, lookup func(string) (string, bool)) (*Config, error) {
+	envConfig, err := applyConfigEnv(Config{}, lookup)
+	if err != nil {
+		return nil, err
+	}
+	if validateConfig(envConfig) == nil {
+		return &envConfig, nil
+	}
+	for _, path := range paths {
+		cfg, err := readConfigFromPath(path)
+		if err != nil {
+			continue
+		}
+		merged, err := applyConfigEnv(*cfg, lookup)
+		if err != nil {
+			return nil, err
+		}
+		if validateConfig(merged) == nil {
+			return &merged, nil
 		}
 	}
-	return nil, fmt.Errorf("could not load config.toml from the executable directory or current directory")
+	return nil, fmt.Errorf("could not load valid Kavita settings from environment or config.toml")
+}
+
+func applyConfigEnv(cfg Config, lookup func(string) (string, bool)) (Config, error) {
+	if value, set := lookup("KAVITA_URL"); set {
+		if err := validateHTTPURL("KAVITA_URL", value); err != nil {
+			return Config{}, err
+		}
+		cfg.ServerURL = strings.TrimSpace(value)
+	}
+	if value, set := lookup("KAVITA_OPDS"); set {
+		key, err := opdsAPIKey(value)
+		if err != nil {
+			return Config{}, err
+		}
+		cfg.OPDSURL = strings.TrimSpace(value)
+		cfg.APIKey = key
+	}
+	return cfg, nil
+}
+
+func opdsAPIKey(value string) (string, error) {
+	invalid := fmt.Errorf("KAVITA_OPDS must be an absolute http or https URL ending in /api/opds/<API key>")
+	if validateHTTPURL("KAVITA_OPDS", value) != nil {
+		return "", invalid
+	}
+	parsed, err := url.Parse(strings.TrimSpace(value))
+	if err != nil {
+		return "", invalid
+	}
+	if parsed.RawQuery != "" || parsed.ForceQuery || parsed.Fragment != "" || parsed.User != nil {
+		return "", invalid
+	}
+	parts := strings.Split(strings.TrimRight(parsed.EscapedPath(), "/"), "/")
+	if len(parts) < 4 || parts[len(parts)-3] != "api" || parts[len(parts)-2] != "opds" {
+		return "", invalid
+	}
+	key, err := url.PathUnescape(parts[len(parts)-1])
+	if err != nil || strings.TrimSpace(key) == "" || strings.ContainsAny(key, "\r\n\x00") {
+		return "", invalid
+	}
+	return key, nil
 }
 
 func loadConfigFromPath(path string) (*Config, error) {
+	cfg, err := readConfigFromPath(path)
+	if err != nil {
+		return nil, err
+	}
+	if err := validateConfig(*cfg); err != nil {
+		return nil, err
+	}
+	return cfg, nil
+}
+
+// Read unvalidated fields so environment overrides can replace invalid values.
+func readConfigFromPath(path string) (*Config, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
-		return nil, fmt.Errorf("read config.toml: %w", err)
+		return nil, fmt.Errorf("could not read config.toml")
 	}
 
 	var cfg Config
 	if err := toml.Unmarshal(data, &cfg); err != nil {
-		return nil, fmt.Errorf("failed to parse config.toml: %w", err)
+		// Parser errors may quote a credential-bearing source line.
+		return nil, fmt.Errorf("failed to parse config.toml")
 	}
-	if err := validateConfig(cfg); err != nil {
-		return nil, err
-	}
-
 	return &cfg, nil
 }
 
@@ -65,7 +137,7 @@ func validateConfig(cfg Config) error {
 		return err
 	}
 	if strings.TrimSpace(cfg.APIKey) == "" {
-		return fmt.Errorf("config.toml api_key must not be blank")
+		return fmt.Errorf("Kavita API key must not be blank")
 	}
 	if err := validateHTTPURL("opds_url", cfg.OPDSURL); err != nil {
 		return err
@@ -75,10 +147,83 @@ func validateConfig(cfg Config) error {
 
 func validateHTTPURL(field, value string) error {
 	parsed, err := url.Parse(strings.TrimSpace(value))
-	if err != nil || parsed.Host == "" || (parsed.Scheme != "http" && parsed.Scheme != "https") {
-		return fmt.Errorf("config.toml %s must be an absolute http or https URL", field)
+	// url.Parse does not retain an empty fragment delimiter, so check it directly.
+	if err != nil || parsed.Host == "" || (parsed.Scheme != "http" && parsed.Scheme != "https") ||
+		parsed.User != nil || parsed.RawQuery != "" || parsed.ForceQuery || strings.Contains(value, "#") {
+		return fmt.Errorf("%s must be an absolute http or https URL without userinfo, query, or fragment", field)
 	}
 	return nil
+}
+
+// safeOutput is the final display boundary for metadata, local errors and flag
+// diagnostics. Transport errors are separately sanitized in the HTTP client.
+type safeOutput struct {
+	writer   io.Writer
+	replacer *strings.Replacer
+}
+
+func newSafeOutput(writer io.Writer, cfg Config) *safeOutput {
+	secrets := []string{cfg.OPDSURL, strings.TrimRight(cfg.OPDSURL, "/"), cfg.ServerURL}
+	keys := []string{cfg.APIKey}
+	if key, err := opdsAPIKey(cfg.OPDSURL); err == nil {
+		keys = append(keys, key)
+		if parsed, err := url.Parse(cfg.OPDSURL); err == nil {
+			parts := strings.Split(strings.TrimRight(parsed.EscapedPath(), "/"), "/")
+			keys = append(keys, parts[len(parts)-1])
+		}
+	}
+	for _, key := range keys {
+		secrets = append(secrets, key, url.PathEscape(key), url.QueryEscape(key))
+	}
+	// Replace whole URLs before shorter credentials contained inside them.
+	sort.SliceStable(secrets, func(i, j int) bool { return len(secrets[i]) > len(secrets[j]) })
+	var pairs []string
+	for _, secret := range secrets {
+		if secret != "" {
+			pairs = append(pairs, secret, "[REDACTED]")
+		}
+	}
+	return &safeOutput{writer: writer, replacer: strings.NewReplacer(pairs...)}
+}
+
+// Alternate percent encodings may occur in echoed URLs or metadata. Detect
+// those too, without converting arbitrary search text into decoded output.
+func (out *safeOutput) redact(value string) string {
+	redacted := out.replacer.Replace(value)
+	for _, candidate := range []string{redacted, strings.ReplaceAll(redacted, "+", " ")} {
+		decoded := decodeDisplayEscapes(candidate)
+		if out.replacer.Replace(decoded) != decoded {
+			return "[REDACTED]"
+		}
+	}
+	return redacted
+}
+
+func decodeDisplayEscapes(value string) string {
+	var decoded strings.Builder
+	for i := 0; i < len(value); i++ {
+		if value[i] == '%' && i+2 < len(value) {
+			if part, err := url.PathUnescape(value[i : i+3]); err == nil {
+				decoded.WriteString(part)
+				i += 2
+				continue
+			}
+		}
+		decoded.WriteByte(value[i])
+	}
+	return decoded.String()
+}
+
+func (out *safeOutput) Write(data []byte) (int, error) {
+	_, err := io.WriteString(out.writer, out.redact(string(data)))
+	if err != nil {
+		return 0, err
+	}
+	return len(data), nil
+}
+
+func (out *safeOutput) Printf(format string, args ...any) {
+	fmt.Fprintf(out, format, args...)
 }
 
 func main() {
@@ -95,20 +240,21 @@ func main() {
 		os.Exit(1)
 	}
 
+	out := newSafeOutput(os.Stdout, *cfg)
 	client := kavita.NewClient(cfg.ServerURL)
 
 	// Try opening local SQLite cache DB
 	exePath, err := os.Executable()
 	if err != nil {
-		fmt.Printf("Failed: Error getting executable path: %v\n", err)
+		out.Printf("Failed: Error getting executable path: %v\n", err)
 		os.Exit(1)
 	}
 	exeDir := filepath.Dir(exePath)
 	dbPath := filepath.Join(exeDir, "kavita_epub_cache.db")
-	fmt.Printf("Opening cache database at %s...\n", dbPath)
+	out.Printf("Opening cache database at %s...\n", dbPath)
 	db, err := cache.Open(dbPath)
 	if err != nil {
-		fmt.Printf("Failed: Failed to open cache database: %v\n", err)
+		out.Printf("Failed: Failed to open cache database: %v\n", err)
 		os.Exit(1)
 	}
 	defer db.Close()
@@ -116,17 +262,18 @@ func main() {
 	switch subcommand {
 	case "sync":
 		if err := client.Authenticate(cfg.APIKey, "KavitaGoSearchCLI"); err != nil {
-			fmt.Printf("Failed: Authentication failed: %v\n", err)
+			out.Printf("Failed: Authentication failed: %v\n", err)
 			os.Exit(1)
 		}
-		if err := syncDatabase(client, db); err != nil {
-			fmt.Printf("Failed: %v\n", err)
+		if err := syncDatabase(client, db, out); err != nil {
+			out.Printf("Failed: %v\n", err)
 			os.Exit(1)
 		}
 
 	case "search":
 		// Handle search command flags
 		searchFlags := flag.NewFlagSet("search", flag.ExitOnError)
+		searchFlags.SetOutput(newSafeOutput(os.Stderr, *cfg))
 		forceSync := searchFlags.Bool("sync", false, "Force sync with Kavita server before search")
 		searchFlags.Parse(os.Args[2:])
 
@@ -141,21 +288,21 @@ func main() {
 		if err == nil && seriesCount == 0 {
 			fmt.Println("Local cache is empty. Triggering automatic initial sync...")
 			if err := client.Authenticate(cfg.APIKey, "KavitaGoSearchCLI"); err != nil {
-				fmt.Printf("Failed: Authentication failed: %v\n", err)
+				out.Printf("Failed: Authentication failed: %v\n", err)
 				os.Exit(1)
 			}
-			if err := syncDatabase(client, db); err != nil {
-				fmt.Printf("Failed: %v\n", err)
+			if err := syncDatabase(client, db, out); err != nil {
+				out.Printf("Failed: %v\n", err)
 				os.Exit(1)
 			}
 		} else if *forceSync {
 			fmt.Println("Force sync flag specified. Syncing metadata...")
 			if err := client.Authenticate(cfg.APIKey, "KavitaGoSearchCLI"); err != nil {
-				fmt.Printf("Failed: Authentication failed: %v\n", err)
+				out.Printf("Failed: Authentication failed: %v\n", err)
 				os.Exit(1)
 			}
-			if err := syncDatabase(client, db); err != nil {
-				fmt.Printf("Failed: %v\n", err)
+			if err := syncDatabase(client, db, out); err != nil {
+				out.Printf("Failed: %v\n", err)
 				os.Exit(1)
 			}
 		}
@@ -163,7 +310,7 @@ func main() {
 		// Perform local search
 		results, err := db.SearchSeriesLocal(searchQuery)
 		if err != nil {
-			fmt.Printf("Failed: Local metadata search failed: %v\n", err)
+			out.Printf("Failed: Local metadata search failed: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -171,13 +318,13 @@ func main() {
 		if len(results) == 0 && !*forceSync && (seriesCount > 0) {
 			fmt.Println("No series found in local cache. Syncing with Kavita server...")
 			if err := client.Authenticate(cfg.APIKey, "KavitaGoSearchCLI"); err != nil {
-				fmt.Printf("Failed: Authentication failed: %v\n", err)
+				out.Printf("Failed: Authentication failed: %v\n", err)
 				os.Exit(1)
 			}
-			if err := syncDatabase(client, db); err == nil {
+			if err := syncDatabase(client, db, out); err == nil {
 				results, _ = db.SearchSeriesLocal(searchQuery)
 			} else {
-				fmt.Printf("Failed: Sync failed during automatic search recovery: %v\n", err)
+				out.Printf("Failed: Sync failed during automatic search recovery: %v\n", err)
 				os.Exit(1)
 			}
 		}
@@ -187,21 +334,17 @@ func main() {
 			return
 		}
 
-		// Build OPDS base URL (trim trailing slash for clean concatenation)
-		opdsBase := strings.TrimRight(cfg.OPDSURL, "/")
-
 		fmt.Printf("Found %d series in local cache:\n", len(results))
 		for _, s := range results {
-			opdsURL := fmt.Sprintf("%s/series/%d", opdsBase, s.SeriesID)
-			fmt.Printf("  ID: %d | Title: %s | Author: %s\n", s.SeriesID, s.Name, s.Author)
-			fmt.Printf("    OPDS: %s\n", opdsURL)
+			out.Printf("  ID: %d | Title: %s | Author: %s\n", s.SeriesID, s.Name, s.Author)
+			fmt.Println("    OPDS: [credential-bearing URL omitted]")
 			if s.Summary != "" {
 				// Truncate very long summaries for display (max ~300 chars)
-				summary := s.Summary
+				summary := out.redact(s.Summary)
 				if len(summary) > 300 {
 					summary = summary[:300] + "..."
 				}
-				fmt.Printf("    Summary: %s\n", summary)
+				out.Printf("    Summary: %s\n", summary)
 			}
 		}
 
@@ -213,21 +356,21 @@ func main() {
 
 		seriesID, err := strconv.Atoi(os.Args[2])
 		if err != nil {
-			fmt.Printf("Failed: Invalid series_id: %s\n", os.Args[2])
+			out.Printf("Failed: Invalid series_id: %s\n", os.Args[2])
 			os.Exit(1)
 		}
 		searchQuery := os.Args[3]
 
 		// Authenticate first, required to check and fetch new EPUB files
 		if err := client.Authenticate(cfg.APIKey, "KavitaGoSearchCLI"); err != nil {
-			fmt.Printf("Failed: Authentication failed: %v\n", err)
+			out.Printf("Failed: Authentication failed: %v\n", err)
 			os.Exit(1)
 		}
 
 		// Fetch chapters from server
 		chapters, err := client.GetChapters(seriesID)
 		if err != nil {
-			fmt.Printf("Failed: Failed to fetch chapters from server: %v\n", err)
+			out.Printf("Failed: Failed to fetch chapters from server: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -240,7 +383,7 @@ func main() {
 
 			isCached, err := db.IsChapterCached(chapter.ID)
 			if err != nil {
-				fmt.Printf("Warning: Failed to check cache for chapter %d: %v\n", chapter.ID, err)
+				out.Printf("Warning: Failed to check cache for chapter %d: %v\n", chapter.ID, err)
 				continue
 			}
 
@@ -248,16 +391,16 @@ func main() {
 				continue
 			}
 
-			fmt.Printf("Downloading chapter '%s' (ID: %d) to cache...\n", chapterTitle, chapter.ID)
+			out.Printf("Downloading chapter '%s' (ID: %d) to cache...\n", chapterTitle, chapter.ID)
 			epubBytes, err := client.DownloadChapter(chapter.ID)
 			if err != nil {
-				fmt.Printf("Failed: Failed to download chapter %d: %v\n", chapter.ID, err)
+				out.Printf("Failed: Failed to download chapter %d: %v\n", chapter.ID, err)
 				os.Exit(1) // Connection error during download should fail
 			}
 
 			parsedFiles, err := epub.ParseEPUBBytes(epubBytes)
 			if err != nil {
-				fmt.Printf("Warning: Failed to parse EPUB for chapter %d: %v\n", chapter.ID, err)
+				out.Printf("Warning: Failed to parse EPUB for chapter %d: %v\n", chapter.ID, err)
 				continue
 			}
 
@@ -266,16 +409,16 @@ func main() {
 				// We don't have target series title here, retrieve it or pass empty since search query outputs will show series title from cached series DB table join
 				err := db.SaveFileCache(chapter.ID, seriesID, "", chapterTitle, pf.Name, pf.Text)
 				if err != nil {
-					fmt.Printf("Warning: Failed to save file cache for %s: %v\n", pf.Name, err)
+					out.Printf("Warning: Failed to save file cache for %s: %v\n", pf.Name, err)
 				}
 			}
 		}
 
 		// Perform full-text search on cached DB
-		fmt.Printf("Searching text for '%s'...\n", searchQuery)
+		out.Printf("Searching text for '%s'...\n", searchQuery)
 		results, err := db.SearchContent(seriesID, searchQuery)
 		if err != nil {
-			fmt.Printf("Failed: Full-text search failed: %v\n", err)
+			out.Printf("Failed: Full-text search failed: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -304,7 +447,7 @@ func main() {
 			for i, line := range lines {
 				if strings.Contains(strings.ToLower(line), strings.ToLower(searchQuery)) {
 					if matchedLinesCount == 0 {
-						fmt.Printf("\n--- [%s] - %s (File: %s) ---\n", seriesTitle, res.ChapterTitle, res.FilePath)
+						out.Printf("\n--- [%s] - %s (File: %s) ---\n", seriesTitle, res.ChapterTitle, res.FilePath)
 					}
 					matchedLinesCount++
 
@@ -318,14 +461,15 @@ func main() {
 					}
 
 					if prevLine != "" {
-						fmt.Printf("    - %s\n", prevLine)
+						out.Printf("    - %s\n", prevLine)
 					}
 
-					highlighted := highlightMatch(strings.TrimSpace(line), searchQuery)
-					fmt.Printf("    * %s\n", highlighted)
+					// Redact before ANSI highlighting can split a credential.
+					highlighted := highlightMatch(out.redact(strings.TrimSpace(line)), out.redact(searchQuery))
+					out.Printf("    * %s\n", highlighted)
 
 					if nextLine != "" {
-						fmt.Printf("    - %s\n", nextLine)
+						out.Printf("    - %s\n", nextLine)
 					}
 					fmt.Println()
 				}
@@ -340,22 +484,20 @@ func main() {
 
 		seriesID, err := strconv.Atoi(os.Args[2])
 		if err != nil {
-			fmt.Printf("Failed: Invalid series_id: %s\n", os.Args[2])
+			out.Printf("Failed: Invalid series_id: %s\n", os.Args[2])
 			os.Exit(1)
 		}
 
 		// Authenticate to access REST API
 		if err := client.Authenticate(cfg.APIKey, "KavitaGoSearchCLI"); err != nil {
-			fmt.Printf("Failed: Authentication failed: %v\n", err)
+			out.Printf("Failed: Authentication failed: %v\n", err)
 			os.Exit(1)
 		}
-
-		opdsBase := strings.TrimRight(cfg.OPDSURL, "/")
 
 		// Fetch volumes with chapters and file info
 		volumes, err := client.GetSeriesVolumes(seriesID)
 		if err != nil {
-			fmt.Printf("Failed: Failed to fetch volumes: %v\n", err)
+			out.Printf("Failed: Failed to fetch volumes: %v\n", err)
 			os.Exit(1)
 		}
 
@@ -364,7 +506,7 @@ func main() {
 			return
 		}
 
-		fmt.Printf("Series ID: %d — EPUB Download URLs (curl-ready):\n\n", seriesID)
+		out.Printf("Series ID: %d — EPUB files (credential-bearing download URLs omitted):\n\n", seriesID)
 
 		for _, vol := range volumes {
 			volName := vol.Name
@@ -379,15 +521,12 @@ func main() {
 				}
 
 				if len(ch.Files) == 0 {
-					// If no file info returned, construct URL with generic filename
-					dlURL := kavita.BuildOPDSDownloadURL(opdsBase, seriesID, vol.ID, ch.ID, "book.epub")
-					fmt.Printf("  [%s / %s]\n", volName, chTitle)
-					fmt.Printf("    curl -o \"%s.epub\" \"%s\"\n\n", sanitizeFilename(chTitle), dlURL)
+					out.Printf("  [%s / %s] (chapter ID: %d)\n", volName, chTitle, ch.ID)
+					out.Printf("    File: %s.epub | Download URL: [omitted]\n\n", sanitizeFilename(chTitle))
 				} else {
 					for _, f := range ch.Files {
-						dlURL := kavita.BuildOPDSDownloadURL(opdsBase, seriesID, vol.ID, ch.ID, f.FilePath)
-						fmt.Printf("  [%s / %s]\n", volName, chTitle)
-						fmt.Printf("    curl -o \"%s\" \"%s\"\n\n", sanitizeFilename(filepath.Base(f.FilePath)), dlURL)
+						out.Printf("  [%s / %s] (chapter ID: %d)\n", volName, chTitle, ch.ID)
+						out.Printf("    File: %s | Download URL: [omitted]\n\n", sanitizeFilename(filepath.Base(f.FilePath)))
 					}
 				}
 			}
@@ -402,13 +541,13 @@ func main() {
 func printUsage() {
 	fmt.Println("Usage:")
 	fmt.Println("  kavita-fetch-search.exe search [--sync] <query>  : Search series/author locally (triggers ETL if empty)")
-	fmt.Println("                                                     Results include OPDS URL, summary, and author info.")
+	fmt.Println("                                                     Results include series IDs, summary, and author info; credential-bearing URLs are omitted.")
 	fmt.Println("  kavita-fetch-search.exe query <series_id> <q>    : Perform full-text search in a series (pulls missing EPUBs)")
-	fmt.Println("  kavita-fetch-search.exe dl <series_id>           : Show curl-ready OPDS download URLs for all EPUBs in a series")
+	fmt.Println("  kavita-fetch-search.exe dl <series_id>           : Show EPUB file information; credential-bearing download URLs are omitted")
 	fmt.Println("  kavita-fetch-search.exe sync                     : Force ETL sync of all metadata from Kavita server")
 }
 
-func syncDatabase(client *kavita.Client, db *cache.DB) error {
+func syncDatabase(client *kavita.Client, db *cache.DB, out *safeOutput) error {
 	fmt.Println("Syncing Kavita metadata to local database...")
 	seriesList, err := client.GetAllSeries()
 	if err != nil {
@@ -433,7 +572,7 @@ func syncDatabase(client *kavita.Client, db *cache.DB) error {
 
 		err = db.SaveSeriesCache(series.ID, series.Name, author, summary)
 		if err != nil {
-			fmt.Printf("Warning: failed to save cache for series %s: %v\n", series.Name, err)
+			out.Printf("Warning: failed to save cache for series %s: %v\n", series.Name, err)
 		}
 	}
 	fmt.Println("Sync completed successfully!")

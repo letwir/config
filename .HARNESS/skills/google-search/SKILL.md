@@ -7,7 +7,7 @@ description: 実時間Web情報検索。w3m経由でDuckDuckGo lite(主)を走�
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] 🔍search
+[POLYGLYPH::ρ→max] 🔍search
 🔍 Query→Web current-info lookup; trigger=事実確認∪最新ニュース∪Webリサーチ∪URL調査. Execute `bash $bin <query...> [-n <count>] [--json]`. w3m transport; DuckDuckGo lite=primary, html=fallback iff lite unavailable/fails. Return matching result titles+source URLs; --json requests JSON output. No hits⇒report no results; command/transport failure⇒report error, ¬fabricate results.
 
 #SIGMA LRF/1

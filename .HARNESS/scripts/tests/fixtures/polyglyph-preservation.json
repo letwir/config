@@ -19,7 +19,7 @@
       "lrf": null
     },
     "agents/blackhat.md": {
-      "frontmatter": "e4dbf6efd36ed601a0774f1a25c7885a90b801ac43df9f2b47d4e37844dfce03",
+      "frontmatter": "146b5ffb94091813e5863d6d3586726d6d71b75d51d4fb99955a4086ac46eaec",
       "fences": [],
       "lrf": null
     },
@@ -89,7 +89,8 @@
     "agents/worker.md": {
       "frontmatter": "c9e71a3c435ae332f0ab1ecec84287e1c379265569a705dab4d45c76f145f28a",
       "fences": [
-        "019f5cd2b9be3781321169746848a998d3fb10533cbee6dcceec5efe99c375d3"
+        "62c0604f6d2f10982b7e145b61ab0bc5ac5db542827b3aafe4d1587e70712873",
+        "2215beded64ffcc4ccb7c3e6ddbd54bb387bc3d74f008f0b183220890198b8fe"
       ],
       "lrf": null
     },
@@ -122,23 +123,6 @@
       "fences": [],
       "lrf": null
     },
-    "skills/.system/plugin-creator/SKILL.md": {
-      "frontmatter": "b3803d251c377cb52f0879b82c45d819b630622c2b479f563430e4589162c2ed",
-      "fences": [
-        "8f6e37e6b97f01f9e4f58db841b7da3f63adaec6783482d224275237c8d0a394",
-        "92aa0b2d531a485be40dece0511d64b8f2c43fc0153360e0029f11e060bb7f93",
-        "b092f67f4ed562c9472b0c9c87942a8fbb7bd975782b333a79e2d452c665cd13",
-        "ad2b1d67bc7a71412e2e6382bef695a1a96c9305e6b0cc941a9b070e71f36f20",
-        "deace1ee12e57e0db011b9617dd96287d4f432ded91a422843e748ab98719c32",
-        "08b4d30d0eceadc5bbe5e2b19f429b00492517199b043b24e30295de8ef69b1a",
-        "4f3326fec81c6ddb82036910e1386bfa6fba3a45b105bc15b09dbb8b6ed8706e",
-        "6b878ffbac436cb0d3e6325dc20d71e6d838fa76a32f752ea6936f7ceb58acdc",
-        "8879af623d276e19d127795634e5c25821556b2d861bba1c874b893c9f1d219c",
-        "37e85dafd0c21cdb7b3f68295ad345ee80a41dc853064ec421f6423b9c5c0711",
-        "08b4d30d0eceadc5bbe5e2b19f429b00492517199b043b24e30295de8ef69b1a"
-      ],
-      "lrf": null
-    },
     "skills/.system/review-agent/SKILL.md": {
       "frontmatter": "9f0e4d8e11db67291443cb2ef6b2a8b3ae5b873f064aa388239485c89c286f04",
       "fences": [],
@@ -168,10 +152,11 @@
     "skills/agy-subagent-router/SKILL.md": {
       "frontmatter": "f9fea8110263f984c93e1ab2552ac09e2b00a1561bed40ac6514ecf76b65d373",
       "fences": [
-        "c9dfbdff8b2baa056c1ff4aa811dac7be06d4c6a07eedadc2282335e9ffd5405",
-        "8d026ae6497a3811268e5910377c907d55ffed5f28db0a1001c4681215035102"
+        "046457bb541c488130cdeeebe2b75cd33e6441fc143685bd95f79afd6e1b1989",
+        "901f19777ef26c2850aa93f0e3acf4ededff5af40bba681ee444ab09404c5b90",
+        "c61672bf11d2111fbc50cf0e46b664234f6ee41a2e51d35737e2e0448603c4f0"
       ],
-      "lrf": "98f08f9bccefe2e0e8d5e8093a938be6add23c3d54b75e04b686ef32f5410093"
+      "lrf": "ad49542f3c96f2d65c4526b6390e9b9fe4ac3e2c641f0e3719fcc8c3d37fcae2"
     },
     "skills/babysit/SKILL.md": {
       "frontmatter": "4a289aa45b4b62ce3fbdd2e01fad5f3e927b9fbf24e0b349db09a3b76f1b5d3d",
@@ -186,7 +171,7 @@
     "skills/chrome-cdp-search/SKILL.md": {
       "frontmatter": "33edaec0586384973423a71097c5ec3ac7424a412545c8bea2852dac5b6f17dc",
       "fences": [],
-      "lrf": "59cf1d6d4b3943ecc12dafa1200dd9acf1ac637e52a545b754e73e101260c234"
+      "lrf": "7fbf9dcb4631a12bf04035cef6df191f741c3fe69435b4ba84188c930a2f3e8a"
     },
     "skills/create-hook/SKILL.md": {
       "frontmatter": "ecd70fcc9dd0136d84f245f9b7361b4ef3296818c76b932542c85a1f0af35f40",
@@ -283,6 +268,11 @@
       "fences": [],
       "lrf": "01479ee814eaad78d4b91abfb9505dc198660592d8551accfb58f4e76d45bd1f"
     },
+    "skills/paddock-continue/SKILL.md": {
+      "frontmatter": "69e1011db6a7484f86b4c507ffcba5ac18dad064bb8d73144fe2c4567cc8aa1a",
+      "fences": [],
+      "lrf": "217c6b853fa9382f92cb02cd2681d0554f98f56ed7a2aeafd38e5bd0d12eec95"
+    },
     "skills/perser-xml/SKILL.md": {
       "frontmatter": "b1a9f98b6dc2944d6c7064e7a54d53cfc1bad80e89292d56f19803349633519f",
       "fences": [],
@@ -337,6 +327,21 @@
       "frontmatter": "b7999879eb482bb6e4083e32b18b72d1f63a0f90bad1bccd393f9048b600d3ca",
       "fences": [],
       "lrf": "7ac408e30d285bfbac091f173654dca05e5c9e8c3ca4cf3e86d23946b3684c68"
+    },
+    "agents/verifier-blackhat.md": {
+      "frontmatter": "ba80c1729755a39141077555f1c4482605e34f050a4eb62d5b2e62ec77d71eb5",
+      "fences": [
+        "bc295a40897ed6c4fbb62870f4fe52806e395f3a6ded6f8afdf3fad507cfa57c"
+      ],
+      "lrf": null
+    },
+    "agents/CALL.md": {
+      "frontmatter": null,
+      "fences": [
+        "1d4b6ade8f813866ad6333cdbaf60fd7eae84965c74ead421f26269ce118034c",
+        "a419c9443c7f1c03ab4c89a057618c9fd040d3d239ce45e884bca18517bdd6db"
+      ],
+      "lrf": null
     }
   }
 }

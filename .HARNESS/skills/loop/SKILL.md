@@ -7,7 +7,7 @@ description: Run a prompt or skill on a recurring local interval using monitored
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] ⏱️fixed ⏳dynamic 🛑stop
+[POLYGLYPH::ρ→max] ⏱️fixed ⏳dynamic 🛑stop
 🔎 User requests recurring execution of a prompt/skill ⊢ choose exactly one cadence: fixed interval (Interval⊗Prompt) or dynamic/event-driven (Event∨Heartbeat; autonomous-paced monitoring). Fixed example: `schedule(CronExpression="*/5 * * * *", Prompt="...")` ∨ `while($true){sleep <sec>; ...}`. Dynamic example: `schedule(DurationSeconds=<sec>, Prompt="...")`.
 ⏱️ fixed ⇒ rerun at the specified interval; ⏳ dynamic ⇒ schedule for the specified duration and monitor at the event/heartbeat-driven autonomous pace. Use `schedule`, not a background sleep loop. Inspect only the corresponding `fixed` or `dynamic` monitored output; report each tick minimally and never state an unverified fact.
 ⛔ Before scheduling: use a unique sentinel per loop so unrelated output cannot trigger notifications; avoid noisy commands; do not create a duplicate fixed loop or dynamic sleeper. Name shell commands `Loop <schedule>: <prompt>` (e.g. `Loop every 5m: check deploy status`).

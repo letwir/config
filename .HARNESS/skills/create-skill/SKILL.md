@@ -6,7 +6,7 @@ description: Create Codex Agent Skills. Use when authoring a new skill or asking
 @codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
-[SPR/PIDGIN::ρ→max] 🛠️create 📂location 📜structure
+[POLYGLYPH::ρ→max] 🛠️create 📂location 📜structure
 🔎 SkillAuthoring(task) ∧ Spec ∧ Scope ⊢ create_agent_skill → `<skill-name>/SKILL.md` (YAML frontmatter + 本文)
 📂 Location ∈ {Personal:`~/.cursor/skills/`, Project:`.cursor/skills/`} → place_skill_in_selected_scope
 📜 Layout ⊢ organize_skill_files ∈ {`SKILL.md`, `reference.md`, `examples.md`, `scripts/`}

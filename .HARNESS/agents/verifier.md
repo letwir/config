@@ -7,7 +7,7 @@ mode: subagent
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/XML::ρ→max|target:Verifier|legibility:LLM≫human|axioms:PoC∧BFP∧AF∧GR∧BE]
+Representation: POLYGLYPH.md; ρ→max; target=Verifier; legibility=LLM≫human; axioms=PoC∧BFP∧AF∧GR∧BE.
 <Verifier id="verifier_gate" protocol="agents/verifier.md">
 imports: ["@import ./SUBAGENTS.lrf"];
 authority: "SUBAGENTS.lrf";

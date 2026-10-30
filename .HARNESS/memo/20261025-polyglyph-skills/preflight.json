@@ -1,0 +1,777 @@
+{
+  "schema": "lrf-preflight/v1",
+  "status": "PASS",
+  "parser": "invoke-rule-preflight.ps1/v1",
+  "task": "change",
+  "tags": [
+    "doc",
+    "worker",
+    "subagent"
+  ],
+  "root": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+  "files": [
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "sha256": "15DB72ED1E4EA83F3E22567B383879B62356ECBC9097C9DC8240E5B2084115D5"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\MANUAL.lrf",
+      "sha256": "6455A1A3EC892379E5034F77BD80F7BB883589396306EAB94A5023D5AE71CDFD"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\LOAD.lrf",
+      "sha256": "CB7172D717CC71E700812C42E85B552F241E6C1D3F07E57860549755590566CA"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "sha256": "9AC62A538668614E93712A1BD48A1DEF47B7B2179AC9A6127B1C353239B4098F"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\documentation.lrf",
+      "sha256": "EF07C37622C002031E1BAA0C6C613A70E5AA7FE8F8B6F8F4117F2FA4B580B6AB"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\DIARY.lrf",
+      "sha256": "D9BEC6A5D2F5FECF6E2BE5AD92F60B5ABB4F2DDEB94D040876693DD4AF344AFC"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\research.lrf",
+      "sha256": "A2DBDDCB49CCE00003489216CC66832C048F9006C84A817A1ABB2D8CC4F399BA"
+    }
+  ],
+  "selected": [
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 3,
+      "id": "intent.rw",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 4,
+      "id": "ctx",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 5,
+      "id": "effects",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 6,
+      "id": "scope",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 7,
+      "id": "host",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 8,
+      "id": "text.read",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 9,
+      "id": "legacy",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 10,
+      "id": "route.phase",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 11,
+      "id": "route.tags",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 12,
+      "id": "route.order",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 13,
+      "id": "bootstrap.next",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 14,
+      "id": "bootstrap.manual",
+      "kind": "L"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\MANUAL.lrf",
+      "line": 3,
+      "id": "persona",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\MANUAL.lrf",
+      "line": 4,
+      "id": "agent.handoff",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\MANUAL.lrf",
+      "line": 5,
+      "id": "agent.roles",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\MANUAL.lrf",
+      "line": 7,
+      "id": "agent.attacker-routing",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\MANUAL.lrf",
+      "line": 8,
+      "id": "agent.review-ux",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\MANUAL.lrf",
+      "line": 9,
+      "id": "agent.attacker-verification",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 15,
+      "id": "bootstrap.load",
+      "kind": "L"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\LOAD.lrf",
+      "line": 6,
+      "id": "load.subagents",
+      "kind": "L"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 2,
+      "id": "worker.router",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 3,
+      "id": "subagent.filereader",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 4,
+      "id": "subagent.explorer",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 5,
+      "id": "worker.persona",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 6,
+      "id": "worker.ownership",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 7,
+      "id": "subagent.source",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 8,
+      "id": "subagent.invocation-codec",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 9,
+      "id": "subagent.discovery",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 10,
+      "id": "subagent.preflight",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 11,
+      "id": "subagent.nested-handoff",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 12,
+      "id": "subagent.persona-discovery",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 13,
+      "id": "subagent.persona-selection",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 14,
+      "id": "subagent.etl",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 15,
+      "id": "subagent.orchestrate",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 16,
+      "id": "subagent.parallel-safety",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 17,
+      "id": "subagent.etl-explore",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 18,
+      "id": "subagent.etl-plan",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 19,
+      "id": "subagent.etl-implement",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 20,
+      "id": "subagent.etl-verify",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 21,
+      "id": "subagent.etl-summary",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 22,
+      "id": "subagent.etl-context",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 23,
+      "id": "subagent.llm-mem-external",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 24,
+      "id": "subagent.output-min",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 25,
+      "id": "subagent.failure-escalation",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 26,
+      "id": "subagent.evaluation",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 27,
+      "id": "subagent.self-evolution",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 28,
+      "id": "subagent.evaluation-check",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 30,
+      "id": "subagent.reasoning-easy",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 31,
+      "id": "subagent.reasoning-medium",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 32,
+      "id": "subagent.reasoning-hard",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 33,
+      "id": "subagent.reasoning-max",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 34,
+      "id": "subagent.reasoning-resolution",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 36,
+      "id": "subagent.codex-sol",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 37,
+      "id": "subagent.codex-terra",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 38,
+      "id": "subagent.codex-luna",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 39,
+      "id": "subagent.provider-boundary",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 40,
+      "id": "subagent.provider-easy",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 41,
+      "id": "subagent.provider-concept",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 42,
+      "id": "subagent.provider-math",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 43,
+      "id": "subagent.provider-code",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 44,
+      "id": "subagent.provider-review",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 47,
+      "id": "subagent.easy",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 48,
+      "id": "subagent.medium",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 49,
+      "id": "subagent.hard-code",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 50,
+      "id": "subagent.hard-review",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 51,
+      "id": "subagent.researcher",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 52,
+      "id": "subagent.auditor",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 53,
+      "id": "subagent.verifier",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 54,
+      "id": "subagent.refactorer",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 55,
+      "id": "subagent.blackhat",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 56,
+      "id": "subagent.proposer",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 57,
+      "id": "subagent.critic",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 58,
+      "id": "subagent.mode",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 59,
+      "id": "subagent.scope",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 60,
+      "id": "subagent.credentials",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 61,
+      "id": "subagent.external",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 62,
+      "id": "subagent.vcs",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 63,
+      "id": "subagent.done",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 64,
+      "id": "subagent.attacker-routing",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\agents\\SUBAGENTS.lrf",
+      "line": 65,
+      "id": "subagent.attacker-verification",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\LOAD.lrf",
+      "line": 7,
+      "id": "load.subagents.worker",
+      "kind": "L"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\LOAD.lrf",
+      "line": 8,
+      "id": "load.agent-router",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\LOAD.lrf",
+      "line": 9,
+      "id": "load.worker-context",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\LOAD.lrf",
+      "line": 10,
+      "id": "subagent.eval-evidence",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\LOAD.lrf",
+      "line": 11,
+      "id": "load.documentation",
+      "kind": "L"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\documentation.lrf",
+      "line": 2,
+      "id": "doc.ia",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\documentation.lrf",
+      "line": 3,
+      "id": "doc.entry",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\documentation.lrf",
+      "line": 5,
+      "id": "doc.detail",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\documentation.lrf",
+      "line": 7,
+      "id": "doc.placeholder",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\documentation.lrf",
+      "line": 8,
+      "id": "doc.precision",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\documentation.lrf",
+      "line": 9,
+      "id": "doc.llm-only-codec",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\documentation.lrf",
+      "line": 10,
+      "id": "doc.secret",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\documentation.lrf",
+      "line": 13,
+      "id": "doc.effects",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\documentation.lrf",
+      "line": 21,
+      "id": "doc.verify",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\documentation.lrf",
+      "line": 22,
+      "id": "doc.done",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\LOAD.lrf",
+      "line": 13,
+      "id": "load.diary",
+      "kind": "L"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\DIARY.lrf",
+      "line": 2,
+      "id": "file",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\DIARY.lrf",
+      "line": 3,
+      "id": "entry",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\DIARY.lrf",
+      "line": 4,
+      "id": "prompt",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\DIARY.lrf",
+      "line": 5,
+      "id": "agent",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\DIARY.lrf",
+      "line": 6,
+      "id": "ratio",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\DIARY.lrf",
+      "line": 7,
+      "id": "feedback",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\DIARY.lrf",
+      "line": 8,
+      "id": "analyze",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\DIARY.lrf",
+      "line": 9,
+      "id": "no-defect",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\LOAD.lrf",
+      "line": 14,
+      "id": "load.research",
+      "kind": "L"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\research.lrf",
+      "line": 3,
+      "id": "research.order",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\research.lrf",
+      "line": 4,
+      "id": "research.retry-trigger",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\research.lrf",
+      "line": 5,
+      "id": "research.delegate",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\research.lrf",
+      "line": 6,
+      "id": "research.delegate-model",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\research.lrf",
+      "line": 7,
+      "id": "research.delegate-output",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\research.lrf",
+      "line": 8,
+      "id": "research.delegate-fallback",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\research.lrf",
+      "line": 9,
+      "id": "research.web",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\research.lrf",
+      "line": 10,
+      "id": "research.epub",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\research.lrf",
+      "line": 11,
+      "id": "research.memory",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\research.lrf",
+      "line": 12,
+      "id": "research.synthesis",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\research.lrf",
+      "line": 16,
+      "id": "research.failure",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\research.lrf",
+      "line": 17,
+      "id": "research.secrets",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 16,
+      "id": "workflow.default",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 17,
+      "id": "agent.mode",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 18,
+      "id": "agent.gates",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 19,
+      "id": "mem.etl",
+      "kind": "R"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\rules\\BOOTSTRAP.lrf",
+      "line": 20,
+      "id": "done",
+      "kind": "R"
+    }
+  ],
+  "total_bytes": 60189
+}

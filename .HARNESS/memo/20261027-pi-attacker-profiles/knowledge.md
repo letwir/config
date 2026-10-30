@@ -1,0 +1,9 @@
+# knowledge — 20261027-pi-attacker-profiles
+
+Pi attacker-medium was absent from native agent discovery: agents/pi contained only three worker profiles. Existing configured agentDirs already included ~/.harness/agents/pi. Added explicit attacker-medium (openai-codex/gpt-6.1-sol, high) and attacker-low (openai-codex/gpt-6-luna, low) profiles; shared LRF/router/blackhat contracts now select the Pi provider for these two profiles only. No automatic depth fallback or Astra adapter.
+
+Native initial launch caught invalid acceptanceRole reviewer. Installed runtime accepts read-only or writer; corrected both to read-only and added regression coverage. maxSubagentDepth 0 is accepted. Profile tools read and empty extensions remove shell/edit/write/child-launch tools; runtime still injects contact_supervisor and the parallel wrapper. This is not a hard sandbox or literal single-tool inventory guarantee.
+
+Medium smoke run 61984842-7243-45bf-a65a-80a16940b8f0 completed SUCCESS; native status confirmed openai-codex/gpt-6.1-sol thinking high. Attacker inspected both profiles and reported one INFO orchestration-tool disclosure, no demonstrated mutation capability. Low profile statically validated, not separately runtime-smoked. This is adapter validation, not a PADDOCK security review, review-gate waiver, or permission to resume unrelated work.
+
+Main regression and rule preflight+receipt verification passed. PowerShell LSP confirmed clean after replacing automatic $profile loop variable; Markdown LSP inconclusive. .harness has no Git repository; historical diff and staged-file checks are unavailable, not successful. Worker auto-acceptance rejected because its noStagedFiles attestation was false for this unavailable Git check; main owns actual review and acceptance, does not relabel that automatic result.

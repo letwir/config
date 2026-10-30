@@ -80,24 +80,24 @@ func NewClient(baseURL string) *Client {
 	}
 }
 
-// Authenticate plugin with API key
+// Authenticate plugin with API key. Never return request URLs, response bodies,
+// or underlying errors: each can contain the API key or bearer token.
 func (c *Client) Authenticate(apiKey string, pluginName string) error {
 	authURL := fmt.Sprintf("%s/api/Plugin/authenticate?apiKey=%s&pluginName=%s", c.BaseURL, url.QueryEscape(apiKey), url.QueryEscape(pluginName))
-	
+
 	resp, err := http.Post(authURL, "application/json", nil)
 	if err != nil {
-		return fmt.Errorf("failed to make authenticate request: %w", err)
+		return fmt.Errorf("failed to make authenticate request")
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		bodyBytes, _ := io.ReadAll(resp.Body)
-		return fmt.Errorf("auth returned status %d: %s", resp.StatusCode, string(bodyBytes))
+		return fmt.Errorf("auth returned status %d", resp.StatusCode)
 	}
 
 	var user UserDto
 	if err := json.NewDecoder(resp.Body).Decode(&user); err != nil {
-		return fmt.Errorf("failed to decode auth response: %w", err)
+		return fmt.Errorf("failed to decode auth response")
 	}
 
 	if user.Token == "" {
@@ -111,7 +111,7 @@ func (c *Client) Authenticate(apiKey string, pluginName string) error {
 func (c *Client) newRequest(method, path string, body io.Reader) (*http.Request, error) {
 	req, err := http.NewRequest(method, c.BaseURL+path, body)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create Kavita request")
 	}
 	if c.Token != "" {
 		req.Header.Set("Authorization", "Bearer "+c.Token)
@@ -129,7 +129,7 @@ func (c *Client) SearchSeries(query string) ([]SearchResultDto, error) {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("search request failed: %w", err)
+		return nil, fmt.Errorf("search request failed")
 	}
 	defer resp.Body.Close()
 
@@ -139,7 +139,7 @@ func (c *Client) SearchSeries(query string) ([]SearchResultDto, error) {
 
 	var result SearchResultGroupDto
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-		return nil, fmt.Errorf("failed to decode search response: %w", err)
+		return nil, fmt.Errorf("failed to decode search response")
 	}
 
 	return result.Series, nil
@@ -148,7 +148,7 @@ func (c *Client) SearchSeries(query string) ([]SearchResultDto, error) {
 // GetAllSeries fetches all series from library (using all-v2 API with large PageSize)
 func (c *Client) GetAllSeries() ([]SeriesDto, error) {
 	allPath := "/api/Series/all-v2?PageNumber=1&PageSize=10000"
-	
+
 	// Post requires a filter DTO body. Passing empty JSON object {} represents no filters.
 	req, err := c.newRequest("POST", allPath, bytes.NewBufferString("{}"))
 	if err != nil {
@@ -158,18 +158,17 @@ func (c *Client) GetAllSeries() ([]SeriesDto, error) {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("get all series request failed: %w", err)
+		return nil, fmt.Errorf("get all series request failed")
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		bodyBytes, _ := io.ReadAll(resp.Body)
-		return nil, fmt.Errorf("get all series returned status %d: %s", resp.StatusCode, string(bodyBytes))
+		return nil, fmt.Errorf("get all series returned status %d", resp.StatusCode)
 	}
 
 	var series []SeriesDto
 	if err := json.NewDecoder(resp.Body).Decode(&series); err != nil {
-		return nil, fmt.Errorf("failed to decode series response: %w", err)
+		return nil, fmt.Errorf("failed to decode series response")
 	}
 
 	return series, nil
@@ -185,7 +184,7 @@ func (c *Client) GetSeriesMetadata(seriesID int) (*SeriesMetadataDto, error) {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("get series metadata request failed: %w", err)
+		return nil, fmt.Errorf("get series metadata request failed")
 	}
 	defer resp.Body.Close()
 
@@ -195,7 +194,7 @@ func (c *Client) GetSeriesMetadata(seriesID int) (*SeriesMetadataDto, error) {
 
 	var meta SeriesMetadataDto
 	if err := json.NewDecoder(resp.Body).Decode(&meta); err != nil {
-		return nil, fmt.Errorf("failed to decode metadata response: %w", err)
+		return nil, fmt.Errorf("failed to decode metadata response")
 	}
 
 	return &meta, nil
@@ -211,7 +210,7 @@ func (c *Client) GetChapters(seriesID int) ([]ChapterDto, error) {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("get chapters request failed: %w", err)
+		return nil, fmt.Errorf("get chapters request failed")
 	}
 	defer resp.Body.Close()
 
@@ -221,7 +220,7 @@ func (c *Client) GetChapters(seriesID int) ([]ChapterDto, error) {
 
 	var chapters []ChapterDto
 	if err := json.NewDecoder(resp.Body).Decode(&chapters); err != nil {
-		return nil, fmt.Errorf("failed to decode chapters response: %w", err)
+		return nil, fmt.Errorf("failed to decode chapters response")
 	}
 
 	return chapters, nil
@@ -237,18 +236,17 @@ func (c *Client) GetSeriesVolumes(seriesID int) ([]VolumeDto, error) {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("get volumes request failed: %w", err)
+		return nil, fmt.Errorf("get volumes request failed")
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		bodyBytes, _ := io.ReadAll(resp.Body)
-		return nil, fmt.Errorf("get volumes returned status %d: %s", resp.StatusCode, string(bodyBytes))
+		return nil, fmt.Errorf("get volumes returned status %d", resp.StatusCode)
 	}
 
 	var volumes []VolumeDto
 	if err := json.NewDecoder(resp.Body).Decode(&volumes); err != nil {
-		return nil, fmt.Errorf("failed to decode volumes response: %w", err)
+		return nil, fmt.Errorf("failed to decode volumes response")
 	}
 
 	return volumes, nil
@@ -264,16 +262,19 @@ func (c *Client) DownloadChapter(chapterID int) ([]byte, error) {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("download chapter request failed: %w", err)
+		return nil, fmt.Errorf("download chapter request failed")
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		bodyBytes, _ := io.ReadAll(resp.Body)
-		return nil, fmt.Errorf("download chapter returned status %d: %s", resp.StatusCode, string(bodyBytes))
+		return nil, fmt.Errorf("download chapter returned status %d", resp.StatusCode)
 	}
 
-	return io.ReadAll(resp.Body)
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read chapter response")
+	}
+	return data, nil
 }
 
 // BuildOPDSDownloadURL constructs an OPDS download URL for a chapter file.

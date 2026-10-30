@@ -8,7 +8,7 @@ disable-model-invocation: true
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] 🤖agent 📂scope 🎯dispatch
+[POLYGLYPH::ρ→max] 🤖agent 📂scope 🎯dispatch
 🤖agent ⊢ Name ∧ Prompt → custom-specialist `<name>.md` {name,description,system prompt}; examples={code reviewer,debugger,domain assistant}
 📂scope ⊢ target∈{Project,User} → Project:`.cursor/agents/` (priority↑) | User:`~/.cursor/agents/`
 🎯dispatch ⊢ Description → explicit, concrete delegation-trigger text (AI can decide when to delegate)

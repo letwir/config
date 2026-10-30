@@ -8,7 +8,7 @@ metadata: { surfaces: [ide] }
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] 🎨create 📐design 🔍dts 🛠️debug
+[POLYGLYPH::ρ→max] 🎨create 📐design 🔍dts 🛠️debug
 🎨 作成 create 🔎standalone analytical artifact ⊢ user-provided Data ⇒ independent visualization React artifact at `~/.cursor/projects/<ws>/canvases/<name>.canvas.tsx`; required input=Data.
 📐 設計 design ⊢ Flat ∧ Minimal ⇒ avoid gradients, emojis, shadows ∧ use `useHostTheme()`.
 🔍 定義 dts ⊢ CursorCanvasSDK ⇒ consult public component/type definitions at `~/.cursor/skills-cursor/canvas/sdk/index.d.ts`.

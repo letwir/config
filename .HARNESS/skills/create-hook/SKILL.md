@@ -6,7 +6,7 @@ description: Create Codex hooks. Use when configuring hooks.json, hook scripts, 
 @codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
-[SPR/PIDGIN::ρ→max] 🪝hook ⚡event 🛡️policy
+[POLYGLYPH::ρ→max] 🪝hook ⚡event 🛡️policy
 🔎 HookCreation(task) ∧ Scope ∧ Trigger ⊢ define_hook+generate_script → `.cursor/hooks.json` ∨ `~/.cursor/hooks.json`
 ⚡ LifecycleEvent ∈ {sessionStart, preToolUse, postToolUse, beforeShellExecution, ...} ⊢ select_trigger → hook_fires_at_matching_event
 🛡️ HookPolicy ∈ {Deny, Rewrite} → block_tool_execution ∨ rewrite_input ∨ inject_context_dynamically

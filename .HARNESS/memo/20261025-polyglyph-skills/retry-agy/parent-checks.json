@@ -1,0 +1,12 @@
+{
+  "utf8_valid": true,
+  "no_bom": true,
+  "frontmatter_preserved": true,
+  "fenced_blocks_preserved": true,
+  "fenced_block_count": 3,
+  "lrf_preserved": true,
+  "link_literals_preserved": true,
+  "before_sha256": "90B79371A8EC18EDC5D9C3494AAE9B772B7E10773F76F315F57A0886DEA2DDB2",
+  "after_sha256": "9656A4BBF3D49E66DCBD660C11C7BB5AE399C3A3D778113ECA38E8F4171D1C07",
+  "acceptance": "FAILED: incomplete prose conversion; unapproved language selection; worker status line malformed"
+}

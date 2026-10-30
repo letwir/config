@@ -8,7 +8,7 @@ disable-model-invocation: true
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] 🐚exec 📋status
+[POLYGLYPH::ρ→max] 🐚exec 📋status
 🔎 /shell明示呼出 ∧ args≠∅ ⊢ LiteralCmd=user_args; ∴ `run_command(CommandLine="<user-command>")` を即時実行。引数改変・解釈・前置説明なし。
 📋 結果 ⊢ ExitCode ∧ Stdout ∧ Stderr を簡潔に報告。
 

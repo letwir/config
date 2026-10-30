@@ -1,0 +1,7 @@
+## Review
+
+- Correct: `POLYGLYPH.md` documents the codec and decoder contract, including fail-closed handling for missing codecs, malformed serialization, and ambiguous interpretations. The final-validation report records 40 skills checked and matching codec, manifest, and snapshot hashes; however, that report is not independent verification.
+- Finding: **P1 — AGY prose conversion appears incomplete.** In `C:\Users\letwir\.harness\skills\agy-subagent-router\SKILL.md`, the body after the bootstrap remains ordinary English prose under headings such as “Trigger and authority,” “Preflight,” and “Handoff.” The original snapshot contains the same prose in those sections. This does not satisfy the requested genuine prose encoding for AGY. Convert the prose while preserving the required opaque examples, YAML, and LRF.
+- Finding: **P1 — Required independent checks were not executable in this review.** I could inspect `validate-final.ps1`, but no shell/script-execution tool is available here, so I could not run the required `pwsh.exe -NoProfile -File ...\validate-final.ps1 .` command or the requested negative fixtures. The reported exit status therefore remains unverified.
+
+**Merge verdict: REJECT** — the AGY prose-conversion requirement is visibly unmet. The validator’s actual command exit and negative checks also remain unverified.

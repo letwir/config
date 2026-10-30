@@ -1,3 +1,8 @@
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
 # Codex V2 Pet Contract
 
 ## Sprite Atlas
@@ -12,18 +17,18 @@
 - Rows `9-10`: 16 clockwise look directions.
 - Unused standard-row cells: fully transparent.
 
-The 8x9 `1536x1872` atlas is an intermediate assembly artifact only. Never package it as a newly hatched pet.
+8x9 `1536x1872` atlas=intermediate assembly artifact ONLY; NEVER package as newly hatched pet.
 
 ## Look Directions
 
 - Row `9`: `000`, `022.5`, `045`, `067.5`, `090`, `112.5`, `135`, `157.5` degrees.
 - Row `10`: `180`, `202.5`, `225`, `247.5`, `270`, `292.5`, `315`, `337.5` degrees.
-- `000` means up / 12 o'clock, not neutral/front.
-- Neutral/front is the no-vector deadzone and falls back to idle.
+- `000`=up / 12 o'clock; not neutral/front.
+- Neutral/front=no-vector deadzone ⇒ idle fallback.
 
 ## Local Custom Pet Package
 
-Place files under:
+Package files → directory:
 
 ```text
 ${CODEX_HOME:-$HOME/.codex}/pets/<pet-name>/
@@ -31,7 +36,7 @@ ${CODEX_HOME:-$HOME/.codex}/pets/<pet-name>/
 └── spritesheet.webp
 ```
 
-Required manifest shape:
+Required manifest schema:
 
 ```json
 {
@@ -43,4 +48,4 @@ Required manifest shape:
 }
 ```
 
-The app derives the 11-row layout and look-direction behavior from `spriteVersionNumber: 2`. Omitting it defaults the pet to v1 and causes the 2288-pixel-tall spritesheet to be rejected.
+`spriteVersionNumber: 2` ⇒ app derives 11-row layout ∧ look-direction behavior. Omission ⇒ pet defaults to v1 ∧ 2288-pixel-tall spritesheet rejected.

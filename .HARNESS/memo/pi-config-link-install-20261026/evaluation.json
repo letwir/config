@@ -1,0 +1,13 @@
+{
+  "task_id": "pi-config-link-install-20261026",
+  "comparison_key": "pi-config-two-shell-symlink-installers",
+  "axes": {
+    "requested_files": {"result": "pass", "evidence": "Both installers, two READMEs, configuration resources, profiles and test suites exist under .HARNESS/.pi."},
+    "safety": {"result": "pass", "evidence": "No live install was run; installers default to conflict refusal and limit links to enumerated entries."},
+    "validation": {"result": "pass", "evidence": "Bash and PowerShell hermetic suites, syntax and JSON parsing passed; native Linux/Termux not tested."}
+  },
+  "attribution": {
+    "prompt": "Make current Pi settings available from config/.HARNESS/.pi through symlink installation; provide Bash and PowerShell installers and human/LLM READMEs.",
+    "agent": "Pi main planning/review; worker-medium implementation (openai-codex/gpt-6-luna, medium); parent reran Bash and PowerShell verification."
+  }
+}

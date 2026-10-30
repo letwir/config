@@ -7,7 +7,7 @@ description: Fetch Japanese & global economic, financial, corporate filing, macr
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max]
+[POLYGLYPH::ρ→max]
 🔎 Need economic/financial/corporate-filing/macro/market data
 ⊢ choose matching source + required identifier(s) below
 → resolve $bin per LRF; invoke listed CLI with literal parameters
@@ -23,6 +23,7 @@ description: Fetch Japanese & global economic, financial, corporate filing, macr
 🌐 世界指標 worldbank ⊢ Country⊗Indicator ⇒ 世界銀行グローバル開発指標取得 | `$bin worldbank --country <CODE> --indicator <CODE>`
 💹 市場 yfinance ⊢ Ticker ⇒ Yahoo Finance 株価チャート・指標要約 | `$bin yfinance --symbol <TICKER> [--summary]`
 💱 為替株価 alphavantage ⊢ Ticker∨FX ⇒ AlphaVantage 株価・為替レート | `$bin alphavantage --symbol <TICKER>` ∨ `--from USD --to JPY`
+Direct sibling CLI entry points (installed path must be resolved): estat.exe, edinet.exe, sec_edgar.exe, fred.exe, worldbank.exe, yfinance.exe, alphavantage.exe. Reference options: yfinance --range 1mo; alphavantage --function CURRENCY_EXCHANGE_RATE --from USD --to JPY. Documented keyless sources: SEC, WorldBank, yfinance. Missing-key guidance: consult available local USAGE.md only if verified present; never use stale plugin file URLs. No runtime installation claim; canonical gates unchanged.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=economics-api

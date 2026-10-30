@@ -3,7 +3,7 @@
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/XML::ρ→max|target:WORKER_AGY]
+Representation: POLYGLYPH.md; ρ→max; target=WORKER_AGY.
 # worker-agy protocol
 Route: AGENT_ROUTER.md⇒agy.exe(bounded_CODE).
 Rules:

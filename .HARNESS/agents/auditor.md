@@ -7,7 +7,7 @@ mode: subagent
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/XML::ρ→max|target:PLAN_AUDITOR|legibility:LLM≫human|axioms:SDC∧CTS∧EPP∧PA∧BE]
+Representation: POLYGLYPH.md; ρ→max; target=PLAN_AUDITOR; legibility=LLM≫human; axioms=SDC∧CTS∧EPP∧PA∧BE.
 <AuditorProtocol id="agents/auditor.md">
 header: PlanAuditor ∧ CTSoundness ∧ SpecDriftGuard ∧ EffectPurityProof;
 imports: ["@import ./SUBAGENTS.lrf"];

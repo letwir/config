@@ -7,7 +7,7 @@ description: Unified CLI & skill suite for natural science and engineering APIs 
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] 🔬search 💎mp ⚛️aflow 🧪pubchem 📜ieee 🔭ads 🧊cod
+[POLYGLYPH::ρ→max] 🔬search 💎mp ⚛️aflow 🧪pubchem 📜ieee 🔭ads 🧊cod
 🔬 統合 search ⊢ Query ⇒ 自然科学・工学全領域横断検索 | `$bin search "<query>"`
 💎 物質 mp ⊢ Formula ⇒ Materials Project バンドギャップ・結晶構造・生成エネルギー | `$bin mp <formula>`
 ⚛️ 熱力学 aflow ⊢ Species ⇒ AFLOW/AFLUX 空間群・エンタルピー・熱力学特性 | `$bin aflow <species>`
@@ -15,6 +15,7 @@ description: Unified CLI & skill suite for natural science and engineering APIs 
 📜 論文 ieee ⊢ Query ⇒ IEEE Xplore 工学・物理・情報科学論文・DOI | `$bin ieee "<query>"`
 🔭 天文 ads ⊢ Query ⇒ NASA ADS 天体物理学・物理学文献・Bibcode | `$bin ads "<query>"`
 🧊 結晶 cod ⊢ Formula ⇒ COD 結晶構造オープンDB・格子定数・CIF取得 | `$bin cod <formula>`
+Optional direct sub-binary references: mp-search.exe, aflow-search.exe, pubchem-search.exe, ieee-search.exe, ads-search.exe, cod-search.exe; resolve installed binaries before use. Key mapping: MP_API_KEY→MP; IEEE_API_KEY→IEEE; ADS_API_TOKEN→ADS. Missing-key fallback to keyless AFLOW/PubChem/COD and available local USAGE.md guidance only if verified present; never expose/read key values during migration.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=rikei-search

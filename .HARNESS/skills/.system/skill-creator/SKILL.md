@@ -4,6 +4,7 @@ description: Create or update a Codex skill with appropriately scoped instructio
 metadata:
   short-description: Create or update a skill
 ---
+
 @meta=text/POLYGLYPH×SIGMA/1
 @codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
@@ -11,29 +12,29 @@ metadata:
 
 # Skill Creator
 
-🔎 Create/update skill ⊢ user task calls for it → provide useful, non-obvious guidance; unrelated work remains unconstrained.
+Purpose: Codexにuseful∧non-obvious guidanceを与えるskills作成; unrelated workを制約しない.
 
 ## Core Principles
 
-**Assume Codex is already capable.** Include only guidance that changes decisions or improves work; omit generic/repeated advice, speculation, and non-clarifying examples.
+**Assume Codex already capable.** Include only decisionを変える∨workを改善する情報. Remove{generic advice, repeated instructions, speculative edge cases, examples lacking material task clarification}.
 
-**Preserve user intent and scope.** Skill supports requested task; it must not replace chosen product, expand assignment, alter unrelated configuration, or imply extra external permission. Particular example/past failure/preference ≠ universal requirement.
+**Preserve user intent and scope.** A skill should support the requested task, not replace the user's chosen product, expand the assignment, modify unrelated configuration, or imply permission for additional external actions. Do not turn a particular example, past failure, or personal preference into a universal requirement.
 
-Task approval ≠ expanded scope or execution permission. Retry/external-mutation workflow ⇒ risk-proportional stop condition.
+Approval to complete a task does not expand its scope or execution permissions. For retrying or externally mutating workflows, define a stopping condition proportional to the risk.
 
-**Match specificity to the risk.** Give the model room to choose an appropriate approach when multiple approaches are reasonable. Use detailed steps, deterministic scripts, or absolute language only when correctness, safety, permissions, or a genuinely fragile workflow requires them.
+**Specificity: riskに合わせる.** Multiple reasonable approaches⇒modelに適切な選択の余地. Detailed steps/deterministic scripts/absolute language only if required by correctness/safety/permissions/genuinely fragile workflow.
 
 For open-ended work, describe the outcome and relevant decision criteria. For workflows with a preferred shape, offer useful examples or configurable scripts. Reserve fixed sequences and narrow parameters for operations where deviation would cause a concrete problem. Preserve non-obvious operational invariants, distinguish actual requirements from optional recommendations or local conventions, and avoid restating policies already enforced elsewhere.
 
-**Keep discovery cheap and precise.** Name+description are seen pre-load; state actual capability/applicability, add exclusions only to prevent likely misrouting; avoid exhaustive lists/catchalls that attract unrelated work.
+**Keep discovery cheap and precise.** Skill names and descriptions are available before a skill is loaded. Describe the actual capability and when it applies, adding exclusions only when they prevent likely misrouting. Avoid exhaustive capability lists and catchalls that attract unrelated requests.
 
 Keep skills self-contained; refer to another skill or tool only when the requested workflow genuinely requires it and it is available in the target environment. Specialized review, hardening, or audit workflows should apply when requested or genuinely needed, not merely because ordinary work touches the same subject.
 
-**Disclose detail progressively.** Keep shared purpose, essential constraints, and useful routing in `SKILL.md`. Put substantial mode-specific guidance, schemas, examples, or procedures in supporting references and read only the references relevant to the current task. A simple self-contained skill does not need a router or extra files.
+**Progressive disclosure.** `SKILL.md`=shared purpose∧essential constraints∧useful routing. Substantial mode-specific guidance/schemas/examples/procedures→supporting references; 読込 only current-task-relevant references. Simple self-contained skill⇒router/extra files不要.
 
 ## Anatomy of a Skill
 
-Every skill is a folder containing a required `SKILL.md` file and any optional resources its actual workflow needs:
+Skill=folder(required `SKILL.md`⊕optional resources needed by actual workflow):
 
 ```text
 skill-name/
@@ -55,17 +56,17 @@ The YAML frontmatter identifies the skill and determines when it should be consi
 
 The Markdown body is loaded only when the skill is used. Put the purpose, essential workflow, real constraints, and useful links there. Keep detailed procedures and examples in supporting references when they are relevant only to particular modes.
 
-Skill information is disclosed in three stages:
+Skill情報→3段階disclosure:
 
-1. **Name and description:** Available during skill selection, so keep them concise and discriminating.
-2. **SKILL.md body:** Loaded when the skill applies, so keep its instructions relevant to that task.
-3. **Supporting resources:** Read or execute only when the current task actually needs them.
+1. **Name and description:** skill選択時にavailable⇒concise∧discriminating.
+2. **SKILL.md body:** skill適用時にloaded⇒instructions=current taskにrelevant.
+3. **Supporting resources:** 読込∨実行 only if current task actually needs them.
 
 The entrypoint should be as short as the task permits while retaining important constraints. A large upper bound is not a target: move conditional detail into references when doing so improves clarity or context use, rather than waiting for the file to become unwieldy.
 
 ### Scripts
 
-Use `scripts/` for executable code when the same logic would otherwise be rewritten repeatedly or deterministic execution materially improves reliability.
+Same logicの反復再記述を避ける∨deterministic execution materially improves reliability⇒executable codeは`scripts/`へ.
 
 - **Example:** `scripts/rotate_pdf.py` for a PDF operation that would otherwise require recreating the same code.
 - **Useful for:** Repeated transformations, reliable API operations, data processing, and other concrete automation.
@@ -73,7 +74,7 @@ Use `scripts/` for executable code when the same logic would otherwise be rewrit
 
 ### References
 
-Use `references/` for documentation that is needed only in particular contexts.
+Context限定documentation→`references/`.
 
 - **Examples:** `references/schema.md` for database tables, `references/policies.md` for domain rules, `references/api_docs.md` for an API, or separate writing guides for different deliverables.
 - **Useful for:** Schemas, API documentation, company policies, format-specific procedures, detailed workflows, and substantial examples.
@@ -85,7 +86,7 @@ For large references, include useful search terms or a short contents section wh
 
 ### Assets
 
-Use `assets/` for files that belong in generated output rather than in the model's instructions.
+Generated outputに属するfiles(model instructionsではない)→`assets/`.
 
 - **Examples:** `assets/logo.png`, `assets/slides.pptx`, `assets/font.ttf`, or `assets/frontend-template/`.
 - **Useful for:** Templates, images, fonts, icons, boilerplate projects, and other files copied or adapted into the result.
@@ -133,7 +134,7 @@ cloud-deploy/
     `-- azure.md
 ```
 
-When the user chooses AWS, read `references/aws.md`; do not also load the GCP and Azure guides. The same pattern can separate business domains, deliverable types, or other genuinely distinct operating modes.
+User chooses AWS⇒read `references/aws.md`; GCP/Azure guidesは読込禁止. Same pattern→business domains/deliverable types/other genuinely distinct modesの分離.
 
 A short skill can instead route to details only when an advanced operation needs them:
 
@@ -146,13 +147,13 @@ Handle ordinary edits directly.
 - For document internals, read [references/ooxml.md](references/ooxml.md).
 ```
 
-These examples illustrate options, not a required structure. Choose the organization that makes the skill easier to use without loading irrelevant material.
+Examples=options≠required structure. Organization選択→skill利用を容易化∧irrelevant material読込回避.
 
 ## Create or Update a Skill
 
 Adapt the work to the request. Creating a complex new skill may involve understanding realistic use cases, choosing supporting resources, initializing files, writing instructions, and validating the result. A narrow update to an existing skill may require only a focused edit and validation.
 
-Missing info matters ∧ cannot reasonably infer ⇒ ask. Respect user-specified location; otherwise create discoverable skill in `$CODEX_HOME/skills`, or `~/.codex/skills` when `CODEX_HOME` is unset.
+Ask clarifying questions only when the missing information matters and cannot be reasonably inferred. Respect a user-specified location; otherwise create discoverable skills in `$CODEX_HOME/skills`, or `~/.codex/skills` when `CODEX_HOME` is unset.
 
 Keep automatic skill selection enabled unless the user explicitly requests an explicit-only skill. When the intended invocation mode is genuinely unclear and matters to the requested workflow, ask whether the user wants normal automatic discovery or explicit-only invocation; otherwise preserve the default. Do not infer explicit-only invocation from sensitive operations or required approvals: keep the skill discoverable and require authorization immediately before the actual mutation. Preserve an existing skill's invocation policy unless the user asks to change it.
 
@@ -166,10 +167,10 @@ Create those resources only when their concrete benefit justifies them. If the u
 
 ### Naming
 
-- Use lowercase letters, digits, and hyphens.
-- Keep names under 64 characters and prefer short action-oriented names.
-- Namespace by tool or domain when doing so improves discovery.
-- Name the skill folder after the skill.
+- Name文字=lowercase letters∪digits∪hyphens.
+- Name長<64 characters; short action-oriented names優先.
+- Tool/domain namespace if discovery改善.
+- Skill folder名=skill名.
 
 ### Initialize a New Skill
 
@@ -202,7 +203,7 @@ description: Create or edit Word documents when formatting, tracked changes, or 
 
 Put detailed workflows, tool choices, examples, and operating modes in the body or relevant references rather than listing them all in the description. Preserve supported optional frontmatter, such as existing `metadata`, when appropriate.
 
-Write only the instructions needed for another Codex instance to perform the task well. State the desired outcome, non-obvious context, real constraints, and relevant references or tools. Preserve user explicit choices and existing authorization boundaries. Avoid prescribing a fixed structure, process, or number of steps when the task does not require one.
+Write only the instructions needed for another Codex instance to perform the task well. State the desired outcome, non-obvious context, real constraints, and relevant references or tools. Preserve the user's explicit choices and existing authorization boundaries. Avoid prescribing a fixed structure, process, or number of steps when the task does not require one.
 
 ### Validate and Iterate
 
@@ -212,7 +213,7 @@ Validate the completed skill with:
 scripts/quick_validate.py <path/to/skill-folder>
 ```
 
-The validator checks frontmatter, naming, and unfinished scaffold placeholders; it does not prove that the skill makes good decisions. Also check that descriptions remain discriminating, instructions preserve user intent, references are discoverable, and any added scripts actually work.
+Validator検査={frontmatter, naming, unfinished scaffold placeholders}; skillのgood decisionsを証明しない. Also verify{descriptions remain discriminating, instructions preserve user intent, references discoverable, added scripts actually work}.
 
 When testing is warranted, verify observable behavior or meaningful invariants. Avoid tests that merely match generated wording, headings, or regex patterns.
 

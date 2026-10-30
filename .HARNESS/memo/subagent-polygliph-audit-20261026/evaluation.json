@@ -1,0 +1,14 @@
+{
+  "task_id": "subagent-polygliph-audit-20261026",
+  "comparison_key": "subagent-role-instructions-polygliph",
+  "axes": {
+    "inventory": {"result": "pass", "evidence": "Scoped inventory of 15 Harness role Markdown files and 3 Pi worker profiles."},
+    "current_codec_examples": {"result": "pass", "evidence": "Router, shared worker/orchestrator prompts and Pi profile handoffs declare or inherit compact POLYGLYPH guidance."},
+    "universal_compliance": {"result": "fail", "evidence": "compressor.md:14-17 and filereader.md:16 retain the retired tokenizer/language/NFKC optimizer."},
+    "change_scope": {"result": "pass", "evidence": "Read-only audit; no role source files changed."}
+  },
+  "attribution": {
+    "prompt": "Check whether subagent instructions follow POLYGLYPH.",
+    "agent": "Pi main, scoped local read-only search; no independent delegated review."
+  }
+}

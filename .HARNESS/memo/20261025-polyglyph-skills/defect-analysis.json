@@ -1,0 +1,22 @@
+{
+  "total_entries": 1,
+  "entries_with_attr": 1,
+  "total_prompt_defects": 0,
+  "total_agent_defects": 3,
+  "prompt_defect_freq": {},
+  "agent_defect_freq": {
+    "Misreading": 1,
+    "Overthinking": 1,
+    "ToolFailure": 1
+  },
+  "average_prompt_ratio": 0,
+  "average_agent_ratio": 100,
+  "user_feedback_tips": [
+    "直近の指示において重大な PromptDefect（指示側の欠陥）は検知されませんでした。極めて明瞭な指示を賜り感謝申し上げますわ！"
+  ],
+  "agent_rule_diffs": [
+    "/* 提案: 早合点・過剰推論の抑制 (1回検知) */\n.agent {\n  axiom: \"指示内容の自己補完を禁止し、未定義パラメータは早期リターンで確認\";\n}",
+    "/* 提案: 早合点・過剰推論の抑制 (1回検知) */\n.agent {\n  axiom: \"指示内容の自己補完を禁止し、未定義パラメータは早期リターンで確認\";\n}",
+    "/* 提案: ツール誤用防止 (1回検知) */\n[domain~=\"CLI\"] {\n  guard: \"実行前に引数構文 (--help) の静的検証を必須化\";\n}"
+  ]
+}

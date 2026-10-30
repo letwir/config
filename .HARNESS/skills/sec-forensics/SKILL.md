@@ -7,7 +7,7 @@ description: Security Forensics, CTF Immunity & PostgreSQL (llm-mem) Knowledge B
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] 🔎cve_fetch 📥cve_ingest 🛡️scan_ctf 💉scan_prompt 🤖dependabot 📜transcript 🚪mega_check
+[POLYGLYPH::ρ→max] 🔎cve_fetch 📥cve_ingest 🛡️scan_ctf 💉scan_prompt 🤖dependabot 📜transcript 🚪mega_check
 Security-forensics toolkit: defensive intelligence lookup, ingestion, scanning, dependency triage, transcript analysis, and document-update gating. Use for analysis/triage only; descriptions and findings do not authorize exploitation, attack execution, credential use, or unapproved writes.
 🔎 cve_fetch ⊢ Query ⇒ CVE/CTF threat-intelligence lookup; findings require verification | `$bin cve-fetch [-query <pkg>] [-cat <c>] [-json]`
 📥 cve_ingest ⊢ Seed∨Doc ⇒ security-knowledge ingestion; write-capable and requires current-task approval plus verified security knowledge | `$bin cve-ingest (-seed | -title <t> -content <c>)`
@@ -18,6 +18,7 @@ Security-forensics toolkit: defensive intelligence lookup, ingestion, scanning, 
 🚪 mega_check ⊢ Repo⊗Docs ⇒ defensive mega-doc-update security gate; report findings, ¬bypass gate | `$bin mega-check [-repo <r>] [-docs <dir>] [-json]`
 
 Outputs: report evidence-backed findings/status and uncertainty; unverified claims are forbidden. Commands other than cve-ingest are inspection-only. Deny credentials, raw tokens, leaked secrets; CVE IDs and repository paths may be included. Missing tool, ambiguous evidence, or unknown input structure ⇒ STOP affected action, preserve unknowns, report ambiguity and ask; no exploit execution or inferred permission.
+Reference options: cve-ingest may include -cat <cat> and -tags <t>; mega-check may include -transcript <path>. Possible output label VULNERABLE_WITH_MITIGATION is an observed label, not proof. Existing approval gates unchanged; no forensic scan performed.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=sec-forensics

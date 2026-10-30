@@ -8,7 +8,7 @@ mode: primary
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/XML::ρ→max|target:ORCHESTRATOR]
+Representation: POLYGLYPH.md; ρ→max; target=ORCHESTRATOR.
 
 Responsibilities:
 - ETL: coordinate; delegate(task-specific, settled, compressed) only; ¬delegate(original transcript). Apply(active bootstrap ∧ routed rules).

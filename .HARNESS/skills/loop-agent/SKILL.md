@@ -7,7 +7,7 @@ description: Gemini(Proposer) × Claude(Judge) × Researcher(On-Demand) decision
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] 🔄⟨loop⟩ 💡⟨propose⟩ ⚖️⟨judge⟩ 🔎⟨research⟩ 🎯⟨converge⟩
+[POLYGLYPH::ρ→max] 🔄⟨loop⟩ 💡⟨propose⟩ ⚖️⟨judge⟩ 🔎⟨research⟩ 🎯⟨converge⟩
 🔄 Trigger: loop-agent task ∧ decisions.md proposition work ⇒ repeat {Proposer draft/change proposal → Judge reason over propositions + attempt refutation → rejection/advisory ⇒ Proposer surgical revision → Judge}; eligible invocation path `invoke_subagent` ∨ `agy.exe -p --model <m>`; no other trigger/authority inferred.
 💡 Proposer: state/context ⇒ bounded change draft or surgical fix | `invoke_subagent(Role="Proposer", Model="gemini-3.7-flash")`
 ⚖️ Judge: draft ⇒ evaluate decisions.md propositions, fulfillment, reasoning and counterevidence; verdict is not proof | `invoke_subagent(Role="Judge", Model="claude-sonnet-4-6")`

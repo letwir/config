@@ -1,0 +1,28 @@
+{
+  "task_id": "20261025-crabcode-config-precedence",
+  "comparison_key": "crabcode-opencode-config-precedence-diagnosis",
+  "task_family": "configuration-investigation",
+  "role": "main",
+  "axes": {
+    "acceptance": 1.0,
+    "correctness": 0.95,
+    "scope_preservation": 1.0,
+    "verification": 0.85
+  },
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "Initial shell quoting failed and the fallback memory binary was used before checking the configured path; both were corrected, and neither changed the technical conclusion."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  },
+  "evidence_refs": [
+    "memo/20261025-crabcode-config-precedence/knowledge.md",
+    "memo/20261025-crabcode-config-precedence/diary.md",
+    "memo/20261025-crabcode-config-precedence/walkthrough.md",
+    "C:/Users/letwir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/crabcode-0.0.14/src/config/configuration.rs",
+    "https://crabcode.rs/config/",
+    "https://crabcode.rs/config/opencode-compatibility/"
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "task_id": "paddock-continue-harness-20261025",
+  "comparison_key": "paddock-continue-harness-skill-integration",
+  "task_family": "skill-workflow-integration",
+  "role": "main",
+  "axes": {
+    "acceptance": 0.9,
+    "correctness": 0.9,
+    "scope_preservation": 1.0,
+    "verification": 0.85
+  },
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "An initial skill draft included a duplicate trailing LRF marker; the structural parser caught it and it was removed.",
+      "Initial validation invocations had Windows quoting/output-encoding issues; checks were rerun with corrected commands.",
+      "The knowledge ingest result was not observable after a wrapper decode failure; read-only search found no record. The walkthrough ingest returned a unique-identity conflict. Neither was retried."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  },
+  "evidence_refs": [
+    "memo/paddock-continue-harness-20261025/knowledge.md",
+    "memo/paddock-continue-harness-20261025/diary.md",
+    "memo/paddock-continue-harness-20261025/walkthrough.md",
+    "C:/Users/letwir/.harness/skills/paddock-continue/SKILL.md",
+    "C:/Users/letwir/.harness/scripts/tests/fixtures/polyglyph-targets.json",
+    "C:/Users/letwir/.harness/scripts/tests/fixtures/polyglyph-preservation.json",
+    "C:/Users/letwir/repo/repo/paddock/method.md",
+    "C:/Users/letwir/repo/repo/paddock/scripts/continue_plan.py",
+    "C:/Users/letwir/repo/repo/paddock/prompt.md",
+    "C:/Users/letwir/.harness/scripts/lint-polyglyph.py"
+  ]
+}

@@ -7,8 +7,9 @@ description: HTML/XML files interpreter. Extract structured information (JSON-LD
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max|target:HTML-metadata-interpreter|legibility:LLM≫human] 🌐parse 🏷️meta 📦jsonld 🛍️dmm
+[POLYGLYPH::ρ→max|target:HTML-metadata-interpreter|legibility:LLM≫human] 🌐parse 🏷️meta 📦jsonld 🛍️dmm
 🔎 HTML/XML-file request ⊢ HTML file; `go run scripts/interpret.go <html-file>` → interpret supported HTML → title∪meta∪OGP∪`application/ld+json` object arrays∪[DMM/FANZA: SKU,item#,maker,release-date where present]. XML extent=unspecified. ⛔ unsupported claims∪fabricated results; ✅ return only extracted information.
+Extraction reference: output keys={title,description,site_name,ogp}; all application/ld+json blocks → array; DMM/FANZA fields={maker,SKU/item#,release-date} where present. Canonical runtime and script invocation remain controlling.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=universal-html-interpreter

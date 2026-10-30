@@ -1,0 +1,35 @@
+{
+  "task_id": "llm-mem-live-validation-20261025",
+  "comparison_key": "llm-mem-repair",
+  "role": "assistant",
+  "task_family": "llm-memory-cli-maintenance",
+  "axes": {
+    "input_validation": 1.0,
+    "binary_deployment": 1.0,
+    "survey_roundtrip": 1.0,
+    "history_search": 1.0,
+    "ratio_readback": 1.0
+  },
+  "evidence_refs": [
+    "llm-memory/evaluation.go:decodeEvaluationInput",
+    "llm-memory/evaluation_test.go:TestDecodeEvaluationInputRejectsUnknownAttributionFields",
+    "llm-memory/main.go:handleEvalHeavy",
+    "memo/llm-mem-live-validation-20261025/diary.md",
+    "survey_response:1046ee13-e160-4fb6-9ec1-08fca3b09d37",
+    "memory_id:580c789a-bc5c-458e-b074-8c935d946667",
+    "memory_id:fc93f28a-e98d-43de-9915-d434531b76b6",
+    "memory_id:0f43ed3b-cb0a-46c2-9f8c-6031f231d81a"
+  ],
+  "attribution": {
+    "prompt_defects": [
+      "Active llm-memory skill evaluation shorthand does not specify numeric axis values or exact attribution JSON field names."
+    ],
+    "agent_defects": [
+      "Earlier assistant evaluation JSON used nested axes objects instead of numeric scores.",
+      "Earlier assistant treated successful ingest record IDs as missing generic receipt IDs.",
+      "Earlier assistant initially treated the project .HARNESS copy as the canonical main harness."
+    ],
+    "prompt_ratio": 0.25,
+    "agent_ratio": 0.75
+  }
+}

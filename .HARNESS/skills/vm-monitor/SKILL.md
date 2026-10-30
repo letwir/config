@@ -7,7 +7,7 @@ description: VictoriaMetrics cluster monitoring, MetricsQL/PromQL instant/range 
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] 🩺status 📊metrics ⚡query 📈query_range 🖥️nodes 💡suggest
+[POLYGLYPH::ρ→max] 🩺status 📊metrics ⚡query 📈query_range 🖥️nodes 💡suggest
 🩺status ⊢ ∅ ⇒ inspect TSDB health + series count + metric overview; connectivity/health status only, not a write. | `$bin -status` ∨ `$bin -url <URL> -status`
 📊metrics ⊢ Keyword ⇒ list/search registered metric series; keyword narrows search. | `$bin -metrics` ∨ `$bin -search "<keyword>"`
 ⚡query ⊢ MetricsQL/PromQL expr ⇒ instant-vector evaluation; result reflects queried expression/time, not an unqualified capacity guarantee. | `$bin -query "<expr>" [-format json]`
@@ -16,6 +16,7 @@ description: VictoriaMetrics cluster monitoring, MetricsQL/PromQL instant/range 
 💡suggest ⊢ ∅ ⇒ score spare compute capacity + suggest workload placement; recommendation ≠ guaranteed available capacity or safe placement. | `$bin -suggest` ∨ `$bin -capacity`
 Interpretation: query values/series describe observed VictoriaMetrics data; empty, stale, partial, or failed responses do not prove zero usage, health, or capacity. Distinguish query/transport failure from valid results; if source, freshness, units, scope, or result meaning is unclear, preserve uncertainty and do not infer.
 Boundary: monitoring/query commands are read-only; do not modify metrics, nodes, workloads, or service configuration. Capacity suggestions are estimates, not authorization to allocate/deploy; no threshold, reserve, freshness window, or placement guarantee is specified here.
+Reference queries (preserve literal documented expressions): CPU=`100 - (avg by (instance) (rate(node_cpu_seconds_total{mode!="idle"}[5m])) * 100)`; RAM=`node_memory_MemAvailable_bytes / (1024 * 1024 * 1024)`; disk=`node_filesystem_avail_bytes{mountpoint="/"} / (1024 * 1024 * 1024)`; load=`node_load1`; cache=`vm_cache_requests_total{type="metric_id"} > 0`; overload=`node_load1 > count by(instance)(node_cpu_seconds_total{mode='idle'})`. -nodes/-top and -suggest/-capacity may request -format json. -suggest -format json → CapacityRank==1 evidence → deployment recommendation only, never deployment authorization. Candidate workloads={LLM_Inference,BatchPipeline,Microservices,EdgeDaemons}; no query execution.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=vm-monitor

@@ -1,0 +1,14 @@
+{
+  "task_id": "subagent-codec-fix-20261026",
+  "comparison_key": "compressor-filereader-polygliph-retirement",
+  "axes": {
+    "legacy_rule_retired": {"result": "pass", "evidence": "No fixed-language/token-count/uniqueness/NFKC optimizer signatures remain in Harness role Markdown."},
+    "protected_contracts": {"result": "pass", "evidence": "Frontmatter/bootstrap, role gates, handoff suffix/fields, FileReader output/privacy contract and operational identifiers preserved."},
+    "validation": {"result": "pass", "evidence": "Doc preflight, targeted invariants, strict UTF-8/whitespace and git diff --check passed."},
+    "independence": {"result": "limited", "evidence": "No independent post-edit reviewer; main ran bounded checks."}
+  },
+  "attribution": {
+    "prompt": "Correct the two subagent instructions identified as retaining the old codec rules.",
+    "agent": "Pi main, documentation-only implementation and local verification."
+  }
+}

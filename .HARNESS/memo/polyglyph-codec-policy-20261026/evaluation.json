@@ -1,0 +1,13 @@
+{
+  "task_id": "polyglyph-codec-policy-20261026",
+  "comparison_key": "harness-llm-facing-polyglyph-policy",
+  "axes": {
+    "persistent_policy": {"result": "pass", "evidence": "Replaced legacy doc.llm-only-codec and aligned the explicitly LLM-designated SKILL branch."},
+    "subagent_and_readme_examples": {"result": "pass", "evidence": "Updated AGENT_ROUTER, worker, orchestrator, and Pi README-forLLM using POLYGLYPH; protected wrapper literals remain exact."},
+    "validation": {"result": "pass_with_limitation", "evidence": "Preflight and byte/marker/literal checks passed; no independent post-change verifier runtime profile was available."}
+  },
+  "attribution": {
+    "prompt": "Require POLYGLYPH for LLM-facing notation, ignore human readability, and update Harness conditions and subagent/README-forLLM examples.",
+    "agent": "Pi main plan/edit/verification; Orchestrator bounded inventory (openai-codex/gpt-6-luna high); attacker-medium plan assessment (actual parent-correlated openai-codex/gpt-6.1-sol high); no independent post-change verifier."
+  }
+}

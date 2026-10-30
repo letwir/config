@@ -7,7 +7,7 @@ description: Pure Go-based Static Analysis & LRF/PIDGIN/AST Bi-Simulation Compil
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] 🔍path 🛡️level ⚖️skill 📊json 🚨strict
+[POLYGLYPH::ρ→max] 🔍path 🛡️level ⚖️skill 📊json 🚨strict
 🔍 path→Target; `$bin -path "<path>"` ⇒ LRF/1・ハーネス static lint CLI; static inspection only; levels 0..3.
 🛡️ level N→cap validation at N; `$bin -path "<path>" -level <N>`; 0=lexical/syntax, 1=structural typing/type closure, 2=semantic + references, 3=cross-domain AST↔PIDGIN diff.
 ⚖️ skill directory→Go AST vs SKILL.md(PIDGIN) bi-simulation/symmetric-diff inspection; `$bin -skill "<dir>" -level 3`.

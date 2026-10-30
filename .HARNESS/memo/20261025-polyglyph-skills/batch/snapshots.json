@@ -1,0 +1,275 @@
+[
+  {
+    "name": "babysit",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\babysit\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\babysit\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/1.md",
+    "sha256": "9DAA12A6EFC630EFCFEECDBEAEA17A754A6FF0EB4E19A106EFB9FFC1873072D4"
+  },
+  {
+    "name": "canvas",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\canvas\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\canvas\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/2.md",
+    "sha256": "B0F8A67B338236AE9246FC036D8CF8D220D92F549E07090199999B08D7C5E2F0"
+  },
+  {
+    "name": "chrome-cdp-search",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\chrome-cdp-search\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\chrome-cdp-search\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/3.md",
+    "sha256": "E27065B6CAE7625C18F52D33BC57DC3CF7CA9F75F0B8BD75BF87FBEE84AFA9B9"
+  },
+  {
+    "name": "create-hook",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\create-hook\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\create-hook\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/4.md",
+    "sha256": "94E01267DF0861C8824CFA7E1F2994186848FB35BAC1AA942BC9AA7B663B4436"
+  },
+  {
+    "name": "create-rule",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\create-rule\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\create-rule\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/5.md",
+    "sha256": "E498AE58C619CD74FB3A66AB5B5EA73E0327B6C4C8BE283D485D5E2BBBDB7646"
+  },
+  {
+    "name": "create-skill",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\create-skill\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\create-skill\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/6.md",
+    "sha256": "04148AFA851A8F91C6D8E33978DAE014BA76EB8BDE6F107D44036F514AC9394C"
+  },
+  {
+    "name": "create-subagent",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\create-subagent\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\create-subagent\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/7.md",
+    "sha256": "D918B0F45BFBA005164FE731A92C48E429E788FF65BD45BA07D07214F86B8B73"
+  },
+  {
+    "name": "default-settings",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\default-settings\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\default-settings\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/8.md",
+    "sha256": "44996C07C5D9D81A07C2E25B02D1B76E88D658BF3FBAE4AEFEC91822E9B9ACDD"
+  },
+  {
+    "name": "default-settings",
+    "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\default-settings\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\default-settings\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/9.md",
+    "sha256": "3010A1B40B4B6A3D18E0BF5B8991EE3B46D0461CE537C4C401F24A36903C45F6"
+  },
+  {
+    "name": "economics-api",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\economics-api\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\economics-api\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/10.md",
+    "sha256": "052A6189D25F229B96AD178E674072332C745ED98762695B9D19220155E2599F"
+  },
+  {
+    "name": "economics-api",
+    "path": "C:/Users/letwir/repo/repo/mcp2go/src\\economics-api\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\economics-api\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/11.md",
+    "sha256": "4147139E77AFB66398E10CC5AC5BD546853A18A2F662971448D9A590E5D8FD4E"
+  },
+  {
+    "name": "foobar-sql-exporter",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\foobar-sql-exporter\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\foobar-sql-exporter\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/12.md",
+    "sha256": "413E6B5CFF8BF1E3B2EA65F788D6410B7795AF3C9546E03C819A0D5D82030EA2"
+  },
+  {
+    "name": "google-search",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\google-search\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\google-search\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/13.md",
+    "sha256": "F9B2AE77FE30D4F96B42AEEC48870ACAAE6CECB3A5C3DD9E2038B1D677DEBD79"
+  },
+  {
+    "name": "harness-lint",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\harness-lint\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\harness-lint\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/14.md",
+    "sha256": "C6F5718E5E9CE6BF779879A7E489F8663B5ECD2C35645F3CC5E355CDB4FF52F3"
+  },
+  {
+    "name": "hatch-pet",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\hatch-pet\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\hatch-pet\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/15.md",
+    "sha256": "7B160D077209A473E78D8CBF14C0E48543E8B9F3DA19DAC7D7A39FAD014B625F"
+  },
+  {
+    "name": "hudousan-api",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\hudousan-api\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\hudousan-api\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/16.md",
+    "sha256": "E640C571A4C31BFD97A9143A52E73BDE2F412298711CEA1CA0925A52152E56CF"
+  },
+  {
+    "name": "hudousan-api",
+    "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\hudousan-api\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\hudousan-api\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/17.md",
+    "sha256": "622029233A630ACEF7453B7889F200ECC04D6C78B69CB980C073776EFE6B7956"
+  },
+  {
+    "name": "kokkousyou-api",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\kokkousyou-api\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\kokkousyou-api\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/18.md",
+    "sha256": "0B96E77F70AABE9AB6925A5FB7FCEAE7C1F74F33F0E690B85D9FF38D590138CA"
+  },
+  {
+    "name": "kokkousyou-api",
+    "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\kokkousyou-api\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\kokkousyou-api\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/19.md",
+    "sha256": "16BF0FD8D855CD5BA256FA250A806B3B47282B63C44074B2298BFD46E384E4E7"
+  },
+  {
+    "name": "llama2coder",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\llama2coder\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\llama2coder\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/20.md",
+    "sha256": "B1B94F163D3FC1B85325B91CC3B61906378FC4B0A0ED47BB28440CDCB2BB7561"
+  },
+  {
+    "name": "llama2coder",
+    "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\llama2coder\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\llama2coder\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/21.md",
+    "sha256": "A471C5ED93DCC16C4C29962DD7B0D7490CD4C5840E2F5A331A654973271A9761"
+  },
+  {
+    "name": "llm-memory",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\llm-memory\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\llm-memory\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/22.md",
+    "sha256": "E8C6A3FBB5E2C7277FED10C6A8A958E277102EB53FD34695BD61859F1201E6AD"
+  },
+  {
+    "name": "llm-memory",
+    "path": "C:/Users/letwir/repo/repo/mcp2go/src\\llm-memory\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\llm-memory\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/23.md",
+    "sha256": "D2048A96C6C6C70ABAE1FC2E642A13C61D6F047829D278A1CB8AF9D1B1852E5F"
+  },
+  {
+    "name": "llm-memory",
+    "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\llm-memory\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\llm-memory\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/24.md",
+    "sha256": "E6C21B27F2121DF3F87E91B13CD283390478E6357FF5625ED206C9ECA9E7CDEA"
+  },
+  {
+    "name": "loop",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\loop\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\loop\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/25.md",
+    "sha256": "945D5FC3B5150A0EFC690399357F4419CD40B6923B28972B3B3D7F0CFE592289"
+  },
+  {
+    "name": "loop-agent",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\loop-agent\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\loop-agent\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/26.md",
+    "sha256": "A09A08F513004A9DF3AF52EE698DEEE34B3810B929F81EF0DDC8294D5222F7E4"
+  },
+  {
+    "name": "migrate-to-skills",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\migrate-to-skills\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\migrate-to-skills\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/27.md",
+    "sha256": "9DD010B40078C5FFB93B3742977DB995F33711457922344004EEE97FB66870B9"
+  },
+  {
+    "name": "perser-xml",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\perser-xml\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\perser-xml\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/28.md",
+    "sha256": "51B498A1ADAB5BD00B65F006C20C23197432CAFBE980076C1605BB58C77D4BFF"
+  },
+  {
+    "name": "perser-xml",
+    "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\perser-xml\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\perser-xml\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/29.md",
+    "sha256": "67D1D3D555C896FC06AAA54BA75BA70B80545587E6E3FAC8C7A063DD1BBCECC3"
+  },
+  {
+    "name": "rikei-search",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\rikei-search\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\rikei-search\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/30.md",
+    "sha256": "BAC9289DF0D6B0F3DBC1E8EA5BC6DD5AEEA0882BC39A1C95287D33954AF1B721"
+  },
+  {
+    "name": "rikei-search",
+    "path": "C:/Users/letwir/repo/repo/mcp2go/src\\rikei-search\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\rikei-search\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/31.md",
+    "sha256": "CCE957906F651A1B5132521A5F840BF826557138900897E683CB020C7F65C3D9"
+  },
+  {
+    "name": "rikei-search",
+    "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\rikei-search\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\rikei-search\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/32.md",
+    "sha256": "CCE957906F651A1B5132521A5F840BF826557138900897E683CB020C7F65C3D9"
+  },
+  {
+    "name": "sec-forensics",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\sec-forensics\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\sec-forensics\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/33.md",
+    "sha256": "B4517DF2D4C7C76B87BCF6DD57638D0014B801ED317E539C6E80FAB753C8CB1E"
+  },
+  {
+    "name": "sec-forensics",
+    "path": "C:/Users/letwir/repo/repo/mcp2go/src\\sec-forensics\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\sec-forensics\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/34.md",
+    "sha256": "19EA93E7C7BF74C0B34E83A7742DE8ABFA08C20CFFB22F014F92E6656DDC9C9A"
+  },
+  {
+    "name": "shell",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\shell\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\shell\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/35.md",
+    "sha256": "0E371AEFFF079EF1A16FD51ED424C3902BFBFC59ED7168EBB6FFB3872DCABEC3"
+  },
+  {
+    "name": "split-to-prs",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\split-to-prs\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\split-to-prs\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/36.md",
+    "sha256": "4B3C823A5CB93B6820E4B2AB26771D098C2CD32B709C6528DE1F7F934554F806"
+  },
+  {
+    "name": "vm-monitor",
+    "path": "C:\\Users\\letwir\\.harness\\skills\\vm-monitor\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\vm-monitor\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/37.md",
+    "sha256": "7078C8C1C6A990CFBFF38CFF236284020B9DB551D88DDC35C0CD411E5E020AE4"
+  },
+  {
+    "name": "vm-monitor",
+    "path": "C:/Users/letwir/repo/repo/mcp2go/src\\vm-monitor\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\vm-monitor\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/38.md",
+    "sha256": "F86A9E89DBD689BE371397A09D9CE2242959BD63D6032AF76027C00F5CB6F4D9"
+  },
+  {
+    "name": "vm-monitor",
+    "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\vm-monitor\\SKILL.md",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\vm-monitor\\SKILL.md",
+    "backup": "C:/Users/letwir/.harness/memo/20261025-polyglyph-skills/batch/before/39.md",
+    "sha256": "F86A9E89DBD689BE371397A09D9CE2242959BD63D6032AF76027C00F5CB6F4D9"
+  }
+]

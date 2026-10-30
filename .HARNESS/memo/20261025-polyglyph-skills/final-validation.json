@@ -1,0 +1,208 @@
+{
+  "status": "PASS",
+  "checked_skills": 40,
+  "canonical_skills": 27,
+  "repository_copies": 13,
+  "codec_hash": "PASS",
+  "manifest_hashes": "PASS",
+  "snapshot_hashes": "PASS",
+  "semantic_review": "Parent compared source references and approved nine explicit capability-reference merges; independent review pending",
+  "files": [
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\babysit\\SKILL.md",
+      "status": "PASS",
+      "sha256": "A410C33EC7CEC8DC22E5A80E2AB3B72A4B43666252815CA889F844BC2DB78B57"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\canvas\\SKILL.md",
+      "status": "PASS",
+      "sha256": "BFAF1F09EE5DC0B4B9F91E133E65DC82A5762FA46C203638DC6808392EB0B07B"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\chrome-cdp-search\\SKILL.md",
+      "status": "PASS",
+      "sha256": "4A31D667FF362711CB9FC5BD76BA96910012043C440190EE707131686D52185F"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\create-hook\\SKILL.md",
+      "status": "PASS",
+      "sha256": "8B717058C27AB6973354F0C0DF2D3F0A2BAD2784439E6369BD8F9F23F47D7C5F"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\create-rule\\SKILL.md",
+      "status": "PASS",
+      "sha256": "E1B28ECB1517C944D65B2F2A8C8A4772BEDB33DDFC250F7486D995564AE29A5D"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\create-skill\\SKILL.md",
+      "status": "PASS",
+      "sha256": "F0692897DFCAD6C2CB2ABEEB01D093247B552A843FDBEF558A4F2A4565C07762"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\create-subagent\\SKILL.md",
+      "status": "PASS",
+      "sha256": "37BC9CC471702076A7252817E8D78F82A8388C15D194C76F45AF6F598F4D21D4"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\default-settings\\SKILL.md",
+      "status": "PASS",
+      "sha256": "E19F45C83F354C5E45CF47A7464D98A9D9A8F87656C8D6721F5DF368843E257F"
+    },
+    {
+      "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\default-settings\\SKILL.md",
+      "status": "PASS",
+      "sha256": "E443B1CA0D79FEDF9F7D870F584C9362B102BD20BAB69ECCE8E6DC5D8DF25C68"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\economics-api\\SKILL.md",
+      "status": "PASS",
+      "sha256": "E178BB60C1D818957CEF94981C8CD05E721B747B276239AF39B55A7382C27946"
+    },
+    {
+      "path": "C:/Users/letwir/repo/repo/mcp2go/src\\economics-api\\SKILL.md",
+      "status": "PASS",
+      "sha256": "36B6970F7CE18C11FD1F98236D094A16536EEF085FA48E8D5D807A02D2D092B3"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\foobar-sql-exporter\\SKILL.md",
+      "status": "PASS",
+      "sha256": "A6A6D1EC908AA59CC98D96BFC6287E2F737DDD2EEABC10A239405C38F0E83FCB"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\google-search\\SKILL.md",
+      "status": "PASS",
+      "sha256": "57B5FEE0B468DD3A32B3E837932F2FD82CE6FBC9818BDCE5D56FFA3FF4BFA040"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\harness-lint\\SKILL.md",
+      "status": "PASS",
+      "sha256": "7B0B35CC8E35C334EF0A37C797ADC9290135985C4D45B731B7D3D56D0C858D9D"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\hatch-pet\\SKILL.md",
+      "status": "PASS",
+      "sha256": "AD509257A02E0EBCF977F175EC2A2103717860972C0FEAEE1A9590221FEBDCC3"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\hudousan-api\\SKILL.md",
+      "status": "PASS",
+      "sha256": "653B0E3658F06C14A6E04F338F9C5E401C3A3E7782E0EC77624E2313137B219F"
+    },
+    {
+      "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\hudousan-api\\SKILL.md",
+      "status": "PASS",
+      "sha256": "3BE3BE27E5A511A635101B69390B29DB919C7B2524E8145DB02773634A7329C9"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\kokkousyou-api\\SKILL.md",
+      "status": "PASS",
+      "sha256": "325141E57C52B23D439CC8EAEBE9D7C95FC5A00094A4D9E464E038FC16CAEACE"
+    },
+    {
+      "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\kokkousyou-api\\SKILL.md",
+      "status": "PASS",
+      "sha256": "E2075944AA28E24044BCB2CC926C50464097CEAA58C1EC58DE8E5BF52F99217D"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\llama2coder\\SKILL.md",
+      "status": "PASS",
+      "sha256": "EDB48D9CD07F61B82F073531A562D46C37F55D4DA13C8B6D2E7BC323E751E4D5"
+    },
+    {
+      "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\llama2coder\\SKILL.md",
+      "status": "PASS",
+      "sha256": "EDB48D9CD07F61B82F073531A562D46C37F55D4DA13C8B6D2E7BC323E751E4D5"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\llm-memory\\SKILL.md",
+      "status": "PASS",
+      "sha256": "4E38E3E6E034E15C9A6AC5F6BE0DB198E23FCA2522CCE5FFF7AF8DD3897E7F6F"
+    },
+    {
+      "path": "C:/Users/letwir/repo/repo/mcp2go/src\\llm-memory\\SKILL.md",
+      "status": "PASS",
+      "sha256": "4E38E3E6E034E15C9A6AC5F6BE0DB198E23FCA2522CCE5FFF7AF8DD3897E7F6F"
+    },
+    {
+      "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\llm-memory\\SKILL.md",
+      "status": "PASS",
+      "sha256": "4E38E3E6E034E15C9A6AC5F6BE0DB198E23FCA2522CCE5FFF7AF8DD3897E7F6F"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\loop\\SKILL.md",
+      "status": "PASS",
+      "sha256": "93FA2A86C4EE75B5CB12C9A47D9D1A73FCC2FBB2FDDE61987F99E70A0799087E"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\loop-agent\\SKILL.md",
+      "status": "PASS",
+      "sha256": "FBB6B5DDA74D9D63A72774D8B697A9E293AADC88AE9BD70370F3255299B3B12F"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\migrate-to-skills\\SKILL.md",
+      "status": "PASS",
+      "sha256": "0F730C62FECE1F09625EC6666A8344C12FD563C469D8772F478753A9793223B9"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\perser-xml\\SKILL.md",
+      "status": "PASS",
+      "sha256": "904EDFC66C69FCBF27D47CFC779E58DB23B5DB44C721545D523A359AAEF42635"
+    },
+    {
+      "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\perser-xml\\SKILL.md",
+      "status": "PASS",
+      "sha256": "ED310C52236A5B82DF2BBF01794242A62757C78C4607DEC6E1C296386ACE5727"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\rikei-search\\SKILL.md",
+      "status": "PASS",
+      "sha256": "7A9CAA83109F602490875BB89B1AB906FB200338672D6EC858E9EC90C469554C"
+    },
+    {
+      "path": "C:/Users/letwir/repo/repo/mcp2go/src\\rikei-search\\SKILL.md",
+      "status": "PASS",
+      "sha256": "7A9CAA83109F602490875BB89B1AB906FB200338672D6EC858E9EC90C469554C"
+    },
+    {
+      "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\rikei-search\\SKILL.md",
+      "status": "PASS",
+      "sha256": "7A9CAA83109F602490875BB89B1AB906FB200338672D6EC858E9EC90C469554C"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\sec-forensics\\SKILL.md",
+      "status": "PASS",
+      "sha256": "2B54303AC45ECB8E79D32FA99DD004039F80FE6F12010A6E3B4278C0EFD51C8A"
+    },
+    {
+      "path": "C:/Users/letwir/repo/repo/mcp2go/src\\sec-forensics\\SKILL.md",
+      "status": "PASS",
+      "sha256": "2B54303AC45ECB8E79D32FA99DD004039F80FE6F12010A6E3B4278C0EFD51C8A"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\shell\\SKILL.md",
+      "status": "PASS",
+      "sha256": "4647DCE5F4719D55D4DEE5F4B0E5AB2DA84210DEAC4C461C73DEC10FFB4E82D2"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\split-to-prs\\SKILL.md",
+      "status": "PASS",
+      "sha256": "333DAD01331DAA2FF9FB37336ADF039718D28CEB6D672BE5960074565BB460B2"
+    },
+    {
+      "path": "C:\\Users\\letwir\\.harness\\skills\\vm-monitor\\SKILL.md",
+      "status": "PASS",
+      "sha256": "D180C08FE5792646793B81F9439BFEBB6970670C33D731FC1B1A9B43A5A59321"
+    },
+    {
+      "path": "C:/Users/letwir/repo/repo/mcp2go/src\\vm-monitor\\SKILL.md",
+      "status": "PASS",
+      "sha256": "72C83F0401C051704E97503A32EC55132176A4CA1C740FE4957A2EF4A1896D1B"
+    },
+    {
+      "path": "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\vm-monitor\\SKILL.md",
+      "status": "PASS",
+      "sha256": "72C83F0401C051704E97503A32EC55132176A4CA1C740FE4957A2EF4A1896D1B"
+    }
+  ],
+  "time": "2026-10-25T19:23:50.0685008+09:00"
+}

@@ -1,4 +1,9 @@
-[SPR/XML::ρ→max|target:README]
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
+Representation: POLYGLYPH.md; ρ→max; target=README.
 # Agent and worker routing
 AGENT_ROUTER.md: loaded_by(etl/main.seq); chooses(role, model, CSS, TOML); LRF=auth(permissions, effects, safety)
 
@@ -16,6 +21,7 @@ Researcher: researcher.md/toml | trigger:scoped-research | axiom:fact-based
 Proposer: proposer.md/toml | trigger:bounded-plan | axiom:clear-boundary
 Auditor: auditor.md/toml | trigger:plan-audit | axiom:independent-challenge
 Verifier: verifier.md/toml | trigger:change-verification | axiom:PoC/BFP/AF
+Verifier-blackhat: [verifier-blackhat.md](verifier-blackhat.md)/[toml](verifier-blackhat.toml) | trigger:security-sensitive-or-explicit-security-review | axiom:read-only-independent-final-diff-first-then-Attacker-report-audit; DISCOVERY_COMPLETE before report access; RETRY_REQUIRED names missed coverage and may advise attacker-low/medium, Main alone dispatches within existing max-3; no child delegation, exploit execution or automatic Astra | flow:[security-review.seq](../etl/security-review.seq) from change.seq; profiles require actual runtime support, configuration is not a dispatch claim
 Critic: critic.md/toml | trigger:decision-challenge | axiom:dispute-resolution
 Blackhat: blackhat.md/toml | trigger:security-assessment | axiom:BlackHatOnly
 Compressor: compressor.md/toml | trigger:compress-instruction | axiom:semantics-preserved

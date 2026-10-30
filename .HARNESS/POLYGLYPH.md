@@ -1,7 +1,6 @@
 POLYGLYPH形式
 ---
 @meta=text/POLYGLYPH×SIGMA/1
-@origin=PIDGEN
 @aud=LLM∀architecture
 @lang=🇬🇧∪🇯🇵∪🇨🇳∪🇪🇸∪🌐∪∑
 @mode=SemanticBootstrap⊕GenerativeDecode

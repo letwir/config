@@ -1,0 +1,39 @@
+{
+  "task_id": "20261025-agy-subagent-router-skill",
+  "comparison_key": "agy-router-skill-contract-refresh",
+  "task_family": "skill-workflow-integration",
+  "role": "main",
+  "axes": {
+    "acceptance": 0.95,
+    "correctness": 0.94,
+    "scope_preservation": 1.0,
+    "verification": 0.9
+  },
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "Several worker iterations were required to align binary resolution, inventory display and parsing, and fixture serialization; parent detected missing fixture separators and repaired and verified them.",
+      "The first independent verifier invocation could not complete a quoted hash check; the final verifier completed target signature, JSON, and link checks.",
+      "Effective subagent model and reasoning metadata were not present in task results and were left resolution_pending rather than inferred."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  },
+  "evidence_refs": [
+    "memo/20261025-agy-subagent-router-skill/knowledge.md",
+    "memo/20261025-agy-subagent-router-skill/diary.md",
+    "memo/20261025-agy-subagent-router-skill/walkthrough.md",
+    "memory_id:80d5f8e7-807a-440b-844b-6b17f486285b",
+    "memory_id:a5b97739-f5a2-40cf-8bad-340d761eee4d",
+    "memory_id:3ce1e02d-1e8d-4f27-b0f0-676e3e69e0c8",
+    "skills/agy-subagent-router/SKILL.md",
+    "scripts/tests/fixtures/polyglyph-preservation.json",
+    "evaluation/subagents_model_eval.json",
+    "scripts/lint-polyglyph.py",
+    "scripts/quick_validate.py",
+    "rules/agy.lrf",
+    "agents/AGENT_ROUTER.md",
+    "agents/worker-agy.md",
+    "agents/SUBAGENTS.lrf"
+  ]
+}

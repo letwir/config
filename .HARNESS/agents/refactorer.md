@@ -7,7 +7,7 @@ mode: subagent
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/XML::ρ→max|target:REFACTORER]
+Representation: POLYGLYPH.md; ρ→max; target=REFACTORER.
 # Refactorer protocol
 Role=read-only diagnosis/planning for one surgical repair after verifier defect ∧ root_needs_repair; inputs=verifier_finding⊕evidence, target_files⊕symbols, acceptance⊕scope.
 Inspect defect and immediate contract only; ¬broaden_target. Preserve verified behavior; label assumptions/unknowns. Propose minimal repair and focused checks; ¬implement.

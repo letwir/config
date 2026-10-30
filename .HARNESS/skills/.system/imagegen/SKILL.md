@@ -10,30 +10,30 @@ description: "Generate or edit raster images when the task benefits from AI-crea
 
 # Image Generation Skill
 
-Current-project bitmap creation/editing: website/game/UI/product mockups, wireframes, logos, photorealism, infographics, etc.
+Purpose: current project→画像生成∨編集; examples={website/game assets, UI/product mockups, wireframes, logo design, photorealistic images, infographics}.
 
 ## Top-level modes and rules
 
-Modes=exactly 2:
+Top-level modes=exactly 2:
 
-- Built-in `image_gen` (default/preferred): generate/edit/transparency; no `OPENAI_API_KEY`.
-- CLI fallback `scripts/image_gen.py`: only explicit user ask/confirmation of CLI/API/model path; requires `OPENAI_API_KEY`.
+- **Default built-in tool mode (preferred):** built-in `image_gen` tool for image generation, editing, and transparent-image requests. Does not require `OPENAI_API_KEY`.
+- **Fallback CLI mode:** `scripts/image_gen.py` CLI. Use when the user explicitly asks for or confirms the CLI/API/model path. Requires `OPENAI_API_KEY`.
 
-CLI subcommands:
+CLI fallback→subcommands=3:
 
 - `generate`
 - `edit`
 - `generate-batch`
 
 Rules:
-- Normal generation/edit ⇒ built-in `image_gen`.
-- Ordinary quality/size/path control ≠ reason for CLI fallback.
-- Transparency ⇒ request transparent background from built-in; preserve alpha.
+- Use the built-in `image_gen` tool by default for normal image generation and editing requests.
+- Do not switch to CLI fallback for ordinary quality, size, or file-path control.
+- For transparent images, ask built-in `image_gen` for a transparent background and preserve the generated alpha.
 - Never silently switch from built-in `image_gen` or CLI `gpt-image-2` to CLI `gpt-image-1.5`; ask the user first unless they explicitly requested `gpt-image-1.5`.
 - The word `batch` by itself does not mean CLI fallback. If the user asks for many assets or says to batch-generate assets without explicitly asking for CLI/API/model controls, stay on the built-in path and issue one built-in call per requested asset or variant.
 - If the built-in tool fails or is unavailable, tell the user the CLI fallback exists and that it requires `OPENAI_API_KEY`. Proceed only if the user explicitly asks for that fallback.
 - If the user explicitly asks for CLI mode, use the bundled `scripts/image_gen.py` workflow. Do not create one-off SDK runners.
-- `scripts/image_gen.py` immutable; missing item ⇒ ask user before any further action.
+- Never modify `scripts/image_gen.py`. If something is missing, ask the user before doing anything else.
 
 Built-in save-path policy:
 - In built-in tool mode, Codex saves generated images under `$CODEX_HOME/*` by default.
@@ -68,15 +68,15 @@ Fallback-only docs/resources for CLI mode:
 
 ## Decision tree
 
-Think about two separate questions:
+Decision=2 independent axes:
 
-1. **Intent:** is this a new image or an edit of an existing image?
-2. **Execution strategy:** is this one asset or many assets/variants?
+1. **Intent:** 新規画像∨既存画像編集?
+2. **Execution strategy:** single asset∨many assets/variants?
 
 Intent:
-- If the user wants to modify an existing image while preserving parts of it, treat the request as **edit**.
-- If the user provides images only as references for style, composition, mood, or subject guidance, treat the request as **generate**.
-- If the user provides no images, treat the request as **generate**.
+- user wants existing image変更∧parts保持⇒intent=**edit**.
+- images supplied only as style/composition/mood/subject references⇒intent=**generate**.
+- user supplies no images⇒intent=**generate**.
 
 Built-in edit semantics:
 - Built-in edit mode is for images already visible in the conversation context, such as attached images or images generated earlier in the thread.
@@ -90,14 +90,14 @@ Execution strategy:
 - In the CLI fallback path, use the CLI `generate-batch` subcommand only when the user explicitly chose CLI mode and needs many prompts/assets.
 - For many distinct assets, do not use `n` as a substitute for separate prompts. `n` is for variants of one prompt; distinct assets need distinct built-in calls or distinct CLI `generate-batch` jobs.
 
-Default intent=generate; existing-image change explicitly clear ⇒ edit.
+Default intent=新規画像; exception=user clearly requests existing-image変更.
 
 ## Workflow
 1. Decide the top-level mode: built-in by default, including transparent-output requests; fallback CLI only if explicitly requested or confirmed.
-2. Decide the intent: `generate` or `edit`.
-3. Decide whether the output is preview-only or meant to be consumed by the current project.
-4. Decide the execution strategy: single asset vs repeated built-in calls vs CLI `generate-batch`.
-5. Collect inputs up front: prompt(s), exact text (verbatim), constraints/avoid list, and any input images.
+2. Intent選択∈{`generate`,`edit`}.
+3. Output用途判定=preview-only∨current-project consumption.
+4. Strategy選択=single asset∨repeated built-in calls∨CLI `generate-batch`.
+5. 実行前にcollect{prompt(s), exact text(verbatim), constraints/avoid list, input images if any}.
 6. For every input image, label its role explicitly:
    - reference image
    - edit target
@@ -109,8 +109,8 @@ Default intent=generate; existing-image change explicitly clear ⇒ edit.
    - If the user's prompt is generic, add tasteful augmentation only when it materially improves output quality.
 10. Use the built-in `image_gen` tool by default.
 11. For transparent-output requests, ask built-in `image_gen` for a transparent background and preserve the generated alpha channel.
-12. Inspect outputs and validate: subject, style, composition, text accuracy, and invariants/avoid items.
-13. Iterate with a single targeted change, then re-check.
+12. Output検査→validate{subject, style, composition, text accuracy, invariants/avoid items}.
+13. Iterate(single targeted change)→再検査.
 14. For preview-only work, render the image inline; the underlying file may remain at the default `$CODEX_HOME/generated_images/...` path.
 15. For project-bound work, move or copy the selected artifact into the workspace and update any consuming code or references. Never leave a project-referenced asset only at the default `$CODEX_HOME/generated_images/...` path.
 16. For batches or multi-asset requests, persist every requested deliverable final in the workspace unless the user explicitly asked to keep outputs preview-only. Discarded variants do not need to be kept unless requested.
@@ -147,7 +147,7 @@ Not allowed augmentations:
 
 ## Use-case taxonomy (exact slugs)
 
-Classify each request into one of these buckets and keep the slug consistent across prompts and references.
+∀request: 次のbucketの1つへ分類; slug=consistent across prompts∧references.
 
 Generate:
 - photorealistic-natural — candid/editorial lifestyle scenes with real texture and natural lighting.
@@ -174,7 +174,7 @@ Edit:
 
 ## Shared prompt schema
 
-Use the following labeled spec as shared prompt scaffolding for both top-level modes:
+両top-level modes共通prompt scaffolding=次のlabeled spec:
 
 ```text
 Use case: <taxonomy slug>

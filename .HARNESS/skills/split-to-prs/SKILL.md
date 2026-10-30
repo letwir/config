@@ -7,7 +7,7 @@ description: Split current work into small reviewable PRs. Use when the user ask
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] ✂️split 💾snapshot 🌿branch 🚀submit
+[POLYGLYPH::ρ→max] ✂️split 💾snapshot 🌿branch 🚀submit
 ✂️ 分割: Trigger=明示的依頼(split chat/change-set/branch/PR). Input={DirtyDiff,Intent,base,ownership}; inspect diff-stat＋CODEOWNERS; propose reviewer-interest slices before any action. Output=reviewable slice plan only. `git diff --stat <base>`
 💾 Snapshot: Uncommitted changes⇒安全退避; 作業tree変更禁止 until snapshot. `git update-ref refs/backup/pre-split-$(date +%s) $(git stash create pre-split)`
 🌿 ApprovedSlice⇒dedicated branch＋only specified files staged. `git checkout -b <branch> <base>` ∧ `git add <files>`

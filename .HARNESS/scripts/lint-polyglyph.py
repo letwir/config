@@ -75,29 +75,29 @@ def parse(path, data, require_marker=True, validate_trailer=True):
     return {'frontmatter':digest(fm) if fm else None,'fences':fences,'lrf':lrf if lrf else None}
 
 def validate_sigma(value):
+    if not isinstance(value,str): return False
+    value=value.replace('\r\n','\n')
     return (value.startswith('[SIGMA/1]\n<∑>\n') and value.endswith('\n</∑>')
+            and '\r' not in value
             and value.count('<∑>') == 1 and value.count('</∑>') == 1
-            and value.count('[SIGMA/1]') == 1 and 'Σ' not in value
-            and '[/SIGMA/1]' not in value and value.count('\n</∑>') == 1
-            and value.split('\n', 1)[0] == '[SIGMA/1]')
+            and value.count('[SIGMA/1]') == 1 and '[/SIGMA/1]' not in value)
 
-def validate_gamma(value):
-    lines=value.splitlines()
+def validate_handoff(value):
+    if not validate_sigma(value) or len(value.encode('utf-16-le'))//2>20_000: return False
+    body=value.replace('\r\n','\n').split('\n')[2:-1]
     fields=('Role:','Target:','Acceptance:','Scope:','Known facts:')
-    if not lines or lines[0] != '<Γ>' or lines[-1] != '</Γ>' or len(lines)<8: return False
-    if lines[-2] != 'SIGMA/1': return False
-    positions=[]
-    for field in fields:
-        found=[i for i,line in enumerate(lines) if line.startswith(field)]
-        if len(found)!=1: return False
-        positions.append(found[0])
-    return positions==sorted(positions) and lines.count('<Γ>')==1 and lines.count('</Γ>')==1
+    reserved=re.compile(r'(?:\[SIGMA/1\]|SIGMA/1(?::.*)?|∑/1: POLYGLYPH|</?[∑Γ]>)')
+    if any(reserved.fullmatch(line) for line in body): return False
+    rows=[line for line in body if line.startswith(fields)]
+    return (len(rows)==len(fields) and body[0]==rows[0]
+            and all(row.startswith(field+' ') and row[len(field)+1:].strip()
+                    for row,field in zip(rows,fields)))
 
 def inventory():
     paths=set(['AGENTS.md','rules/README-forLLM.md'])
-    paths.update(str(p.relative_to(ROOT)) for p in (ROOT/'agents').glob('*.md') if p.name!='README.md')
-    paths.update(str(p.relative_to(ROOT)) for p in (ROOT/'skills').rglob('SKILL.md') if 'node_modules' not in p.parts)
-    paths.update(str(p.relative_to(ROOT)) for p in (ROOT/'opencode/agents').glob('*.md'))
+    paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/'agents').glob('*.md') if p.name!='README.md')
+    paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/'skills').rglob('SKILL.md') if 'node_modules' not in p.parts)
+    paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/'opencode/agents').glob('*.md'))
     return paths
 
 def check(root=ROOT):

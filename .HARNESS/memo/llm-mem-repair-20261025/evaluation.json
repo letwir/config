@@ -1,0 +1,18 @@
+{
+  "task_id": "llm-mem-repair-20261025",
+  "comparison_key": "llm-mem-repair",
+  "axes": {
+    "codec_gate": {
+      "result": "blocked",
+      "evidence": "No nearest-ancestor POLYGLYPH.md was found for the likely source tree."
+    },
+    "implementation": {
+      "result": "not_started",
+      "evidence": "No source edits or builds were performed."
+    }
+  },
+  "attribution": {
+    "prompt": "Repair llm-mem.",
+    "agent": "Pi main; implementation not dispatched because policy gate blocked."
+  }
+}

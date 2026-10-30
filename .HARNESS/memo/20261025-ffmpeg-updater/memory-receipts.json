@@ -1,0 +1,13 @@
+{
+  "task_id": "20261025-ffmpeg-updater",
+  "binary": "configured LLM_MEMORY_BIN; existing .exe verified before invocation",
+  "diary_analyze_exit": 0,
+  "ingest": [
+    {"file": "completion.md", "category": "walkthrough", "status": "SUCCESS", "receipt_id": "6e8451fc-27d3-4b40-a602-cd1ad6a3b9d1"},
+    {"file": "knowledge.md", "category": "knowledge", "status": "FAILED", "exit_code": 1, "cause": "process_error; detailed error not retained in sanitized command output", "retried": false},
+    {"file": "diary.md", "category": "diary", "status": "SUCCESS", "receipt_id": "319009b0-fb19-47eb-9fc7-0639f455402c"}
+  ],
+  "overall_ingest": "PARTIAL_FAILURE",
+  "database_eval": "NOT_SUBMITTED_SEPARATE_APPROVAL_REQUIRED",
+  "external_mirror": "NOT_REQUESTED"
+}

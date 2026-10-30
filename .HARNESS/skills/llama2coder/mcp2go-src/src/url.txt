@@ -1,0 +1,3 @@
+gpu2 http://gpu2.tigris-tailor.ts.net:11434
+gpu http://gpu.tigris-tailor.ts.net:11434
+main http://letwir-main.tigris-tailor.ts.net:11434

@@ -1,0 +1,29 @@
+{
+  "task_id": "20261025-crabcode-config-links",
+  "comparison_key": "crabcode-global-config-harness-links",
+  "task_family": "configuration-link-setup",
+  "role": "main",
+  "axes": {
+    "acceptance": 1.0,
+    "correctness": 0.98,
+    "scope_preservation": 1.0,
+    "verification": 0.9
+  },
+  "attribution": {
+    "prompt_defects": [],
+    "agent_defects": [
+      "An initial cmd.exe mklink quoting attempt failed; the operation was corrected using PowerShell New-Item before continuing."
+    ],
+    "prompt_ratio": 0.0,
+    "agent_ratio": 1.0
+  },
+  "evidence_refs": [
+    "memo/20261025-crabcode-config-links/knowledge.md",
+    "memo/20261025-crabcode-config-links/diary.md",
+    "memo/20261025-crabcode-config-links/walkthrough.md",
+    "C:/Users/letwir/.config/crabcode",
+    "C:/Users/letwir/.harness/crabcode/crabcode.jsonc",
+    "C:/Users/letwir/.harness/scripts/invoke-rule-preflight.ps1",
+    "C:/Users/letwir/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/crabcode-0.0.14/src/config/configuration.rs"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "task_id": "20261027-pi-attacker-profiles",
+  "ingest": {"knowledge": "a7ee5e9e-7539-41c1-abbd-a3e784372a76", "diary": "6fe9ab38-e712-4453-889e-0fa506de8b47", "walkthrough": "b3695473-2f32-40db-b5a1-9bd53355da84"},
+  "evaluation": "cf7e3d26-56c4-4b78-b978-49550d5dd8ae",
+  "evaluation_note": "First schema parse rejected unknown attribution.prompt without write; corrected to accepted attribution schema; second call succeeded. No Markdown reingest."
+}

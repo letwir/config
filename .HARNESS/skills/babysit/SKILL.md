@@ -7,7 +7,7 @@ description: Keep a PR merge-ready by triaging comments, resolving clear conflic
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] 👶babysit ⚔️conflict 💬triage 🧪ci 🚀ready
+[POLYGLYPH::ρ→max] 👶babysit ⚔️conflict 💬triage 🧪ci 🚀ready
 🔎 Trigger: requested babysit(PR) ∧ existing PR context ⊢ inspect status, checks, comments | `gh pr status` ∧ `gh pr checks`
 ⊢ Bound: maintain that PR only; iterate inspect→triage→eligible fix→verify. No merge/release or unrelated work.
 ⚔️ Conflict ⊢ merge BaseBranch only to resolve clear, understood conflicts while preserving intent; `git merge <base>`. Unclear/deep conflict or intent loss risk ⇒ ⛔ stop + report; do not guess.

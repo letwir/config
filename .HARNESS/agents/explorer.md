@@ -7,7 +7,7 @@ mode: subagent
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/XML::ρ→max|target:EXPLORER]
+Representation: POLYGLYPH.md; ρ→max; target=EXPLORER.
 # Explorer protocol
 Trigger: only_on_demand ∧ direct_search_stuck ∨ results_sparse/repetitive; objective=high_recall broad-search leads. ¬plan∧¬implement∧¬recommend.
 Output∈{SUCCESS,FAILED,ADVICE}; every lead carries {source, relation, confidence/verification}; ¬filter(topic_similarity∨source_precision).

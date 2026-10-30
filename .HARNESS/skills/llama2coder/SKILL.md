@@ -7,10 +7,11 @@ description: Generate clean, stdout-only source code using a llama.cpp compatibl
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max|target:local-llama-codegen|legibility:LLM≫human] 💻code 🌊stream
+[POLYGLYPH::ρ→max|target:local-llama-codegen|legibility:LLM≫human] 💻code 🌊stream
 🔎 code: source-code generation request ∧ stream: token-by-token request. ⊢ Resolve `$bin` to first existing configured `coder-*` executable; none ⇒ STOP. Mor(code): local llama.cpp-compatible OpenAI REST API client → stdout source code only, ¬Markdown fences. Args: `$bin -p "<prompt>" -l "<lang>" [-u <url>] [-m <model>]`
 Mor(stream): local llama server → stdout token stream only. Args: `$bin -p "<prompt>" -l "<lang>" -s`
 ⛔ Other generation-failure behavior unspecified; preserve uncertainty. ✅ Success: requested output modality returned.
+Option reference (installed-supported options only; no override authority): --prompt/-p required; --language/-l default python3; --url/-u default http://localhost:8080; --model default default; --stream/-s default false; --system default empty; --temperature default 0.2; --max-tokens default -1. Prompt is wrapped in <instruction>; client removes fences; stdout is raw code without intro/outro unless explicitly requested. Canonical routing and permission gates remain controlling.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=llama2coder

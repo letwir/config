@@ -1,0 +1,16 @@
+{
+  "task_id": "20261025-ffmpeg-updater",
+  "comparison_key": "pi-native-worker-medium-ffmpeg-windows",
+  "axes": {
+    "native_operability": {"status": "PASS", "effective_provider": "openai-codex", "effective_model": "gpt-6-luna", "reasoning": "medium", "completed_verified_runs": 5},
+    "updater": {"status": "PASS", "offline_checks": 16, "live_install_exit": 0, "version_probes_exit": [0, 0], "media_pipeline": "PASS"},
+    "corrections": {"count": 3, "limit": 3},
+    "independent_review": {"status": "NOT_PERFORMED", "alternative": "separately_labeled_parent_review"},
+    "scope": {"unrelated_profile_path_app_changes": false, "vcs_writes": false, "credentials_exposed": false}
+  },
+  "attribution": {
+    "prompt": "Clear task and explicit operability priority; no defensible prompt defect.",
+    "agent": "Incomplete initial runtime hypotheses and test blind spots caused avoidable turns; corrected through local reproduction and parent verification."
+  },
+  "receipt_submission": "NOT_SUBMITTED: separate database eval mutation not approved; task Markdown ingest uses standing directive and configured llm-mem.exe"
+}

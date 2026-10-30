@@ -1,0 +1,6 @@
+{
+  "task_id": "20261027-pi-attacker-profiles",
+  "comparison_key": "pi-native-attacker-registration",
+  "axes": {"behavior": 1, "scope_preservation": 1, "verification": 0.9, "first_pass_correctness": 0.6},
+  "attribution": {"prompt_defects": [], "agent_defects": ["Initial preflight argument error", "Ambiguous worker-versus-generated-profile tool wording", "Initial invalid acceptanceRole and incomplete enum regression", "Nonblocking regex test-hardening note retained"], "prompt_ratio": 0, "agent_ratio": 1}
+}

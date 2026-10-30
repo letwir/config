@@ -6,7 +6,7 @@ description: Create Codex rules for persistent AI guidance. Use when setting up 
 @codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
-[SPR/PIDGIN::ρ→max] 📜rule 🎯scope 📐standards
+[POLYGLYPH::ρ→max] 📜rule 🎯scope 📐standards
 🔎 RuleAuthoring(task) ∧ Globs ∧ Standards ⊢ define_project_guidance → `.cursor/rules/<name>.mdc`
 🎯 Scope ∈ {Always(`alwaysApply: true`), matching_files(`globs: "**/*.ts"`)} → specify_when_rule_applies
 📐 Standards ∈ {style_guidelines, design_patterns, required_conventions} → make_project_expectations_explicit

@@ -1,0 +1,22 @@
+{
+  "task_id": "pi-install-20261025",
+  "comparison_key": "install-pi.sh-debian-termux-fedora",
+  "axes": {
+    "requested_families": {
+      "result": "pass",
+      "evidence": "Debian, Termux, and Fedora mappings each pass dry-run."
+    },
+    "requested_extensions": {
+      "result": "pass",
+      "evidence": "Both @juicesharp packages and the existing lens/subagent installs are present."
+    },
+    "verification": {
+      "result": "pass",
+      "evidence": "POSIX syntax and help pass; dry-runs perform no installs."
+    }
+  },
+  "attribution": {
+    "prompt": "Implement a Debian/Termux/Fedora Pi installer with skill prerequisites, then add the requested extensions.",
+    "agent": "Pi main GPT-6 Luna review; worker-medium and worker-easy via openai-codex/gpt-6-luna."
+  }
+}

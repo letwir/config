@@ -7,7 +7,7 @@ description: Create, repair, validate, visually QA, and package Codex-compatible
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max|legibility:LLM≫human]
+[POLYGLYPH::ρ→max|legibility:LLM≫human]
 🔎 trigger: user requests creating, repairing, validating, visually QA-ing, or packaging a Codex-compatible v2 animated pet from a concept or brand.
 ⊢ Input=Concept∨Brand; output target=Codex v2 pet. Precondition: relevant concept/art direction and supported asset/spec requirements are available; missing or ambiguous required information⇒retain uncertainty, ask, and block dependent action.
 🧩 Supported target: 8x11 sprite atlas, rows 0..10; animation rows=9; look directions=16 clockwise; `spriteVersionNumber: 2`. Preserve these exact dimensions, row/direction values, and version literal. `$imagegen` is the row-generation tool; accept/reuse approved rows as input to deterministic atlas assembly.

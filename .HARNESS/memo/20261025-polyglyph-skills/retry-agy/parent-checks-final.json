@@ -1,0 +1,11 @@
+{
+  "utf8_valid": true,
+  "no_bom": true,
+  "frontmatter_bootstrap_preserved": true,
+  "fences_preserved": true,
+  "lrf_preserved": true,
+  "links_preserved": true,
+  "no_cyrillic": true,
+  "before_sha256": "90B79371A8EC18EDC5D9C3494AAE9B772B7E10773F76F315F57A0886DEA2DDB2",
+  "after_sha256": "32F329E703767A200F34CCFD4011BE8302C7182442654D617A9FC59D6BE82DDA"
+}

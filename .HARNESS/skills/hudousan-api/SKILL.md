@@ -7,10 +7,11 @@ description: 国土交通省「不動産情報ライブラリ」API (XIT001/XIT0
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] 🔎🏠API trigger=real-estate transaction/contract price or municipality lookup; ⊢ choose exactly one method:
+[POLYGLYPH::ρ→max] 🔎🏠API trigger=real-estate transaction/contract price or municipality lookup; ⊢ choose exactly one method:
 💴 price ⇒ XIT001; required `-year <YYYY>` + exactly one location selector from `-area <Code>`, `-city <CityCode>`, `-station <StationCode>`; optional `-quarter <1..4>`; CLI: `$bin -price -year <YYYY> -quarter <1..4> -area <Code> [-city <CityCode>]` (CLI example is illustrative; selectors are alternatives, not cumulative requirements).
 🏙️ list ⇒ XIT002; required `-area <PrefCode>`; CLI: `$bin -list -area <PrefCode>`.
 → successful response: API response body to stdout (gzip decoded when applicable); request/validation/HTTP/non-200/decompression/output failures → error on stderr and nonzero exit. Credentials: read `KOKKOU_HUDOUSAN_API`; never expose or print key. Network: invocation sends authenticated HTTP GET to selected API endpoint; this is an external network effect, not local inspection. Do not invoke API absent explicit authorization.
+Legacy configuration-loader reference: KOKKOU_HUDOUSAN_API may be sourced from process environment or Windows user-registry configuration. Registry fallback must be verified in the selected installed binary before reliance. Never query or print key values during migration; canonical API validation/gates unchanged.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=hudousan-api

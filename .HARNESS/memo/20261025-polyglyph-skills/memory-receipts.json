@@ -1,0 +1,123 @@
+[
+  {
+    "path": "C:\\Users\\letwir\\.harness\\memo\\20261025-polyglyph-skills\\final-diary.md",
+    "category": "diary",
+    "sha256": "155F2E08073E070F4E39A4B3ECFCD2E40ECD8B2C4D64A9E930710A3A617A06F3",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "response_ids": [
+      "65789b3d-6f70-46b3-9e01-d88600f753e1"
+    ],
+    "date": "2026-10-25T19:16:28.4987681+09:00"
+  },
+  {
+    "path": "C:\\Users\\letwir\\.harness\\memo\\20261025-polyglyph-skills\\independent-review-final.md",
+    "category": "diary",
+    "sha256": "BAE3964A2880BBFD14A81C33EFD65C18C645C5591A81208EB83E26F8E5270C26",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "response_ids": [
+      "1416d936-23dd-47fb-9b47-b4bc26f8ff61"
+    ],
+    "date": "2026-10-25T19:16:53.5699476+09:00"
+  },
+  {
+    "path": "C:\\Users\\letwir\\.harness\\memo\\20261025-polyglyph-skills\\independent-review.md",
+    "category": "diary",
+    "sha256": "E1D188899F71376990A4754888AC9462B421C1E2B1C2AFB16AB436D075B47ED6",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "response_ids": [
+      "15ad32e9-2e67-4fc7-908c-fcdcdf225feb"
+    ],
+    "date": "2026-10-25T19:16:54.2783312+09:00"
+  },
+  {
+    "path": "C:\\Users\\letwir\\.harness\\memo\\20261025-polyglyph-skills\\walkthrough.md",
+    "category": "walkthrough",
+    "sha256": "4E3BD275D4793D02C856258EAF5435F6469FD67C613FCB7E98E3F57CD293A69D",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "response_ids": [
+      "a88c056b-9f4b-4d3f-8470-e90b133d2d19"
+    ],
+    "date": "2026-10-25T19:16:55.0754110+09:00"
+  },
+  {
+    "path": "C:\\Users\\letwir\\.harness\\memo\\20261025-polyglyph-skills\\batch\\worker-report.2e0c57e2.69802ce1.38ee08ab.md",
+    "category": "diary",
+    "sha256": "47852692495B98F9F9CF5BE59194443D24DC75B71D3576C073F96BE543AD2816",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "response_ids": [
+      "0378d22d-fbab-4093-8ae6-deb7f5c05e28"
+    ],
+    "date": "2026-10-25T19:16:56.1429929+09:00"
+  },
+  {
+    "path": "C:\\Users\\letwir\\.harness\\memo\\20261025-polyglyph-skills\\batch\\worker-report.2e0c57e2.69802ce1.md",
+    "category": "diary",
+    "sha256": "E2229957DB53E205BD1371DD8E9D4204B29883C4AD699F4D5D2C9211D45B5B1F",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "response_ids": [
+      "90b037ed-c09a-477a-8623-80d2ebafe5a5"
+    ],
+    "date": "2026-10-25T19:16:57.3035100+09:00"
+  },
+  {
+    "path": "C:\\Users\\letwir\\.harness\\memo\\20261025-polyglyph-skills\\batch\\worker-report.2e0c57e2.md",
+    "category": "diary",
+    "sha256": "CD4B8D10C9FEBEB01A9FA444BCE4B0936074A9B59FC448006D337F717AC87ED2",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "response_ids": [
+      "45094800-32cd-436a-b4c8-46dd8bbdead0"
+    ],
+    "date": "2026-10-25T19:16:58.2966882+09:00"
+  },
+  {
+    "path": "C:\\Users\\letwir\\.harness\\memo\\20261025-polyglyph-skills\\batch\\worker-report.md",
+    "category": "diary",
+    "sha256": "BE33DE136B0C2FF0C421C175F4B2A1C9FF0DCDB647DDCCB9504369376229A793",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "response_ids": [
+      "1e89a064-3cf4-42fa-9efe-9a4427a8b262"
+    ],
+    "date": "2026-10-25T19:16:59.1159542+09:00"
+  },
+  {
+    "path": "C:\\Users\\letwir\\.harness\\memo\\20261025-polyglyph-skills\\retry-agy\\worker-pg-final.md",
+    "category": "diary",
+    "sha256": "18128EE96FAE7A0C5A524874BA0DC2E11DA28E04BEE3944F94A80F489E8279B7",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "response_ids": [
+      "40bb1262-afbe-4423-8f4f-a2ea7482592c"
+    ],
+    "date": "2026-10-25T19:16:59.9473520+09:00"
+  },
+  {
+    "path": "C:\\Users\\letwir\\.harness\\memo\\20261025-polyglyph-skills\\retry-agy\\worker-report.33a319b0.4f306ade.md",
+    "category": "diary",
+    "sha256": "4565224B374B0495D35661A622B8DA2FC85573B38E2B2F6C94FAC6A47CADB64C",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "response_ids": [
+      "c931efed-333c-4bff-817c-af976b038015"
+    ],
+    "date": "2026-10-25T19:17:00.8686933+09:00"
+  },
+  {
+    "path": "C:\\Users\\letwir\\.harness\\memo\\20261025-polyglyph-skills\\retry-agy\\worker-report.33a319b0.md",
+    "category": "diary",
+    "sha256": "09DF9F13E9C8E437602015E43750F8C408004A7B41EDFE3003937765EF63BE86",
+    "status": "SUCCESS",
+    "exit_code": 0,
+    "response_ids": [
+      "d42578f4-418d-4e0f-ac0b-a77fe60c8f9c"
+    ],
+    "date": "2026-10-25T19:17:01.7884993+09:00"
+  }
+]

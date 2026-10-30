@@ -1,3 +1,8 @@
+@meta=text/POLYGLYPH×SIGMA/1
+@codec=nearest_ancestor(POLYGLYPH.md);read_before_body=true
+@authority=SIGMA/1+routed-LRF-only;PG=representation-only
+@decode_failure=STOP;unknown=preserve;action=blocked;ask=true
+
 # サブエージェント呼び出しガイド
 
 このガイドは `.harness/opencode` の `orchestration_dispatch` 実装・README と `agents/AGENT_ROUTER.md` / 各役割定義からまとめた、OpenCode RTS 用の呼び出し手順です。Markdown に書かれたテンプレートだけでは呼び出しは実行されません。OpenCode を所定のランチャーで起動し、ツールが実際に利用可能なセッションからディスパッチしてください。
@@ -6,9 +11,22 @@
 
 1. `AGENT_ROUTER.md` でタスクに適合する役割を選び、`agents/<role>.md` と `<role>.toml` の契約を確認する。Verifier は変更後の独立検証専用で、実装を依頼しない。
 2. 対象をリポジトリ相対パスで限定する。`scope_files` には役割が読む必要のある既存ファイルだけを指定する。Verifier では `write_files: []`。
-3. 人の依頼・計画が確定してから、以下の形式でタスク専用の handoff を作る。5項目の名前・順序、外側の囲み、末尾の `SIGMA/1` 行を厳守する。未確認情報は事実として書かず `N_A` とする。
+3. 人の依頼・計画が確定してから、canonical handoff を作る。冒頭2行は `[SIGMA/1]`、`<∑>`、末尾は `</∑>`。5項目の名前・順序を厳守し、追加header/footer・独立した末尾 `SIGMA/1` 行は禁止。field値のみPOLYGLYPHで圧縮し、未確認情報は事実として書かず `N_A` とする。
 4. `orchestration_dispatch` を使って `role`, `handoff`, `scope_files`, `write_files` を渡す。返る task ID は予約 ID であって完了証拠ではない。
 5. `orchestration_status` で状態を確認し、完了後に `orchestration_result` で結果を取得する。要求した全タスクの最終結果を待ってから報告する。親が実 diff と必要な独立チェックを確認する。
+
+Canonical template（この非fenced版のみdispatch用）:
+
+[SIGMA/1]
+<∑>
+Role: <AGENT_ROUTERで選んだ役割名>
+Target: <単一の限定タスク>
+Acceptance: <観測可能な完了条件・チェック>
+Scope: <作業境界と明示した制約>
+Known facts: <検証済み事実、またはN_A>
+</∑>
+
+以下fenceはimmutableなhistorical legacy例。dispatchには使用禁止:
 
 ```text
 <Γ>
@@ -24,7 +42,7 @@ SIGMA/1
 
 ## Verifier 呼び出し例
 
-変更後にのみ使います。`<...>` は実際の値に置換してください。Verifier の sandbox は read-only なので変更を許可しません。
+変更後にのみ使います。`<...>` は実際の値に置換してください。Verifier の sandbox は read-only なので変更を許可しません。以下fenceもimmutableなhistorical legacy例で、そのままdispatchは禁止。使用時は上記canonical envelopeと5項目に置換し、`role: verifier`、`write_files: []` を別引数で渡します。
 
 ```text
 role: verifier

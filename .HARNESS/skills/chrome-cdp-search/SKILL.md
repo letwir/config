@@ -7,11 +7,13 @@ description: Search local directories or execute live Web search ETL and page sc
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] 🌐web 🔍local 📑page
-🔎 🌐web: Query∧Engine ⊢ engines{bing,google,duckduckgo} ⇒ headless Chrome/CDP live Web search ETL → structured JSON | `node scripts/chrome_cdp_search.mjs --web-query "<query>" --web-engine bing --json-only`
-🔎 🔍local: Path∧Query(text∨JSONPath) ⊢ local file/JSON search via Chrome V8/DOM; max-depth=32 → structured JSON | `node scripts/chrome_cdp_search.mjs --target "<path>" --query "<query>" --json-only`
-🔎 📑page: URL∧CSS Selector ⊢ public page DOM element extraction → structured JSON | `node scripts/chrome_cdp_search.mjs --target "<url>" --selector "<sel>" --json-only`
-⛔ credential-pages forbidden ∧ tokens-in-query forbidden. Unknown/failure ⇒ stop; no invented result. ✅ Success ⇔ requested operation returns structured JSON; temporary DevTools port + Chrome process ⇒ deterministic cleanup.
+# Live web search
+
+A dependency-free Go CLI lives in `src/`. Build and run it with `go run ./src --query "Chrome DevTools Protocol" --engine bing --count 10`. Supported engines are `bing`, `google`, and `duckduckgo`.
+
+Options: `--query`/`-q` (required), `--engine` (default `bing`), `--count` (1–50, default 10), `--browser` (explicit Chromium/Chrome executable; otherwise searches PATH), and `--timeout` (Go duration, default `30s`). Output is one JSON object on stdout with status, query, engine, count, results (`rank`, `title`, `url`, `snippet`), or an error. Example: `go run ./src -q "Go language" --engine duckduckgo --count 5 --timeout 45s`.
+
+Requires system Chromium/Chrome and outbound access to the selected public search service; Go itself is needed only to build/run via `go run`. A deployed binary does not require Go. Search pages change and may block or present consent/CAPTCHA pages: this tool fails with JSON error rather than treating missing extraction as success. Extraction uses each engine's current DOM selectors inside Chromium, not a stable search API; completeness and ranking are not guaranteed. The timeout bounds browser startup/search; a fresh isolated temporary profile is removed on normal exit, error, interrupt, and timeout. Existing Node/PowerShell functionality remains available below.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=chrome-cdp-search

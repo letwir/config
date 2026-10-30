@@ -5,8 +5,8 @@
 task:change ⇒ main_assesses_decomposition_before_plan(independent_bounded_read_only_questions; reuse_current_task_assessment)
 ⊢ eligible_delegation := task_authorized ∧ agent.mode_permits_Codex_subagents ∧ runtime_supports_delegation
 ⊢ reuse_current_task_question_assignments_and_results_across_research_and_research_local; dispatch_only_unassigned_questions; no_duplicate_fanout
-task:change ∧ independent_questions>=2 ∧ eligible_delegation ⇒ AGENT_ROUTER→concurrent_selected_roles(Explorer=bounded_repo_inventory; Researcher=scoped_knowledge_methods; FileReader=ordinary_exact_lookup), up_to=min(20, currently_available_runtime_slots)
-⊢ do_not_split_coupled_questions; ordered_dependencies=serial; shared_Runtime_caps=20_descendants_including_grandchildren+20_direct_root_children; no_invented_slots_or_dispatch
+task:change ∧ independent_questions>=2 ∧ eligible_delegation ⇒ AGENT_ROUTER→concurrent_selected_roles(Explorer=bounded_repo_inventory; Researcher=scoped_knowledge_methods; FileReader=ordinary_exact_lookup), up_to=min(160, currently_available_runtime_slots)
+⊢ do_not_split_coupled_questions; ordered_dependencies=serial; shared_Runtime_caps=160_descendants_including_grandchildren+160_direct_root_children; up_to_4_root_Orchestrators_each_with_40_launch_policy_cap_including_coordinators_in_shared_total_160; caps_not_additive; no_invented_slots_or_dispatch
 ⊢ wait_for_all_requested_results ∧ validate_evidence ∧ synthesize(Facts,Inferences,Unknowns,Constraints)_before_PLAN; unavailable_or_unauthorized_delegation⇒main_research_with_limitation
 Evidence(memory) → Evidence(task)
 ⊢ default_profile={web,llm-mem}

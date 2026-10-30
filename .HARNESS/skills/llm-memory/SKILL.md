@@ -7,7 +7,7 @@ description: Multi-client Bi-Temporal & multi-level (L0-L3) agent memory and kno
 @authority=SIGMA/1+routed-LRF-only;PG=representation-only
 @decode_failure=STOP;unknown=preserve;action=blocked;ask=true
 
-[SPR/PIDGIN::ρ→max] CLI=llm-mem; `$bin`=resolved executable. Commands are categorized by the exact contract below; command examples preserve their literal flags.
+[POLYGLYPH::ρ→max] CLI=llm-mem; `$bin`=resolved executable. Commands are categorized by the exact contract below; command examples preserve their literal flags.
 🔎 Inspect (RO): status, clients, stock, search, semantic, evals, graph list, survey show/template/list/rank, analyze ⇒ read-only evidence/output; no memory mutation.
 📥 Mutate (approval required): ingest, add, compact, supersede, embed, graph node/edge ⇒ live memory/database changes. Execute only with current-task approval; ingest only verified evidence. Walkthrough: ingest a file with category walkthrough. Research: ingest title/text with category knowledge.
 🧾 Receipt evaluation: eval is a live write, not inspection. Requires memo/<task_id>/{knowledge,diary,walkthrough}.md and task_id, comparison_key, axes{obj}, attribution{prompt,agent}; bypasses compaction and graph; current-task approval required. evals only reads history.
@@ -23,6 +23,7 @@ description: Multi-client Bi-Temporal & multi-level (L0-L3) agent memory and kno
 ⚖️ Eval (mutating) / evals (inspect): `$bin eval -file <f> [-json]` ∧ `$bin evals -key <k>`
 🕸️ Graph node/edge (mutating), list (inspect): `$bin graph node -name <n>` ∧ `$bin graph edge -src <s> -tgt <t>` ∧ `$bin graph list`
 📮 Survey subcommands: `$bin survey show|template|submit|list|classify|rank` (submit mutates; classify is not in the read-only inspection contract; do not infer its effect).
+Capability model: BiTemporal(ValidTime×TxTime), progressive compaction(L0→L1→L2→L3), self-edit outcomes{ADD,UPDATE/Supersede,NOOP,DEPRECATE}, graph triples; canonical executable-resolution and approval contract controls. Reference commands: ingest -title <title> -text <text> -cat <cat>; search -tag <tag> -level 2; graph edge -src <S> -tgt <T> -rel <R>. Walkthrough/report ingest hooks are approval-gated references, never automatic arbitrary live writes. eval/evals remain as documented canonically.
 
 #SIGMA LRF/1
 @lrf=1|aud=GPT-5.6|scope=llm-memory

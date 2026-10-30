@@ -1,0 +1,241 @@
+[
+  {
+    "name": "agy-subagent-router",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\agy-subagent-router\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 9803,
+    "canonical_sha256": "32F329E703767A200F34CCFD4011BE8302C7182442654D617A9FC59D6BE82DDA",
+    "repo_targets": []
+  },
+  {
+    "name": "babysit",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\babysit\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 2357,
+    "canonical_sha256": "9DAA12A6EFC630EFCFEECDBEAEA17A754A6FF0EB4E19A106EFB9FFC1873072D4",
+    "repo_targets": []
+  },
+  {
+    "name": "canvas",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\canvas\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1617,
+    "canonical_sha256": "B0F8A67B338236AE9246FC036D8CF8D220D92F549E07090199999B08D7C5E2F0",
+    "repo_targets": []
+  },
+  {
+    "name": "chrome-cdp-search",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\chrome-cdp-search\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1936,
+    "canonical_sha256": "E27065B6CAE7625C18F52D33BC57DC3CF7CA9F75F0B8BD75BF87FBEE84AFA9B9",
+    "repo_targets": []
+  },
+  {
+    "name": "create-hook",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\create-hook\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1180,
+    "canonical_sha256": "94E01267DF0861C8824CFA7E1F2994186848FB35BAC1AA942BC9AA7B663B4436",
+    "repo_targets": []
+  },
+  {
+    "name": "create-rule",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\create-rule\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1121,
+    "canonical_sha256": "E498AE58C619CD74FB3A66AB5B5EA73E0327B6C4C8BE283D485D5E2BBBDB7646",
+    "repo_targets": []
+  },
+  {
+    "name": "create-skill",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\create-skill\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1113,
+    "canonical_sha256": "04148AFA851A8F91C6D8E33978DAE014BA76EB8BDE6F107D44036F514AC9394C",
+    "repo_targets": []
+  },
+  {
+    "name": "create-subagent",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\create-subagent\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1183,
+    "canonical_sha256": "D918B0F45BFBA005164FE731A92C48E429E788FF65BD45BA07D07214F86B8B73",
+    "repo_targets": []
+  },
+  {
+    "name": "default-settings",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\default-settings\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1297,
+    "canonical_sha256": "44996C07C5D9D81A07C2E25B02D1B76E88D658BF3FBAE4AEFEC91822E9B9ACDD",
+    "repo_targets": [
+      "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\default-settings\\SKILL.md"
+    ]
+  },
+  {
+    "name": "economics-api",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\economics-api\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 2626,
+    "canonical_sha256": "052A6189D25F229B96AD178E674072332C745ED98762695B9D19220155E2599F",
+    "repo_targets": [
+      "C:/Users/letwir/repo/repo/mcp2go/src\\economics-api\\SKILL.md"
+    ]
+  },
+  {
+    "name": "foobar-sql-exporter",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\foobar-sql-exporter\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 2079,
+    "canonical_sha256": "413E6B5CFF8BF1E3B2EA65F788D6410B7795AF3C9546E03C819A0D5D82030EA2",
+    "repo_targets": []
+  },
+  {
+    "name": "google-search",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\google-search\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1606,
+    "canonical_sha256": "F9B2AE77FE30D4F96B42AEEC48870ACAAE6CECB3A5C3DD9E2038B1D677DEBD79",
+    "repo_targets": []
+  },
+  {
+    "name": "harness-lint",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\harness-lint\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1938,
+    "canonical_sha256": "C6F5718E5E9CE6BF779879A7E489F8663B5ECD2C35645F3CC5E355CDB4FF52F3",
+    "repo_targets": []
+  },
+  {
+    "name": "hatch-pet",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\hatch-pet\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 2712,
+    "canonical_sha256": "7B160D077209A473E78D8CBF14C0E48543E8B9F3DA19DAC7D7A39FAD014B625F",
+    "repo_targets": []
+  },
+  {
+    "name": "hudousan-api",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\hudousan-api\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 2010,
+    "canonical_sha256": "E640C571A4C31BFD97A9143A52E73BDE2F412298711CEA1CA0925A52152E56CF",
+    "repo_targets": [
+      "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\hudousan-api\\SKILL.md"
+    ]
+  },
+  {
+    "name": "kokkousyou-api",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\kokkousyou-api\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 2609,
+    "canonical_sha256": "0B96E77F70AABE9AB6925A5FB7FCEAE7C1F74F33F0E690B85D9FF38D590138CA",
+    "repo_targets": [
+      "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\kokkousyou-api\\SKILL.md"
+    ]
+  },
+  {
+    "name": "llama2coder",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\llama2coder\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1632,
+    "canonical_sha256": "B1B94F163D3FC1B85325B91CC3B61906378FC4B0A0ED47BB28440CDCB2BB7561",
+    "repo_targets": [
+      "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\llama2coder\\SKILL.md"
+    ]
+  },
+  {
+    "name": "llm-memory",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\llm-memory\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 4770,
+    "canonical_sha256": "E8C6A3FBB5E2C7277FED10C6A8A958E277102EB53FD34695BD61859F1201E6AD",
+    "repo_targets": [
+      "C:/Users/letwir/repo/repo/mcp2go/src\\llm-memory\\SKILL.md",
+      "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\llm-memory\\SKILL.md"
+    ]
+  },
+  {
+    "name": "loop",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\loop\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 2880,
+    "canonical_sha256": "945D5FC3B5150A0EFC690399357F4419CD40B6923B28972B3B3D7F0CFE592289",
+    "repo_targets": []
+  },
+  {
+    "name": "loop-agent",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\loop-agent\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 2753,
+    "canonical_sha256": "A09A08F513004A9DF3AF52EE698DEEE34B3810B929F81EF0DDC8294D5222F7E4",
+    "repo_targets": []
+  },
+  {
+    "name": "migrate-to-skills",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\migrate-to-skills\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1996,
+    "canonical_sha256": "9DD010B40078C5FFB93B3742977DB995F33711457922344004EEE97FB66870B9",
+    "repo_targets": []
+  },
+  {
+    "name": "perser-xml",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\perser-xml\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1246,
+    "canonical_sha256": "51B498A1ADAB5BD00B65F006C20C23197432CAFBE980076C1605BB58C77D4BFF",
+    "repo_targets": [
+      "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\perser-xml\\SKILL.md"
+    ]
+  },
+  {
+    "name": "rikei-search",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\rikei-search\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 2029,
+    "canonical_sha256": "BAC9289DF0D6B0F3DBC1E8EA5BC6DD5AEEA0882BC39A1C95287D33954AF1B721",
+    "repo_targets": [
+      "C:/Users/letwir/repo/repo/mcp2go/src\\rikei-search\\SKILL.md",
+      "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\rikei-search\\SKILL.md"
+    ]
+  },
+  {
+    "name": "sec-forensics",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\sec-forensics\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 3335,
+    "canonical_sha256": "B4517DF2D4C7C76B87BCF6DD57638D0014B801ED317E539C6E80FAB753C8CB1E",
+    "repo_targets": [
+      "C:/Users/letwir/repo/repo/mcp2go/src\\sec-forensics\\SKILL.md"
+    ]
+  },
+  {
+    "name": "shell",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\shell\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1003,
+    "canonical_sha256": "0E371AEFFF079EF1A16FD51ED424C3902BFBFC59ED7168EBB6FFB3872DCABEC3",
+    "repo_targets": []
+  },
+  {
+    "name": "split-to-prs",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\split-to-prs\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 1969,
+    "canonical_sha256": "4B3C823A5CB93B6820E4B2AB26771D098C2CD32B709C6528DE1F7F934554F806",
+    "repo_targets": []
+  },
+  {
+    "name": "vm-monitor",
+    "canonical": "C:\\Users\\letwir\\.harness\\skills\\vm-monitor\\SKILL.md",
+    "bootstrap": true,
+    "canonical_bytes": 2671,
+    "canonical_sha256": "7078C8C1C6A990CFBFF38CFF236284020B9DB551D88DDC35C0CD411E5E020AE4",
+    "repo_targets": [
+      "C:/Users/letwir/repo/repo/mcp2go/src\\vm-monitor\\SKILL.md",
+      "C:/Users/letwir/repo/repo/mcp2go/LTWskills\\skills\\vm-monitor\\SKILL.md"
+    ]
+  }
+]
